@@ -2,14 +2,13 @@ import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pcp_flutter/app/modules/grupo_de_recurso/domain/entities/grupo_de_recurso.dart';
-import 'package:pcp_flutter/app/modules/grupo_de_recurso/infra/datasources/grupo_de_recurso_datasource.dart';
+import 'package:pcp_flutter/app/modules/grupo_de_recurso/infra/datasources/remote/grupo_de_recurso_datasource.dart';
 import 'package:pcp_flutter/app/modules/grupo_de_recurso/infra/repositories/grupo_de_recurso_repository_impl.dart';
 
 import '../../utils/grupo_de_recurso_factory.dart';
 import '../../utils/grupo_de_recurso_fake.dart';
 
-class GrupoDeRecursoDatasourceMock extends Mock
-    implements GrupoDeRecursoDatasource {}
+class GrupoDeRecursoDatasourceMock extends Mock implements GrupoDeRecursoDatasource {}
 
 void main() {
   final datasource = GrupoDeRecursoDatasourceMock();
@@ -21,8 +20,7 @@ void main() {
 
   group('get list', () {
     test('deve retornar uma lista de grupo de recursos', () async {
-      when(() => datasource.getList(any()))
-          .thenAnswer((_) async => <GrupoDeRecurso>[]);
+      when(() => datasource.getList(any())).thenAnswer((_) async => <GrupoDeRecurso>[]);
 
       final result = await repository.getList('test');
 
@@ -30,8 +28,7 @@ void main() {
       verify(() => datasource.getList(any()));
     });
 
-    test('deve retornar um UnknownError se o datasorce lançar uma Exception',
-        () async {
+    test('deve retornar um UnknownError se o datasorce lançar uma Exception', () async {
       when(() => datasource.getList(any())).thenThrow(Exception());
 
       try {
@@ -50,8 +47,7 @@ void main() {
     final grupoDeRecurso = GrupoDeRecursoFactory.create();
 
     test('deve retornar um grupo de recurso', () async {
-      when(() => datasource.getItem(any()))
-          .thenAnswer((_) async => grupoDeRecurso);
+      when(() => datasource.getItem(any())).thenAnswer((_) async => grupoDeRecurso);
 
       final result = await repository.getItem('');
 
@@ -60,8 +56,7 @@ void main() {
       verify(() => datasource.getItem(any()));
     });
 
-    test('deve retornar um UnknownError se o datasorce lançar uma Exception',
-        () async {
+    test('deve retornar um UnknownError se o datasorce lançar uma Exception', () async {
       when(() => datasource.getItem(any())).thenThrow(Exception());
 
       try {
@@ -80,8 +75,7 @@ void main() {
     test('deve inserir um grupo de recurso', () async {
       final grupoDeRecurso = GrupoDeRecursoFake();
 
-      when(() => datasource.insertItem(any()))
-          .thenAnswer((_) async => grupoDeRecurso);
+      when(() => datasource.insertItem(any())).thenAnswer((_) async => grupoDeRecurso);
 
       final result = await repository.insertItem(grupoDeRecurso);
 
@@ -94,8 +88,7 @@ void main() {
     test('deve atualizar um grupo de recurso', () async {
       final grupoDeRecurso = GrupoDeRecursoFake(id: 'test');
 
-      when(() => datasource.updateItem(any()))
-          .thenAnswer((_) async => grupoDeRecurso);
+      when(() => datasource.updateItem(any())).thenAnswer((_) async => grupoDeRecurso);
 
       final result = await repository.updateItem(grupoDeRecurso);
 

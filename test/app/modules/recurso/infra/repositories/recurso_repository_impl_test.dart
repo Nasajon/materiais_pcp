@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pcp_flutter/app/core/modules/tipo_de_recurso/domain/entities/tipo_de_recurso.dart';
 import 'package:pcp_flutter/app/modules/recurso/domain/entities/recurso.dart';
-import 'package:pcp_flutter/app/modules/recurso/infra/datasources/recurso_datasource.dart';
+import 'package:pcp_flutter/app/modules/recurso/infra/datasources/remote/recurso_datasource.dart';
 import 'package:pcp_flutter/app/modules/recurso/infra/repositories/recurso_repository_impl.dart';
 
 import '../../utils/recurso_fake.dart';
@@ -20,8 +20,7 @@ void main() {
 
   group('get list', () {
     test('deve retornar uma lista de recursos', () async {
-      when(() => datasource.getList(any()))
-          .thenAnswer((_) async => <Recurso>[]);
+      when(() => datasource.getList(any())).thenAnswer((_) async => <Recurso>[]);
 
       final result = await repository.getList('test');
 
@@ -29,8 +28,7 @@ void main() {
       verify(() => datasource.getList(any()));
     });
 
-    test('deve retornar um UnknownError se o datasorce lançar uma Exception',
-        () async {
+    test('deve retornar um UnknownError se o datasorce lançar uma Exception', () async {
       when(() => datasource.getList(any())).thenThrow(Exception());
 
       try {
@@ -46,8 +44,7 @@ void main() {
   });
 
   group('get item', () {
-    final recurso = Recurso(
-        codigo: 'test', descricao: 'test', tipo: TipoDeRecurso.equipamento());
+    final recurso = Recurso(codigo: 'test', descricao: 'test', tipo: TipoDeRecurso.equipamento());
 
     test('deve retornar um recurso', () async {
       when(() => datasource.getItem(any())).thenAnswer((_) async => recurso);
@@ -59,8 +56,7 @@ void main() {
       verify(() => datasource.getItem(any()));
     });
 
-    test('deve retornar um UnknownError se o datasorce lançar uma Exception',
-        () async {
+    test('deve retornar um UnknownError se o datasorce lançar uma Exception', () async {
       when(() => datasource.getItem(any())).thenThrow(Exception());
 
       try {

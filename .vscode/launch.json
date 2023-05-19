@@ -1,0 +1,72 @@
+{
+  "version": "0.2.0",
+  "dart.flutterSdkPath": ".fvm/flutter_sdk",
+  "search.exclude": {
+    "**/.fvm": true
+  },
+  "files.watcherExclude": {
+    "**/.fvm": true
+  },
+  "configurations": [
+    {
+      "name": "Example Launch development",
+      "request": "launch",
+      "type": "dart",
+      "program": "example/lib/main_development.dart",
+      "args": [
+        "--flavor",
+        "dev",
+        "--target",
+        "lib/main_development.dart"
+      ]
+    },
+    {
+      "name": "Example Launch staging",
+      "request": "launch",
+      "type": "dart",
+      "program": "example/lib/main_staging.dart",
+      "args": [
+        "--flavor",
+        "stg",
+        "--target",
+        "lib/main_staging.dart"
+      ]
+    },
+    {
+      "name": "Example Launch production",
+      "request": "launch",
+      "type": "dart",
+      "program": "example/lib/main_production.dart",
+      "args": [
+        "--flavor",
+        "prod",
+        "--target",
+        "lib/main_production.dart"
+      ]
+    },
+    {
+      "name": "Example Launch without Flavor",
+      "request": "launch",
+      "type": "dart",
+      "program": "example/lib/main_production.dart",
+      "args": [
+        "--target",
+        "lib/main.dart"
+      ]
+    },
+    {
+      "name": "Example Launch WEB - DEV",
+      "request": "launch",
+      "type": "dart",
+      "program": "example/lib/main_development.dart",
+      "args": [
+        "--flavor",
+        "dev",
+        "--target",
+        "lib/main_development.dart",
+        "--web-port",
+        "3333"
+      ]
+    }
+  ]
+}

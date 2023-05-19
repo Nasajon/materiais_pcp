@@ -1,16 +1,17 @@
+import 'package:design_system/design_system.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
-import 'package:nsj_flutter_login/nsj_login.dart';
+import 'package:pcp_flutter/app/core/constants/local_db_key.dart';
+import 'package:pcp_flutter/app/core/stores/reducers/internet_connection_reducer.dart';
+import 'package:pcp_flutter/app/modules/recursos/recursos_module.dart';
 
-import 'grupo_de_recurso/grupo_de_recurso_module.dart';
 import 'presenter/widgets/card_widget.dart';
-import 'recurso/recurso_module.dart';
 
 class PcpModule extends Module {
   static List<CardWidget> getCards(BuildContext context) {
     return [
-      ...GrupoDeRecursoModule.getCards(context),
-      ...RecursoModule.getCards(context),
+      ...RecursosModule.getCards(context),
     ];
   }
 
@@ -18,13 +19,14 @@ class PcpModule extends Module {
   List<Module> get imports => const [];
 
   @override
-  List<Bind> get binds => const [];
+  List<Bind> get binds => [
+        Bind.lazySingleton((i) => HiveDatabaseService(boxName: LocalDBKeys.boxKey)),
+        Bind.singleton((i) => CustomScaffoldController()),
+        Bind.singleton((i) => InternetConnectionReducer(connectionStore: i(), scaffoldController: i()))
+      ];
 
   @override
   List<ModularRoute> get routes => [
-        ModuleRoute('/grupo-de-recursos',
-            module: GrupoDeRecursoModule(), guards: [EstabelecimentoGuard()]),
-        ModuleRoute('/recursos',
-            module: RecursoModule(), guards: [EstabelecimentoGuard()]),
+        ModuleRoute('/recursos', module: RecursosModule()),
       ];
 }

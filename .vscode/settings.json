@@ -1,0 +1,7 @@
+{
+    "cmake.sourceDirectory": "${workspaceFolder}/example/windows",
+    "dart.lineLength": 140,
+    "[dart]": {
+      "editor.rulers": [140]
+    }
+}
