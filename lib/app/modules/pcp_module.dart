@@ -5,6 +5,7 @@ import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/core/constants/local_db_key.dart';
 import 'package:pcp_flutter/app/core/stores/reducers/internet_connection_reducer.dart';
 import 'package:pcp_flutter/app/modules/recursos/recursos_module.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricoes_module.dart';
 
 import 'presenter/widgets/card_widget.dart';
 
@@ -12,6 +13,7 @@ class PcpModule extends Module {
   static List<CardWidget> getCards(BuildContext context) {
     return [
       ...RecursosModule.getCards(context),
+      ...RestricoesModule.getCards(context),
     ];
   }
 
@@ -28,5 +30,6 @@ class PcpModule extends Module {
   @override
   List<ModularRoute> get routes => [
         ModuleRoute('/recursos', module: RecursosModule()),
+        ModuleRoute('/restricoes', module: RestricoesModule()),
       ];
 }

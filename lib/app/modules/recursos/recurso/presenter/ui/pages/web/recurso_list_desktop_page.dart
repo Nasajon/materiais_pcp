@@ -1,15 +1,15 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:ana_l10n/ana_l10n.dart';
+import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
+import 'package:pcp_flutter/app/core/widgets/list_tile_widget.dart';
+import 'package:pcp_flutter/app/core/widgets/pesquisa_form_field_widget.dart';
 
-import '../../../../../grupo_de_recurso/presenter/ui/pages/web/grupo_de_recurso_list_desktop_page.dart';
 import '../../../../domain/entities/recurso.dart';
 import '../../../stores/recurso_list_store.dart';
-import '../../widgets/recurso_item.dart';
 
 class RecursoListDesktopPage extends StatelessWidget {
   final RecursoListStore recursoListStore;
@@ -41,7 +41,7 @@ class RecursoListDesktopPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                PesquisaFormField(
+                PesquisaFormFieldWidget(
                   label: context.l10n.materiaisPcpPesquisa,
                   controller: recursoListStore.pesquisaController,
                   onChanged: (value) => recursoListStore.getList(search: value),
@@ -74,12 +74,14 @@ class RecursoListDesktopPage extends StatelessWidget {
                               style: AnaTextStyles.boldDarkGrey16Px.copyWith(fontSize: 18)));
                         }
 
-                        widgets.add(Flexible(
-                          child: _RecursoList(
-                            recursos: state,
-                            recursoListStore: recursoListStore,
+                        widgets.add(
+                          Flexible(
+                            child: _RecursoList(
+                              recursos: state,
+                              recursoListStore: recursoListStore,
+                            ),
                           ),
-                        ));
+                        );
                       }
 
                       widgets.add(
@@ -127,13 +129,16 @@ class _RecursoList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10nLocalization = context.l10nLocalization;
+
     return Padding(
       padding: const EdgeInsets.only(top: 40, bottom: 24),
       child: ListView(
         shrinkWrap: true,
         children: recursos
-            .map((recurso) => RecursoItem(
-                  recurso: recurso,
+            .map((recurso) => ListTileWidget(
+                  title: '${recurso.codigo} - ${recurso.descricao}',
+                  subtitle: '${context.l10n.materiaisPcpTipoDeRecurso}: ${recurso.grupoDeRecurso?.tipo?.name(l10nLocalization)}',
                   onTap: () async {
                     await Modular.to.pushNamed('./${recurso.id}');
 

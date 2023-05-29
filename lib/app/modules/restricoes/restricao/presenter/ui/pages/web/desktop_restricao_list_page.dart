@@ -1,0 +1,119 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:ana_l10n/ana_l10n.dart';
+import 'package:design_system/design_system.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_core/ana_core.dart';
+import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
+import 'package:pcp_flutter/app/core/widgets/list_tile_widget.dart';
+import 'package:pcp_flutter/app/core/widgets/pesquisa_form_field_widget.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/domain/aggregates/restricao_aggregate.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/stores/restricao_list_store.dart';
+
+class DesktopRestricaoListPage extends StatelessWidget {
+  final RestricaoListStore restricaoListStore;
+  final CustomScaffoldController scaffoldController;
+  final InternetConnectionStore connectionStore;
+
+  const DesktopRestricaoListPage({
+    Key? key,
+    required this.restricaoListStore,
+    required this.scaffoldController,
+    required this.connectionStore,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
+    return CustomScaffold.titleString(
+      l10n.materiaisPcpRestricoes,
+      controller: scaffoldController,
+      alignment: Alignment.centerLeft,
+      onIconTap: () => Modular.to.pop(),
+      actions: [
+        InternetButtonIconWidget(connectionStore: connectionStore),
+      ],
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 635),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 40),
+              PesquisaFormFieldWidget(
+                label: context.l10n.materiaisPcpPesquisa,
+                onChanged: (value) => restricaoListStore.search = value,
+              ),
+              const SizedBox(height: 40),
+              Expanded(
+                child: ScopedBuilder<RestricaoListStore, List<RestricaoAggregate>>(
+                  onLoading: (_) => const Center(child: CircularProgressIndicator(color: AnaColors.darkBlue)),
+                  onError: (context, error) => Container(),
+                  onState: (context, state) {
+                    final createRestricaoButton = Center(
+                      child: CustomPrimaryButton(
+                        title: context.l10n.materiaisPcpCriarRestricao,
+                        onPressed: () async {
+                          await Modular.to.pushNamed('./new');
+                        },
+                      ),
+                    );
+
+                    if (state.isEmpty) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 20),
+                            child: Text(
+                              restricaoListStore.search.isEmpty
+                                  ? context.l10n
+                                      .materiaisPcpNenhumaEntidadeEncontradaMasculino(context.l10n.materiaisPcpRestricao.toLowerCase())
+                                  : context.l10n.materiaisPcpNaoHaResultadosParaPesquisa,
+                              style: AnaTextStyles.grey20Px,
+                            ),
+                          ),
+                          createRestricaoButton,
+                        ],
+                      );
+                    }
+
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        if (restricaoListStore.search.isEmpty) ...{
+                          Text(
+                            context.l10n.materiaisPcpUltimosRestricoesAcessados,
+                            style: AnaTextStyles.boldDarkGrey16Px.copyWith(fontSize: 18),
+                          ),
+                          const SizedBox(height: 40),
+                        },
+                        Flexible(
+                          child: ListView.builder(
+                            itemCount: state.length,
+                            itemBuilder: (context, index) {
+                              final restricao = state[index];
+
+                              return ListTileWidget(
+                                title: '${restricao.codigo} - ${restricao.descricao}',
+                                subtitle: '${context.l10n.materiaisPcpTipoLabel}: ${restricao.grupoDeRestricao.tipo.name}',
+                                onTap: () {},
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

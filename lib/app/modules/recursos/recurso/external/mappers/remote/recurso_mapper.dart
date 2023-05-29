@@ -11,7 +11,6 @@ class RecursoMapper {
         id: map['recurso'] as String?,
         codigo: map['codigo'] as String,
         descricao: map['descricao'] as String,
-        tipo: map['tipo'] != null ? TipoDeRecursoEnum.selecTipoDeRecurso(map['tipo']) : null,
         custoHora: map['custo_hora'] as double?,
         grupoDeRecurso: map['grupo_de_recurso'] != null ? GrupoDeRecursoMapper.fromMap(map['grupo_de_recurso']) : null,
       );
@@ -30,7 +29,7 @@ class RecursoMapper {
       'recurso': recurso.id,
       'codigo': recurso.codigo,
       'descricao': recurso.descricao,
-      'tipo': recurso.tipo?.value,
+      'tipo': recurso.grupoDeRecurso?.tipo?.value,
       'custo_hora': recurso.custoHora,
       'grupo_de_recurso': recurso.grupoDeRecurso?.id,
     };

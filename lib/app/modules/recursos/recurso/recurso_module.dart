@@ -5,6 +5,7 @@ import 'package:pcp_flutter/app/modules/recursos/recurso/domain/usecases/get_gru
 import 'package:pcp_flutter/app/modules/recursos/recurso/external/datasources/local/get_grupo_de_recurso_local_datasource_impl.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/external/datasources/remote/get_grupo_de_recurso_datasource_impl.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/infra/repositories/get_grupo_de_recurso_repository_impl.dart';
+import 'package:pcp_flutter/app/modules/recursos/recurso/presenter/controllers/recurso_controller.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/presenter/stores/get_grupo_de_recurso_store.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/presenter/ui/pages/recurso_form_page.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/presenter/ui/pages/recurso_list_page.dart';
@@ -43,7 +44,10 @@ class RecursoModule extends Module {
         //Stores
         Bind.lazySingleton((i) => RecursoListStore(i())),
         Bind.lazySingleton((i) => RecursoFormStore(i(), i())),
-        TripleBind.lazySingleton((i) => GetGrupoDeRecursoStore(i()))
+        TripleBind.lazySingleton((i) => GetGrupoDeRecursoStore(i())),
+
+        //Controller
+        Bind.factory((i) => RecursoController()),
       ];
 
   @override
@@ -61,6 +65,7 @@ class RecursoModule extends Module {
           child: (context, args) => RecursoFormPage(
             recursoFormStore: context.read(),
             getGrupoDeRecursoStore: context.read(),
+            recursoController: context.read(),
             connectionStore: context.read(),
             scaffoldController: context.read(),
           ),
@@ -71,6 +76,7 @@ class RecursoModule extends Module {
             id: args.params['id'],
             recursoFormStore: context.read(),
             getGrupoDeRecursoStore: context.read(),
+            recursoController: context.read(),
             connectionStore: context.read(),
             scaffoldController: context.read(),
           ),

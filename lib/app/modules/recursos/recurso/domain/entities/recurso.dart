@@ -5,7 +5,6 @@ class Recurso {
   final String? id;
   final String codigo;
   final String descricao;
-  final TipoDeRecursoEnum? tipo;
   final GrupoDeRecurso? grupoDeRecurso;
   final double? custoHora;
 
@@ -13,8 +12,31 @@ class Recurso {
     this.id,
     required this.codigo,
     required this.descricao,
-    required this.tipo,
     this.grupoDeRecurso,
     this.custoHora,
   });
+
+  factory Recurso.empty() {
+    return const Recurso(
+      codigo: '',
+      descricao: '',
+    );
+  }
+
+  Recurso copyWith({
+    String? id,
+    String? codigo,
+    String? descricao,
+    TipoDeRecursoEnum? tipo,
+    GrupoDeRecurso? grupoDeRecurso,
+    double? custoHora,
+  }) {
+    return Recurso(
+      id: id ?? this.id,
+      codigo: codigo ?? this.codigo,
+      descricao: descricao ?? this.descricao,
+      grupoDeRecurso: grupoDeRecurso ?? this.grupoDeRecurso,
+      custoHora: custoHora ?? this.custoHora,
+    );
+  }
 }

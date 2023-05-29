@@ -1,15 +1,17 @@
 import 'package:ana_l10n/ana_l10n.dart';
+import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
-import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
+import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
+import 'package:pcp_flutter/app/core/widgets/list_tile_widget.dart';
+import 'package:pcp_flutter/app/core/widgets/pesquisa_form_field_widget.dart';
 import 'package:pcp_flutter/app/modules/recursos/common/domain/entities/grupo_de_recurso.dart';
 
 import '../../../stores/grupo_de_recurso_list_store.dart';
 import '../../widgets/grupo_de_recurso_item.dart';
-import '../web/grupo_de_recurso_list_desktop_page.dart';
 
 class GrupoDeRecursoListMobilePage extends StatelessWidget {
   final GrupoDeRecursoListStore grupoDeRecursoStore;
@@ -39,7 +41,7 @@ class GrupoDeRecursoListMobilePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            PesquisaFormField(
+            PesquisaFormFieldWidget(
               label: context.l10n.materiaisPcpPesquisa,
               controller: grupoDeRecursoStore.pesquisaController,
               onChanged: (value) => grupoDeRecursoStore.getList(search: value),
@@ -129,19 +131,20 @@ class _GrupoDeRecursosList extends StatelessWidget {
       padding: const EdgeInsets.only(top: 40, bottom: 24),
       child: ListView(
         shrinkWrap: true,
-        children: gruposDeRecursos
-            .map((grupoDeRecurso) => GrupoDeRecursoItem(
-                  grupoDeRecurso: grupoDeRecurso,
-                  onTap: () async {
-                    await Modular.to.pushNamed('./${grupoDeRecurso.id}');
+        children: gruposDeRecursos.map((grupoDeRecurso) {
+          return ListTileWidget(
+            title: '${grupoDeRecurso.codigo} - ${grupoDeRecurso.descricao}',
+            subtitle: '${context.l10n.materiaisPcpTipoDeRecurso}: ${grupoDeRecurso.tipo?.name(context.l10nLocalization)}',
+            onTap: () async {
+              await Modular.to.pushNamed('./${grupoDeRecurso.id}');
 
-                    store.getList(
-                      search: store.pesquisaController.text,
-                      delay: Duration.zero,
-                    );
-                  },
-                ))
-            .toList(),
+              store.getList(
+                search: store.pesquisaController.text,
+                delay: Duration.zero,
+              );
+            },
+          );
+        }).toList(),
       ),
     );
   }

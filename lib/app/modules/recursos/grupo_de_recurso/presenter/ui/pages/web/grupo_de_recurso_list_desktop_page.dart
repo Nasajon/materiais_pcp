@@ -1,13 +1,14 @@
 import 'package:ana_l10n/ana_l10n.dart';
+import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
+import 'package:pcp_flutter/app/core/widgets/list_tile_widget.dart';
+import 'package:pcp_flutter/app/core/widgets/pesquisa_form_field_widget.dart';
 import 'package:pcp_flutter/app/modules/recursos/common/domain/entities/grupo_de_recurso.dart';
 import 'package:pcp_flutter/app/modules/recursos/grupo_de_recurso/presenter/stores/grupo_de_recurso_list_store.dart';
-
-import '../../widgets/grupo_de_recurso_item.dart';
 
 class GrupoDeRecursoListDesktopPage extends StatelessWidget {
   final GrupoDeRecursoListStore grupoDeRecursoStore;
@@ -39,7 +40,7 @@ class GrupoDeRecursoListDesktopPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                PesquisaFormField(
+                PesquisaFormFieldWidget(
                   label: context.l10n.materiaisPcpPesquisa,
                   controller: grupoDeRecursoStore.pesquisaController,
                   onChanged: (value) => grupoDeRecursoStore.getList(search: value),
@@ -72,12 +73,14 @@ class GrupoDeRecursoListDesktopPage extends StatelessWidget {
                                 style: AnaTextStyles.boldDarkGrey16Px.copyWith(fontSize: 18)));
                           }
 
-                          widgets.add(Flexible(
-                            child: _GrupoDeRecursosList(
-                              gruposDeRecursos: state,
-                              store: grupoDeRecursoStore,
+                          widgets.add(
+                            Flexible(
+                              child: _GrupoDeRecursosList(
+                                gruposDeRecursos: state,
+                                store: grupoDeRecursoStore,
+                              ),
                             ),
-                          ));
+                          );
                         }
 
                         widgets.add(
@@ -125,58 +128,26 @@ class _GrupoDeRecursosList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.only(top: 40, bottom: 24),
-        child: ListView(
-          shrinkWrap: true,
-          children: gruposDeRecursos
-              .map((grupoDeRecurso) => GrupoDeRecursoItem(
-                    grupoDeRecurso: grupoDeRecurso,
-                    onTap: () async {
-                      await Modular.to.pushNamed('./${grupoDeRecurso.id}');
+      padding: const EdgeInsets.only(top: 40, bottom: 24),
+      child: ListView(
+        shrinkWrap: true,
+        children: gruposDeRecursos
+            .map(
+              (grupoDeRecurso) => ListTileWidget(
+                title: '${grupoDeRecurso.codigo} - ${grupoDeRecurso.descricao}',
+                subtitle: '${context.l10n.materiaisPcpTipoDeRecurso}: ${grupoDeRecurso.tipo?.name(context.l10nLocalization)}',
+                onTap: () async {
+                  await Modular.to.pushNamed('./${grupoDeRecurso.id}');
 
-                      store.getList(
-                        search: store.pesquisaController.text,
-                        delay: Duration.zero,
-                      );
-                    },
-                  ))
-              .toList(),
-        ));
-  }
-}
-
-class PesquisaFormField extends StatelessWidget {
-  final String label;
-  final TextEditingController? controller;
-  final void Function(String)? onChanged;
-
-  const PesquisaFormField({super.key, required this.label, this.controller, this.onChanged});
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      onChanged: onChanged,
-      style: AnaTextStyles.grey14Px.copyWith(fontSize: 16),
-      // scrollPadding: const EdgeInsets.symmetric(vertical: 18.5, horizontal: 16),
-      decoration: InputDecoration(
-          labelText: label,
-          floatingLabelBehavior: FloatingLabelBehavior.never,
-          labelStyle: AnaTextStyles.lightGrey14Px.copyWith(fontSize: 16, fontStyle: FontStyle.italic),
-          contentPadding: const EdgeInsets.symmetric(vertical: 18.5, horizontal: 16),
-          fillColor: const Color(0xFFF2F2F2),
-          suffixIcon: const Padding(
-            padding: EdgeInsets.only(top: 10),
-            child: FaIcon(
-              FontAwesomeIcons.magnifyingGlass,
-              color: AnaColors.darkBlue,
-              size: 18,
-            ),
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: const BorderSide(color: AnaColors.lightGrey),
-          )),
+                  store.getList(
+                    search: store.pesquisaController.text,
+                    delay: Duration.zero,
+                  );
+                },
+              ),
+            )
+            .toList(),
+      ),
     );
   }
 }

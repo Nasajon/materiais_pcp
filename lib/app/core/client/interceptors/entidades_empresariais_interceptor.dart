@@ -19,8 +19,7 @@ class EntidadesEmpresariaisInterceptor extends Interceptor {
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     final profileStore = Modular.get<ProfileStore>();
 
-    if (options.method == ClientRequestMethods.POST.name ||
-        options.method == ClientRequestMethods.PUT.name) {
+    if (options.method == ClientRequestMethods.POST.name || options.method == ClientRequestMethods.PUT.name) {
       _addBodyParameters(options, profileStore);
     } else {
       _addQueryParameters(options, profileStore);
@@ -35,8 +34,7 @@ class EntidadesEmpresariaisInterceptor extends Interceptor {
     }
 
     if (grupoEmpresarial) {
-      options.data['grupoempresarial'] =
-          profileStore.grupoEmpresarialSelecionado?.id;
+      options.data['grupoempresarial'] = profileStore.grupoEmpresarialSelecionado?.id;
     }
 
     if (empresa) {
@@ -44,8 +42,7 @@ class EntidadesEmpresariaisInterceptor extends Interceptor {
     }
 
     if (estabelecimento) {
-      options.data['estabelecimento'] =
-          profileStore.estabelecimentoSelecionado?.id;
+      options.data['estabelecimento'] = profileStore.estabelecimentoSelecionado?.id;
     }
   }
 
@@ -55,8 +52,7 @@ class EntidadesEmpresariaisInterceptor extends Interceptor {
     }
 
     if (grupoEmpresarial) {
-      options.queryParameters['grupoempresarial'] =
-          profileStore.grupoEmpresarialSelecionado?.id;
+      options.queryParameters['grupoempresarial'] = profileStore.grupoEmpresarialSelecionado?.id;
     }
 
     if (empresa) {
@@ -64,8 +60,7 @@ class EntidadesEmpresariaisInterceptor extends Interceptor {
     }
 
     if (estabelecimento) {
-      options.queryParameters['estabelecimento'] =
-          profileStore.estabelecimentoSelecionado?.id;
+      options.queryParameters['estabelecimento'] = profileStore.estabelecimentoSelecionado?.id;
     }
   }
 }

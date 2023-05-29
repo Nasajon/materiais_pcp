@@ -1,7 +1,6 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
-import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/modules/recursos/common/domain/entities/grupo_de_recurso.dart';
 import 'package:pcp_flutter/app/modules/recursos/common/domain/enum/tipo_de_recurso_enum.dart';
 
@@ -25,8 +24,7 @@ class RecursoFormStore extends NasajonStreamStore<RecursoFormState> {
 
   final selectedTipoDeRecurso = ValueNotifier<DropdownItem<TipoDeRecursoEnum?>?>(null);
 
-  void selectTipoDeRecurso(TipoDeRecursoEnum? tipoDeRecurso) =>
-      selectedTipoDeRecurso.value = DropdownItem(value: tipoDeRecurso, label: tipoDeRecurso?.name ?? '');
+  void selectTipoDeRecurso(TipoDeRecursoEnum? tipoDeRecurso) => selectedTipoDeRecurso.value = DropdownItem(value: tipoDeRecurso, label: '');
 
   final selectedGrupoDeRecurso = ValueNotifier<DropdownItem<GrupoDeRecurso?>?>(null);
 
@@ -34,43 +32,19 @@ class RecursoFormStore extends NasajonStreamStore<RecursoFormState> {
     selectedGrupoDeRecurso.value = DropdownItem(value: grupoDeRecurso, label: grupoDeRecurso?.codigo ?? '');
   }
 
-  pegarRecurso(String id) {
-    execute(() async {
-      final recurso = await _getRecursoByIdUsecase(id);
-
-      _preencherCampos(recurso);
-
-      return state.copyWith(recurso: () => recurso);
-    });
+  Future<Recurso> pegarRecurso(String id) async {
+    return await _getRecursoByIdUsecase(id);
   }
 
-  void _preencherCampos(Recurso recurso) {
-    codigoController.value = TextEditingValue(text: recurso.codigo);
-    nomeController.value = TextEditingValue(text: recurso.descricao);
-    custoHoraController.value = TextEditingValue(text: UtilBrasilFields.obterReal(recurso.custoHora ?? 0, decimal: 2, moeda: true));
-
-    selectTipoDeRecurso(recurso.tipo);
-    selectGrupoDeRecurso(recurso.grupoDeRecurso);
-  }
-
-  Future<void> salvar() async {
+  Future<void> salvar(Recurso recurso) async {
     try {
       setLoading(true);
 
-      final grupoDeRecurso = Recurso(
-        id: state.recurso?.id,
-        codigo: codigoController.text,
-        descricao: nomeController.text,
-        tipo: selectedTipoDeRecurso.value!.value!,
-        grupoDeRecurso: selectedGrupoDeRecurso.value!.value,
-        custoHora: UtilBrasilFields.converterMoedaParaDouble(custoHoraController.text),
-      );
-
-      await _saveRecursoUsecase(grupoDeRecurso);
+      await _saveRecursoUsecase(recurso);
 
       clear();
-    } on Failure {
-      rethrow;
+    } on Failure catch (error) {
+      setError(error);
     } finally {
       setLoading(false);
     }

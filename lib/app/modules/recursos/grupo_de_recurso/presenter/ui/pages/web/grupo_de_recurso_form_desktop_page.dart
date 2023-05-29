@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:ana_l10n/ana_l10n.dart';
+import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
@@ -114,10 +115,11 @@ class _GrupoDeRecursoFormDesktopPageState extends State<GrupoDeRecursoFormDeskto
                       ),
                       const SizedBox(height: 16),
                       DropdownButtonWidget<TipoDeRecursoEnum>(
-                        label: l10n.materiaisPcpTipoDeRecursoLabel,
+                        label: l10n.materiaisPcpTipoLabel,
                         value: grupoDeRecurso.tipo,
                         items: TipoDeRecursoEnum.values
-                            .map<DropdownItem<TipoDeRecursoEnum>>((tipo) => DropdownItem(value: tipo, label: tipo.name))
+                            .map<DropdownItem<TipoDeRecursoEnum>>(
+                                (tipo) => DropdownItem(value: tipo, label: tipo.name(context.l10nLocalization)))
                             .toList(),
                         isRequiredField: true,
                         errorMessage: l10n.materiaisPcpEsteCampoPrecisaEstarPreenchido,
