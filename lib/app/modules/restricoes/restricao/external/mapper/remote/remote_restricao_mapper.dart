@@ -1,3 +1,7 @@
+import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart';
+import 'package:pcp_flutter/app/core/modules/domain/value_object/integer_vo.dart';
+import 'package:pcp_flutter/app/core/modules/domain/value_object/moeda_vo.dart';
+import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/domain/aggregates/restricao_aggregate.dart';
 import 'package:pcp_flutter/app/modules/restricoes/common/external/mapper/remote/grupo_de_restricao_mapper.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/domain/enum/tipo_unidade_enum.dart';
@@ -9,12 +13,12 @@ class RemoteRestricaoMapper {
   static RestricaoAggregate fromMapToRestricaoAggregate(Map<String, dynamic> map) {
     return RestricaoAggregate(
       id: map['restricao'],
-      codigo: map['codigo'],
-      descricao: map['descricao'],
+      codigo: CodigoVO.text(map['codigo']),
+      descricao: TextVO(map['descricao']),
       grupoDeRestricao: GrupoDeRestricaoMapper.fromMapToGrupoDeRestricaoEntity(map['grupo']),
       tipoUnidade: TipoUnidadeEnum.selectTipoUnidade(map['tipo_unidade']),
-      capacidadeProducao: map['capacidade_producao'],
-      custoPorHora: map['custo_por_hora'],
+      capacidadeProducao: IntegerVO(map['capacidade_producao']),
+      custoPorHora: MoedaVO(map['custo_por_hora']),
       limitarCapacidadeProducao: map['limitar_capacidade_producao'],
       indisponibilidades: (map['indisponibilidades'] as List<Map<String, dynamic>>)
           .map((e) => RemoteIndisponibilidadeMapper.fromMapToIndisponibilidadeEntity(e))

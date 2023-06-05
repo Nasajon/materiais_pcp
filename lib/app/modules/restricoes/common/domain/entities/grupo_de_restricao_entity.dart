@@ -1,9 +1,11 @@
+import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart';
+import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/modules/restricoes/common/domain/enum/tipo_de_restricao_enum.dart';
 
 class GrupoDeRestricaoEntity {
   final String? id;
-  final String? codigo;
-  final String descricao;
+  final CodigoVO? codigo;
+  final TextVO descricao;
   final TipoDeRestricaoEnum tipo;
 
   const GrupoDeRestricaoEntity({
@@ -14,16 +16,16 @@ class GrupoDeRestricaoEntity {
   });
 
   factory GrupoDeRestricaoEntity.empty() {
-    return const GrupoDeRestricaoEntity(
-      descricao: '',
+    return GrupoDeRestricaoEntity(
+      descricao: TextVO(''),
       tipo: TipoDeRestricaoEnum.componentes,
     );
   }
 
   GrupoDeRestricaoEntity copyWith({
     String? id,
-    String? codigo,
-    String? descricao,
+    CodigoVO? codigo,
+    TextVO? descricao,
     TipoDeRestricaoEnum? tipo,
   }) {
     return GrupoDeRestricaoEntity(

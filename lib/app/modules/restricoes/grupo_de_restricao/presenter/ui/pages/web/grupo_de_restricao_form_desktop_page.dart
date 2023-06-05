@@ -1,9 +1,10 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:ana_l10n/ana_l10n.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart';
+import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/dropdown_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
@@ -94,11 +95,11 @@ class _GrupoDeRestricaoFormDesktopPageState extends State<GrupoDeRestricaoFormDe
                           Flexible(
                             child: CustomBaseTextField(
                               label: l10n.materiaisPcpCodigoLabel,
-                              initialValue: grupoDeRestricao.codigo?.toString(),
+                              initialValue: grupoDeRestricao.codigo?.toText,
                               isEnabled: true,
                               isRequiredField: true,
                               onChanged: (value) {
-                                grupoDeRestricaoController.grupoDeRestricao = grupoDeRestricao.copyWith(codigo: value);
+                                grupoDeRestricaoController.grupoDeRestricao = grupoDeRestricao.copyWith(codigo: CodigoVO.text(value));
                               },
                             ),
                           ),
@@ -107,11 +108,11 @@ class _GrupoDeRestricaoFormDesktopPageState extends State<GrupoDeRestricaoFormDe
                               flex: 3,
                               child: CustomBaseTextField(
                                 label: l10n.materiaisPcpNomeLabel,
-                                initialValue: grupoDeRestricao.descricao,
+                                initialValue: grupoDeRestricao.descricao.value,
                                 isEnabled: true,
                                 isRequiredField: true,
                                 onChanged: (value) =>
-                                    grupoDeRestricaoController.grupoDeRestricao = grupoDeRestricao.copyWith(descricao: value),
+                                    grupoDeRestricaoController.grupoDeRestricao = grupoDeRestricao.copyWith(descricao: TextVO(value)),
                               )),
                         ],
                       ),

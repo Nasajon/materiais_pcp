@@ -1,6 +1,5 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 
 class ListTileWidget extends StatelessWidget {
   final String title;
@@ -24,8 +23,12 @@ class ListTileWidget extends StatelessWidget {
         ),
         tileColor: Colors.white,
         subtitle: Text(subtitle, style: AnaTextStyles.lightGrey14Px.copyWith(fontSize: 12)),
-        trailing: const FaIcon(FontAwesomeIcons.angleRight, size: 13),
-        shape: const Border(bottom: BorderSide(color: Color(0xFFDADADA))),
+        trailing: const Icon(Icons.keyboard_arrow_right_rounded, size: 13),
+        shape: const Border(
+          bottom: BorderSide(
+            color: Color(0xFFDADADA),
+          ),
+        ),
         onTap: onTap,
       ),
     );

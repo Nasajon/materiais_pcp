@@ -28,8 +28,8 @@ class PesquisaFormFieldWidget extends StatelessWidget {
         fillColor: const Color(0xFFF2F2F2),
         suffixIcon: const Padding(
           padding: EdgeInsets.only(top: 10),
-          child: FaIcon(
-            FontAwesomeIcons.magnifyingGlass,
+          child: Icon(
+            Icons.search,
             color: AnaColors.darkBlue,
             size: 18,
           ),

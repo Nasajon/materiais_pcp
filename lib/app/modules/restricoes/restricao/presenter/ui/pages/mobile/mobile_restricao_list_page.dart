@@ -36,11 +36,12 @@ class MobileRestricaoListPage extends StatelessWidget {
         actions: [
           InternetButtonIconWidget(connectionStore: connectionStore),
         ],
-        body: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 635),
+        body: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 635),
+          child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 const SizedBox(height: 40),
                 Padding(
@@ -51,63 +52,50 @@ class MobileRestricaoListPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 40),
-                Expanded(
-                  child: ScopedBuilder<RestricaoListStore, List<RestricaoAggregate>>(
-                    onLoading: (_) => const Center(child: CircularProgressIndicator(color: AnaColors.darkBlue)),
-                    onError: (context, error) => Container(),
-                    onState: (context, state) {
-                      if (state.isEmpty) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 20, left: 16, right: 16),
-                              child: Text(
-                                restricaoListStore.search.isEmpty
-                                    ? context.l10n
-                                        .materiaisPcpNenhumaEntidadeEncontradaMasculino(context.l10n.materiaisPcpRestricao.toLowerCase())
-                                    : context.l10n.materiaisPcpNaoHaResultadosParaPesquisa,
-                                style: AnaTextStyles.grey20Px,
-                              ),
-                            ),
-                          ],
-                        );
-                      }
-
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          if (restricaoListStore.search.isEmpty) ...{
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
-                              child: Text(
-                                context.l10n.materiaisPcpUltimosRestricoesAcessados,
-                                style: AnaTextStyles.boldDarkGrey16Px.copyWith(fontSize: 18),
-                              ),
-                            ),
-                            const SizedBox(height: 32),
-                          },
-                          Flexible(
-                            child: ListView.builder(
-                              itemCount: state.length,
-                              padding: const EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 8),
-                              itemBuilder: (context, index) {
-                                final restricao = state[index];
-
-                                return ListTileWidget(
-                                  title: '${restricao.codigo} - ${restricao.descricao}',
-                                  subtitle: '${context.l10n.materiaisPcpTipoLabel}: ${restricao.grupoDeRestricao.tipo.name}',
-                                  onTap: () {},
-                                );
-                              },
+                ScopedBuilder<RestricaoListStore, List<RestricaoAggregate>>(
+                  onLoading: (_) => const Center(child: CircularProgressIndicator(color: AnaColors.darkBlue)),
+                  onError: (context, error) => Container(),
+                  onState: (context, state) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (state.isEmpty) ...{
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 20, left: 16, right: 16),
+                            child: Text(
+                              restricaoListStore.search.isEmpty
+                                  ? context.l10n
+                                      .materiaisPcpNenhumaEntidadeEncontradaMasculino(context.l10n.materiaisPcpRestricao.toLowerCase())
+                                  : context.l10n.materiaisPcpNaoHaResultadosParaPesquisa,
+                              style: AnaTextStyles.grey20Px,
                             ),
                           ),
-                        ],
-                      );
-                    },
-                  ),
+                        },
+                        if (restricaoListStore.search.isEmpty) ...{
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
+                            child: Text(
+                              context.l10n.materiaisPcpUltimosRestricoesAcessados,
+                              style: AnaTextStyles.boldDarkGrey16Px.copyWith(fontSize: 18),
+                            ),
+                          ),
+                          const SizedBox(height: 32),
+                        },
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
+                          child: Column(
+                            children: state.map((restricao) {
+                              return ListTileWidget(
+                                title: '${restricao.codigo} - ${restricao.descricao}',
+                                subtitle: '${context.l10n.materiaisPcpTipoLabel}: ${restricao.grupoDeRestricao?.tipo.name}',
+                                onTap: () {},
+                              );
+                            }).toList(),
+                          ),
+                        )
+                      ],
+                    );
+                  },
                 ),
               ],
             ),

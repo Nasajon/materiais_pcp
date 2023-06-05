@@ -36,7 +36,7 @@ class RecursoModule extends Module {
         Bind.lazySingleton((i) => GetGrupoDeRecursoRepositoryImpl(i(), i(), i())),
 
         //UseCases
-        Bind.lazySingleton((i) => GetGetRecursoListUsecaseImpl(i())),
+        Bind.lazySingleton((i) => GetRecursoListUsecaseImpl(i())),
         Bind.lazySingleton((i) => GetRecursoByIdUsecaseImpl(i())),
         Bind.lazySingleton((i) => SaveRecursoUsecaseImpl(i())),
         Bind.lazySingleton((i) => GetGrupoDeRecursoUsecaseImpl(i())),

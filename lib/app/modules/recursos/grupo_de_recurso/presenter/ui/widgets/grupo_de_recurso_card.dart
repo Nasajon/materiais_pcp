@@ -52,7 +52,14 @@ class GrupoDeRecursoCard extends StatelessWidget implements CardWidget {
             children: [
               Expanded(child: Text(context.l10n.materiaisPcpGruposDeRecurso, style: AnaTextStyles.boldDarkGrey16Px.copyWith(fontSize: 18))),
               const SizedBox(width: 4),
-              IconButton(onPressed: onPressed, icon: const FaIcon(FontAwesomeIcons.angleRight, size: 16), color: AnaColors.commonGrey)
+              IconButton(
+                onPressed: onPressed,
+                icon: const Icon(
+                  Icons.keyboard_arrow_right_rounded,
+                  size: 16,
+                ),
+                color: AnaColors.commonGrey,
+              ),
             ],
           ),
           const SizedBox(height: 4),

@@ -92,17 +92,18 @@ class DesktopRestricaoListPage extends StatelessWidget {
                           const SizedBox(height: 40),
                         },
                         Flexible(
-                          child: ListView.builder(
-                            itemCount: state.length,
-                            itemBuilder: (context, index) {
-                              final restricao = state[index];
-
-                              return ListTileWidget(
-                                title: '${restricao.codigo} - ${restricao.descricao}',
-                                subtitle: '${context.l10n.materiaisPcpTipoLabel}: ${restricao.grupoDeRestricao.tipo.name}',
-                                onTap: () {},
-                              );
-                            },
+                          child: ListView(
+                            children: [
+                              ...state.map((restricao) {
+                                return ListTileWidget(
+                                  title: '${restricao.codigo?.toText} - ${restricao.descricao.value}',
+                                  subtitle: '${context.l10n.materiaisPcpTipoLabel}: ${restricao.grupoDeRestricao?.tipo.name}',
+                                  onTap: () => Modular.to.pushNamed('./new'),
+                                );
+                              }).toList(),
+                              const SizedBox(height: 16),
+                              createRestricaoButton,
+                            ],
                           ),
                         ),
                       ],

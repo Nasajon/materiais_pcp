@@ -9,11 +9,9 @@ import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dar
 import 'package:pcp_flutter/app/core/widgets/dropdown_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
 import 'package:pcp_flutter/app/modules/recursos/common/domain/entities/grupo_de_recurso.dart';
-import 'package:pcp_flutter/app/modules/recursos/common/domain/enum/tipo_de_recurso_enum.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/presenter/controllers/recurso_controller.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/presenter/stores/get_grupo_de_recurso_store.dart';
 
-import '../../../../../grupo_de_recurso/presenter/ui/widgets/grupo_de_recurso_dropdown_widget.dart';
 import '../../../stores/recurso_form_store.dart';
 import '../../../stores/states/recurso_form_state.dart';
 

@@ -5,10 +5,10 @@ abstract class GetRecursoListUsecase {
   Future<List<Recurso>> call([String? search]);
 }
 
-class GetGetRecursoListUsecaseImpl implements GetRecursoListUsecase {
+class GetRecursoListUsecaseImpl implements GetRecursoListUsecase {
   final RecursoRepository repository;
 
-  GetGetRecursoListUsecaseImpl(this.repository);
+  GetRecursoListUsecaseImpl(this.repository);
 
   @override
   Future<List<Recurso>> call([String? search]) async {

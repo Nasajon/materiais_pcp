@@ -4,6 +4,8 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
+import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/dropdown_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
@@ -84,20 +86,20 @@ class _GrupoDeRestricaoFormMobilePageState extends State<GrupoDeRestricaoFormMob
               children: [
                 CustomBaseTextField(
                   label: l10n.materiaisPcpCodigoLabel,
-                  initialValue: grupoDeRestricao.codigo?.toString(),
+                  initialValue: grupoDeRestricao.codigo?.toText,
                   isEnabled: grupoDeRestricaoController.isEnabled,
                   isRequiredField: true,
                   onChanged: (value) {
-                    grupoDeRestricaoController.grupoDeRestricao = grupoDeRestricao.copyWith(codigo: value);
+                    grupoDeRestricaoController.grupoDeRestricao = grupoDeRestricao.copyWith(codigo: CodigoVO.text(value));
                   },
                 ),
                 const SizedBox(height: 16),
                 CustomBaseTextField(
                   label: l10n.materiaisPcpNomeLabel,
-                  initialValue: grupoDeRestricao.descricao,
+                  initialValue: grupoDeRestricao.descricao.value,
                   isEnabled: grupoDeRestricaoController.isEnabled,
                   isRequiredField: true,
-                  onChanged: (value) => grupoDeRestricaoController.grupoDeRestricao = grupoDeRestricao.copyWith(descricao: value),
+                  onChanged: (value) => grupoDeRestricaoController.grupoDeRestricao = grupoDeRestricao.copyWith(descricao: TextVO(value)),
                 ),
                 const SizedBox(height: 16),
                 DropdownButtonWidget<TipoDeRestricaoEnum>(
