@@ -1,7 +1,6 @@
+import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/integer_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/moeda_vo.dart';
 import 'package:pcp_flutter/app/core/widgets/dropdown_widget.dart';
@@ -18,6 +17,8 @@ class DesktopCapacidadeFormWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10nLocalization;
+
     return Center(
       child: Container(
         constraints: const BoxConstraints(maxWidth: 635),
@@ -36,7 +37,7 @@ class DesktopCapacidadeFormWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CustomBaseTextField(
-                          label: 'Capacidade de produção',
+                          label: l10n.fields.capacidadeDeProducao,
                           initialValue: restricaoFormController.restricao.capacidadeProducao.value.toString(),
                           isRequiredField: true,
                           isEnabled: true,
@@ -53,13 +54,13 @@ class DesktopCapacidadeFormWidget extends StatelessWidget {
                   Flexible(
                     flex: 2,
                     child: DropdownButtonWidget<TipoUnidadeEnum>(
-                      label: 'Tipo de unidade',
+                      label: l10n.fields.tipoDeUnidade,
                       value: restricaoFormController.restricao.tipoUnidade,
                       items: TipoUnidadeEnum.values
                           .map<DropdownItem<TipoUnidadeEnum>>((tipo) => DropdownItem(value: tipo, label: tipo.description))
                           .toList(),
                       isRequiredField: true,
-                      errorMessage: 'error',
+                      errorMessage: l10n.messages.errorCampoObrigatorio,
                       onSelected: (value) =>
                           restricaoFormController.restricao = restricaoFormController.restricao.copyWith(tipoUnidade: value),
                     ),
@@ -68,7 +69,7 @@ class DesktopCapacidadeFormWidget extends StatelessWidget {
               ),
               Flexible(
                 child: CustomCheckBoxWithText(
-                  text: 'Limitar capacidade de produção',
+                  text: l10n.fields.limitarCapacidadeDeProducao,
                   isChecked: restricaoFormController.restricao.limitarCapacidadeProducao,
                   onChanged: (value) => restricaoFormController.restricao = restricaoFormController.restricao.copyWith(
                     limitarCapacidadeProducao: value,
@@ -78,7 +79,7 @@ class DesktopCapacidadeFormWidget extends StatelessWidget {
               const SizedBox(height: 16),
               Flexible(
                 child: MoneyTextFormFieldWidget(
-                  label: 'Custo por hora',
+                  label: l10n.fields.custoPorHora,
                   initialValue: restricaoFormController.restricao.custoPorHora.value,
                   isEnabled: true,
                   keyboardType: TextInputType.number,

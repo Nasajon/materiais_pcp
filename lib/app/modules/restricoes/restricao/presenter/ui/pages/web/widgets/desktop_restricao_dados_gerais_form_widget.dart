@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,6 +23,8 @@ class DesktopRestricaoDadosGeraisFormWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10nLocalization;
+
     return Center(
       child: Container(
         constraints: const BoxConstraints(maxWidth: 635),
@@ -37,7 +39,7 @@ class DesktopRestricaoDadosGeraisFormWidget extends StatelessWidget {
                 children: [
                   Flexible(
                     child: CustomBaseTextField(
-                      label: 'Código',
+                      label: l10n.fields.codigo,
                       initialValue: restricaoFormController.restricao.codigo?.toText,
                       isRequiredField: true,
                       isEnabled: true,
@@ -56,7 +58,7 @@ class DesktopRestricaoDadosGeraisFormWidget extends StatelessWidget {
                   Flexible(
                     flex: 3,
                     child: CustomBaseTextField(
-                      label: 'Nome',
+                      label: l10n.fields.nome,
                       initialValue: restricaoFormController.restricao.descricao.value,
                       isRequiredField: true,
                       isEnabled: true,
@@ -76,13 +78,13 @@ class DesktopRestricaoDadosGeraisFormWidget extends StatelessWidget {
                   Flexible(
                     child: ScopedBuilder<GetGrupoDeRestricaoStore, List<GrupoDeRestricaoEntity>>(
                       store: getGrupoDeRestricaoStore,
-                      onLoading: (context) => DropdownLoadWidget(label: 'Grupo de Restrição'),
+                      onLoading: (context) => DropdownLoadWidget(label: l10n.fields.grupoDeRestricao),
                       onState: (_, grupos) {
                         return DropdownButtonWidget<GrupoDeRestricaoEntity>(
-                          label: 'Grupo de Restrição',
+                          label: l10n.fields.grupoDeRestricao,
                           value: grupos.isNotEmpty ? restricaoFormController.restricao.grupoDeRestricao : null,
                           isRequiredField: true,
-                          errorMessage: 'error',
+                          errorMessage: l10n.messages.errorCampoObrigatorio,
                           isEnabled: true,
                           items: grupos
                               .map((grupoDeRestricao) => DropdownItem(value: grupoDeRestricao, label: grupoDeRestricao.descricao.value))
@@ -97,13 +99,13 @@ class DesktopRestricaoDadosGeraisFormWidget extends StatelessWidget {
                   Flexible(
                     child: ScopedBuilder<GetGrupoDeRestricaoStore, List<GrupoDeRestricaoEntity>>(
                       store: getGrupoDeRestricaoStore,
-                      onLoading: (context) => DropdownLoadWidget(label: 'Centro de trabalho'),
+                      onLoading: (context) => DropdownLoadWidget(label: l10n.fields.centroDeTrabalho),
                       onState: (_, grupos) {
                         return DropdownButtonWidget<GrupoDeRestricaoEntity>(
-                          label: 'Centro de trabalho',
+                          label: l10n.fields.centroDeTrabalho,
                           value: grupos.isNotEmpty ? restricaoFormController.restricao.grupoDeRestricao : null,
                           isRequiredField: true,
-                          errorMessage: 'error',
+                          errorMessage: l10n.messages.errorCampoObrigatorio,
                           isEnabled: true,
                           items: grupos
                               .map((grupoDeRestricao) => DropdownItem(value: grupoDeRestricao, label: grupoDeRestricao.descricao.value))

@@ -1,3 +1,4 @@
+import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
@@ -37,6 +38,7 @@ class _DesktopRestricaoFormStatePage extends State<DesktopRestricaoFormPage> {
   InternetConnectionStore get connectionStore => widget.connectionStore;
 
   final PageController pageController = PageController(initialPage: 0);
+  final formKey = GlobalKey<FormState>();
 
   int page = 0;
 
@@ -74,6 +76,8 @@ class _DesktopRestricaoFormStatePage extends State<DesktopRestricaoFormPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10nLocalization;
+
     return RxBuilder(builder: (context) {
       if (pageController.positions.isNotEmpty && pageController.page != null) {
         page = pageController.page?.round() ?? 0;
@@ -82,7 +86,7 @@ class _DesktopRestricaoFormStatePage extends State<DesktopRestricaoFormPage> {
       }
 
       return CustomScaffold.titleString(
-        'Criar',
+        l10n.titles.criarRestricaoSecundaria,
         controller: scaffoldController,
         alignment: Alignment.centerLeft,
         onIconTap: () => Modular.to.pop(),
@@ -100,19 +104,20 @@ class _DesktopRestricaoFormStatePage extends State<DesktopRestricaoFormPage> {
                 isStepperClickable: true,
                 steppers: [
                   StepperComponent(
-                    textInfo: 'Dados Gerais',
+                    textInfo: l10n.fields.dadosGerais,
                     isValid: restricaoFormController.restricao.dadosGeraisIsValid,
                   ),
                   StepperComponent(
-                    textInfo: 'Capacidade',
+                    textInfo: l10n.fields.capacidade,
                     isValid: restricaoFormController.restricao.capacidadeIsValid,
                   ),
                   StepperComponent(
-                    textInfo: 'Indisponibilidade',
+                    textInfo: l10n.fields.indisponibilidade,
                     isValid: restricaoFormController.restricao.indisponibilidadeIsValid,
                   ),
                 ],
               ),
+              const SizedBox(width: 40),
               Expanded(
                 child: PageView(
                   controller: pageController,
@@ -123,7 +128,10 @@ class _DesktopRestricaoFormStatePage extends State<DesktopRestricaoFormPage> {
                       restricaoFormController: restricaoFormController,
                     ),
                     DesktopCapacidadeFormWidget(restricaoFormController: restricaoFormController),
-                    DesktopIndisponibilidadeFormWidget(restricaoFormController: restricaoFormController),
+                    DesktopIndisponibilidadeFormWidget(
+                      restricaoFormController: restricaoFormController,
+                      formKey: formKey,
+                    ),
                   ],
                 ),
               ),
@@ -135,14 +143,14 @@ class _DesktopRestricaoFormStatePage extends State<DesktopRestricaoFormPage> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               CustomTextButton(
-                  title: 'Voltar',
+                  title: l10n.fields.voltar,
                   isEnabled: page > 0,
                   onPressed: () {
                     pageController.previousPage(duration: const Duration(microseconds: 1), curve: Curves.ease);
                   }),
               const SizedBox(width: 10),
               CustomPrimaryButton(
-                title: 'Continuar',
+                title: l10n.fields.continuar,
                 isEnabled: _restricaoIsValid(),
                 onPressed: () async {
                   if (_restricaoIsValid()) {
