@@ -1,4 +1,5 @@
 import 'package:ana_l10n/ana_l10n.dart';
+import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
@@ -23,10 +24,12 @@ class DesktopRestricaoListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
+    final l10n = context.l10nLocalization;
+    final themeData = Theme.of(context);
+    final colorTheme = themeData.extension<AnaColorTheme>();
 
     return CustomScaffold.titleString(
-      l10n.materiaisPcpRestricoes,
+      l10n.titles.restricoesSecundarias,
       controller: scaffoldController,
       alignment: Alignment.centerLeft,
       onIconTap: () => Modular.to.pop(),
@@ -97,6 +100,29 @@ class DesktopRestricaoListPage extends StatelessWidget {
                                 return ListTileWidget(
                                   title: '${restricao.codigo?.toText} - ${restricao.descricao.value}',
                                   subtitle: '${context.l10n.materiaisPcpTipoLabel}: ${restricao.grupoDeRestricao?.tipo.name}',
+                                  trailing: PopupMenuButton(
+                                    icon: Icon(
+                                      Icons.more_vert,
+                                      color: colorTheme?.icons,
+                                    ),
+                                    onSelected: (value) {
+                                      if (value == 1) {
+                                        Modular.to.pushNamed('./${restricao.id}/visualizar');
+                                      } else {}
+                                    },
+                                    itemBuilder: (context) {
+                                      return [
+                                        PopupMenuItem<int>(
+                                          value: 1,
+                                          child: Text(l10n.fields.visualizar),
+                                        ),
+                                        PopupMenuItem<int>(
+                                          value: 2,
+                                          child: Text(l10n.fields.excluir),
+                                        ),
+                                      ];
+                                    },
+                                  ),
                                   onTap: () => Modular.to.pushNamed('./new'),
                                 );
                               }).toList(),

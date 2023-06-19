@@ -1,20 +1,19 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 
-import 'package:pcp_flutter/app/modules/restricoes/restricao/domain/entities/indisponibilidade_entity.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/domain/entities/disponibilidade_entity.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/controllers/restricao_form_controller.dart';
-import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/web/widgets/desktop_card_criar_editar_indisponibilidade_widget.dart';
-import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/web/widgets/desktop_card_indisponibilidade_widget.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/web/widgets/desktop_card_criar_editar_disponibilidade_widget.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/web/widgets/desktop_card_disponibilidade_widget.dart';
 
-class DesktopIndisponibilidadeFormWidget extends StatelessWidget {
+class DesktopDisponibilidadeFormWidget extends StatelessWidget {
   final RestricaoFormController restricaoFormController;
   final GlobalKey<FormState> formKey;
   final bool isButtonAtTop;
 
-  const DesktopIndisponibilidadeFormWidget({
+  const DesktopDisponibilidadeFormWidget({
     Key? key,
     required this.restricaoFormController,
     required this.formKey,
@@ -30,12 +29,12 @@ class DesktopIndisponibilidadeFormWidget extends StatelessWidget {
     return RxBuilder(
       builder: (_) {
         Widget addButton = CustomOutlinedButton(
-            title: l10n.fields.adicionarIndisponibilidade,
+            title: l10n.fields.adicionarDisponibilidade,
             onPressed: () async {
-              restricaoFormController.indisponibilidade = IndisponibilidadeEntity.empty();
+              restricaoFormController.disponibilidade = DisponibilidadeEntity.empty();
             });
 
-        if (restricaoFormController.restricao.indisponibilidades.isEmpty && restricaoFormController.indisponibilidade == null) {
+        if (restricaoFormController.restricao.disponibilidades.isEmpty && restricaoFormController.disponibilidade == null) {
           return Center(
             child: Container(
               constraints: const BoxConstraints(maxWidth: 390),
@@ -43,12 +42,12 @@ class DesktopIndisponibilidadeFormWidget extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    l10n.titles.adicioneUmaIndisponibilidade,
+                    l10n.titles.adicioneUmaDisponibilidade,
                     style: themeData.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    l10n.messages.nenhumaIndisponibilidadeFoiAdicionada,
+                    l10n.messages.nenhumaDisponibilidadeFoiAdicionada,
                     textAlign: TextAlign.center,
                     style: themeData.textTheme.bodyMedium,
                   ),
@@ -68,7 +67,7 @@ class DesktopIndisponibilidadeFormWidget extends StatelessWidget {
           children: [
             Center(
               child: Visibility(
-                visible: !isButtonAtTop && restricaoFormController.indisponibilidade == null,
+                visible: !isButtonAtTop && restricaoFormController.disponibilidade == null,
                 child: addButton,
               ),
             ),
@@ -77,22 +76,22 @@ class DesktopIndisponibilidadeFormWidget extends StatelessWidget {
               spacing: 16,
               runSpacing: 16,
               children: [
-                ...restricaoFormController.restricao.indisponibilidades.map((indisponibilidade) {
+                ...restricaoFormController.restricao.disponibilidades.map((disponibilidade) {
                   index++;
-                  if (restricaoFormController.indisponibilidade?.codigo == index) {
-                    return DesktopCardCriarEditarIndisponibilidadeWidget(
+                  if (restricaoFormController.disponibilidade?.codigo == index) {
+                    return DesktopCardCriarEditarDisponibilidadeWidget(
                       restricaoFormController: restricaoFormController,
                       formKey: formKey,
                     );
                   }
 
-                  return DesktopCardIndisponibilidadeWidget(
+                  return DesktopCardDisponibilidadeWidget(
                     restricaoFormController: restricaoFormController,
-                    indisponibilidade: indisponibilidade,
+                    disponibilidade: disponibilidade,
                   );
                 }).toList(),
-                if (restricaoFormController.indisponibilidade?.codigo == 0) ...[
-                  DesktopCardCriarEditarIndisponibilidadeWidget(
+                if (restricaoFormController.disponibilidade?.codigo == 0) ...[
+                  DesktopCardCriarEditarDisponibilidadeWidget(
                     restricaoFormController: restricaoFormController,
                     formKey: formKey,
                   ),
@@ -102,7 +101,7 @@ class DesktopIndisponibilidadeFormWidget extends StatelessWidget {
             const SizedBox(height: 20),
             Center(
               child: Visibility(
-                visible: isButtonAtTop && restricaoFormController.indisponibilidade == null,
+                visible: isButtonAtTop && restricaoFormController.disponibilidade == null,
                 child: addButton,
               ),
             )

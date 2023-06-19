@@ -38,7 +38,7 @@ class DesktopRestricaoDadosGeraisFormWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Flexible(
-                    child: CustomBaseTextField(
+                    child: TextFormFieldWidget(
                       label: l10n.fields.codigo,
                       initialValue: restricaoFormController.restricao.codigo?.toText,
                       isRequiredField: true,
@@ -57,7 +57,7 @@ class DesktopRestricaoDadosGeraisFormWidget extends StatelessWidget {
                   const SizedBox(width: 16),
                   Flexible(
                     flex: 3,
-                    child: CustomBaseTextField(
+                    child: TextFormFieldWidget(
                       label: l10n.fields.nome,
                       initialValue: restricaoFormController.restricao.descricao.value,
                       isRequiredField: true,

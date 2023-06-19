@@ -1,9 +1,7 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 
 import 'components/base_stepper_component.dart';
-import 'components/check_stepper_component.dart';
 
 class StepperComponent extends StatefulWidget {
   final String textInfo;

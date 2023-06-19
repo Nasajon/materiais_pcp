@@ -9,6 +9,7 @@ import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/controllers/restricao_form_controller.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/stores/get_grupo_de_restricao_store.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/web/widgets/desktop_capacidade_form_widget.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/web/widgets/desktop_disponibilidade_form_widget.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/web/widgets/desktop_restricao_dados_gerais_form_widget.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/web/widgets/desktop_indisponibilidade_form_widget.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/widgets/steppers/stepper_component.dart';
@@ -68,6 +69,8 @@ class _DesktopRestricaoFormStatePage extends State<DesktopRestricaoFormPage> {
       case 2:
         return restricaoFormController.restricao.capacidadeIsValid;
       case 3:
+        return restricaoFormController.restricao.disponibilidadeIsValid;
+      case 4:
         return restricaoFormController.restricao.indisponibilidadeIsValid;
       default:
         return restricaoFormController.restricao.isValid;
@@ -112,6 +115,10 @@ class _DesktopRestricaoFormStatePage extends State<DesktopRestricaoFormPage> {
                     isValid: restricaoFormController.restricao.capacidadeIsValid,
                   ),
                   StepperComponent(
+                    textInfo: l10n.fields.disponibilidade,
+                    isValid: restricaoFormController.restricao.disponibilidadeIsValid,
+                  ),
+                  StepperComponent(
                     textInfo: l10n.fields.indisponibilidade,
                     isValid: restricaoFormController.restricao.indisponibilidadeIsValid,
                   ),
@@ -128,9 +135,17 @@ class _DesktopRestricaoFormStatePage extends State<DesktopRestricaoFormPage> {
                       restricaoFormController: restricaoFormController,
                     ),
                     DesktopCapacidadeFormWidget(restricaoFormController: restricaoFormController),
-                    DesktopIndisponibilidadeFormWidget(
-                      restricaoFormController: restricaoFormController,
-                      formKey: formKey,
+                    SingleChildScrollView(
+                      child: DesktopDisponibilidadeFormWidget(
+                        restricaoFormController: restricaoFormController,
+                        formKey: formKey,
+                      ),
+                    ),
+                    SingleChildScrollView(
+                      child: DesktopIndisponibilidadeFormWidget(
+                        restricaoFormController: restricaoFormController,
+                        formKey: formKey,
+                      ),
                     ),
                   ],
                 ),

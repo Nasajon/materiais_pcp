@@ -1,17 +1,18 @@
 import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
+import 'package:pcp_flutter/app/core/modules/domain/enums/week_enum.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/date_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/time_vo.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/controllers/restricao_form_controller.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/web/widgets/week_toggle_buttons_widget.dart';
 
-class DesktopCardCriarEditarIndisponibilidadeWidget extends StatelessWidget {
+class DesktopCardCriarEditarDisponibilidadeWidget extends StatelessWidget {
   final RestricaoFormController restricaoFormController;
   final GlobalKey<FormState> formKey;
 
-  const DesktopCardCriarEditarIndisponibilidadeWidget({
+  const DesktopCardCriarEditarDisponibilidadeWidget({
     Key? key,
     required this.restricaoFormController,
     required this.formKey,
@@ -23,7 +24,7 @@ class DesktopCardCriarEditarIndisponibilidadeWidget extends StatelessWidget {
     final themeData = Theme.of(context);
     final colorTheme = themeData.extension<AnaColorTheme>();
 
-    final indisponibilidade = restricaoFormController.indisponibilidade;
+    final disponibilidade = restricaoFormController.disponibilidade;
 
     return Container(
       width: 362,
@@ -42,9 +43,9 @@ class DesktopCardCriarEditarIndisponibilidadeWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              indisponibilidade != null && indisponibilidade.codigo == 0
-                  ? l10n.titles.adicionarIndisponibilidade
-                  : l10n.titles.editarIndisponibilidade,
+              disponibilidade != null && disponibilidade.codigo == 0
+                  ? l10n.titles.adicionarDisponibilidade
+                  : l10n.titles.editarDisponibilidade,
               style: themeData.textTheme.titleMedium?.copyWith(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
@@ -54,24 +55,22 @@ class DesktopCardCriarEditarIndisponibilidadeWidget extends StatelessWidget {
             DateRangeTextFormFieldWidget(
               label: l10n.fields.periodo,
               isRequiredField: true,
-              initDateStart: indisponibilidade?.periodoInicial.getDate(),
-              initDateEnd: indisponibilidade?.periodoFinal.getDate(),
-              validator: (_) => indisponibilidade?.periodoInicial.errorMessage ?? indisponibilidade?.periodoFinal.errorMessage,
+              initDateStart: disponibilidade?.periodoInicial.getDate(),
+              initDateEnd: disponibilidade?.periodoFinal.getDate(),
+              validator: (_) => disponibilidade?.periodoInicial.errorMessage ?? disponibilidade?.periodoFinal.errorMessage,
               dateTimeRange: (value) {
-                restricaoFormController.indisponibilidade = indisponibilidade?.copyWith(
+                restricaoFormController.disponibilidade = disponibilidade?.copyWith(
                   periodoInicial: DateVO.date(value!.start),
                   periodoFinal: DateVO.date(value.end),
                 );
               },
             ),
             const SizedBox(height: 16),
-            TextFormFieldWidget(
-              label: l10n.fields.motivo,
-              initialValue: indisponibilidade?.motivo.value,
-              validator: (_) => indisponibilidade?.motivo.errorMessage,
-              onChanged: (value) {
-                restricaoFormController.indisponibilidade = indisponibilidade?.copyWith(
-                  motivo: TextVO(value),
+            WeekToggleButtonsWidget(
+              initialValue: disponibilidade?.copyWith().diasDaSemana.map((e) => e.code).toList(),
+              onSelectedDaysOfWeek: (days) {
+                restricaoFormController.disponibilidade = disponibilidade?.copyWith(
+                  diasDaSemana: days.map((e) => WeekEnum.selectDayOfWeek(e)).toList(),
                 );
               },
             ),
@@ -84,11 +83,11 @@ class DesktopCardCriarEditarIndisponibilidadeWidget extends StatelessWidget {
                 Flexible(
                   child: TimeTextFormFieldWidget(
                       label: l10n.fields.horarioInicial,
-                      initTime: indisponibilidade?.horarioInicial.getTime(),
-                      validator: (_) => indisponibilidade?.horarioInicial.errorMessage,
+                      initTime: disponibilidade?.horarioInicial.getTime(),
+                      validator: (_) => disponibilidade?.horarioInicial.errorMessage,
                       onChanged: (value) {
                         if (value != null) {
-                          restricaoFormController.indisponibilidade = indisponibilidade?.copyWith(horarioInicial: TimeVO.time(value));
+                          restricaoFormController.disponibilidade = disponibilidade?.copyWith(horarioInicial: TimeVO.time(value));
                         }
                       }),
                 ),
@@ -96,11 +95,49 @@ class DesktopCardCriarEditarIndisponibilidadeWidget extends StatelessWidget {
                 Flexible(
                   child: TimeTextFormFieldWidget(
                       label: l10n.fields.horarioFinal,
-                      initTime: indisponibilidade?.horarioFinal.getTime(),
-                      validator: (_) => indisponibilidade?.horarioFinal.errorMessage,
+                      initTime: disponibilidade?.horarioFinal.getTime(),
+                      validator: (_) => disponibilidade?.horarioFinal.errorMessage,
                       onChanged: (value) {
                         if (value != null) {
-                          restricaoFormController.indisponibilidade = indisponibilidade?.copyWith(horarioFinal: TimeVO.time(value));
+                          restricaoFormController.disponibilidade = disponibilidade?.copyWith(horarioFinal: TimeVO.time(value));
+                        }
+                      }),
+                ),
+              ],
+            ),
+            CustomCheckBoxWithText(
+              text: l10n.fields.diaInteiro,
+              isChecked: disponibilidade?.diaInteiro ?? false,
+              onChanged: (value) => restricaoFormController.disponibilidade = disponibilidade?.copyWith(
+                diaInteiro: value,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Flexible(
+                  child: TimeTextFormFieldWidget(
+                      label: l10n.fields.intervaloInicial,
+                      initTime: disponibilidade?.intervaloInicial.getTime(),
+                      validator: (_) => disponibilidade?.intervaloInicial.errorMessage,
+                      onChanged: (value) {
+                        if (value != null) {
+                          restricaoFormController.disponibilidade = disponibilidade?.copyWith(intervaloInicial: TimeVO.time(value));
+                        }
+                      }),
+                ),
+                const SizedBox(width: 16),
+                Flexible(
+                  child: TimeTextFormFieldWidget(
+                      label: l10n.fields.intervaloFinal,
+                      initTime: disponibilidade?.intervaloFinal.getTime(),
+                      validator: (_) => disponibilidade?.intervaloFinal.errorMessage,
+                      onChanged: (value) {
+                        if (value != null) {
+                          restricaoFormController.disponibilidade = disponibilidade?.copyWith(intervaloFinal: TimeVO.time(value));
                         }
                       }),
                 ),
@@ -112,13 +149,13 @@ class DesktopCardCriarEditarIndisponibilidadeWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Visibility(
-                  visible: indisponibilidade != null && indisponibilidade.codigo > 0,
+                  visible: disponibilidade != null && disponibilidade.codigo > 0,
                   child: CustomTextButton(
                     title: l10n.fields.excluir,
                     onPressed: () {
-                      restricaoFormController.removerIndisponibilidade(indisponibilidade?.codigo ?? 0);
+                      restricaoFormController.removerDisponibilidade(disponibilidade?.codigo ?? 0);
 
-                      restricaoFormController.indisponibilidade = null;
+                      restricaoFormController.disponibilidade = null;
                     },
                     textColor: colorTheme?.danger,
                   ),
@@ -130,7 +167,7 @@ class DesktopCardCriarEditarIndisponibilidadeWidget extends StatelessWidget {
                   children: [
                     CustomTextButton(
                       title: l10n.fields.cancelar,
-                      onPressed: () => restricaoFormController.indisponibilidade = null,
+                      onPressed: () => restricaoFormController.disponibilidade = null,
                     ),
                     const SizedBox(width: 16),
                     CustomTextButton(
@@ -140,9 +177,9 @@ class DesktopCardCriarEditarIndisponibilidadeWidget extends StatelessWidget {
                         color: colorTheme?.primary,
                       ),
                       onPressed: () {
-                        var indisponibilidade = restricaoFormController.indisponibilidade;
-                        if (formKey.currentState!.validate() && indisponibilidade != null) {
-                          restricaoFormController.criarEditarIndisponibilidade(indisponibilidade);
+                        var disponibilidade = restricaoFormController.disponibilidade;
+                        if (formKey.currentState!.validate() && disponibilidade != null) {
+                          restricaoFormController.criarEditarDisponibilidade(disponibilidade);
                         }
                       },
                     )

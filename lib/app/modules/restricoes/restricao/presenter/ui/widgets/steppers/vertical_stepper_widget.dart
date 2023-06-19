@@ -98,16 +98,15 @@ class _VerticalStepperWidgetState extends State<VerticalStepperWidget> {
                       ] else ...[
                         widget.steppers.first,
                         if (widget.steppers.length > 2) ...[
-                          ...widget.steppers.sublist(1, widget.steppers.length - 1).map(
+                          ...widget.steppers.sublist(1, widget.steppers.length).map(
                             (stepper) {
                               return Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 32),
+                                padding: const EdgeInsets.only(top: 32),
                                 child: stepper,
                               );
                             },
                           )
                         ],
-                        if (widget.steppers.length > 1) widget.steppers.last,
                       ]
                     ],
                   ),

@@ -2,6 +2,7 @@ import 'package:pcp_flutter/app/modules/restricoes/restricao/domain/aggregates/r
 
 abstract class RemoteRestricaoDatasource {
   Future<List<RestricaoAggregate>> getList([String? search]);
+  Future<RestricaoAggregate> getRestricaoPorId(String id);
   Future<RestricaoAggregate> insert(RestricaoAggregate restricao);
   Future<bool> update(RestricaoAggregate restricao);
 }

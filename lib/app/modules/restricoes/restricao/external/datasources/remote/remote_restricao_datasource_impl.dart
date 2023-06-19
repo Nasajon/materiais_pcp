@@ -37,6 +37,15 @@ class RemoteRestricaoDatasourceImpl implements RemoteRestricaoDatasource {
   }
 
   @override
+  Future<RestricaoAggregate> getRestricaoPorId(String id) async {
+    final listRestricao = json;
+
+    final restricao = (listRestricao).map((map) => RemoteRestricaoMapper.fromMapToRestricaoAggregate(map)).toList().first;
+
+    return restricao;
+  }
+
+  @override
   Future<RestricaoAggregate> insert(RestricaoAggregate restricao) {
     // TODO: implement insert
     throw UnimplementedError();
@@ -66,6 +75,7 @@ final json = [
     'custo_por_hora': 20.0,
     'limitar_capacidade_producao': false,
     'indisponibilidades': <Map<String, dynamic>>[],
+    'disponibilidades': <Map<String, dynamic>>[],
   },
   {
     'restricao': '1234',
@@ -83,5 +93,6 @@ final json = [
     'custo_por_hora': 20.0,
     'limitar_capacidade_producao': false,
     'indisponibilidades': <Map<String, dynamic>>[],
+    'disponibilidades': <Map<String, dynamic>>[],
   }
 ];

@@ -1,19 +1,18 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 
-import 'package:pcp_flutter/app/modules/restricoes/restricao/domain/entities/indisponibilidade_entity.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/domain/entities/disponibilidade_entity.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/controllers/restricao_form_controller.dart';
 
-class DesktopCardIndisponibilidadeWidget extends StatelessWidget {
+class DesktopCardDisponibilidadeWidget extends StatelessWidget {
   final RestricaoFormController restricaoFormController;
-  final IndisponibilidadeEntity indisponibilidade;
+  final DisponibilidadeEntity disponibilidade;
 
-  const DesktopCardIndisponibilidadeWidget({
+  const DesktopCardDisponibilidadeWidget({
     Key? key,
     required this.restricaoFormController,
-    required this.indisponibilidade,
+    required this.disponibilidade,
   }) : super(key: key);
 
   @override
@@ -22,8 +21,18 @@ class DesktopCardIndisponibilidadeWidget extends StatelessWidget {
     final themeData = Theme.of(context);
     final colorTheme = themeData.extension<AnaColorTheme>();
 
+    var diasDaSemana = '';
+
+    for (var i = 0; i < disponibilidade.diasDaSemana.length; i++) {
+      if (i < disponibilidade.diasDaSemana.length - 1) {
+        diasDaSemana += '${disponibilidade.diasDaSemana[i].name} - ';
+      } else {
+        diasDaSemana += disponibilidade.diasDaSemana[i].name;
+      }
+    }
+
     return Container(
-      constraints: const BoxConstraints(maxWidth: 276),
+      constraints: const BoxConstraints(maxWidth: 286),
       decoration: BoxDecoration(
         color: colorTheme?.background,
         borderRadius: BorderRadius.circular(16),
@@ -48,9 +57,9 @@ class DesktopCardIndisponibilidadeWidget extends StatelessWidget {
                   ),
                   onSelected: (value) {
                     if (value == 1) {
-                      restricaoFormController.indisponibilidade = indisponibilidade;
+                      restricaoFormController.disponibilidade = disponibilidade;
                     } else {
-                      restricaoFormController.removerIndisponibilidade(indisponibilidade.codigo);
+                      restricaoFormController.removerDisponibilidade(disponibilidade.codigo);
                     }
                   },
                   itemBuilder: (context) {
@@ -89,7 +98,7 @@ class DesktopCardIndisponibilidadeWidget extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '${indisponibilidade.periodoInicial.dateFormat()} à ${indisponibilidade.periodoFinal.dateFormat()}',
+                      '${disponibilidade.periodoInicial.dateFormat()} à ${disponibilidade.periodoFinal.dateFormat()}',
                       style: themeData.textTheme.bodyLarge?.copyWith(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
@@ -103,41 +112,71 @@ class DesktopCardIndisponibilidadeWidget extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      l10n.fields.motivo,
+                      l10n.fields.diasDaSemana,
                       style: themeData.textTheme.labelLarge?.copyWith(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
                         color: colorTheme?.label,
                       ),
                     ),
-                    Text(
-                      indisponibilidade.motivo.value,
-                      style: themeData.textTheme.bodyLarge?.copyWith(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Text(
+                        diasDaSemana,
+                        style: themeData.textTheme.bodyLarge?.copyWith(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 20),
-                Column(
+                Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      l10n.fields.horario,
-                      style: themeData.textTheme.labelLarge?.copyWith(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        color: colorTheme?.label,
-                      ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          l10n.fields.horario,
+                          style: themeData.textTheme.labelLarge?.copyWith(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: colorTheme?.label,
+                          ),
+                        ),
+                        Text(
+                          '${disponibilidade.horarioInicial.timeFormat(format: 'h') ?? ''} - ${disponibilidade.horarioFinal.timeFormat(format: 'h') ?? ''}',
+                          style: themeData.textTheme.bodyLarge?.copyWith(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
                     ),
-                    Text(
-                      '${indisponibilidade.horarioInicial.timeFormat(format: 'h') ?? ''} - ${indisponibilidade.horarioFinal.timeFormat(format: 'h') ?? ''}',
-                      style: themeData.textTheme.bodyLarge?.copyWith(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                      ),
+                    const SizedBox(width: 20),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          l10n.fields.intervalo,
+                          style: themeData.textTheme.labelLarge?.copyWith(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: colorTheme?.label,
+                          ),
+                        ),
+                        Text(
+                          '${disponibilidade.intervaloInicial.timeFormat(format: 'h') ?? ''} - ${disponibilidade.intervaloFinal.timeFormat(format: 'h') ?? ''}',
+                          style: themeData.textTheme.bodyLarge?.copyWith(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

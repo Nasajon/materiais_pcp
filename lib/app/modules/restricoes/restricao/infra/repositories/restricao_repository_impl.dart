@@ -13,6 +13,11 @@ class RestricaoRepositoryImpl implements RestricaoRepository {
   }
 
   @override
+  Future<RestricaoAggregate> getRestricaoPorId(String id) {
+    return _remoteRestricaoDatasource.getRestricaoPorId(id);
+  }
+
+  @override
   Future<RestricaoAggregate> insert(RestricaoAggregate restricao) {
     return _remoteRestricaoDatasource.insert(restricao);
   }

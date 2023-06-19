@@ -31,6 +31,7 @@ class RestricaoListPage extends StatelessWidget {
         scaffoldController: scaffoldController,
         connectionStore: connectionStore,
       ),
+      tabletPage: desktopRestricaoListPage,
       desktopPage: desktopRestricaoListPage,
     );
   }

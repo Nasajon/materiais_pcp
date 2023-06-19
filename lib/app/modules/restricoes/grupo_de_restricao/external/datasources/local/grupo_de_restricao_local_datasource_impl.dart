@@ -26,7 +26,7 @@ class GrupoDeRestricaoLocalDatasourceImpl implements GrupoDeRestricaoLocalDataso
     if (search != null && search.isNotEmpty) {
       return list
           .where((grupo) =>
-              grupo.codigo == search ||
+              grupo.codigo?.value == search ||
               grupo.descricao.value.toLowerCase().contains(search.toLowerCase()) ||
               (grupo.tipo != null && grupo.tipo.name.toLowerCase().contains(search.toLowerCase())))
           .toList();
