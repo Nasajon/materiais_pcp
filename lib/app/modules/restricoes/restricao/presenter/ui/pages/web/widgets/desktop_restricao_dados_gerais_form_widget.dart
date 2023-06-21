@@ -1,9 +1,9 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
-
 import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/core/widgets/dropdown_widget.dart';
@@ -14,11 +14,13 @@ import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/
 class DesktopRestricaoDadosGeraisFormWidget extends StatelessWidget {
   final GetGrupoDeRestricaoStore getGrupoDeRestricaoStore;
   final RestricaoFormController restricaoFormController;
+  final GlobalKey<FormState> formKey;
 
   const DesktopRestricaoDadosGeraisFormWidget({
     Key? key,
     required this.getGrupoDeRestricaoStore,
     required this.restricaoFormController,
+    required this.formKey,
   }) : super(key: key);
 
   @override
@@ -30,6 +32,7 @@ class DesktopRestricaoDadosGeraisFormWidget extends StatelessWidget {
         constraints: const BoxConstraints(maxWidth: 635),
         padding: const EdgeInsets.all(8),
         child: Form(
+          key: formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [

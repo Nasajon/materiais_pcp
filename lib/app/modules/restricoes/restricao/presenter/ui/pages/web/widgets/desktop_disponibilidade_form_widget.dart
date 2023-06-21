@@ -67,7 +67,7 @@ class DesktopDisponibilidadeFormWidget extends StatelessWidget {
           children: [
             Center(
               child: Visibility(
-                visible: !isButtonAtTop && restricaoFormController.disponibilidade == null,
+                visible: isButtonAtTop && restricaoFormController.disponibilidade == null,
                 child: addButton,
               ),
             ),
@@ -101,7 +101,7 @@ class DesktopDisponibilidadeFormWidget extends StatelessWidget {
             const SizedBox(height: 20),
             Center(
               child: Visibility(
-                visible: isButtonAtTop && restricaoFormController.disponibilidade == null,
+                visible: !isButtonAtTop && restricaoFormController.disponibilidade == null,
                 child: addButton,
               ),
             )

@@ -5,6 +5,7 @@ import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 
 import 'package:pcp_flutter/app/modules/restricoes/restricao/domain/aggregates/restricao_aggregate.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/controllers/restricao_form_controller.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/mobile/mobile_restricao_visualizar_page.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/stores/get_grupo_de_restricao_store.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/stores/get_restricao_store.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/web/desktop_restricao_visualizar_page.dart';
@@ -90,7 +91,14 @@ class _RestricaoVisualizarPageState extends State<RestricaoVisualizarPage> {
     );
 
     return AdaptiveRedirectorPage(
-      mobilePage: Container(),
+      mobilePage: MobileRestricaoVisualizarPage(
+          currentPage: _currentPage,
+          restricaoAggregate: restricaoAggregate,
+          getGrupoDeRestricaoStore: widget.getGrupoDeRestricaoStore,
+          restricaoFormController: widget.restricaoFormController,
+          scaffoldController: widget.scaffoldController,
+          connectionStore: widget.connectionStore,
+          pageController: pageController),
       tabletPage: desktopRestricaoVisualizar,
       desktopPage: desktopRestricaoVisualizar,
     );

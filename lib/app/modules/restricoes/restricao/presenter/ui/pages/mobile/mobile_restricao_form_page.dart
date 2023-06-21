@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
@@ -7,22 +6,22 @@ import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/controllers/restricao_form_controller.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/mobile/widgets/mobile_capacidade_form_widget.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/mobile/widgets/mobile_disponibilidade_form_widget.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/mobile/widgets/mobile_restricao_dados_gerais_form_widget.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/mobile/widgets/mobile_indisponibilidade_form_widget.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/stores/get_grupo_de_restricao_store.dart';
-import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/web/widgets/desktop_capacidade_form_widget.dart';
-import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/web/widgets/desktop_disponibilidade_form_widget.dart';
-import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/web/widgets/desktop_indisponibilidade_form_widget.dart';
-import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/web/widgets/desktop_restricao_dados_gerais_form_widget.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/widgets/steppers/horizontal_stepper_widget.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/widgets/steppers/stepper_component.dart';
-import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/widgets/steppers/vertical_stepper_widget.dart';
 
-class DesktopRestricaoFormPage extends StatefulWidget {
+class MobileRestricaoFormPage extends StatefulWidget {
   final GetGrupoDeRestricaoStore getGrupoDeRestricaoStore;
   final RestricaoFormController restricaoFormController;
   final CustomScaffoldController scaffoldController;
   final InternetConnectionStore connectionStore;
   final PageController pageController;
 
-  const DesktopRestricaoFormPage({
+  const MobileRestricaoFormPage({
     Key? key,
     required this.getGrupoDeRestricaoStore,
     required this.restricaoFormController,
@@ -32,10 +31,10 @@ class DesktopRestricaoFormPage extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<DesktopRestricaoFormPage> createState() => _DesktopRestricaoFormStatePage();
+  State<MobileRestricaoFormPage> createState() => _MobileRestricaoFormStatePage();
 }
 
-class _DesktopRestricaoFormStatePage extends State<DesktopRestricaoFormPage> {
+class _MobileRestricaoFormStatePage extends State<MobileRestricaoFormPage> {
   RestricaoFormController get restricaoFormController => widget.restricaoFormController;
   CustomScaffoldController get scaffoldController => widget.scaffoldController;
   InternetConnectionStore get connectionStore => widget.connectionStore;
@@ -43,8 +42,6 @@ class _DesktopRestricaoFormStatePage extends State<DesktopRestricaoFormPage> {
 
   final dadosGeraisFormKey = GlobalKey<FormState>();
   final capacidadeFormKey = GlobalKey<FormState>();
-  final disponibilidadeFormKey = GlobalKey<FormState>();
-  final indisponibilidadeFormKey = GlobalKey<FormState>();
 
   int page = 0;
 
@@ -70,21 +67,17 @@ class _DesktopRestricaoFormStatePage extends State<DesktopRestricaoFormPage> {
   bool _restricaoIsValid() {
     switch (page + 1) {
       case 1:
-        return restricaoFormController.restricao.dadosGeraisIsValid &&
-            dadosGeraisFormKey.currentState != null &&
-            dadosGeraisFormKey.currentState!.validate();
+        return dadosGeraisFormKey.currentState != null &&
+            dadosGeraisFormKey.currentState!.validate() &&
+            restricaoFormController.restricao.dadosGeraisIsValid;
       case 2:
-        return restricaoFormController.restricao.capacidadeIsValid &&
-            capacidadeFormKey.currentState != null &&
-            capacidadeFormKey.currentState!.validate();
+        return capacidadeFormKey.currentState != null &&
+            capacidadeFormKey.currentState!.validate() &&
+            restricaoFormController.restricao.capacidadeIsValid;
       case 3:
-        return restricaoFormController.restricao.disponibilidadeIsValid &&
-            disponibilidadeFormKey.currentState != null &&
-            disponibilidadeFormKey.currentState!.validate();
+        return restricaoFormController.restricao.disponibilidadeIsValid;
       case 4:
-        return restricaoFormController.restricao.indisponibilidadeIsValid &&
-            indisponibilidadeFormKey.currentState != null &&
-            indisponibilidadeFormKey.currentState!.validate();
+        return restricaoFormController.restricao.indisponibilidadeIsValid;
       default:
         return restricaoFormController.restricao.isValid;
     }
@@ -111,58 +104,55 @@ class _DesktopRestricaoFormStatePage extends State<DesktopRestricaoFormPage> {
         ],
         body: Padding(
           padding: const EdgeInsets.only(top: 30),
-          child: Row(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              VerticalStepperWidget(
-                scrollController: ScrollController(),
-                pageController: pageController,
-                isStepperClickable: true,
-                steppers: [
-                  StepperComponent(
-                    textInfo: l10n.fields.dadosGerais,
-                    isValid: restricaoFormController.restricao.dadosGeraisIsValid,
-                  ),
-                  StepperComponent(
-                    textInfo: l10n.fields.capacidade,
-                    isValid: restricaoFormController.restricao.capacidadeIsValid,
-                  ),
-                  StepperComponent(
-                    textInfo: l10n.fields.disponibilidade,
-                    isValid: restricaoFormController.restricao.disponibilidadeIsValid,
-                  ),
-                  StepperComponent(
-                    textInfo: l10n.fields.indisponibilidade,
-                    isValid: restricaoFormController.restricao.indisponibilidadeIsValid,
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: HorizontalStepperWidget(
+                  scrollController: ScrollController(),
+                  pageController: pageController,
+                  isStepperClickable: true,
+                  steppers: [
+                    StepperComponent(
+                      textInfo: l10n.fields.dadosGerais,
+                      isValid: restricaoFormController.restricao.dadosGeraisIsValid,
+                    ),
+                    StepperComponent(
+                      textInfo: l10n.fields.capacidade,
+                      isValid: restricaoFormController.restricao.capacidadeIsValid,
+                    ),
+                    StepperComponent(
+                      textInfo: l10n.fields.disponibilidade,
+                      isValid: restricaoFormController.restricao.disponibilidadeIsValid,
+                    ),
+                    StepperComponent(
+                      textInfo: l10n.fields.indisponibilidade,
+                      isValid: restricaoFormController.restricao.indisponibilidadeIsValid,
+                    ),
+                  ],
+                ),
               ),
-              const SizedBox(width: 40),
+              const SizedBox(height: 32),
               Expanded(
                 child: PageView(
                   controller: pageController,
                   physics: const NeverScrollableScrollPhysics(),
                   children: [
-                    DesktopRestricaoDadosGeraisFormWidget(
+                    MobileRestricaoDadosGeraisFormWidget(
                       getGrupoDeRestricaoStore: widget.getGrupoDeRestricaoStore,
                       restricaoFormController: restricaoFormController,
                       formKey: dadosGeraisFormKey,
                     ),
-                    DesktopCapacidadeFormWidget(
+                    MobileCapacidadeFormWidget(
                       restricaoFormController: restricaoFormController,
                       formKey: capacidadeFormKey,
                     ),
-                    SingleChildScrollView(
-                      child: DesktopDisponibilidadeFormWidget(
-                        restricaoFormController: restricaoFormController,
-                        formKey: disponibilidadeFormKey,
-                      ),
+                    MobileDisponibilidadeFormWidget(
+                      restricaoFormController: restricaoFormController,
                     ),
-                    SingleChildScrollView(
-                      child: DesktopIndisponibilidadeFormWidget(
-                        restricaoFormController: restricaoFormController,
-                        formKey: indisponibilidadeFormKey,
-                      ),
+                    MobileIndisponibilidadeFormWidget(
+                      restricaoFormController: restricaoFormController,
                     ),
                   ],
                 ),
@@ -176,22 +166,18 @@ class _DesktopRestricaoFormStatePage extends State<DesktopRestricaoFormPage> {
             children: [
               CustomTextButton(
                 title: l10n.fields.cancelar,
-                onPressed: () {
-                  Modular.to.pop();
-                },
+                onPressed: () => Modular.to.pop(),
               ),
               const SizedBox(width: 10),
               CustomOutlinedButton(
-                title: l10n.fields.voltar,
-                isEnabled: page > 0,
-                onPressed: () {
-                  pageController.previousPage(duration: const Duration(microseconds: 1), curve: Curves.ease);
-                },
-              ),
+                  title: l10n.fields.voltar,
+                  isEnabled: page > 0,
+                  onPressed: () {
+                    pageController.previousPage(duration: const Duration(microseconds: 1), curve: Curves.ease);
+                  }),
               const SizedBox(width: 10),
               CustomPrimaryButton(
                 title: l10n.fields.continuar,
-                isEnabled: _restricaoIsValid(),
                 onPressed: () async {
                   if (_restricaoIsValid()) {
                     pageController.nextPage(duration: const Duration(microseconds: 1), curve: Curves.ease);

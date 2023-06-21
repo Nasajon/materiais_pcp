@@ -8,12 +8,12 @@ import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/domain/aggregates/restricao_aggregate.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/controllers/restricao_form_controller.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/stores/get_grupo_de_restricao_store.dart';
-import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/web/widgets/desktop_capacidade_form_widget.dart';
-import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/web/widgets/desktop_disponibilidade_form_widget.dart';
-import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/web/widgets/desktop_indisponibilidade_form_widget.dart';
-import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/web/widgets/desktop_restricao_dados_gerais_form_widget.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/mobile/widgets/mobile_capacidade_form_widget.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/mobile/widgets/mobile_disponibilidade_form_widget.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/mobile/widgets/mobile_indisponibilidade_form_widget.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/mobile/widgets/mobile_restricao_dados_gerais_form_widget.dart';
 
-class DesktopRestricaoVisualizarPage extends StatefulWidget {
+class MobileRestricaoVisualizarPage extends StatefulWidget {
   final int currentPage;
   final RestricaoAggregate? restricaoAggregate;
   final GetGrupoDeRestricaoStore getGrupoDeRestricaoStore;
@@ -22,7 +22,7 @@ class DesktopRestricaoVisualizarPage extends StatefulWidget {
   final InternetConnectionStore connectionStore;
   final PageController pageController;
 
-  const DesktopRestricaoVisualizarPage({
+  const MobileRestricaoVisualizarPage({
     Key? key,
     required this.currentPage,
     required this.restricaoAggregate,
@@ -34,14 +34,12 @@ class DesktopRestricaoVisualizarPage extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<DesktopRestricaoVisualizarPage> createState() => _DesktopRestricaoVisualizarPageState();
+  State<MobileRestricaoVisualizarPage> createState() => _MobileRestricaoVisualizarPageState();
 }
 
-class _DesktopRestricaoVisualizarPageState extends State<DesktopRestricaoVisualizarPage> {
+class _MobileRestricaoVisualizarPageState extends State<MobileRestricaoVisualizarPage> {
   final dadosGeraisFormKey = GlobalKey<FormState>();
   final capacidadeFormKey = GlobalKey<FormState>();
-  final disponibilidadeFormKey = GlobalKey<FormState>();
-  final indisponibilidadeFormKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -86,44 +84,20 @@ class _DesktopRestricaoVisualizarPageState extends State<DesktopRestricaoVisuali
         body: PageView(
           controller: widget.pageController,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 52, bottom: 20),
-              child: DesktopRestricaoDadosGeraisFormWidget(
-                getGrupoDeRestricaoStore: widget.getGrupoDeRestricaoStore,
-                restricaoFormController: widget.restricaoFormController,
-                formKey: dadosGeraisFormKey,
-              ),
+            MobileRestricaoDadosGeraisFormWidget(
+              getGrupoDeRestricaoStore: widget.getGrupoDeRestricaoStore,
+              restricaoFormController: widget.restricaoFormController,
+              formKey: dadosGeraisFormKey,
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 52, bottom: 20),
-              child: DesktopCapacidadeFormWidget(
-                restricaoFormController: widget.restricaoFormController,
-                formKey: capacidadeFormKey,
-              ),
+            MobileCapacidadeFormWidget(
+              restricaoFormController: widget.restricaoFormController,
+              formKey: capacidadeFormKey,
             ),
-            SingleChildScrollView(
-              child: Center(
-                child: Container(
-                  constraints: const BoxConstraints(maxWidth: 1266),
-                  padding: const EdgeInsets.all(52),
-                  child: DesktopDisponibilidadeFormWidget(
-                    restricaoFormController: widget.restricaoFormController,
-                    formKey: disponibilidadeFormKey,
-                  ),
-                ),
-              ),
+            MobileDisponibilidadeFormWidget(
+              restricaoFormController: widget.restricaoFormController,
             ),
-            SingleChildScrollView(
-              child: Center(
-                child: Container(
-                  constraints: const BoxConstraints(maxWidth: 1266),
-                  padding: const EdgeInsets.all(52),
-                  child: DesktopIndisponibilidadeFormWidget(
-                    restricaoFormController: widget.restricaoFormController,
-                    formKey: indisponibilidadeFormKey,
-                  ),
-                ),
-              ),
+            MobileIndisponibilidadeFormWidget(
+              restricaoFormController: widget.restricaoFormController,
             ),
           ],
         ),

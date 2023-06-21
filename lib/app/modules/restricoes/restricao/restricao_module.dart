@@ -10,6 +10,8 @@ import 'package:pcp_flutter/app/modules/restricoes/restricao/infra/repositories/
 import 'package:pcp_flutter/app/modules/restricoes/restricao/infra/repositories/restricao_repository_impl.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/stores/restricao_list_store.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/controllers/restricao_form_controller.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/mobile/mobile_criar_editar_disponibilidade_page.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/mobile/mobile_criar_editar_indisponibilidade_page.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/restricao_form_page.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/restricao_list_page.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/restricao_visualizar_page.dart';
@@ -44,7 +46,7 @@ class RestricaoModule extends Module {
         TripleBind.lazySingleton((i) => GetRestricaoStore(i())),
 
         //Controllers
-        Bind.factory((i) => RestricaoFormController()),
+        Bind.lazySingleton((i) => RestricaoFormController()),
       ];
 
   @override
@@ -75,6 +77,18 @@ class RestricaoModule extends Module {
             restricaoFormController: context.read(),
             connectionStore: context.read(),
             scaffoldController: context.read(),
+          ),
+        ),
+        ChildRoute(
+          '/disponibilidade',
+          child: (context, args) => MobileCriarEditarDisponibilidade(
+            restricaoFormController: context.read(),
+          ),
+        ),
+        ChildRoute(
+          '/indisponibilidade',
+          child: (context, args) => MobileCriarEditarIndisponibilidade(
+            restricaoFormController: context.read(),
           ),
         ),
       ];

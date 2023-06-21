@@ -123,7 +123,7 @@ class DesktopRestricaoListPage extends StatelessWidget {
                                       ];
                                     },
                                   ),
-                                  onTap: () => Modular.to.pushNamed('./new'),
+                                  onTap: () => Modular.to.pushNamed('./${restricao.id}/visualizar'),
                                 );
                               }).toList(),
                               const SizedBox(height: 16),

@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
@@ -9,10 +10,12 @@ import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/
 
 class DesktopCapacidadeFormWidget extends StatelessWidget {
   final RestricaoFormController restricaoFormController;
+  final GlobalKey<FormState> formKey;
 
   const DesktopCapacidadeFormWidget({
     Key? key,
     required this.restricaoFormController,
+    required this.formKey,
   }) : super(key: key);
 
   @override
@@ -24,6 +27,7 @@ class DesktopCapacidadeFormWidget extends StatelessWidget {
         constraints: const BoxConstraints(maxWidth: 635),
         padding: const EdgeInsets.all(8),
         child: Form(
+          key: formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [

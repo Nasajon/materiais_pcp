@@ -3,7 +3,6 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:pcp_flutter/app/core/modules/domain/enums/week_enum.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/date_vo.dart';
-import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/time_vo.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/controllers/restricao_form_controller.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/web/widgets/week_toggle_buttons_widget.dart';
@@ -170,12 +169,8 @@ class DesktopCardCriarEditarDisponibilidadeWidget extends StatelessWidget {
                       onPressed: () => restricaoFormController.disponibilidade = null,
                     ),
                     const SizedBox(width: 16),
-                    CustomTextButton(
-                      title: l10n.fields.salvar,
-                      style: themeData.textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.w700,
-                        color: colorTheme?.primary,
-                      ),
+                    CustomOutlinedButton(
+                      title: l10n.fields.adicionar,
                       onPressed: () {
                         var disponibilidade = restricaoFormController.disponibilidade;
                         if (formKey.currentState!.validate() && disponibilidade != null) {

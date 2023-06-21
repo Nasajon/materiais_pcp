@@ -133,12 +133,8 @@ class DesktopCardCriarEditarIndisponibilidadeWidget extends StatelessWidget {
                       onPressed: () => restricaoFormController.indisponibilidade = null,
                     ),
                     const SizedBox(width: 16),
-                    CustomTextButton(
+                    CustomOutlinedButton(
                       title: l10n.fields.salvar,
-                      style: themeData.textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.w700,
-                        color: colorTheme?.primary,
-                      ),
                       onPressed: () {
                         var indisponibilidade = restricaoFormController.indisponibilidade;
                         if (formKey.currentState!.validate() && indisponibilidade != null) {
