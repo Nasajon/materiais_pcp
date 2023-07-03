@@ -40,15 +40,15 @@ class DesktopCapacidadeFormWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        CustomBaseTextField(
+                        IntegerTextFormFieldWidget(
                           label: l10n.fields.capacidadeDeProducao,
-                          initialValue: restricaoFormController.restricao.capacidadeProducao.value.toString(),
+                          initialValue: restricaoFormController.restricao.capacidadeProducao.value,
                           isRequiredField: true,
                           isEnabled: true,
                           validator: (_) => restricaoFormController.restricao.capacidadeProducao.errorMessage,
                           onChanged: (value) {
                             restricaoFormController.restricao =
-                                restricaoFormController.restricao.copyWith(capacidadeProducao: IntegerVO.text(value));
+                                restricaoFormController.restricao.copyWith(capacidadeProducao: IntegerVO(value));
                           },
                         ),
                       ],

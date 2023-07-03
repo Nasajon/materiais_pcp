@@ -6,6 +6,7 @@ import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/core/constants/local_db_key.dart';
 import 'package:pcp_flutter/app/core/constants/app_localization.dart';
 import 'package:pcp_flutter/app/core/stores/reducers/internet_connection_reducer.dart';
+import 'package:pcp_flutter/app/modules/centros_de_trabalho/centros_de_trabalho_module.dart';
 import 'package:pcp_flutter/app/modules/recursos/recursos_module.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricoes_module.dart';
 
@@ -18,6 +19,7 @@ class PcpModule extends Module {
     return [
       ...RecursosModule.getCards(context),
       ...RestricoesModule.getCards(context),
+      ...CentrosDeTrabalhoModule.getCards(context),
     ];
   }
 
@@ -35,5 +37,6 @@ class PcpModule extends Module {
   List<ModularRoute> get routes => [
         ModuleRoute('/recursos', module: RecursosModule()),
         ModuleRoute('/restricoes', module: RestricoesModule()),
+        ModuleRoute('/centro-de-trabalho', module: CentrosDeTrabalhoModule()),
       ];
 }

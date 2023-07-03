@@ -41,18 +41,15 @@ class DesktopRestricaoDadosGeraisFormWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Flexible(
-                    child: TextFormFieldWidget(
+                    child: IntegerTextFormFieldWidget(
                       label: l10n.fields.codigo,
-                      initialValue: restricaoFormController.restricao.codigo?.toText,
+                      initialValue: restricaoFormController.restricao.codigo.value,
                       isRequiredField: true,
                       isEnabled: true,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly,
-                      ],
-                      validator: (_) => restricaoFormController.restricao.codigo?.errorMessage,
+                      validator: (_) => restricaoFormController.restricao.codigo.errorMessage,
                       onChanged: (value) {
                         restricaoFormController.restricao = restricaoFormController.restricao.copyWith(
-                          codigo: value.isNotEmpty ? CodigoVO.text(value) : CodigoVO(0),
+                          codigo: CodigoVO(value),
                         );
                       },
                     ),

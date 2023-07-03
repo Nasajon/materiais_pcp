@@ -98,7 +98,7 @@ class DesktopRestricaoListPage extends StatelessWidget {
                             children: [
                               ...state.map((restricao) {
                                 return ListTileWidget(
-                                  title: '${restricao.codigo?.toText} - ${restricao.descricao.value}',
+                                  title: '${restricao.codigo.toText} - ${restricao.descricao.value}',
                                   subtitle: '${context.l10n.materiaisPcpTipoLabel}: ${restricao.grupoDeRestricao?.tipo.name}',
                                   trailing: PopupMenuButton(
                                     icon: Icon(

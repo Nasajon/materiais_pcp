@@ -8,11 +8,9 @@ import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/controllers/restricao_form_controller.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/mobile/widgets/mobile_capacidade_form_widget.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/mobile/widgets/mobile_disponibilidade_form_widget.dart';
-import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/mobile/widgets/mobile_restricao_dados_gerais_form_widget.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/mobile/widgets/mobile_indisponibilidade_form_widget.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/mobile/widgets/mobile_restricao_dados_gerais_form_widget.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/stores/get_grupo_de_restricao_store.dart';
-import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/widgets/steppers/horizontal_stepper_widget.dart';
-import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/widgets/steppers/stepper_component.dart';
 
 class MobileRestricaoFormPage extends StatefulWidget {
   final GetGrupoDeRestricaoStore getGrupoDeRestricaoStore;

@@ -7,7 +7,6 @@ import 'package:pcp_flutter/app/core/modules/domain/value_object/date_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/time_vo.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/controllers/restricao_form_controller.dart';
-import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/web/widgets/week_toggle_buttons_widget.dart';
 
 class MobileCriarEditarDisponibilidade extends StatelessWidget {
   final RestricaoFormController restricaoFormController;

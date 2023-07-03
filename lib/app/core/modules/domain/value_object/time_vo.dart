@@ -24,11 +24,11 @@ class TimeVO extends TextVO {
     }
   }
 
-  String? timeFormat({String format = ':'}) {
+  String? timeFormat({String format = ':', bool shouldAddSeconds = false}) {
     try {
       final time = getTime();
       if (time != null) {
-        return '${time.hour}$format${time.minute.toString().padLeft(2, '0')}';
+        return '${time.hour.toString().padLeft(2, '0')}$format${time.minute.toString().padLeft(2, '0')}${shouldAddSeconds ? ':00' : ''}';
       }
       return null;
     } on FormatException catch (_) {

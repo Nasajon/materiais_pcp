@@ -24,6 +24,8 @@ class EntidadesEmpresariaisInterceptor extends Interceptor {
     } else {
       _addQueryParameters(options, profileStore);
     }
+    // _addBodyParameters(options, profileStore);
+    // _addQueryParameters(options, profileStore);
 
     super.onRequest(options, handler);
   }
@@ -34,7 +36,7 @@ class EntidadesEmpresariaisInterceptor extends Interceptor {
     }
 
     if (grupoEmpresarial) {
-      options.data['grupoempresarial'] = profileStore.grupoEmpresarialSelecionado?.id;
+      options.data['grupo_empresarial'] = profileStore.grupoEmpresarialSelecionado?.id;
     }
 
     if (empresa) {
@@ -52,7 +54,7 @@ class EntidadesEmpresariaisInterceptor extends Interceptor {
     }
 
     if (grupoEmpresarial) {
-      options.queryParameters['grupoempresarial'] = profileStore.grupoEmpresarialSelecionado?.id;
+      options.queryParameters['grupo_empresarial'] = profileStore.grupoEmpresarialSelecionado?.id;
     }
 
     if (empresa) {

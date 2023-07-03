@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:pcp_flutter/app/core/modules/domain/enums/week_enum.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/date_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/time_vo.dart';
-import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/web/widgets/week_toggle_buttons_widget.dart';
 
 class DisponibilidadeEntity {
   final int codigo;

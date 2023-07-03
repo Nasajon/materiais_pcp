@@ -12,8 +12,6 @@ import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/web/widgets/desktop_disponibilidade_form_widget.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/web/widgets/desktop_indisponibilidade_form_widget.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/web/widgets/desktop_restricao_dados_gerais_form_widget.dart';
-import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/widgets/steppers/stepper_component.dart';
-import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/widgets/steppers/vertical_stepper_widget.dart';
 
 class DesktopRestricaoFormPage extends StatefulWidget {
   final GetGrupoDeRestricaoStore getGrupoDeRestricaoStore;
@@ -70,21 +68,21 @@ class _DesktopRestricaoFormStatePage extends State<DesktopRestricaoFormPage> {
   bool _restricaoIsValid() {
     switch (page + 1) {
       case 1:
-        return restricaoFormController.restricao.dadosGeraisIsValid &&
-            dadosGeraisFormKey.currentState != null &&
-            dadosGeraisFormKey.currentState!.validate();
+        return dadosGeraisFormKey.currentState != null &&
+            dadosGeraisFormKey.currentState!.validate() &&
+            restricaoFormController.restricao.dadosGeraisIsValid;
       case 2:
-        return restricaoFormController.restricao.capacidadeIsValid &&
-            capacidadeFormKey.currentState != null &&
-            capacidadeFormKey.currentState!.validate();
+        return capacidadeFormKey.currentState != null &&
+            capacidadeFormKey.currentState!.validate() &&
+            restricaoFormController.restricao.capacidadeIsValid;
       case 3:
-        return restricaoFormController.restricao.disponibilidadeIsValid &&
-            disponibilidadeFormKey.currentState != null &&
-            disponibilidadeFormKey.currentState!.validate();
+        return disponibilidadeFormKey.currentState != null &&
+            disponibilidadeFormKey.currentState!.validate() &&
+            restricaoFormController.restricao.disponibilidadeIsValid;
       case 4:
-        return restricaoFormController.restricao.indisponibilidadeIsValid &&
-            indisponibilidadeFormKey.currentState != null &&
-            indisponibilidadeFormKey.currentState!.validate();
+        return indisponibilidadeFormKey.currentState != null &&
+            indisponibilidadeFormKey.currentState!.validate() &&
+            restricaoFormController.restricao.indisponibilidadeIsValid;
       default:
         return restricaoFormController.restricao.isValid;
     }
@@ -191,7 +189,6 @@ class _DesktopRestricaoFormStatePage extends State<DesktopRestricaoFormPage> {
               const SizedBox(width: 10),
               CustomPrimaryButton(
                 title: l10n.fields.continuar,
-                isEnabled: _restricaoIsValid(),
                 onPressed: () async {
                   if (_restricaoIsValid()) {
                     pageController.nextPage(duration: const Duration(microseconds: 1), curve: Curves.ease);
