@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:design_system/design_system.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_core/ana_core.dart';
@@ -30,7 +29,10 @@ class TurnoTrabalhoFormPage extends StatefulWidget {
 }
 
 class _TurnoTrabalhoFormPageState extends State<TurnoTrabalhoFormPage> {
-  final PageController pageController = PageController(initialPage: 0);
+  final pageNotifier = ValueNotifier(0);
+  final dadosGeraisFormKey = GlobalKey<FormState>();
+  final horariosFormKey = GlobalKey<FormState>();
+  final adaptiveModalNotifier = ValueNotifier(false);
 
   @override
   void initState() {
@@ -43,25 +45,33 @@ class _TurnoTrabalhoFormPageState extends State<TurnoTrabalhoFormPage> {
   @override
   Widget build(BuildContext context) {
     final desktopTurnoTrabalhoFormPage = DesktopTurnoTrabalhoFormPage(
+      pageNotifier: pageNotifier,
+      dadosGeraisFormKey: dadosGeraisFormKey,
+      horariosFormKey: horariosFormKey,
       inserirEditarTurnoTrabalhoStore: widget.inserirEditarTurnoTrabalhoStore,
       turnoTrabalhoListStore: widget.turnoTrabalhoListStore,
       turnoTrabalhoFormController: widget.turnoTrabalhoFormController,
       scaffoldController: widget.scaffoldController,
       connectionStore: widget.connectionStore,
-      pageController: pageController,
     );
 
-    return AdaptiveRedirectorPage(
-      mobilePage: MobileTurnoTrabalhoFormPage(
-        inserirEditarTurnoTrabalhoStore: widget.inserirEditarTurnoTrabalhoStore,
-        turnoTrabalhoListStore: widget.turnoTrabalhoListStore,
-        turnoTrabalhoFormController: widget.turnoTrabalhoFormController,
-        scaffoldController: widget.scaffoldController,
-        connectionStore: widget.connectionStore,
-        pageController: pageController,
-      ),
-      tabletPage: desktopTurnoTrabalhoFormPage,
-      desktopPage: desktopTurnoTrabalhoFormPage,
-    );
+    return ValueListenableBuilder(
+        valueListenable: adaptiveModalNotifier,
+        builder: (context, value, child) {
+          return AdaptiveRedirectorPage(
+            mobilePage: MobileTurnoTrabalhoFormPage(
+              pageNotifier: pageNotifier,
+              dadosGeraisFormKey: dadosGeraisFormKey,
+              inserirEditarTurnoTrabalhoStore: widget.inserirEditarTurnoTrabalhoStore,
+              turnoTrabalhoListStore: widget.turnoTrabalhoListStore,
+              turnoTrabalhoFormController: widget.turnoTrabalhoFormController,
+              scaffoldController: widget.scaffoldController,
+              connectionStore: widget.connectionStore,
+              adaptiveModalNotifier: adaptiveModalNotifier,
+            ),
+            tabletPage: desktopTurnoTrabalhoFormPage,
+            desktopPage: desktopTurnoTrabalhoFormPage,
+          );
+        });
   }
 }

@@ -24,6 +24,9 @@ class PcpModule extends Module {
   }
 
   @override
+  List<CardWidget> get cads => [];
+
+  @override
   List<Module> get imports => const [];
 
   @override

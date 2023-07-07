@@ -48,7 +48,7 @@ class DesktopCardCriarEditarHorarioWidget extends StatelessWidget {
                 fontWeight: FontWeight.w700,
               ),
             ),
-            const SizedBox(height: 28),
+            const SizedBox(height: 24),
             WeekToggleButtonsWidget(
               initialValue: horario?.copyWith().diasDaSemana.map((e) => e.code).toList(),
               onSelectedDaysOfWeek: (days) {
@@ -57,7 +57,7 @@ class DesktopCardCriarEditarHorarioWidget extends StatelessWidget {
                 );
               },
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -127,7 +127,7 @@ class DesktopCardCriarEditarHorarioWidget extends StatelessWidget {
                     ),
                     const SizedBox(width: 16),
                     CustomOutlinedButton(
-                      title: l10n.fields.adicionar,
+                      title: horario != null && horario.codigo > 0 ? l10n.fields.salvar : l10n.fields.adicionar,
                       onPressed: () {
                         var horario = turnoTrabalhoFormController.horario;
                         if (formKey.currentState!.validate() && horario != null) {

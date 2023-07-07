@@ -23,7 +23,6 @@ class DesktopHorarioFormWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10nLocalization;
     final themeData = Theme.of(context);
-    final colorTheme = themeData.extension<AnaColorTheme>();
 
     return RxBuilder(
       builder: (_) {
@@ -70,7 +69,6 @@ class DesktopHorarioFormWidget extends StatelessWidget {
                 child: addButton,
               ),
             ),
-            const SizedBox(height: 32),
             Wrap(
               spacing: 16,
               runSpacing: 16,

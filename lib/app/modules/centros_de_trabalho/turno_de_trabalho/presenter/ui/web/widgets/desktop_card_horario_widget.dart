@@ -45,10 +45,37 @@ class DesktopCardHorarioWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 8, right: 8),
+            padding: const EdgeInsets.only(top: 8, left: 20, right: 8),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const SizedBox(height: 12),
+                      Text(
+                        l10n.fields.diasDaSemana,
+                        style: themeData.textTheme.labelLarge?.copyWith(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: colorTheme?.label,
+                        ),
+                      ),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Text(
+                          diasDaSemana,
+                          style: themeData.textTheme.bodyLarge?.copyWith(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 PopupMenuButton(
                   icon: Icon(
                     Icons.more_vert,
@@ -77,38 +104,14 @@ class DesktopCardHorarioWidget extends StatelessWidget {
               ],
             ),
           ),
+          const SizedBox(height: 20),
           Padding(
-            padding: const EdgeInsets.only(left: 30, right: 30, bottom: 30),
+            padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      l10n.fields.diasDaSemana,
-                      style: themeData.textTheme.labelLarge?.copyWith(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        color: colorTheme?.label,
-                      ),
-                    ),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Text(
-                        diasDaSemana,
-                        style: themeData.textTheme.bodyLarge?.copyWith(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,

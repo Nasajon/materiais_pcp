@@ -36,76 +36,75 @@ class TurnoTrabalhoVisualizarPage extends StatefulWidget {
 }
 
 class _TurnoTrabalhoVisualizarPageState extends State<TurnoTrabalhoVisualizarPage> {
-  int _currentPage = 0;
-  final pageController = PageController(initialPage: 0);
+  final pageNotifier = ValueNotifier(0);
   late final Disposer getTurnoTrabalhoDisposer;
   TurnoTrabalhoAggregate? turnoTrabalhoAggregate;
+  final dadosGeraisFormKey = GlobalKey<FormState>();
+  final horariosFormKey = GlobalKey<FormState>();
+  final adaptiveModalNotifier = ValueNotifier(false);
 
   @override
   void initState() {
     super.initState();
 
+    widget.turnoTrabalhoFormController.turnoTrabalho = TurnoTrabalhoAggregate.empty();
+
     widget.getTurnoTrabalhoPorIdStore.getTurnoTrabalhoPorId(widget.id);
-
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      getTurnoTrabalhoDisposer = widget.getTurnoTrabalhoPorIdStore.observer(
-        onState: (state) {
-          setState(() {
-            if (state != null) {
-              turnoTrabalhoAggregate = state.copyWith();
-              widget.turnoTrabalhoFormController.turnoTrabalho = state.copyWith();
-            }
-          });
-        },
-      );
-
-      pageController.addListener(() {
-        setState(() {
-          if (pageController.page != null) {
-            _currentPage = pageController.page!.round();
-          }
-        });
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    getTurnoTrabalhoDisposer();
-    pageController.dispose();
-    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.getTurnoTrabalhoPorIdStore.isLoading && widget.getTurnoTrabalhoPorIdStore.state == null) {
-      return Container();
-    }
-
-    final desktopTurnoTrabalhoVisualizar = DesktopTurnoTrabalhoVisualizarPage(
-      currentPage: _currentPage,
-      inserirEditarTurnoTrabalhoStore: widget.inserirEditarTurnoTrabalhoStore,
-      turnoTrabalhoListStore: widget.turnoTrabalhoListStore,
-      turnoTrabalhoAggregate: turnoTrabalhoAggregate,
-      turnoTrabalhoFormController: widget.turnoTrabalhoFormController,
-      scaffoldController: widget.scaffoldController,
-      connectionStore: widget.connectionStore,
-      pageController: pageController,
-    );
-
-    return AdaptiveRedirectorPage(
-      mobilePage: MobileTurnoTrabalhoVisualizarPage(
-        currentPage: _currentPage,
-        inserirEditarTurnoTrabalhoStore: widget.inserirEditarTurnoTrabalhoStore,
-        turnoTrabalhoListStore: widget.turnoTrabalhoListStore,
-        turnoTrabalhoAggregate: turnoTrabalhoAggregate,
-        turnoTrabalhoFormController: widget.turnoTrabalhoFormController,
-        scaffoldController: widget.scaffoldController,
-        connectionStore: widget.connectionStore,
-        pageController: pageController,
+    return ScopedBuilder<GetTurnoTrabalhoPorIdStore, TurnoTrabalhoAggregate?>(
+      store: widget.getTurnoTrabalhoPorIdStore,
+      onLoading: (context) => const Center(
+        child: SizedBox(
+          width: 32,
+          height: 32,
+          child: CircularProgressIndicator(),
+        ),
       ),
-      tabletPage: desktopTurnoTrabalhoVisualizar,
-      desktopPage: desktopTurnoTrabalhoVisualizar,
+      onState: (context, state) {
+        if (state != null) {
+          turnoTrabalhoAggregate = state;
+          widget.turnoTrabalhoFormController.turnoTrabalho = state.copyWith();
+        } else {
+          Modular.to.pop();
+          // TODO: Adicionar uma mensagem quando não encontro o turno de trabalho
+        }
+
+        final desktopTurnoTrabalhoVisualizar = DesktopTurnoTrabalhoVisualizarPage(
+          pageNotifier: pageNotifier,
+          inserirEditarTurnoTrabalhoStore: widget.inserirEditarTurnoTrabalhoStore,
+          turnoTrabalhoListStore: widget.turnoTrabalhoListStore,
+          turnoTrabalhoAggregate: turnoTrabalhoAggregate,
+          turnoTrabalhoFormController: widget.turnoTrabalhoFormController,
+          scaffoldController: widget.scaffoldController,
+          connectionStore: widget.connectionStore,
+          dadosGeraisFormKey: dadosGeraisFormKey,
+          horariosFormKey: horariosFormKey,
+        );
+
+        return ValueListenableBuilder(
+          valueListenable: adaptiveModalNotifier,
+          builder: (context, value, child) {
+            return AdaptiveRedirectorPage(
+              mobilePage: MobileTurnoTrabalhoVisualizarPage(
+                pageNotifier: pageNotifier,
+                inserirEditarTurnoTrabalhoStore: widget.inserirEditarTurnoTrabalhoStore,
+                turnoTrabalhoListStore: widget.turnoTrabalhoListStore,
+                turnoTrabalhoAggregate: turnoTrabalhoAggregate,
+                turnoTrabalhoFormController: widget.turnoTrabalhoFormController,
+                scaffoldController: widget.scaffoldController,
+                connectionStore: widget.connectionStore,
+                adaptiveModalNotifier: adaptiveModalNotifier,
+                dadosGeraisFormKey: dadosGeraisFormKey,
+              ),
+              tabletPage: desktopTurnoTrabalhoVisualizar,
+              desktopPage: desktopTurnoTrabalhoVisualizar,
+            );
+          },
+        );
+      },
     );
   }
 }

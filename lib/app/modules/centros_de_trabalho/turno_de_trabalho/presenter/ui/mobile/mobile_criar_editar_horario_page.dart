@@ -1,23 +1,47 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
-import 'package:pcp_flutter/app/core/modules/domain/enums/week_enum.dart';
-import 'package:pcp_flutter/app/core/modules/domain/value_object/date_vo.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/time_vo.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/domain/types/dias_da_semana_type.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/presenter/controller/turno_trabalho_form_controller.dart';
 
-class MobileCriarEditarHorario extends StatelessWidget {
+class MobileCriarEditarHorario extends StatefulWidget {
   final TurnoTrabalhoFormController turnoTrabalhoFormController;
+  final ValueNotifier<bool> adaptiveModalNotifier;
 
   MobileCriarEditarHorario({
     Key? key,
     required this.turnoTrabalhoFormController,
+    required this.adaptiveModalNotifier,
   }) : super(key: key);
 
+  @override
+  State<MobileCriarEditarHorario> createState() => _MobileCriarEditarHorarioState();
+}
+
+class _MobileCriarEditarHorarioState extends State<MobileCriarEditarHorario> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final formKey = GlobalKey<FormState>();
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    verificarHorarioRouter();
+  }
+
+  void verificarHorarioRouter() {
+    final currentRoute = ModalRoute.of(context);
+
+    if (!ScreenSizeUtil(context).isMobile && widget.adaptiveModalNotifier.value) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        Navigator.of(context).pop();
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,15 +50,16 @@ class MobileCriarEditarHorario extends StatelessWidget {
     final colorTheme = themeData.extension<AnaColorTheme>();
 
     return CustomScaffold.titleString(
-      turnoTrabalhoFormController.horario != null && turnoTrabalhoFormController.horario?.codigo == 0
+      key: _scaffoldKey,
+      widget.turnoTrabalhoFormController.horario != null && widget.turnoTrabalhoFormController.horario?.codigo == 0
           ? l10n.titles.adicionarHorario
           : l10n.titles.editarHorario,
       controller: CustomScaffoldController(),
       alignment: Alignment.centerLeft,
       onIconTap: () {
-        turnoTrabalhoFormController.horario = null;
+        widget.turnoTrabalhoFormController.horario = null;
 
-        Modular.to.pop();
+        Navigator.of(context).pop();
       },
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -45,7 +70,7 @@ class MobileCriarEditarHorario extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                turnoTrabalhoFormController.horario != null && turnoTrabalhoFormController.horario?.codigo == 0
+                widget.turnoTrabalhoFormController.horario != null && widget.turnoTrabalhoFormController.horario?.codigo == 0
                     ? l10n.titles.adicionarHorario
                     : l10n.titles.editarHorario,
                 style: themeData.textTheme.titleMedium?.copyWith(
@@ -53,11 +78,11 @@ class MobileCriarEditarHorario extends StatelessWidget {
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              const SizedBox(height: 28),
+              const SizedBox(height: 24),
               WeekToggleButtonsWidget(
-                initialValue: turnoTrabalhoFormController.horario?.copyWith().diasDaSemana.map((e) => e.code).toList(),
+                initialValue: widget.turnoTrabalhoFormController.horario?.copyWith().diasDaSemana.map((e) => e.code).toList(),
                 onSelectedDaysOfWeek: (days) {
-                  turnoTrabalhoFormController.horario = turnoTrabalhoFormController.horario?.copyWith(
+                  widget.turnoTrabalhoFormController.horario = widget.turnoTrabalhoFormController.horario?.copyWith(
                     diasDaSemana: days.map((e) => DiasDaSemanaType.selectDayOfWeek(e)).toList(),
                   );
                 },
@@ -65,33 +90,36 @@ class MobileCriarEditarHorario extends StatelessWidget {
               const SizedBox(height: 16),
               TimeTextFormFieldWidget(
                 label: l10n.fields.horarioInicial,
-                initTime: turnoTrabalhoFormController.horario?.horarioInicial.getTime(),
-                validator: (_) => turnoTrabalhoFormController.horario?.horarioInicial.errorMessage,
+                initTime: widget.turnoTrabalhoFormController.horario?.horarioInicial.getTime(),
+                validator: (_) => widget.turnoTrabalhoFormController.horario?.horarioInicial.errorMessage,
                 onChanged: (value) {
                   if (value != null) {
-                    turnoTrabalhoFormController.horario = turnoTrabalhoFormController.horario?.copyWith(horarioInicial: TimeVO.time(value));
+                    widget.turnoTrabalhoFormController.horario =
+                        widget.turnoTrabalhoFormController.horario?.copyWith(horarioInicial: TimeVO.time(value));
                   }
                 },
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 20),
               TimeTextFormFieldWidget(
                 label: l10n.fields.horarioFinal,
-                initTime: turnoTrabalhoFormController.horario?.horarioFinal.getTime(),
-                validator: (_) => turnoTrabalhoFormController.horario?.horarioFinal.errorMessage,
+                initTime: widget.turnoTrabalhoFormController.horario?.horarioFinal.getTime(),
+                validator: (_) => widget.turnoTrabalhoFormController.horario?.horarioFinal.errorMessage,
                 onChanged: (value) {
                   if (value != null) {
-                    turnoTrabalhoFormController.horario = turnoTrabalhoFormController.horario?.copyWith(horarioFinal: TimeVO.time(value));
+                    widget.turnoTrabalhoFormController.horario =
+                        widget.turnoTrabalhoFormController.horario?.copyWith(horarioFinal: TimeVO.time(value));
                   }
                 },
               ),
               const SizedBox(height: 16),
               TimeTextFormFieldWidget(
                 label: l10n.fields.intervalo,
-                initTime: turnoTrabalhoFormController.horario?.intervalo.getTime(),
-                validator: (_) => turnoTrabalhoFormController.horario?.intervalo.errorMessage,
+                initTime: widget.turnoTrabalhoFormController.horario?.intervalo.getTime(),
+                validator: (_) => widget.turnoTrabalhoFormController.horario?.intervalo.errorMessage,
                 onChanged: (value) {
                   if (value != null) {
-                    turnoTrabalhoFormController.horario = turnoTrabalhoFormController.horario?.copyWith(intervalo: TimeVO.time(value));
+                    widget.turnoTrabalhoFormController.horario =
+                        widget.turnoTrabalhoFormController.horario?.copyWith(intervalo: TimeVO.time(value));
                   }
                 },
               ),
@@ -105,16 +133,16 @@ class MobileCriarEditarHorario extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Visibility(
-              visible: turnoTrabalhoFormController.horario != null && turnoTrabalhoFormController.horario!.codigo > 0,
+              visible: widget.turnoTrabalhoFormController.horario != null && widget.turnoTrabalhoFormController.horario!.codigo > 0,
               child: CustomTextButton(
                 title: l10n.fields.excluir,
                 textColor: colorTheme?.danger,
                 onPressed: () {
-                  turnoTrabalhoFormController.removerHorario(turnoTrabalhoFormController.horario?.codigo ?? 0);
+                  widget.turnoTrabalhoFormController.removerHorario(widget.turnoTrabalhoFormController.horario?.codigo ?? 0);
 
-                  turnoTrabalhoFormController.horario = null;
+                  widget.turnoTrabalhoFormController.horario = null;
 
-                  Modular.to.pop();
+                  Navigator.of(context).pop();
                 },
               ),
             ),
@@ -126,19 +154,21 @@ class MobileCriarEditarHorario extends StatelessWidget {
                 CustomTextButton(
                   title: l10n.fields.cancelar,
                   onPressed: () {
-                    turnoTrabalhoFormController.horario = null;
+                    widget.turnoTrabalhoFormController.horario = null;
 
-                    Modular.to.pop();
+                    Navigator.of(context).pop();
                   },
                 ),
                 const SizedBox(width: 16),
                 CustomPrimaryButton(
-                  title: l10n.fields.adicionar,
+                  title: widget.turnoTrabalhoFormController.horario != null && widget.turnoTrabalhoFormController.horario!.codigo > 0
+                      ? l10n.fields.salvar
+                      : l10n.fields.adicionar,
                   onPressed: () {
-                    var horario = turnoTrabalhoFormController.horario;
+                    var horario = widget.turnoTrabalhoFormController.horario;
                     if (formKey.currentState!.validate() && horario != null) {
-                      turnoTrabalhoFormController.criarEditarHorario(horario);
-                      Modular.to.pop();
+                      widget.turnoTrabalhoFormController.criarEditarHorario(horario);
+                      Navigator.of(context).pop();
                     }
                   },
                 )

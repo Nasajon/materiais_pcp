@@ -80,11 +80,5 @@ class TurnoDeTrabalhoModule extends Module {
             scaffoldController: context.read(),
           ),
         ),
-        ChildRoute(
-          '/horarios',
-          child: (context, args) => MobileCriarEditarHorario(
-            turnoTrabalhoFormController: context.read(),
-          ),
-        ),
       ];
 }

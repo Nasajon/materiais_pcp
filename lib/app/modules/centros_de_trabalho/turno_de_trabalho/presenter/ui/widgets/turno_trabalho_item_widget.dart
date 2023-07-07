@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/core/widgets/list_tile_widget.dart';
+import 'package:pcp_flutter/app/core/widgets/notification_snack_bar.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/domain/aggregates/turno_trabalho_aggregate.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/presenter/stores/deletar_turno_trabalho_store.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/presenter/stores/turno_trabalho_list_store.dart';
@@ -31,8 +32,12 @@ class TurnoTrabalhoItemWidget extends StatelessWidget {
     return TripleBuilder<DeletarTurnoTrabalhoStore, bool>(
         store: deletarTurnoTrabalhoStore,
         builder: (context, triple) {
-          if (triple.state && triple.isLoading) {
+          if (triple.state && !triple.isLoading) {
             turnoTrabalhoListStore.deleteTurnoTrabalho(turnoTrabalho.id);
+            NotificationSnackBar.showSnackBar(
+              l10n.messages.excluiuUmEntidadeComSucesso(l10n.titles.turnosDeTrabalho),
+              themeData: themeData,
+            );
           }
 
           final error = triple.error;
@@ -44,7 +49,6 @@ class TurnoTrabalhoItemWidget extends StatelessWidget {
               },
             );
           }
-
           return ListTileWidget(
             key: key,
             title: '${turnoTrabalho.codigo.toText} - ${turnoTrabalho.nome.value}',
@@ -60,7 +64,18 @@ class TurnoTrabalhoItemWidget extends StatelessWidget {
                       if (value == 1) {
                         Modular.to.pushNamed('./${turnoTrabalho.id}/visualizar');
                       } else if (value == 2) {
-                        deletarTurnoTrabalhoStore.deletar(turnoTrabalho.id);
+                        Asuka.showDialog(
+                          barrierColor: Colors.black38,
+                          builder: (context) {
+                            return ConfirmationModalWidget(
+                              title: l10n.titles.excluirEntidade(l10n.titles.turnosDeTrabalho),
+                              messages: l10n.messages.excluirUmEntidade(l10n.titles.turnosDeTrabalho),
+                              titleCancel: l10n.fields.excluir,
+                              titleSuccess: l10n.fields.cancelar,
+                              onCancel: () => deletarTurnoTrabalhoStore.deletar(turnoTrabalho.id),
+                            );
+                          },
+                        );
                       }
                     },
                     itemBuilder: (context) {

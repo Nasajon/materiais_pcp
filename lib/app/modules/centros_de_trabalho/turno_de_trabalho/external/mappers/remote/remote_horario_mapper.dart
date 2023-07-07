@@ -39,4 +39,12 @@ class RemoteHorarioMapper {
       'sabado': horario.diasDaSemana.contains(DiasDaSemanaType.saturday),
     };
   }
+
+  static List<HorarioEntity> setarIndexParaOsHorarios(List<HorarioEntity> horarios) {
+    for (var i = 1; i <= horarios.length; i++) {
+      horarios.setAll(i - 1, [horarios[i - 1].copyWith(codigo: i)]);
+    }
+
+    return horarios;
+  }
 }

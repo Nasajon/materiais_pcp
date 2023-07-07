@@ -5,6 +5,7 @@ import 'package:pcp_flutter/app/core/client/interceptors/entidades_empresariais_
 import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/domain/aggregates/turno_trabalho_aggregate.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/domain/errors/turno_trabalho_failure.dart';
+import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/external/mappers/remote/remote_horario_mapper.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/external/mappers/remote/remote_turno_trabalho_mapper.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/infra/datasources/remote/turno_trabalho_datasource.dart';
 
@@ -50,8 +51,9 @@ class TurnoTrabalhoDatasourceImpl implements TurnoTrabalhoDatasource {
           body: <String, dynamic>{},
         ),
       );
+      var turno = RemoteTurnoTrabalhoMapper.fromMapToTurnoTrabalho(response.data);
 
-      return RemoteTurnoTrabalhoMapper.fromMapToTurnoTrabalho(response.data);
+      return turno.copyWith(horarios: RemoteHorarioMapper.setarIndexParaOsHorarios(turno.horarios));
     } on ClientError catch (e) {
       throw DatasourceTurnoTrabalhoFailure(errorMessage: e.message, stackTrace: e.stackTrace, exception: e.exception);
     }
