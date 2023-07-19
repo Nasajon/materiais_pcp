@@ -21,19 +21,23 @@ class TurnoTrabalhoDatasourceImpl implements TurnoTrabalhoDatasource {
 
   @override
   Future<List<TurnoTrabalhoAggregate>> getTurnoTrabalhoRecentes() async {
-    final response = await clientService.request(
-      ClientRequestParams(
-        selectedApi: APIEnum.pcp,
-        endPoint: '/1234/turnos',
-        method: ClientRequestMethods.GET,
-        interceptors: interceptors,
-        body: <String, dynamic>{},
-      ),
-    );
+    try {
+      final response = await clientService.request(
+        ClientRequestParams(
+          selectedApi: APIEnum.pcp,
+          endPoint: '/1234/turnos',
+          method: ClientRequestMethods.GET,
+          interceptors: interceptors,
+          body: <String, dynamic>{},
+        ),
+      );
 
-    final data = List.from(response.data).map((map) => RemoteTurnoTrabalhoMapper.fromMapToTurnoTrabalho(map)).toList();
+      final data = List.from(response.data).map((map) => RemoteTurnoTrabalhoMapper.fromMapToTurnoTrabalho(map)).toList();
 
-    return data;
+      return data;
+    } on ClientError catch (e) {
+      throw DatasourceTurnoTrabalhoFailure(errorMessage: e.message, stackTrace: e.stackTrace, exception: e.exception);
+    }
   }
 
   @override
@@ -72,7 +76,7 @@ class TurnoTrabalhoDatasourceImpl implements TurnoTrabalhoDatasource {
         ),
       );
 
-      turno.copyWith(codigo: CodigoVO.text(response.data['turno']));
+      turno = turno.copyWith(id: response.data['turno']);
 
       return turno;
     } on ClientError catch (e) {

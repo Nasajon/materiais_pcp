@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/modules/presenter/widgets/card_widget.dart';
 
-class RestricaoCard extends StatelessWidget implements CardWidget {
+class CentroDeTrabalhoCard extends StatelessWidget implements CardWidget {
   final BuildContext context;
 
-  RestricaoCard({Key? key, required this.context}) : super(key: key) {
-    titulo = context.l10nLocalization.titles.turnosDeTrabalho;
+  CentroDeTrabalhoCard({Key? key, required this.context}) : super(key: key) {
+    titulo = context.l10nLocalization.titles.centrosDeTrabalho;
     secao = context.l10n.materiaisProducao;
     descricoes = [];
   }
@@ -34,7 +34,7 @@ class RestricaoCard extends StatelessWidget implements CardWidget {
 
   @override
   void onPressed() {
-    Modular.to.pushNamed('/pcp/centros-de-trabalho/');
+    Modular.to.pushNamed('/pcp/centro-de-trabalho/');
   }
 
   @override

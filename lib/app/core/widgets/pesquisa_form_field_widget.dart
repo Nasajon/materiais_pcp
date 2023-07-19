@@ -16,6 +16,7 @@ class PesquisaFormFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeData = ThemeData();
     return TextFormField(
       controller: controller,
       onChanged: onChanged,
@@ -23,16 +24,13 @@ class PesquisaFormFieldWidget extends StatelessWidget {
       decoration: InputDecoration(
         labelText: label,
         floatingLabelBehavior: FloatingLabelBehavior.never,
-        labelStyle: AnaTextStyles.lightGrey14Px.copyWith(fontSize: 16, fontStyle: FontStyle.italic),
+        labelStyle: themeData.textTheme.labelMedium?.copyWith(fontSize: 16, fontStyle: FontStyle.italic),
         contentPadding: const EdgeInsets.symmetric(vertical: 18.5, horizontal: 16),
         fillColor: const Color(0xFFF2F2F2),
-        suffixIcon: const Padding(
-          padding: EdgeInsets.only(top: 10),
-          child: Icon(
-            Icons.search,
-            color: AnaColors.darkBlue,
-            size: 18,
-          ),
+        suffixIcon: Icon(
+          Icons.search,
+          color: AnaColors.darkBlue,
+          size: 18,
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),

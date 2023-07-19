@@ -22,7 +22,7 @@ class TurnoDeTranalhoCard extends StatelessWidget implements CardWidget {
   late final List<String> descricoes;
 
   @override
-  String get codigo => 'materiais_pcp_turnos_de_trabalho';
+  String get codigo => 'materiais_pcp_centro _de_trabalho';
   @override
   List<String> get funcoes => [];
   @override
@@ -34,7 +34,7 @@ class TurnoDeTranalhoCard extends StatelessWidget implements CardWidget {
 
   @override
   void onPressed() {
-    Modular.to.pushNamed('/pcp/centro-de-trabalho/turnos');
+    Modular.to.pushNamed('/pcp/centro-de-trabalho/turnos/');
   }
 
   @override
