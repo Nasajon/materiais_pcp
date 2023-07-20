@@ -21,7 +21,7 @@ class CentroTrabalhoController {
 
   final getTurnoTrabalhoAction = RxNotifier(RxVoid);
 
-  void notifyListeners() {
-    _centroTrabalhoNotifier.notifyListeners();
+  void centroTrabalhoNotifyListeners() {
+    centroTrabalho = centroTrabalho.copyWith();
   }
 }

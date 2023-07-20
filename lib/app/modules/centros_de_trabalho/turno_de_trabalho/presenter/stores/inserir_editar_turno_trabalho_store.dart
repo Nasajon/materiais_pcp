@@ -1,4 +1,7 @@
+import 'package:design_system/design_system.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
+import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/domain/aggregates/turno_trabalho_aggregate.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/domain/usecases/editar_turno_trabalho_usecase.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/domain/usecases/inserir_turno_trabalho_usecase.dart';
@@ -20,6 +23,13 @@ class InserirEditarTurnoTrabalhoStore extends NasajonStreamStore<TurnoTrabalhoAg
 
       update(turnoTrabalho, force: true);
     } on Failure catch (e) {
+      await Asuka.showDialog(
+        barrierColor: Colors.black38,
+        builder: (context) {
+          return ErrorModal(errorMessage: (triple.error as Failure).errorMessage ?? '');
+        },
+      );
+
       setError(e, force: true);
     }
 
@@ -36,6 +46,13 @@ class InserirEditarTurnoTrabalhoStore extends NasajonStreamStore<TurnoTrabalhoAg
         update(turnoTrabalho, force: true);
       }
     } on Failure catch (e) {
+      await Asuka.showDialog(
+        barrierColor: Colors.black38,
+        builder: (context) {
+          return ErrorModal(errorMessage: (triple.error as Failure).errorMessage ?? '');
+        },
+      );
+
       setError(e, force: true);
     }
 

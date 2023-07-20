@@ -204,21 +204,9 @@ class _CentroTrabalhoFormDesktopPageState extends State<CentroTrabalhoFormDeskto
               child: TripleBuilder<InserirEditarCentroTrabalhoStore, CentroTrabalhoAggregate?>(
                 store: widget.inserirEditarCentroTrabalhoStore,
                 builder: (context, triple) {
-                  if (triple.error != null && !triple.isLoading) {
-                    final error = triple.error;
-                    if (error is Failure && !triple.isLoading) {
-                      Asuka.showDialog(
-                        barrierColor: Colors.black38,
-                        builder: (context) {
-                          return ErrorModal(errorMessage: (triple.error as Failure).errorMessage ?? '');
-                        },
-                      );
-                    }
-                  }
-
                   final centroTrabalho = triple.state;
 
-                  if (centroTrabalho != null && !triple.isLoading) {
+                  if (centroTrabalho != null && centroTrabalho != oldCentroTrabalho && !triple.isLoading) {
                     Asuka.showSnackBar(
                       SnackBar(
                         content: Text(
@@ -236,6 +224,10 @@ class _CentroTrabalhoFormDesktopPageState extends State<CentroTrabalhoFormDeskto
                     if (widget.id == null) {
                       widget.centroTrabalhoListStore.addCentroTrabalho(centroTrabalho);
                       Modular.to.pop();
+                    } else {
+                      oldCentroTrabalho = centroTrabalhoController.centroTrabalho.copyWith();
+                      widget.centroTrabalhoListStore.updateCentroTrabalho(centroTrabalho);
+                      centroTrabalhoController.centroTrabalhoNotifyListeners();
                     }
                   }
 
@@ -269,9 +261,11 @@ class _CentroTrabalhoFormDesktopPageState extends State<CentroTrabalhoFormDeskto
                         isEnabled: centroTrabalhoController.isEnabled,
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            try {
+                            if (widget.id == null) {
                               inserirEditarCentroTrabalhoStore.adicionarCentroTrabalho(centroTrabalhoController.centroTrabalho);
-                            } finally {}
+                            } else {
+                              inserirEditarCentroTrabalhoStore.editarCentroTrabalho(centroTrabalhoController.centroTrabalho);
+                            }
                           }
                         },
                       )

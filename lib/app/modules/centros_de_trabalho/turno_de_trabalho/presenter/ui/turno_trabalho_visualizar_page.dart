@@ -38,7 +38,6 @@ class TurnoTrabalhoVisualizarPage extends StatefulWidget {
 class _TurnoTrabalhoVisualizarPageState extends State<TurnoTrabalhoVisualizarPage> {
   final pageNotifier = ValueNotifier(0);
   late final Disposer getTurnoTrabalhoDisposer;
-  TurnoTrabalhoAggregate? turnoTrabalhoAggregate;
   final dadosGeraisFormKey = GlobalKey<FormState>();
   final horariosFormKey = GlobalKey<FormState>();
   final adaptiveModalNotifier = ValueNotifier(false);
@@ -65,7 +64,6 @@ class _TurnoTrabalhoVisualizarPageState extends State<TurnoTrabalhoVisualizarPag
       ),
       onState: (context, state) {
         if (state != null) {
-          turnoTrabalhoAggregate = state;
           widget.turnoTrabalhoFormController.turnoTrabalho = state.copyWith();
         } else {
           Modular.to.pop();
@@ -76,7 +74,6 @@ class _TurnoTrabalhoVisualizarPageState extends State<TurnoTrabalhoVisualizarPag
           pageNotifier: pageNotifier,
           inserirEditarTurnoTrabalhoStore: widget.inserirEditarTurnoTrabalhoStore,
           turnoTrabalhoListStore: widget.turnoTrabalhoListStore,
-          turnoTrabalhoAggregate: turnoTrabalhoAggregate,
           turnoTrabalhoFormController: widget.turnoTrabalhoFormController,
           scaffoldController: widget.scaffoldController,
           connectionStore: widget.connectionStore,
@@ -92,7 +89,6 @@ class _TurnoTrabalhoVisualizarPageState extends State<TurnoTrabalhoVisualizarPag
                 pageNotifier: pageNotifier,
                 inserirEditarTurnoTrabalhoStore: widget.inserirEditarTurnoTrabalhoStore,
                 turnoTrabalhoListStore: widget.turnoTrabalhoListStore,
-                turnoTrabalhoAggregate: turnoTrabalhoAggregate,
                 turnoTrabalhoFormController: widget.turnoTrabalhoFormController,
                 scaffoldController: widget.scaffoldController,
                 connectionStore: widget.connectionStore,

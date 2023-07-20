@@ -37,4 +37,8 @@ class TurnoTrabalhoFormController {
 
     turnoTrabalho = turnoTrabalho.copyWith();
   }
+
+  void turnoTrabalhoNotifyListeners() {
+    turnoTrabalho = turnoTrabalho.copyWith();
+  }
 }

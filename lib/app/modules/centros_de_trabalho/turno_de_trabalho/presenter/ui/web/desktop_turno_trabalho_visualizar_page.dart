@@ -18,7 +18,6 @@ class DesktopTurnoTrabalhoVisualizarPage extends StatefulWidget {
   final ValueNotifier<int> pageNotifier;
   final InserirEditarTurnoTrabalhoStore inserirEditarTurnoTrabalhoStore;
   final TurnoTrabalhoListStore turnoTrabalhoListStore;
-  final TurnoTrabalhoAggregate? turnoTrabalhoAggregate;
   final TurnoTrabalhoFormController turnoTrabalhoFormController;
   final CustomScaffoldController scaffoldController;
   final InternetConnectionStore connectionStore;
@@ -30,7 +29,6 @@ class DesktopTurnoTrabalhoVisualizarPage extends StatefulWidget {
     required this.pageNotifier,
     required this.inserirEditarTurnoTrabalhoStore,
     required this.turnoTrabalhoListStore,
-    required this.turnoTrabalhoAggregate,
     required this.turnoTrabalhoFormController,
     required this.scaffoldController,
     required this.connectionStore,
@@ -44,12 +42,15 @@ class DesktopTurnoTrabalhoVisualizarPage extends StatefulWidget {
 
 class _DesktopTurnoTrabalhoVisualizarPageState extends State<DesktopTurnoTrabalhoVisualizarPage> {
   late final PageController pageController;
+  TurnoTrabalhoAggregate? oldTurnoTrabalho;
 
   @override
   void initState() {
     super.initState();
 
     pageController = PageController(initialPage: widget.pageNotifier.value);
+
+    oldTurnoTrabalho = widget.turnoTrabalhoFormController.turnoTrabalho.copyWith();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       pageController.addListener(() {
@@ -123,16 +124,15 @@ class _DesktopTurnoTrabalhoVisualizarPageState extends State<DesktopTurnoTrabalh
               ],
             ),
             bottomNavigationBar: Visibility(
-              visible: widget.turnoTrabalhoAggregate != null &&
-                  widget.turnoTrabalhoAggregate != widget.turnoTrabalhoFormController.turnoTrabalho,
+              visible: oldTurnoTrabalho != null && oldTurnoTrabalho != widget.turnoTrabalhoFormController.turnoTrabalho,
               child: TripleBuilder<InserirEditarTurnoTrabalhoStore, TurnoTrabalhoAggregate?>(
                 store: widget.inserirEditarTurnoTrabalhoStore,
                 builder: (context, triple) {
                   final turnoTrabalho = triple.state;
-
-                  if (triple.isLoading == false && turnoTrabalho != null) {
+                  if (triple.isLoading == false && turnoTrabalho != null && turnoTrabalho != oldTurnoTrabalho) {
                     widget.turnoTrabalhoListStore.updateTurnoTrabalho(turnoTrabalho);
-                    Modular.to.pop();
+                    oldTurnoTrabalho = widget.turnoTrabalhoFormController.turnoTrabalho.copyWith();
+                    widget.turnoTrabalhoFormController.turnoTrabalhoNotifyListeners();
 
                     NotificationSnackBar.showSnackBar(
                       l10n.messages.editouUmEntidadeComSucesso(l10n.titles.turnosDeTrabalho),
