@@ -204,8 +204,17 @@ class _CentroTrabalhoFormDesktopPageState extends State<CentroTrabalhoFormDeskto
               child: TripleBuilder<InserirEditarCentroTrabalhoStore, CentroTrabalhoAggregate?>(
                 store: widget.inserirEditarCentroTrabalhoStore,
                 builder: (context, triple) {
-                  final centroTrabalho = triple.state;
+                  final error = triple.error;
+                  if (!triple.isLoading && error != null && error is Failure) {
+                    Asuka.showDialog(
+                      barrierColor: Colors.black38,
+                      builder: (context) {
+                        return ErrorModal(errorMessage: (triple.error as Failure).errorMessage ?? '');
+                      },
+                    );
+                  }
 
+                  final centroTrabalho = triple.state;
                   if (centroTrabalho != null && centroTrabalho != oldCentroTrabalho && !triple.isLoading) {
                     Asuka.showSnackBar(
                       SnackBar(

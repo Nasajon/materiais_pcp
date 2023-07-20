@@ -12,7 +12,7 @@ class GrupoDeRestricaoDatasourceImpl implements GrupoDeRestricaoDatasource {
 
   GrupoDeRestricaoDatasourceImpl(this.clientService);
 
-  List<Interceptor> interceptors = [ApiKeyInterceptor(), EntidadesEmpresariaisInterceptor(tenant: true, estabelecimento: true)];
+  List<Interceptor> interceptors = [ApiKeyInterceptor(), EntidadesEmpresariaisInterceptor()];
 
   @override
   Future<List<GrupoDeRestricaoEntity>> getList(String? search) async {

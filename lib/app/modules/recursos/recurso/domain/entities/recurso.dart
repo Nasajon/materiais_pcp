@@ -1,12 +1,15 @@
+import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart';
+import 'package:pcp_flutter/app/core/modules/domain/value_object/moeda_vo.dart';
+import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/modules/recursos/common/domain/entities/grupo_de_recurso.dart';
 import 'package:pcp_flutter/app/modules/recursos/common/domain/enum/tipo_de_recurso_enum.dart';
 
 class Recurso {
   final String? id;
-  final String codigo;
-  final String descricao;
+  final CodigoVO codigo;
+  final TextVO descricao;
   final GrupoDeRecurso? grupoDeRecurso;
-  final double? custoHora;
+  final MoedaVO? custoHora;
 
   const Recurso({
     this.id,
@@ -17,19 +20,19 @@ class Recurso {
   });
 
   factory Recurso.empty() {
-    return const Recurso(
-      codigo: '',
-      descricao: '',
+    return Recurso(
+      codigo: CodigoVO(null),
+      descricao: TextVO(''),
     );
   }
 
   Recurso copyWith({
     String? id,
-    String? codigo,
-    String? descricao,
+    CodigoVO? codigo,
+    TextVO? descricao,
     TipoDeRecursoEnum? tipo,
     GrupoDeRecurso? grupoDeRecurso,
-    double? custoHora,
+    MoedaVO? custoHora,
   }) {
     return Recurso(
       id: id ?? this.id,

@@ -48,7 +48,7 @@ class _GrupoDeRecursoDropdownWidgetState extends State<GrupoDeRecursoDropdownWid
           isRequiredField: widget.isRequiredField,
           isEnabled: widget.isEnabled,
           onSelected: (value) => widget.onSelected(value!),
-          items: _store.state.map((grupoDeRecurso) => DropdownItem(value: grupoDeRecurso, label: grupoDeRecurso.descricao)).toList(),
+          items: _store.state.map((grupoDeRecurso) => DropdownItem(value: grupoDeRecurso, label: grupoDeRecurso.descricao.value)).toList(),
         );
       },
     );

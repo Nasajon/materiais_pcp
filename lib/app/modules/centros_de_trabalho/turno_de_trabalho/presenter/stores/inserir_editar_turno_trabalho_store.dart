@@ -21,15 +21,8 @@ class InserirEditarTurnoTrabalhoStore extends NasajonStreamStore<TurnoTrabalhoAg
     try {
       final response = await _inserirTurnoTrabalhoUsecase(turnoTrabalho);
 
-      update(turnoTrabalho, force: true);
+      update(response, force: true);
     } on Failure catch (e) {
-      await Asuka.showDialog(
-        barrierColor: Colors.black38,
-        builder: (context) {
-          return ErrorModal(errorMessage: (triple.error as Failure).errorMessage ?? '');
-        },
-      );
-
       setError(e, force: true);
     }
 
@@ -45,15 +38,8 @@ class InserirEditarTurnoTrabalhoStore extends NasajonStreamStore<TurnoTrabalhoAg
       if (response) {
         update(turnoTrabalho, force: true);
       }
-    } on Failure catch (e) {
-      await Asuka.showDialog(
-        barrierColor: Colors.black38,
-        builder: (context) {
-          return ErrorModal(errorMessage: (triple.error as Failure).errorMessage ?? '');
-        },
-      );
-
-      setError(e, force: true);
+    } on Failure catch (error) {
+      setError(error, force: true);
     }
 
     setLoading(false, force: true);

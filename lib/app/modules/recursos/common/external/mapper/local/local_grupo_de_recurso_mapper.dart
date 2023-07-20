@@ -1,4 +1,6 @@
 import 'package:flutter_core/ana_core.dart';
+import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart';
+import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/modules/recursos/common/domain/entities/grupo_de_recurso.dart';
 
 class LocalGrupoDeRecursoMapper extends TypeAdapter<GrupoDeRecurso> {
@@ -14,8 +16,8 @@ class LocalGrupoDeRecursoMapper extends TypeAdapter<GrupoDeRecurso> {
 
     return GrupoDeRecurso(
       id: fields[0],
-      codigo: fields[1],
-      descricao: fields[2],
+      codigo: CodigoVO(fields[1]),
+      descricao: TextVO(fields[2]),
       tipo: fields[3],
     );
   }
@@ -27,9 +29,9 @@ class LocalGrupoDeRecursoMapper extends TypeAdapter<GrupoDeRecurso> {
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.codigo)
+      ..write(obj.codigo.value)
       ..writeByte(2)
-      ..write(obj.descricao)
+      ..write(obj.descricao.value)
       ..writeByte(3)
       ..write(obj.tipo);
   }

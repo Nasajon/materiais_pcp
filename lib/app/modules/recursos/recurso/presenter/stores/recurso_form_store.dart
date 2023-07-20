@@ -29,7 +29,7 @@ class RecursoFormStore extends NasajonStreamStore<RecursoFormState> {
   final selectedGrupoDeRecurso = ValueNotifier<DropdownItem<GrupoDeRecurso?>?>(null);
 
   void selectGrupoDeRecurso(GrupoDeRecurso? grupoDeRecurso) {
-    selectedGrupoDeRecurso.value = DropdownItem(value: grupoDeRecurso, label: grupoDeRecurso?.codigo ?? '');
+    selectedGrupoDeRecurso.value = DropdownItem(value: grupoDeRecurso, label: grupoDeRecurso?.codigo.toText ?? '');
   }
 
   Future<Recurso> pegarRecurso(String id) async {

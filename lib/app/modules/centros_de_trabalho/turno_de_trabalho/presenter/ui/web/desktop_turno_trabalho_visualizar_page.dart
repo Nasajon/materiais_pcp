@@ -94,7 +94,7 @@ class _DesktopTurnoTrabalhoVisualizarPageState extends State<DesktopTurnoTrabalh
                 onTap: () => pageController.jumpToPage(0),
               ),
               TabStatusButton(
-                title: l10n.fields.horario,
+                title: l10n.fields.horarios,
                 select: page == 1,
                 onTap: () => pageController.jumpToPage(1),
               ),
@@ -128,6 +128,16 @@ class _DesktopTurnoTrabalhoVisualizarPageState extends State<DesktopTurnoTrabalh
               child: TripleBuilder<InserirEditarTurnoTrabalhoStore, TurnoTrabalhoAggregate?>(
                 store: widget.inserirEditarTurnoTrabalhoStore,
                 builder: (context, triple) {
+                  final error = triple.error;
+                  if (!triple.isLoading && error != null && error is Failure) {
+                    Asuka.showDialog(
+                      barrierColor: Colors.black38,
+                      builder: (context) {
+                        return ErrorModal(errorMessage: (triple.error as Failure).errorMessage ?? '');
+                      },
+                    );
+                  }
+
                   final turnoTrabalho = triple.state;
                   if (triple.isLoading == false && turnoTrabalho != null && turnoTrabalho != oldTurnoTrabalho) {
                     widget.turnoTrabalhoListStore.updateTurnoTrabalho(turnoTrabalho);

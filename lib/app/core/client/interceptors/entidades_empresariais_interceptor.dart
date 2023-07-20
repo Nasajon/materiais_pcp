@@ -9,10 +9,10 @@ class EntidadesEmpresariaisInterceptor extends Interceptor {
   final bool empresa;
 
   EntidadesEmpresariaisInterceptor({
-    this.estabelecimento = false,
-    this.tenant = false,
-    this.grupoEmpresarial = false,
-    this.empresa = false,
+    this.estabelecimento = true,
+    this.tenant = true,
+    this.grupoEmpresarial = true,
+    this.empresa = true,
   });
 
   @override

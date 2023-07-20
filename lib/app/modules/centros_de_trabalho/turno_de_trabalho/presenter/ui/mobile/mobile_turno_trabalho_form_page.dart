@@ -159,16 +159,14 @@ class _MobileTurnoTrabalhoFormStatePage extends State<MobileTurnoTrabalhoFormPag
       bottomNavigationBar: TripleBuilder<InserirEditarTurnoTrabalhoStore, TurnoTrabalhoAggregate?>(
         store: inserirEditarTurnoTrabalhoStore,
         builder: (context, triple) {
-          if (triple.error != null && !triple.isLoading) {
-            final error = triple.error;
-            if (error is Failure && !triple.isLoading) {
-              Asuka.showDialog(
-                barrierColor: Colors.black38,
-                builder: (context) {
-                  return ErrorModal(errorMessage: (triple.error as Failure).errorMessage ?? '');
-                },
-              );
-            }
+          final error = triple.error;
+          if (!triple.isLoading && error != null && error is Failure) {
+            Asuka.showDialog(
+              barrierColor: Colors.black38,
+              builder: (context) {
+                return ErrorModal(errorMessage: (triple.error as Failure).errorMessage ?? '');
+              },
+            );
           }
 
           final turnoTrabalho = triple.state;

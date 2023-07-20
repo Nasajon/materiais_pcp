@@ -1,6 +1,7 @@
 import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/domain/entities/horario_entity.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/presenter/controller/turno_trabalho_form_controller.dart';
 
@@ -85,7 +86,18 @@ class DesktopCardHorarioWidget extends StatelessWidget {
                     if (value == 1) {
                       turnoTrabalhoFormController.horario = horario;
                     } else {
-                      turnoTrabalhoFormController.removerHorario(horario.codigo);
+                      Asuka.showDialog(
+                        barrierColor: Colors.black38,
+                        builder: (context) {
+                          return ConfirmationModalWidget(
+                            title: l10n.titles.excluirEntidade(l10n.fields.horario),
+                            messages: l10n.messages.excluirUmEntidade(l10n.titles.turnosDeTrabalho),
+                            titleCancel: l10n.fields.excluir,
+                            titleSuccess: l10n.fields.cancelar,
+                            onCancel: () => turnoTrabalhoFormController.removerHorario(horario.codigo),
+                          );
+                        },
+                      );
                     }
                   },
                   itemBuilder: (context) {

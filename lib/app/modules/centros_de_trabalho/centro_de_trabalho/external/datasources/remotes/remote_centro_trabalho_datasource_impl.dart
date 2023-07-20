@@ -14,10 +14,7 @@ class RemoteCentroTrabalhoDatasourceImpl implements RemoteCentroTrabalhoDatasour
 
   RemoteCentroTrabalhoDatasourceImpl(this.clientService);
 
-  List<Interceptor> interceptors = [
-    ApiKeyInterceptor(),
-    EntidadesEmpresariaisInterceptor(tenant: true, estabelecimento: true, empresa: true, grupoEmpresarial: true)
-  ];
+  List<Interceptor> interceptors = [ApiKeyInterceptor(), EntidadesEmpresariaisInterceptor()];
 
   @override
   Future<List<CentroTrabalhoAggregate>> getCentroTrabalhoRecentes() async {

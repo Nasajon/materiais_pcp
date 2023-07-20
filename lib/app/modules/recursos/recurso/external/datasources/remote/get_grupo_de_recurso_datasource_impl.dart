@@ -11,7 +11,7 @@ class GetGrupoDeRecursoDatasourceImpl implements GetGrupoDeRecursoDatasource {
 
   GetGrupoDeRecursoDatasourceImpl(this.clientService);
 
-  List<Interceptor> interceptors = [ApiKeyInterceptor(), EntidadesEmpresariaisInterceptor(tenant: true, estabelecimento: true)];
+  List<Interceptor> interceptors = [ApiKeyInterceptor(), EntidadesEmpresariaisInterceptor()];
 
   @override
   Future<List<GrupoDeRecurso>> getList() async {

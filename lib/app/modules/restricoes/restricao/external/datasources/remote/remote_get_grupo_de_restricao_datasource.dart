@@ -11,7 +11,7 @@ class RemoteGetGrupoDeRestricaoDatasourceImpl implements RemoteGetGrupoDeRestric
 
   RemoteGetGrupoDeRestricaoDatasourceImpl(this.clientService);
 
-  List<Interceptor> interceptors = [ApiKeyInterceptor(), EntidadesEmpresariaisInterceptor(tenant: true, estabelecimento: true)];
+  List<Interceptor> interceptors = [ApiKeyInterceptor(), EntidadesEmpresariaisInterceptor()];
 
   @override
   Future<List<GrupoDeRestricaoEntity>> call() async {

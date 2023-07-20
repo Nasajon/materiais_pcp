@@ -11,7 +11,7 @@ class RemoteRestricaoDatasourceImpl implements RemoteRestricaoDatasource {
 
   RemoteRestricaoDatasourceImpl(this._clientService);
 
-  List<Interceptor> interceptors = [ApiKeyInterceptor(), EntidadesEmpresariaisInterceptor(tenant: true, estabelecimento: true)];
+  List<Interceptor> interceptors = [ApiKeyInterceptor(), EntidadesEmpresariaisInterceptor()];
 
   @override
   Future<List<RestricaoAggregate>> getList([String? search]) async {

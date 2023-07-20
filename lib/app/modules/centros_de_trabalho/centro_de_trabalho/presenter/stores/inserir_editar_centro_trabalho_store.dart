@@ -27,7 +27,7 @@ class InserirEditarCentroTrabalhoStore extends NasajonStreamStore<CentroTrabalho
     try {
       final response = await _inserirCentroTrabalhoUsecase(centroTrabalho);
 
-      update(centroTrabalho, force: true);
+      update(response, force: true);
     } on Failure catch (e) {
       await Asuka.showDialog(
         barrierColor: Colors.black38,

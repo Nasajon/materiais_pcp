@@ -1,6 +1,7 @@
 import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/core/modules/domain/enums/week_enum.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/date_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/time_vo.dart';
@@ -109,9 +110,22 @@ class DesktopCardCriarEditarHorarioWidget extends StatelessWidget {
                   child: CustomTextButton(
                     title: l10n.fields.excluir,
                     onPressed: () {
-                      turnoTrabalhoFormController.removerHorario(horario?.codigo ?? 0);
+                      Asuka.showDialog(
+                        barrierColor: Colors.black38,
+                        builder: (context) {
+                          return ConfirmationModalWidget(
+                            title: l10n.titles.excluirEntidade(l10n.fields.horario),
+                            messages: l10n.messages.excluirUmEntidade(l10n.titles.turnosDeTrabalho),
+                            titleCancel: l10n.fields.excluir,
+                            titleSuccess: l10n.fields.cancelar,
+                            onCancel: () {
+                              turnoTrabalhoFormController.removerHorario(horario?.codigo ?? 0);
 
-                      turnoTrabalhoFormController.horario = null;
+                              turnoTrabalhoFormController.horario = null;
+                            },
+                          );
+                        },
+                      );
                     },
                     textColor: colorTheme?.danger,
                   ),

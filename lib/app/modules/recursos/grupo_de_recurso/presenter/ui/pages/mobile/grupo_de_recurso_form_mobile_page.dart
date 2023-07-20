@@ -5,6 +5,8 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart';
+import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/dropdown_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
@@ -83,20 +85,24 @@ class _GrupoDeRecursoFormMobilePageState extends State<GrupoDeRecursoFormMobileP
             key: _formKey,
             child: Column(
               children: [
-                CustomBaseTextField(
+                IntegerTextFormFieldWidget(
                   label: l10n.materiaisPcpCodigoLabel,
-                  initialValue: grupoDeRecurso.codigo,
+                  initialValue: grupoDeRecurso.codigo.value,
                   isEnabled: grupoDeRecursoController.isEnabled,
                   isRequiredField: true,
-                  onChanged: (value) => grupoDeRecursoController.grupoDeRecurso = grupoDeRecurso.copyWith(codigo: value),
+                  onChanged: (value) => grupoDeRecursoController.grupoDeRecurso = grupoDeRecurso.copyWith(
+                    codigo: CodigoVO(value),
+                  ),
                 ),
                 const SizedBox(height: 16),
-                CustomBaseTextField(
+                TextFormFieldWidget(
                   label: l10n.materiaisPcpNomeLabel,
-                  initialValue: grupoDeRecurso.descricao,
+                  initialValue: grupoDeRecurso.descricao.value,
                   isEnabled: grupoDeRecursoController.isEnabled,
                   isRequiredField: true,
-                  onChanged: (value) => grupoDeRecursoController.grupoDeRecurso = grupoDeRecurso.copyWith(descricao: value),
+                  onChanged: (value) => grupoDeRecursoController.grupoDeRecurso = grupoDeRecurso.copyWith(
+                    descricao: TextVO(value),
+                  ),
                 ),
                 const SizedBox(height: 16),
                 DropdownButtonWidget<TipoDeRecursoEnum>(

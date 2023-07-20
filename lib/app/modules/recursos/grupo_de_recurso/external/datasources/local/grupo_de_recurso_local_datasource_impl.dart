@@ -25,7 +25,7 @@ class GrupoDeRecursoLocalDatasourceImpl implements GrupoDeRecursoLocalDatasource
 
     if (search != null && search.isNotEmpty) {
       return listGrupoDeRecurso
-          .where((grupo) => grupo.codigo == search || grupo.descricao.toLowerCase().contains(search.toLowerCase()))
+          .where((grupo) => grupo.codigo.toText == search || grupo.descricao.value.toLowerCase().contains(search.toLowerCase()))
           .toList();
     }
 

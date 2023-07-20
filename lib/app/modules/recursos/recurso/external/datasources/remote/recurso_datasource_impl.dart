@@ -14,7 +14,7 @@ class RecursoDatasourceImpl implements RecursoDatasource {
 
   RecursoDatasourceImpl(this.clientService);
 
-  List<Interceptor> interceptors = [ApiKeyInterceptor(), EntidadesEmpresariaisInterceptor(tenant: true, estabelecimento: true)];
+  List<Interceptor> interceptors = [ApiKeyInterceptor(), EntidadesEmpresariaisInterceptor()];
 
   @override
   Future<List<Recurso>> getList(String? search) async {

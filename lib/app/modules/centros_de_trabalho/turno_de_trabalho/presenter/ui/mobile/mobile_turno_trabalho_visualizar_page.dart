@@ -121,6 +121,16 @@ class _MobileTurnoTrabalhoVisualizarPageState extends State<MobileTurnoTrabalhoV
                 child: TripleBuilder<InserirEditarTurnoTrabalhoStore, TurnoTrabalhoAggregate?>(
                   store: widget.inserirEditarTurnoTrabalhoStore,
                   builder: (context, triple) {
+                    final error = triple.error;
+                    if (!triple.isLoading && error != null && error is Failure) {
+                      Asuka.showDialog(
+                        barrierColor: Colors.black38,
+                        builder: (context) {
+                          return ErrorModal(errorMessage: (triple.error as Failure).errorMessage ?? '');
+                        },
+                      );
+                    }
+
                     final turnoTrabalho = triple.state;
                     if (triple.isLoading == false && turnoTrabalho != null && turnoTrabalho != oldTurnoTrabalho) {
                       widget.turnoTrabalhoListStore.updateTurnoTrabalho(turnoTrabalho);

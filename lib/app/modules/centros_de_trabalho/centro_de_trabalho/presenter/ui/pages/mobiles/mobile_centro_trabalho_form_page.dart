@@ -36,7 +36,8 @@ class MobileCentroTrabalhoFormPage extends StatefulWidget {
   State<MobileCentroTrabalhoFormPage> createState() => _MobileCentroTrabalhoFormPageState();
 }
 
-class _MobileCentroTrabalhoFormPageState extends State<MobileCentroTrabalhoFormPage> {
+class _MobileCentroTrabalhoFormPageState extends State<MobileCentroTrabalhoFormPage>
+    with DialogErrorMixin<MobileCentroTrabalhoFormPage, InserirEditarCentroTrabalhoStore> {
   InserirEditarCentroTrabalhoStore get inserirEditarCentroTrabalhoStore => widget.inserirEditarCentroTrabalhoStore;
   CentroTrabalhoController get centroTrabalhoController => widget.centroTrabalhoController;
   CustomScaffoldController get scaffoldController => widget.scaffoldController;
@@ -52,7 +53,7 @@ class _MobileCentroTrabalhoFormPageState extends State<MobileCentroTrabalhoFormP
     centroTrabalhoController.isLoading = true;
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final id = widget.id;
-// TODO: adicionar a busca dos turnos
+      // TODO: adicionar a busca dos turnos
       if (id != null && centroTrabalhoController.centroTrabalho.id != id) {
         final centroTrabalho = await inserirEditarCentroTrabalhoStore.buscarCentroTrabalho(id);
 
@@ -188,8 +189,17 @@ class _MobileCentroTrabalhoFormPageState extends State<MobileCentroTrabalhoFormP
               child: TripleBuilder<InserirEditarCentroTrabalhoStore, CentroTrabalhoAggregate?>(
                 store: widget.inserirEditarCentroTrabalhoStore,
                 builder: (context, triple) {
-                  final centroTrabalho = triple.state;
+                  final error = triple.error;
+                  if (!triple.isLoading && error != null && error is Failure) {
+                    Asuka.showDialog(
+                      barrierColor: Colors.black38,
+                      builder: (context) {
+                        return ErrorModal(errorMessage: (triple.error as Failure).errorMessage ?? '');
+                      },
+                    );
+                  }
 
+                  final centroTrabalho = triple.state;
                   if (centroTrabalho != null && centroTrabalho != oldCentroTrabalho && !triple.isLoading) {
                     Asuka.showSnackBar(
                       SnackBar(

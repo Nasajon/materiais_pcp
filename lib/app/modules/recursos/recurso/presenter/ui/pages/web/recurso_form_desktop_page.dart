@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart';
+import 'package:pcp_flutter/app/core/modules/domain/value_object/moeda_vo.dart';
+import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/dropdown_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
@@ -107,23 +110,27 @@ class _RecursoFormDesktopPageState extends State<RecursoFormDesktopPage> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Flexible(
-                          child: CustomBaseTextField(
+                          child: IntegerTextFormFieldWidget(
                             label: l10n.materiaisPcpCodigoLabelObrigatorio,
-                            initialValue: recursoController.recurso.codigo,
+                            initialValue: recursoController.recurso.codigo.value,
                             isRequiredField: true,
                             isEnabled: recursoController.isEnabled,
-                            onChanged: (value) => recursoController.recurso = recursoController.recurso.copyWith(codigo: value),
+                            onChanged: (value) => recursoController.recurso = recursoController.recurso.copyWith(
+                              codigo: CodigoVO(value),
+                            ),
                           ),
                         ),
                         const SizedBox(width: 16),
                         Flexible(
                           flex: 3,
-                          child: CustomBaseTextField(
+                          child: TextFormFieldWidget(
                             label: l10n.materiaisPcpNomeLabelObrigatorio,
-                            initialValue: recursoController.recurso.descricao,
+                            initialValue: recursoController.recurso.descricao.value,
                             isRequiredField: true,
                             isEnabled: recursoController.isEnabled,
-                            onChanged: (value) => recursoController.recurso = recursoController.recurso.copyWith(descricao: value),
+                            onChanged: (value) => recursoController.recurso = recursoController.recurso.copyWith(
+                              descricao: TextVO(value),
+                            ),
                           ),
                         ),
                       ],
@@ -143,7 +150,7 @@ class _RecursoFormDesktopPageState extends State<RecursoFormDesktopPage> {
                                 errorMessage: l10n.materiaisPcpEsteCampoPrecisaEstarPreenchido,
                                 isEnabled: recursoController.isEnabled,
                                 items: grupos
-                                    .map((grupoDeRecurso) => DropdownItem(value: grupoDeRecurso, label: grupoDeRecurso.descricao))
+                                    .map((grupoDeRecurso) => DropdownItem(value: grupoDeRecurso, label: grupoDeRecurso.descricao.value))
                                     .toList(),
                                 onSelected: (value) =>
                                     recursoController.recurso = recursoController.recurso.copyWith(grupoDeRecurso: value, tipo: value.tipo),
@@ -153,15 +160,14 @@ class _RecursoFormDesktopPageState extends State<RecursoFormDesktopPage> {
                         ),
                         const SizedBox(width: 16),
                         Flexible(
-                          child: CustomBaseTextField(
+                          child: MoneyTextFormFieldWidget(
                             label: l10n.materiaisPcpCustoPorHoraLabel,
-                            initialValue: recursoController.recurso.custoHora?.toString(),
+                            initialValue: recursoController.recurso.custoHora?.value,
                             isEnabled: recursoController.isEnabled,
-                            keyboardType: TextInputType.number,
-                            inputFormatters: [FilteringTextInputFormatter.digitsOnly, CentavosInputFormatter(moeda: true)],
+                            showSymbol: false,
                             onChanged: (value) {
                               recursoController.recurso = recursoController.recurso.copyWith(
-                                custoHora: value.isNotEmpty ? double.parse(value) : 0,
+                                custoHora: MoedaVO(value),
                               );
                             },
                           ),

@@ -1,10 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart';
+import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/modules/recursos/common/domain/enum/tipo_de_recurso_enum.dart';
 
 class GrupoDeRecurso {
   final String? id;
-  final String codigo;
-  final String descricao;
+  final CodigoVO codigo;
+  final TextVO descricao;
   final TipoDeRecursoEnum? tipo;
 
   const GrupoDeRecurso({
@@ -15,13 +17,13 @@ class GrupoDeRecurso {
   });
 
   factory GrupoDeRecurso.empty() {
-    return const GrupoDeRecurso(codigo: '', descricao: '');
+    return GrupoDeRecurso(codigo: CodigoVO(null), descricao: TextVO(''));
   }
 
   GrupoDeRecurso copyWith({
     String? id,
-    String? codigo,
-    String? descricao,
+    CodigoVO? codigo,
+    TextVO? descricao,
     TipoDeRecursoEnum? tipo,
   }) {
     return GrupoDeRecurso(

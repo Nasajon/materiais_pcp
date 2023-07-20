@@ -14,10 +14,7 @@ class TurnoTrabalhoDatasourceImpl implements TurnoTrabalhoDatasource {
 
   TurnoTrabalhoDatasourceImpl(this.clientService);
 
-  List<Interceptor> interceptors = [
-    ApiKeyInterceptor(),
-    EntidadesEmpresariaisInterceptor(tenant: true, estabelecimento: true, empresa: true, grupoEmpresarial: true)
-  ];
+  List<Interceptor> interceptors = [ApiKeyInterceptor(), EntidadesEmpresariaisInterceptor()];
 
   @override
   Future<List<TurnoTrabalhoAggregate>> getTurnoTrabalhoRecentes() async {
