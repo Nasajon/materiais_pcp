@@ -78,9 +78,6 @@ class _GrupoDeRestricaoFormMobilePageState extends State<GrupoDeRestricaoFormMob
       widget.id == null ? l10n.titles.criarGrupoDeRestricoes : grupoDeRestricaoController.grupoDeRestricao.descricao.value,
       alignment: Alignment.centerLeft,
       controller: scaffoldController,
-      onIconTap: () {
-        Modular.to.pop();
-      },
       actions: [
         InternetButtonIconWidget(connectionStore: widget.connectionStore),
       ],

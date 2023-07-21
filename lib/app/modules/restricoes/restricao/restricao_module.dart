@@ -9,14 +9,14 @@ import 'package:pcp_flutter/app/modules/restricoes/restricao/external/datasource
 import 'package:pcp_flutter/app/modules/restricoes/restricao/infra/repositories/get_grupo_de_restricao_repository_impl.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/infra/repositories/restricao_repository_impl.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/stores/restricao_list_store.dart';
-import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/controllers/restricao_form_controller.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/controllers/restricao_form_controller.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/mobile/mobile_criar_editar_disponibilidade_page.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/mobile/mobile_criar_editar_indisponibilidade_page.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/restricao_form_page.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/restricao_list_page.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/restricao_visualizar_page.dart';
-import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/stores/get_grupo_de_restricao_store.dart';
-import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/stores/get_restricao_store.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/stores/get_grupo_de_restricao_store.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/stores/get_restricao_store.dart';
 
 import 'presenter/ui/widgets/restricao_card.dart';
 

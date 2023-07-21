@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pcp_flutter/app/core/modules/domain/enums/week_enum.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/date_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/time_vo.dart';
-import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/controllers/restricao_form_controller.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/controllers/restricao_form_controller.dart';
 
 class DesktopCardCriarEditarDisponibilidadeWidget extends StatelessWidget {
   final RestricaoFormController restricaoFormController;

@@ -28,7 +28,6 @@ class GrupoDeRecursoListDesktopPage extends StatelessWidget {
       context.l10n.materiaisPcpGruposDeRecurso,
       alignment: Alignment.centerLeft,
       controller: scaffoldController,
-      onIconTap: () => Modular.to.pop(),
       actions: [
         InternetButtonIconWidget(connectionStore: connectionStore),
       ],

@@ -91,9 +91,6 @@ class _CentroTrabalhoFormDesktopPageState extends State<CentroTrabalhoFormDeskto
       widget.id == null ? l10n.titles.criarCentroDeTrabalho : centroTrabalhoController.centroTrabalho.nome.value,
       alignment: Alignment.centerLeft,
       controller: scaffoldController,
-      onIconTap: () {
-        Modular.to.pop();
-      },
       actions: [
         InternetButtonIconWidget(connectionStore: widget.connectionStore),
       ],

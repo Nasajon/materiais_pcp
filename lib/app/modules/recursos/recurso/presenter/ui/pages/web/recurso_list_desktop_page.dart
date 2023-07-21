@@ -28,7 +28,6 @@ class RecursoListDesktopPage extends StatelessWidget {
     return CustomScaffold.titleString(
       context.l10n.materiaisPcpRecursos,
       alignment: Alignment.centerLeft,
-      onIconTap: () => Modular.to.pop(),
       controller: scaffoldController,
       actions: [
         InternetButtonIconWidget(connectionStore: connectionStore),

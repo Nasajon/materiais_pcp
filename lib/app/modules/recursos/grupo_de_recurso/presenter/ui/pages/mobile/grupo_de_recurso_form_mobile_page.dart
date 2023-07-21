@@ -46,6 +46,8 @@ class _GrupoDeRecursoFormMobilePageState extends State<GrupoDeRecursoFormMobileP
   void initState() {
     super.initState();
 
+    grupoDeRecursoFormStore.clear();
+
     grupoDeRecursoController.isLoading = true;
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final id = widget.id;
@@ -65,10 +67,6 @@ class _GrupoDeRecursoFormMobilePageState extends State<GrupoDeRecursoFormMobileP
       widget.id != null ? l10n.materiaisPcpEditarGrupoDeRecursos : l10n.materiaisPcpCriarGrupoDeRecursos,
       alignment: Alignment.centerLeft,
       controller: scaffoldController,
-      onIconTap: () {
-        Modular.to.pop();
-        grupoDeRecursoFormStore.clear();
-      },
       actions: [
         InternetButtonIconWidget(connectionStore: widget.connectionStore),
       ],

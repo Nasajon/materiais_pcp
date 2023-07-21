@@ -32,7 +32,6 @@ class GrupoDeRestricaoListDesktopPage extends StatelessWidget {
       context.l10n.materiaisPcpGruposDeRestricao,
       alignment: Alignment.centerLeft,
       controller: scaffoldController,
-      onIconTap: () => Modular.to.pop(),
       actions: [
         InternetButtonIconWidget(connectionStore: connectionStore),
       ],

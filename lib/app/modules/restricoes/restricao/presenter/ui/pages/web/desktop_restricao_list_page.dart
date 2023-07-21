@@ -32,7 +32,6 @@ class DesktopRestricaoListPage extends StatelessWidget {
       l10n.titles.restricoesSecundarias,
       controller: scaffoldController,
       alignment: Alignment.centerLeft,
-      onIconTap: () => Modular.to.pop(),
       actions: [
         InternetButtonIconWidget(connectionStore: connectionStore),
       ],

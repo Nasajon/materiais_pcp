@@ -11,7 +11,6 @@ import 'package:pcp_flutter/app/core/widgets/pesquisa_form_field_widget.dart';
 import 'package:pcp_flutter/app/modules/recursos/common/domain/entities/grupo_de_recurso.dart';
 
 import '../../../stores/grupo_de_recurso_list_store.dart';
-import '../../widgets/grupo_de_recurso_item.dart';
 
 class GrupoDeRecursoListMobilePage extends StatelessWidget {
   final GrupoDeRecursoListStore grupoDeRecursoStore;
@@ -31,7 +30,6 @@ class GrupoDeRecursoListMobilePage extends StatelessWidget {
       context.l10n.materiaisPcpGruposDeRecurso,
       alignment: Alignment.centerLeft,
       controller: scaffoldController,
-      onIconTap: () => Modular.to.pop(),
       actions: [
         InternetButtonIconWidget(connectionStore: connectionStore),
       ],

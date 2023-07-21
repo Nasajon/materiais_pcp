@@ -1,9 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:ana_l10n/ana_l10n.dart';
-import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart';
@@ -13,7 +11,6 @@ import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dar
 import 'package:pcp_flutter/app/core/widgets/dropdown_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
 import 'package:pcp_flutter/app/modules/recursos/common/domain/entities/grupo_de_recurso.dart';
-import 'package:pcp_flutter/app/modules/recursos/common/domain/enum/tipo_de_recurso_enum.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/presenter/controllers/recurso_controller.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/presenter/stores/get_grupo_de_recurso_store.dart';
 
@@ -54,6 +51,8 @@ class _RecursoFormDesktopPageState extends State<RecursoFormDesktopPage> {
   void initState() {
     super.initState();
 
+    recursoFormStore.clear();
+
     recursoController.isLoading = true;
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final id = widget.id;
@@ -77,10 +76,6 @@ class _RecursoFormDesktopPageState extends State<RecursoFormDesktopPage> {
       widget.id != null ? context.l10n.materiaisPcpEditarRecurso : context.l10n.materiaisPcpCriarRecurso,
       alignment: Alignment.centerLeft,
       controller: scaffoldController,
-      onIconTap: () {
-        Modular.to.pop();
-        recursoFormStore.clear();
-      },
       actions: [
         InternetButtonIconWidget(connectionStore: widget.connectionStore),
       ],

@@ -35,7 +35,6 @@ class MobileCentroTrabalhoListPage extends StatelessWidget {
       l10n.titles.centroDeTrabalho,
       controller: scaffoldController,
       alignment: Alignment.centerLeft,
-      onIconTap: () => Modular.to.pop(),
       actions: [
         InternetButtonIconWidget(connectionStore: connectionStore),
       ],

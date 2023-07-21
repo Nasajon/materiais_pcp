@@ -25,6 +25,12 @@ class MobileCriarEditarHorario extends StatefulWidget {
 class _MobileCriarEditarHorarioState extends State<MobileCriarEditarHorario> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final formKey = GlobalKey<FormState>();
+  @override
+  void initState() {
+    super.initState();
+
+    widget.turnoTrabalhoFormController.horario = null;
+  }
 
   @override
   void didChangeDependencies() {
@@ -56,11 +62,6 @@ class _MobileCriarEditarHorarioState extends State<MobileCriarEditarHorario> {
           : l10n.titles.editarHorario,
       controller: CustomScaffoldController(),
       alignment: Alignment.centerLeft,
-      onIconTap: () {
-        widget.turnoTrabalhoFormController.horario = null;
-
-        Navigator.of(context).pop();
-      },
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Form(

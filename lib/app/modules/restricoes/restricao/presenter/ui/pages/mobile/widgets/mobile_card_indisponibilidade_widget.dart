@@ -5,7 +5,7 @@ import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 
 import 'package:pcp_flutter/app/modules/restricoes/restricao/domain/entities/disponibilidade_entity.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/domain/entities/indisponibilidade_entity.dart';
-import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/controllers/restricao_form_controller.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/controllers/restricao_form_controller.dart';
 
 class MobileCardIndisponibilidadeWidget extends StatelessWidget {
   final RestricaoFormController restricaoFormController;

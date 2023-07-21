@@ -39,7 +39,6 @@ class _DesktopCentroTrabalhoListPageState extends State<DesktopCentroTrabalhoLis
       l10n.titles.centrosDeTrabalho,
       controller: widget.scaffoldController,
       alignment: Alignment.centerLeft,
-      onIconTap: () => Modular.to.pop(),
       actions: [
         InternetButtonIconWidget(connectionStore: widget.connectionStore),
       ],

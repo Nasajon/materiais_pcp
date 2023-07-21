@@ -31,7 +31,6 @@ class RecursoListMobilePage extends StatelessWidget {
       context.l10n.materiaisPcpRecursos,
       controller: scaffoldController,
       alignment: Alignment.centerLeft,
-      onIconTap: () => Modular.to.pop(),
       actions: [
         InternetButtonIconWidget(connectionStore: connectionStore),
       ],

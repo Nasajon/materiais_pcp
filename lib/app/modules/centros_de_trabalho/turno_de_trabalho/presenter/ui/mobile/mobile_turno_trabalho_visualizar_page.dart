@@ -87,7 +87,6 @@ class _MobileTurnoTrabalhoVisualizarPageState extends State<MobileTurnoTrabalhoV
               '${widget.turnoTrabalhoFormController.turnoTrabalho.codigo} - ${widget.turnoTrabalhoFormController.turnoTrabalho.nome}',
               controller: widget.scaffoldController,
               alignment: Alignment.centerLeft,
-              onIconTap: () => Modular.to.pop(),
               actions: [
                 InternetButtonIconWidget(connectionStore: widget.connectionStore),
               ],

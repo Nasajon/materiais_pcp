@@ -2,7 +2,6 @@
 import 'package:ana_l10n/ana_l10n.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart';
@@ -53,6 +52,8 @@ class _RecursoFormMobilePageState extends State<RecursoFormMobilePage> {
   void initState() {
     super.initState();
 
+    recursoFormStore.clear();
+
     recursoController.isLoading = true;
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final id = widget.id;
@@ -76,10 +77,6 @@ class _RecursoFormMobilePageState extends State<RecursoFormMobilePage> {
       widget.id != null ? context.l10n.materiaisPcpEditarRecurso : context.l10n.materiaisPcpCriarRecurso,
       alignment: Alignment.centerLeft,
       controller: scaffoldController,
-      onIconTap: () {
-        Modular.to.pop();
-        recursoFormStore.clear();
-      },
       actions: [
         InternetButtonIconWidget(connectionStore: widget.connectionStore),
       ],

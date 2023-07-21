@@ -6,7 +6,7 @@ import 'package:pcp_flutter/app/core/modules/domain/value_object/date_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/time_vo.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
-import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/controllers/restricao_form_controller.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/controllers/restricao_form_controller.dart';
 
 class MobileCriarEditarIndisponibilidade extends StatelessWidget {
   final RestricaoFormController restricaoFormController;
@@ -30,11 +30,6 @@ class MobileCriarEditarIndisponibilidade extends StatelessWidget {
           : l10n.titles.editarIndisponibilidade,
       controller: CustomScaffoldController(),
       alignment: Alignment.centerLeft,
-      onIconTap: () {
-        restricaoFormController.indisponibilidade = null;
-
-        Modular.to.pop();
-      },
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Form(

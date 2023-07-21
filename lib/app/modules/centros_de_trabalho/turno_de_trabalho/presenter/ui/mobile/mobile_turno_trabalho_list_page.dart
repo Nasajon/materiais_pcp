@@ -6,9 +6,7 @@ import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
-import 'package:pcp_flutter/app/core/widgets/list_tile_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/pesquisa_form_field_widget.dart';
-import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/domain/aggregates/turno_trabalho_aggregate.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/presenter/stores/states/turno_trabalho_state.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/presenter/stores/turno_trabalho_list_store.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/presenter/ui/widgets/turno_trabalho_item_widget.dart';
@@ -37,7 +35,6 @@ class MobileTurnoTrabalhoListPage extends StatelessWidget {
       l10n.titles.turnosDeTrabalho,
       controller: scaffoldController,
       alignment: Alignment.centerLeft,
-      onIconTap: () => Modular.to.pop(),
       actions: [
         InternetButtonIconWidget(connectionStore: connectionStore),
       ],

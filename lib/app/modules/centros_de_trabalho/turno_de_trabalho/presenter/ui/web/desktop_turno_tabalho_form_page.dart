@@ -103,7 +103,6 @@ class _DesktopTurnoTrabalhoFormStatePage extends State<DesktopTurnoTrabalhoFormP
       l10n.titles.criarTurnoDeTrabalho,
       controller: scaffoldController,
       alignment: Alignment.centerLeft,
-      onIconTap: () => Modular.to.pop(),
       actions: [
         InternetButtonIconWidget(connectionStore: connectionStore),
       ],
