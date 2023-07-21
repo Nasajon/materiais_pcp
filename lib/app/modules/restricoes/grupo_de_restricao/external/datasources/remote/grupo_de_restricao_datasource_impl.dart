@@ -107,4 +107,22 @@ class GrupoDeRestricaoDatasourceImpl implements GrupoDeRestricaoDatasource {
       return Future.error(UnknownError(exception: exception, stackTrace: stacktrace, label: 'GrupoDeRestricaoDatasourceImpl-updateItem'));
     }
   }
+
+  @override
+  Future<bool> deletarItem(String id) async {
+    try {
+      final response = await clientService.request(ClientRequestParams(
+        selectedApi: APIEnum.pcp,
+        endPoint: '/1234/gruposderestricoes/$id',
+        method: ClientRequestMethods.DELETE,
+        interceptors: interceptors,
+      ));
+
+      return true;
+    } on Failure {
+      rethrow;
+    } on Exception catch (exception, stacktrace) {
+      return Future.error(UnknownError(exception: exception, stackTrace: stacktrace, label: 'GrupoDeRestricaoDatasourceImpl-updateItem'));
+    }
+  }
 }

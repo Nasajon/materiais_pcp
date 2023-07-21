@@ -5,4 +5,5 @@ abstract class GrupoDeRestricaoDatasource {
   Future<GrupoDeRestricaoEntity> getItem(String id);
   Future<GrupoDeRestricaoEntity> insertItem(GrupoDeRestricaoEntity grupoDeRestricao);
   Future<GrupoDeRestricaoEntity> updateItem(GrupoDeRestricaoEntity grupoDeRestricao);
+  Future<bool> deletarItem(String id);
 }

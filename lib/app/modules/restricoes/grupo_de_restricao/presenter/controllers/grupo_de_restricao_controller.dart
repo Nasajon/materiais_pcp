@@ -13,4 +13,8 @@ class GrupoDeRestricaoController {
   final _isLoadingNotifier = RxNotifier(false);
   bool get isLoading => _isLoadingNotifier.value;
   set isLoading(bool value) => _isLoadingNotifier.value = value;
+
+  void grupoDeRestricaoNotifyListeners() {
+    grupoDeRestricao = grupoDeRestricao.copyWith();
+  }
 }

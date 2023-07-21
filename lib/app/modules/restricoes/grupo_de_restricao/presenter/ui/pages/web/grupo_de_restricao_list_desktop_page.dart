@@ -1,13 +1,18 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:ana_l10n/ana_l10n.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
-import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/list_tile_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/pesquisa_form_field_widget.dart';
 import 'package:pcp_flutter/app/modules/restricoes/common/domain/entities/grupo_de_restricao_entity.dart';
+import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/presenter/stores/deletar_grupo_de_restricao_store.dart';
 import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/presenter/stores/grupo_de_restricao_list_store.dart';
+import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/presenter/stores/states/grupo_de_restricao_state.dart';
+import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/presenter/ui/widgets/grupo_de_restricao_item_widget.dart';
+
+import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 
 class GrupoDeRestricaoListDesktopPage extends StatelessWidget {
   final GrupoDeRestricaoListStore grupoDeRestricaoStore;
@@ -46,7 +51,7 @@ class GrupoDeRestricaoListDesktopPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 40),
                 Expanded(
-                  child: ScopedBuilder<GrupoDeRestricaoListStore, List<GrupoDeRestricaoEntity>>(
+                  child: ScopedBuilder<GrupoDeRestricaoListStore, List<GrupoDeRestricaoState>>(
                       store: grupoDeRestricaoStore,
                       onLoading: (_) => const Center(child: CircularProgressIndicator(color: AnaColors.darkBlue)),
                       onError: (context, error) => Container(),
@@ -74,8 +79,8 @@ class GrupoDeRestricaoListDesktopPage extends StatelessWidget {
 
                           widgets.add(Flexible(
                             child: _GrupoDeRestricaosList(
-                              gruposDeRestricaos: state,
-                              store: grupoDeRestricaoStore,
+                              listGrupoDeRestricaoState: state,
+                              grupoDeRestricaoListStore: grupoDeRestricaoStore,
                             ),
                           ));
                         }
@@ -113,13 +118,13 @@ class GrupoDeRestricaoListDesktopPage extends StatelessWidget {
 }
 
 class _GrupoDeRestricaosList extends StatelessWidget {
-  final GrupoDeRestricaoListStore store;
-  final List<GrupoDeRestricaoEntity> gruposDeRestricaos;
+  final GrupoDeRestricaoListStore grupoDeRestricaoListStore;
+  final List<GrupoDeRestricaoState> listGrupoDeRestricaoState;
 
   const _GrupoDeRestricaosList({
     Key? key,
-    required this.gruposDeRestricaos,
-    required this.store,
+    required this.grupoDeRestricaoListStore,
+    required this.listGrupoDeRestricaoState,
   }) : super(key: key);
 
   @override
@@ -128,19 +133,13 @@ class _GrupoDeRestricaosList extends StatelessWidget {
       padding: const EdgeInsets.only(top: 40, bottom: 24),
       child: ListView(
         shrinkWrap: true,
-        children: gruposDeRestricaos.map(
-          (grupoDeRestricao) {
-            return ListTileWidget(
-              title: '${grupoDeRestricao.codigo} - ${grupoDeRestricao.descricao}',
-              subtitle: '${context.l10n.materiaisPcpTipoDeRestricao}: ${grupoDeRestricao.tipo.description}',
-              onTap: () async {
-                await Modular.to.pushNamed('./${grupoDeRestricao.id}');
-
-                store.getList(
-                  search: store.pesquisaController.text,
-                  delay: Duration.zero,
-                );
-              },
+        children: listGrupoDeRestricaoState.map(
+          (state) {
+            return GrupoDeRestricaoItemWidget(
+              key: ValueKey(state.grupoDeRestricao.id),
+              grupoDeRestricao: state.grupoDeRestricao,
+              deletarGrupoDeRestricaoStore: state.deletarStore,
+              grupoDeRestricaoListStore: grupoDeRestricaoListStore,
             );
           },
         ).toList(),

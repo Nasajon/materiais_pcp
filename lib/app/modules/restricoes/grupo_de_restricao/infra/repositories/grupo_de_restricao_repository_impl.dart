@@ -76,4 +76,9 @@ class GrupoDeRestricaoRepositoryImpl implements GrupoDeRestricaoRepository {
       return Future.error(UnknownError(exception: exception, stackTrace: stacktrace, label: 'GrupoDeRestricaoRepositoryImpl-updateItem'));
     }
   }
+
+  @override
+  Future<bool> deletarItem(String id) {
+    return _grupoDeRestricaoDatasource.deletarItem(id);
+  }
 }

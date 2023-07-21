@@ -10,7 +10,7 @@ class GrupoDeRestricaoMapper {
     return GrupoDeRestricaoEntity(
       id: map['grupo_de_restricao'],
       codigo: CodigoVO.text(map['codigo']),
-      descricao: TextVO(map['descricao']),
+      descricao: TextVO(map['nome']),
       tipo: TipoDeRestricaoEnum.selectTipoRestricao(map['tipo']),
     );
   }
@@ -19,7 +19,7 @@ class GrupoDeRestricaoMapper {
     return {
       'grupo_de_restricao': grupoDeRestricao.id,
       'codigo': grupoDeRestricao.codigo?.toText,
-      'descricao': grupoDeRestricao.descricao.value,
+      'nome': grupoDeRestricao.descricao.value,
       'tipo': grupoDeRestricao.tipo.value,
     };
   }
