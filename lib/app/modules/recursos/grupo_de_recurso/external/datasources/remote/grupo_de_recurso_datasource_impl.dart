@@ -108,4 +108,26 @@ class GrupoDeRecursoDatasourceImpl implements GrupoDeRecursoDatasource {
       return Future.error(UnknownError(exception: exception, stackTrace: stacktrace, label: 'GrupoDeRecursoDatasourceImpl-updateItem'));
     }
   }
+
+  @override
+  Future<bool> deleteItem(String id) async {
+    try {
+      final response = await clientService.request(ClientRequestParams(
+        selectedApi: APIEnum.pcp,
+        endPoint: '/1234/gruposderecursos/$id',
+        method: ClientRequestMethods.DELETE,
+        interceptors: interceptors,
+      ));
+
+      if (response.statusCode == 404) {
+        throw GrupoDeRecursoNotFound();
+      }
+
+      return true;
+    } on Failure {
+      rethrow;
+    } on Exception catch (exception, stacktrace) {
+      return Future.error(UnknownError(exception: exception, stackTrace: stacktrace, label: 'GrupoDeRecursoDatasourceImpl-updateItem'));
+    }
+  }
 }

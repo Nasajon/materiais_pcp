@@ -1,10 +1,8 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:ana_l10n/ana_l10n.dart';
-import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/pesquisa_form_field_widget.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/presenter/stores/centro_trabalho_list_store.dart';
@@ -31,12 +29,11 @@ class _DesktopCentroTrabalhoListPageState extends State<DesktopCentroTrabalhoLis
     with DialogErrorMixin<DesktopCentroTrabalhoListPage, CentroTrabalhoListStore> {
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10nLocalization;
     final themeData = Theme.of(context);
     final colorTheme = themeData.extension<AnaColorTheme>();
 
     return CustomScaffold.titleString(
-      l10n.titles.centrosDeTrabalho,
+      translation.titles.centrosDeTrabalho,
       controller: widget.scaffoldController,
       alignment: Alignment.centerLeft,
       actions: [
@@ -50,7 +47,7 @@ class _DesktopCentroTrabalhoListPageState extends State<DesktopCentroTrabalhoLis
             children: [
               const SizedBox(height: 40),
               PesquisaFormFieldWidget(
-                label: l10n.messages.pesquisarNomeOuPalavraChave,
+                label: translation.messages.pesquisarNomeOuPalavraChave,
                 onChanged: (value) => widget.centroTrabalhoListStore.search = value,
               ),
               const SizedBox(height: 40),
@@ -61,7 +58,7 @@ class _DesktopCentroTrabalhoListPageState extends State<DesktopCentroTrabalhoLis
                   onState: (context, state) {
                     final createCentroTrabalhoButton = Center(
                       child: CustomPrimaryButton(
-                        title: l10n.fields.criarCentro,
+                        title: translation.fields.criarCentro,
                         onPressed: () async {
                           await Modular.to.pushNamed('./new');
                         },
@@ -77,8 +74,8 @@ class _DesktopCentroTrabalhoListPageState extends State<DesktopCentroTrabalhoLis
                             padding: const EdgeInsets.only(bottom: 20),
                             child: Text(
                               widget.centroTrabalhoListStore.search.isEmpty
-                                  ? l10n.messages.nenhumEntidadeEncontrado(l10n.titles.centroDeTrabalho)
-                                  : context.l10n.materiaisPcpNaoHaResultadosParaPesquisa,
+                                  ? translation.messages.nenhumEntidadeEncontrado(translation.titles.centroDeTrabalho)
+                                  : translation.messages.naoHaResultadosParaPesquisa,
                               style: AnaTextStyles.grey20Px,
                             ),
                           ),
@@ -93,7 +90,7 @@ class _DesktopCentroTrabalhoListPageState extends State<DesktopCentroTrabalhoLis
                       children: [
                         if (widget.centroTrabalhoListStore.search.isEmpty) ...{
                           Text(
-                            l10n.titles.ultimosCentrosAcessados,
+                            translation.titles.ultimosCentrosAcessados,
                             style: AnaTextStyles.boldDarkGrey16Px.copyWith(fontSize: 18),
                           ),
                           const SizedBox(height: 40),

@@ -3,6 +3,8 @@ import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/core/client/interceptors/api_key_interceptor.dart';
 import 'package:pcp_flutter/app/core/client/interceptors/entidades_empresariais_interceptor.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/domain/aggregates/restricao_aggregate.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/domain/error/restricao_failure.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/external/mapper/remote/remote_indisponibilidade_mapper.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/external/mapper/remote/remote_restricao_mapper.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/infra/datasources/remote/remote_restricao_datasource.dart';
 
@@ -15,46 +17,89 @@ class RemoteRestricaoDatasourceImpl implements RemoteRestricaoDatasource {
 
   @override
   Future<List<RestricaoAggregate>> getList([String? search]) async {
-    Map<String, dynamic> queryParams = {'fields': 'tipo'};
+    Map<String, dynamic> queryParams = {'fields': 'grupo_de_restricao'};
 
     if (search != null && search.isNotEmpty) {
       queryParams['search'] = search;
     }
 
-    // final response = await _clientService.request(ClientRequestParams(
-    //   selectedApi: APIEnum.pcp,
-    //   endPoint: '/1234/restricoes',
-    //   method: ClientRequestMethods.GET,
-    //   queryParams: queryParams,
-    //   interceptors: interceptors,
-    // ));
+    final response = await _clientService.request(ClientRequestParams(
+      selectedApi: APIEnum.pcp,
+      endPoint: '/1234/restricoes',
+      method: ClientRequestMethods.GET,
+      queryParams: queryParams,
+      interceptors: interceptors,
+    ));
 
-    // final listRestricao = response.data;
-
-    final listRestricao = json;
-
-    return (listRestricao).map((map) => RemoteRestricaoMapper.fromMapToRestricaoAggregate(map)).toList();
+    return List.from(response.data).map((map) => RemoteRestricaoMapper.fromMapToRestricaoAggregate(map)).toList();
   }
 
   @override
   Future<RestricaoAggregate> getRestricaoPorId(String id) async {
-    final listRestricao = json;
+    Map<String, dynamic> queryParams = {'fields': 'grupo_de_restricao, indisponibilidades'};
 
-    final restricao = (listRestricao).map((map) => RemoteRestricaoMapper.fromMapToRestricaoAggregate(map)).toList().first;
+    final response = await _clientService.request(ClientRequestParams(
+      selectedApi: APIEnum.pcp,
+      endPoint: '/1234/restricoes/$id',
+      method: ClientRequestMethods.GET,
+      queryParams: queryParams,
+      interceptors: interceptors,
+    ));
 
-    return restricao;
+    final restricao = RemoteRestricaoMapper.fromMapToRestricaoAggregate(response.data);
+
+    return restricao.copyWith(
+        indisponibilidades: RemoteIndisponibilidadeMapper.setarIndexParaOsIndisponibilidades(restricao.indisponibilidades));
   }
 
   @override
-  Future<RestricaoAggregate> insert(RestricaoAggregate restricao) {
-    // TODO: implement insert
-    throw UnimplementedError();
+  Future<RestricaoAggregate> insert(RestricaoAggregate restricao) async {
+    try {
+      final response = await _clientService.request(ClientRequestParams(
+        selectedApi: APIEnum.pcp,
+        endPoint: '/1234/restricoes',
+        method: ClientRequestMethods.POST,
+        interceptors: interceptors,
+        body: RemoteRestricaoMapper.fromRestricaoAggregateToMap(restricao),
+      ));
+
+      return restricao.copyWith(id: response.data['restricao']);
+    } on ClientError catch (e) {
+      throw DatasourceRestricaoFailure(errorMessage: e.message, stackTrace: e.stackTrace);
+    }
   }
 
   @override
-  Future<bool> update(RestricaoAggregate restricao) {
-    // TODO: implement update
-    throw UnimplementedError();
+  Future<bool> update(RestricaoAggregate restricao) async {
+    try {
+      await _clientService.request(ClientRequestParams(
+        selectedApi: APIEnum.pcp,
+        endPoint: '/1234/restricoes/${restricao.id}',
+        method: ClientRequestMethods.PUT,
+        interceptors: interceptors,
+        body: RemoteRestricaoMapper.fromRestricaoAggregateToMap(restricao),
+      ));
+
+      return true;
+    } on ClientError catch (e) {
+      throw DatasourceRestricaoFailure(errorMessage: e.message, stackTrace: e.stackTrace);
+    }
+  }
+
+  @override
+  Future<bool> delete(String id) async {
+    try {
+      await _clientService.request(ClientRequestParams(
+        selectedApi: APIEnum.pcp,
+        endPoint: '/1234/restricoes/$id',
+        method: ClientRequestMethods.DELETE,
+        interceptors: interceptors,
+      ));
+
+      return true;
+    } on ClientError catch (e) {
+      throw DatasourceRestricaoFailure(errorMessage: e.message, stackTrace: e.stackTrace);
+    }
   }
 }
 
@@ -64,11 +109,11 @@ final json = [
     'codigo': '1',
     'descricao': 'Restrição 1',
     'grupo': {
-      "grupo_de_restricao": "64705ab6-f02e-40d4-967d-06751bd1fc9e",
-      "codigo": "01",
-      "descricao": "Teste",
-      "tipo": "ferramenta",
-      "tenant": 47
+      'grupo_de_restricao': 'aa0fa0e4-2654-44c4-8307-8cd0b75d5ba5',
+      'codigo': '1',
+      'nome': 'Teste 11',
+      'tipo': 'equipamento',
+      'tenant': 47
     },
     'tipo_unidade': 'decimetro_cubico',
     'capacidade_producao': 2,
@@ -82,11 +127,11 @@ final json = [
     'codigo': '2',
     'descricao': 'Restrição 2',
     'grupo': {
-      "grupo_de_restricao": "64705ab6-f02e-40d4-967d-06751bd1fc9e",
-      "codigo": "01",
-      "descricao": "Teste",
-      "tipo": "ferramenta",
-      "tenant": 47
+      'grupo_de_restricao': 'aa0fa0e4-2654-44c4-8307-8cd0b75d5ba5',
+      'codigo': '1',
+      'nome': 'Teste 11',
+      'tipo': 'equipamento',
+      'tenant': 47
     },
     'tipo_unidade': 'decimetro_cubico',
     'capacidade_producao': 2,

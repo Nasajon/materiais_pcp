@@ -1,8 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:ana_l10n/ana_l10n.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
+import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/pesquisa_form_field_widget.dart';
@@ -29,7 +29,7 @@ class GrupoDeRestricaoListMobilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold.titleString(
-      context.l10n.materiaisPcpGruposDeRestricao,
+      translation.titles.gruposDeRestricao,
       alignment: Alignment.centerLeft,
       controller: scaffoldController,
       actions: [
@@ -42,7 +42,7 @@ class GrupoDeRestricaoListMobilePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             PesquisaFormFieldWidget(
-              label: context.l10n.materiaisPcpPesquisa,
+              label: translation.messages.avisoPesquisarPorNomeOuPalavraChave,
               controller: grupoDeRestricaoStore.pesquisaController,
               onChanged: (value) => grupoDeRestricaoStore.getList(search: value),
             ),
@@ -62,9 +62,8 @@ class GrupoDeRestricaoListMobilePage extends StatelessWidget {
                           padding: const EdgeInsets.only(bottom: 20),
                           child: Text(
                             grupoDeRestricaoStore.pesquisaController.text.isEmpty
-                                ? context.l10n
-                                    .materiaisPcpNenhumaEntidadeEncontradaMasculino(context.l10n.materiaisPcpGrupoDeRestricao.toLowerCase())
-                                : context.l10n.materiaisPcpNaoHaResultadosParaPesquisa,
+                                ? translation.messages.nenhumEntidadeEncontrado(translation.fields.grupoDeRestricao)
+                                : translation.messages.naoHaResultadosParaPesquisa,
                             style: AnaTextStyles.grey20Px,
                           ),
                         ),
@@ -74,7 +73,7 @@ class GrupoDeRestricaoListMobilePage extends StatelessWidget {
                     if (grupoDeRestricaoStore.pesquisaController.text.isEmpty) {
                       widgets.add(
                         Text(
-                          context.l10n.materiaisPcpUltimosGruposAcessados,
+                          translation.titles.ultimosGruposAcessados,
                           style: AnaTextStyles.boldDarkGrey16Px.copyWith(fontSize: 18),
                         ),
                       );
@@ -105,9 +104,9 @@ class GrupoDeRestricaoListMobilePage extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            CustomTextButton(title: context.l10n.materiaisPcpVoltar, onPressed: () => Modular.to.pop()),
+            CustomTextButton(title: translation.fields.voltar, onPressed: () => Modular.to.pop()),
             const SizedBox(width: 12),
-            CustomPrimaryButton(title: context.l10n.materiaisPcpCriarGrupo, onPressed: () => Modular.to.pushNamed('./new'))
+            CustomPrimaryButton(title: translation.fields.criarGrupo, onPressed: () => Modular.to.pushNamed('./new'))
           ],
         ),
       ),

@@ -1,9 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/core/widgets/dropdown_widget.dart';
@@ -25,8 +24,6 @@ class DesktopRestricaoDadosGeraisFormWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10nLocalization;
-
     return Center(
       child: Container(
         constraints: const BoxConstraints(maxWidth: 635),
@@ -42,7 +39,7 @@ class DesktopRestricaoDadosGeraisFormWidget extends StatelessWidget {
                 children: [
                   Flexible(
                     child: IntegerTextFormFieldWidget(
-                      label: l10n.fields.codigo,
+                      label: translation.fields.codigo,
                       initialValue: restricaoFormController.restricao.codigo.value,
                       isRequiredField: true,
                       isEnabled: true,
@@ -58,7 +55,7 @@ class DesktopRestricaoDadosGeraisFormWidget extends StatelessWidget {
                   Flexible(
                     flex: 3,
                     child: TextFormFieldWidget(
-                      label: l10n.fields.nome,
+                      label: translation.fields.nome,
                       initialValue: restricaoFormController.restricao.descricao.value,
                       isRequiredField: true,
                       isEnabled: true,
@@ -71,52 +68,23 @@ class DesktopRestricaoDadosGeraisFormWidget extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Flexible(
-                    child: ScopedBuilder<GetGrupoDeRestricaoStore, List<GrupoDeRestricaoEntity>>(
-                      store: getGrupoDeRestricaoStore,
-                      onLoading: (context) => DropdownLoadWidget(label: l10n.fields.grupoDeRestricao),
-                      onState: (_, grupos) {
-                        return DropdownButtonWidget<GrupoDeRestricaoEntity>(
-                          label: l10n.fields.grupoDeRestricao,
-                          value: grupos.isNotEmpty ? restricaoFormController.restricao.grupoDeRestricao : null,
-                          isRequiredField: true,
-                          errorMessage: l10n.messages.errorCampoObrigatorio,
-                          isEnabled: true,
-                          items: grupos
-                              .map((grupoDeRestricao) => DropdownItem(value: grupoDeRestricao, label: grupoDeRestricao.descricao.value))
-                              .toList(),
-                          onSelected: (value) =>
-                              restricaoFormController.restricao = restricaoFormController.restricao.copyWith(grupoDeRestricao: value),
-                        );
-                      },
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Flexible(
-                    child: ScopedBuilder<GetGrupoDeRestricaoStore, List<GrupoDeRestricaoEntity>>(
-                      store: getGrupoDeRestricaoStore,
-                      onLoading: (context) => DropdownLoadWidget(label: l10n.fields.centroDeTrabalho),
-                      onState: (_, grupos) {
-                        return DropdownButtonWidget<GrupoDeRestricaoEntity>(
-                          label: l10n.fields.centroDeTrabalho,
-                          value: grupos.isNotEmpty ? restricaoFormController.restricao.grupoDeRestricao : null,
-                          isRequiredField: true,
-                          errorMessage: l10n.messages.errorCampoObrigatorio,
-                          isEnabled: true,
-                          items: grupos
-                              .map((grupoDeRestricao) => DropdownItem(value: grupoDeRestricao, label: grupoDeRestricao.descricao.value))
-                              .toList(),
-                          onSelected: (value) =>
-                              restricaoFormController.restricao = restricaoFormController.restricao.copyWith(grupoDeRestricao: value),
-                        );
-                      },
-                    ),
-                  ),
-                ],
+              ScopedBuilder<GetGrupoDeRestricaoStore, List<GrupoDeRestricaoEntity>>(
+                store: getGrupoDeRestricaoStore,
+                onLoading: (context) => DropdownLoadWidget(label: translation.fields.grupoDeRestricao),
+                onState: (_, grupos) {
+                  return DropdownButtonWidget<GrupoDeRestricaoEntity>(
+                    label: translation.fields.grupoDeRestricao,
+                    value: grupos.isNotEmpty ? restricaoFormController.restricao.grupoDeRestricao : null,
+                    isRequiredField: true,
+                    errorMessage: translation.messages.errorCampoObrigatorio,
+                    isEnabled: true,
+                    items: grupos
+                        .map((grupoDeRestricao) => DropdownItem(value: grupoDeRestricao, label: grupoDeRestricao.descricao.value))
+                        .toList(),
+                    onSelected: (value) =>
+                        restricaoFormController.restricao = restricaoFormController.restricao.copyWith(grupoDeRestricao: value),
+                  );
+                },
               ),
             ],
           ),

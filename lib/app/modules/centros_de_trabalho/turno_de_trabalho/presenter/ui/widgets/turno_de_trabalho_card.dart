@@ -1,15 +1,15 @@
 import 'package:ana_l10n/ana_l10n.dart';
-import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/modules/presenter/widgets/card_widget.dart';
 
 class TurnoDeTranalhoCard extends StatelessWidget implements CardWidget {
   final BuildContext context;
 
   TurnoDeTranalhoCard({Key? key, required this.context}) : super(key: key) {
-    titulo = context.l10nLocalization.titles.turnosDeTrabalho;
+    titulo = translation.titles.turnosDeTrabalho;
     secao = context.l10n.materiaisProducao;
     descricoes = [];
   }

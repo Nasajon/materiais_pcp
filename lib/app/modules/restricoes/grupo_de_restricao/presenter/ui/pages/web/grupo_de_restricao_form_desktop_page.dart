@@ -1,8 +1,8 @@
-import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
@@ -60,8 +60,6 @@ class _GrupoDeRestricaoFormDesktopPageState extends State<GrupoDeRestricaoFormDe
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10nLocalization;
-
     context.select(() => [
           grupoDeRestricaoController.grupoDeRestricao,
           grupoDeRestricaoController.isEnabled,
@@ -75,7 +73,7 @@ class _GrupoDeRestricaoFormDesktopPageState extends State<GrupoDeRestricaoFormDe
     final grupoDeRestricao = grupoDeRestricaoController.grupoDeRestricao;
 
     return CustomScaffold.titleString(
-      widget.id == null ? l10n.titles.criarGrupoDeRestricoes : grupoDeRestricaoController.grupoDeRestricao.descricao.value,
+      widget.id == null ? translation.titles.criarGrupoDeRestricoes : oldGrupoRestricao?.descricao.value ?? '',
       alignment: Alignment.centerLeft,
       controller: scaffoldController,
       actions: [
@@ -95,7 +93,7 @@ class _GrupoDeRestricaoFormDesktopPageState extends State<GrupoDeRestricaoFormDe
                     children: [
                       Flexible(
                         child: IntegerTextFormFieldWidget(
-                          label: l10n.fields.codigo,
+                          label: translation.fields.codigo,
                           initialValue: grupoDeRestricao.codigo?.value,
                           isEnabled: true,
                           isRequiredField: true,
@@ -110,7 +108,7 @@ class _GrupoDeRestricaoFormDesktopPageState extends State<GrupoDeRestricaoFormDe
                       Flexible(
                           flex: 3,
                           child: TextFormFieldWidget(
-                            label: l10n.fields.nome,
+                            label: translation.fields.nome,
                             initialValue: grupoDeRestricao.descricao.value,
                             isEnabled: true,
                             isRequiredField: true,
@@ -122,13 +120,13 @@ class _GrupoDeRestricaoFormDesktopPageState extends State<GrupoDeRestricaoFormDe
                   ),
                   const SizedBox(height: 16),
                   DropdownButtonWidget<TipoDeRestricaoEnum>(
-                    label: l10n.fields.tipo,
+                    label: translation.fields.tipo,
                     value: grupoDeRestricao.tipo,
                     items: TipoDeRestricaoEnum.values
                         .map<DropdownItem<TipoDeRestricaoEnum>>((tipo) => DropdownItem(value: tipo, label: tipo.description))
                         .toList(),
                     isRequiredField: true,
-                    errorMessage: l10n.messages.errorCampoObrigatorio,
+                    errorMessage: translation.messages.errorCampoObrigatorio,
                     onSelected: (value) => grupoDeRestricaoController.grupoDeRestricao = grupoDeRestricao.copyWith(tipo: value),
                   ),
                 ],
@@ -137,86 +135,87 @@ class _GrupoDeRestricaoFormDesktopPageState extends State<GrupoDeRestricaoFormDe
           ),
         ),
       ),
-      bottomNavigationBar: widget.id == null || (widget.id != null && oldGrupoRestricao != grupoDeRestricao)
-          ? ContainerNavigationBarWidget(
-              child: TripleBuilder<GrupoDeRestricaoFormStore, GrupoDeRestricaoEntity?>(
-                store: grupoDeRestricaoFormStore,
-                builder: (context, triple) {
-                  final error = triple.error;
-                  if (!triple.isLoading && error != null && error is Failure) {
-                    Asuka.showDialog(
-                      barrierColor: Colors.black38,
-                      builder: (context) {
-                        return ErrorModal(errorMessage: (triple.error as Failure).errorMessage ?? '');
-                      },
-                    );
-                  }
+      bottomNavigationBar: Visibility(
+        visible: widget.id == null || (widget.id != null && oldGrupoRestricao != grupoDeRestricao),
+        child: ContainerNavigationBarWidget(
+          child: TripleBuilder<GrupoDeRestricaoFormStore, GrupoDeRestricaoEntity?>(
+            store: grupoDeRestricaoFormStore,
+            builder: (context, triple) {
+              final error = triple.error;
+              if (!triple.isLoading && error != null && error is Failure) {
+                Asuka.showDialog(
+                  barrierColor: Colors.black38,
+                  builder: (context) {
+                    return ErrorModal(errorMessage: (triple.error as Failure).errorMessage ?? '');
+                  },
+                );
+              }
 
-                  final grupoRestricao = triple.state;
-                  if (grupoRestricao != null && !triple.isLoading) {
-                    Asuka.showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          widget.id == null
-                              ? l10n.messages.criouUmEntidadeComSucesso(l10n.fields.grupoDeRestricao)
-                              : l10n.messages.editouUmEntidadeComSucesso(l10n.fields.grupoDeRestricao),
-                          style: AnaTextStyles.grey14Px.copyWith(fontSize: 15, color: Colors.white, letterSpacing: 0.25),
-                        ),
-                        backgroundColor: const Color.fromRGBO(0, 0, 0, 0.87),
-                        behavior: SnackBarBehavior.floating,
-                        width: 635,
-                      ),
-                    );
+              final grupoRestricao = triple.state;
+              if (grupoRestricao != null && !triple.isLoading) {
+                Asuka.showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      widget.id == null
+                          ? translation.messages.criouUmEntidadeComSucesso(translation.fields.grupoDeRestricao)
+                          : translation.messages.editouUmEntidadeComSucesso(translation.fields.grupoDeRestricao),
+                      style: AnaTextStyles.grey14Px.copyWith(fontSize: 15, color: Colors.white, letterSpacing: 0.25),
+                    ),
+                    backgroundColor: const Color.fromRGBO(0, 0, 0, 0.87),
+                    behavior: SnackBarBehavior.floating,
+                    width: 635,
+                  ),
+                );
 
-                    if (widget.id == null) {
-                      Modular.to.pop();
-                    } else {
-                      oldGrupoRestricao = grupoDeRestricaoController.grupoDeRestricao.copyWith();
-                      grupoDeRestricaoController.grupoDeRestricaoNotifyListeners();
-                    }
-                  }
+                if (widget.id == null) {
+                  Modular.to.pop();
+                } else {
+                  oldGrupoRestricao = grupoDeRestricaoController.grupoDeRestricao.copyWith();
+                  grupoDeRestricaoController.grupoDeRestricaoNotifyListeners();
+                }
+              }
 
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      CustomTextButton(
-                        title: widget.id == null ? l10n.fields.cancelar : l10n.fields.descartar,
-                        isEnabled: !triple.isLoading,
-                        onPressed: () {
-                          if (oldGrupoRestricao != widget.grupoDeRestricaoController.grupoDeRestricao) {
-                            Asuka.showDialog(
-                              barrierColor: Colors.black38,
-                              builder: (context) {
-                                return ConfirmationModalWidget(
-                                  title: l10n.titles.descartarAlteracoes,
-                                  messages: l10n.messages.descatarAlteracoesCriacaoEntidade,
-                                  titleCancel: l10n.fields.descartar,
-                                  titleSuccess: l10n.fields.continuar,
-                                  onCancel: () => Modular.to.pop(),
-                                );
-                              },
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  CustomTextButton(
+                    title: widget.id == null ? translation.fields.cancelar : translation.fields.descartar,
+                    isEnabled: !triple.isLoading,
+                    onPressed: () {
+                      if (oldGrupoRestricao != widget.grupoDeRestricaoController.grupoDeRestricao) {
+                        Asuka.showDialog(
+                          barrierColor: Colors.black38,
+                          builder: (context) {
+                            return ConfirmationModalWidget(
+                              title: translation.titles.descartarAlteracoes,
+                              messages: translation.messages.descatarAlteracoesCriacaoEntidade,
+                              titleCancel: translation.fields.descartar,
+                              titleSuccess: translation.fields.continuar,
+                              onCancel: () => Modular.to.pop(),
                             );
-                          } else {
-                            Modular.to.pop();
-                          }
-                        },
-                      ),
-                      const SizedBox(width: 10),
-                      CustomPrimaryButton(
-                        title: widget.id != null ? l10n.fields.salvar : l10n.fields.criar,
-                        isLoading: triple.isLoading,
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            grupoDeRestricaoFormStore.salvar(grupoDeRestricaoController.grupoDeRestricao);
-                          }
-                        },
-                      )
-                    ],
-                  );
-                },
-              ),
-            )
-          : null,
+                          },
+                        );
+                      } else {
+                        Modular.to.pop();
+                      }
+                    },
+                  ),
+                  const SizedBox(width: 10),
+                  CustomPrimaryButton(
+                    title: widget.id != null ? translation.fields.salvar : translation.fields.criar,
+                    isLoading: triple.isLoading,
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        grupoDeRestricaoFormStore.salvar(grupoDeRestricaoController.grupoDeRestricao);
+                      }
+                    },
+                  )
+                ],
+              );
+            },
+          ),
+        ),
+      ),
     );
   }
 }

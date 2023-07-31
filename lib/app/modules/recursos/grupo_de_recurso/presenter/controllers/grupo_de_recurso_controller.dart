@@ -6,6 +6,8 @@ class GrupoDeRecursoController {
   GrupoDeRecurso get grupoDeRecurso => _grupoDeRecursoNotifier.value;
   set grupoDeRecurso(GrupoDeRecurso grupoDeRecurso) => _grupoDeRecursoNotifier.value = grupoDeRecurso;
 
+  void grupoDeRecursoNotifyListeners() => _grupoDeRecursoNotifier.call();
+
   final _isEnabledNotifier = RxNotifier(true);
   bool get isEnabled => _isEnabledNotifier.value;
   set isEnabled(bool value) => _isEnabledNotifier.value = value;

@@ -77,4 +77,9 @@ class GrupoDeRecursoRepositoryImpl implements GrupoDeRecursosRepository {
       return Future.error(UnknownError(exception: exception, stackTrace: stacktrace, label: 'GrupoDeRecursoRepositoryImpl-updateItem'));
     }
   }
+
+  @override
+  Future<bool> deleteItem(String id) {
+    return _grupoDeRecursoDatasource.deleteItem(id);
+  }
 }

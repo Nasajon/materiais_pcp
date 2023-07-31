@@ -35,17 +35,18 @@ class CentroTrabalhoListStore extends NasajonStreamStore<List<CentroTrabalhoStat
     setLoading(true);
 
     try {
-      await Future.delayed(const Duration(seconds: 2));
       execute(() async {
         final response = await _getTodosCentroTrabalhoUsecase('');
-        _listCentroTrabalho.addAll(response
-            .map(
-              (centroTrabalho) => CentroTrabalhoState(
-                centroTrabalho: centroTrabalho,
-                deletarStore: DeletarCentroTrabalhoStore(_deletarCentroTrabalhoUsecase),
-              ),
-            )
-            .toList());
+        _listCentroTrabalho
+          ..clear()
+          ..addAll(response
+              .map(
+                (centroTrabalho) => CentroTrabalhoState(
+                  centroTrabalho: centroTrabalho,
+                  deletarStore: DeletarCentroTrabalhoStore(_deletarCentroTrabalhoUsecase),
+                ),
+              )
+              .toList());
         return _listCentroTrabalho;
       });
     } on Failure catch (e) {

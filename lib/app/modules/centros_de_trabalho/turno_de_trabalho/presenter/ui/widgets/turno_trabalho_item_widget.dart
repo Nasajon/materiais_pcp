@@ -1,10 +1,8 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:ana_l10n/ana_l10n.dart';
-import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/widgets/list_tile_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/notification_snack_bar.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/domain/aggregates/turno_trabalho_aggregate.dart';
@@ -25,7 +23,6 @@ class TurnoTrabalhoItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10nLocalization;
     final themeData = Theme.of(context);
     final colorTheme = themeData.extension<AnaColorTheme>();
 
@@ -35,7 +32,7 @@ class TurnoTrabalhoItemWidget extends StatelessWidget {
           if (triple.state && !triple.isLoading) {
             turnoTrabalhoListStore.deleteTurnoTrabalho(turnoTrabalho.id);
             NotificationSnackBar.showSnackBar(
-              l10n.messages.excluiuUmEntidadeComSucesso(l10n.titles.turnosDeTrabalho),
+              translation.messages.excluiuUmEntidadeComSucesso(translation.titles.turnosDeTrabalho),
               themeData: themeData,
             );
           }
@@ -53,7 +50,7 @@ class TurnoTrabalhoItemWidget extends StatelessWidget {
             key: key,
             title: '${turnoTrabalho.codigo.toText} - ${turnoTrabalho.nome.value}',
             // TODO: Verificar com o pessoal de design o dias da semanas
-            subtitle: '${l10n.fields.tipo}: dias da semanas',
+            subtitle: '${translation.fields.tipo}: dias da semanas',
             trailing: !triple.isLoading
                 ? PopupMenuButton(
                     icon: Icon(
@@ -68,10 +65,10 @@ class TurnoTrabalhoItemWidget extends StatelessWidget {
                           barrierColor: Colors.black38,
                           builder: (context) {
                             return ConfirmationModalWidget(
-                              title: l10n.titles.excluirEntidade(l10n.titles.turnosDeTrabalho),
-                              messages: l10n.messages.excluirUmEntidade(l10n.titles.turnosDeTrabalho),
-                              titleCancel: l10n.fields.excluir,
-                              titleSuccess: l10n.fields.cancelar,
+                              title: translation.titles.excluirEntidade(translation.titles.turnosDeTrabalho),
+                              messages: translation.messages.excluirUmEntidade(translation.titles.turnosDeTrabalho),
+                              titleCancel: translation.fields.excluir,
+                              titleSuccess: translation.fields.cancelar,
                               onCancel: () => deletarTurnoTrabalhoStore.deletar(turnoTrabalho.id),
                             );
                           },
@@ -82,11 +79,11 @@ class TurnoTrabalhoItemWidget extends StatelessWidget {
                       return [
                         PopupMenuItem<int>(
                           value: 1,
-                          child: Text(l10n.fields.visualizar),
+                          child: Text(translation.fields.visualizar),
                         ),
                         PopupMenuItem<int>(
                           value: 2,
-                          child: Text(l10n.fields.excluir),
+                          child: Text(translation.fields.excluir),
                         ),
                       ];
                     },
@@ -96,7 +93,13 @@ class TurnoTrabalhoItemWidget extends StatelessWidget {
                     height: 24,
                     child: CircularProgressIndicator(),
                   ),
-            onTap: () => !triple.isLoading ? Modular.to.pushNamed('./${turnoTrabalho.id}/visualizar') : null,
+            onTap: !triple.isLoading
+                ? () async {
+                    await Modular.to.pushNamed('./${turnoTrabalho.id}/visualizar');
+
+                    turnoTrabalhoListStore.getListTurnoTrabalho();
+                  }
+                : null,
           );
         });
   }

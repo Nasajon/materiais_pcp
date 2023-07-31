@@ -1,9 +1,8 @@
-import 'package:ana_l10n/ana_l10n.dart';
-import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/widgets/list_tile_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/notification_snack_bar.dart';
 import 'package:pcp_flutter/app/modules/restricoes/common/domain/entities/grupo_de_restricao_entity.dart';
@@ -24,7 +23,6 @@ class GrupoDeRestricaoItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10nLocalization;
     final themeData = Theme.of(context);
     final colorTheme = themeData.extension<AnaColorTheme>();
 
@@ -34,7 +32,7 @@ class GrupoDeRestricaoItemWidget extends StatelessWidget {
           if (triple.state && !triple.isLoading) {
             grupoDeRestricaoListStore.deleteGrupoDeRestricao(grupoDeRestricao.id ?? '');
             NotificationSnackBar.showSnackBar(
-              l10n.messages.excluiuUmEntidadeComSucesso(l10n.titles.centroDeTrabalho),
+              translation.messages.excluiuUmEntidadeComSucesso(translation.titles.gruposDeRestricao),
               themeData: themeData,
             );
           }
@@ -51,25 +49,26 @@ class GrupoDeRestricaoItemWidget extends StatelessWidget {
           return ListTileWidget(
             key: key,
             title: '${grupoDeRestricao.codigo?.toText} - ${grupoDeRestricao.descricao.value}',
-            subtitle: '${l10n.fields.tipo}: ${grupoDeRestricao.tipo.description}',
+            subtitle: '${translation.fields.tipo}: ${grupoDeRestricao.tipo.description}',
             trailing: !triple.isLoading
                 ? PopupMenuButton(
                     icon: Icon(
                       Icons.more_vert,
                       color: colorTheme?.icons,
                     ),
-                    onSelected: (value) {
+                    onSelected: (value) async {
                       if (value == 1) {
-                        Modular.to.pushNamed('./${grupoDeRestricao.id}');
+                        await Modular.to.pushNamed('./${grupoDeRestricao.id}');
+                        grupoDeRestricaoListStore.getList();
                       } else if (value == 2) {
                         Asuka.showDialog(
                           barrierColor: Colors.black38,
                           builder: (context) {
                             return ConfirmationModalWidget(
-                              title: l10n.titles.excluirEntidade(l10n.titles.centroDeTrabalho),
-                              messages: l10n.messages.excluirUmEntidade(l10n.titles.centroDeTrabalho),
-                              titleCancel: l10n.fields.excluir,
-                              titleSuccess: l10n.fields.cancelar,
+                              title: translation.titles.excluirEntidade(translation.titles.gruposDeRestricao),
+                              messages: translation.messages.excluirUmEntidade(translation.titles.gruposDeRestricao),
+                              titleCancel: translation.fields.excluir,
+                              titleSuccess: translation.fields.cancelar,
                               onCancel: () => deletarGrupoDeRestricaoStore.deletar(grupoDeRestricao.id ?? ''),
                             );
                           },
@@ -80,11 +79,11 @@ class GrupoDeRestricaoItemWidget extends StatelessWidget {
                       return [
                         PopupMenuItem<int>(
                           value: 1,
-                          child: Text(l10n.fields.visualizar),
+                          child: Text(translation.fields.visualizar),
                         ),
                         PopupMenuItem<int>(
                           value: 2,
-                          child: Text(l10n.fields.excluir),
+                          child: Text(translation.fields.excluir),
                         ),
                       ];
                     },
@@ -94,7 +93,12 @@ class GrupoDeRestricaoItemWidget extends StatelessWidget {
                     height: 24,
                     child: CircularProgressIndicator(),
                   ),
-            onTap: () => !triple.isLoading ? Modular.to.pushNamed('./${grupoDeRestricao.id}') : null,
+            onTap: !triple.isLoading
+                ? () async {
+                    await Modular.to.pushNamed('./${grupoDeRestricao.id}');
+                    grupoDeRestricaoListStore.getList();
+                  }
+                : null,
           );
         });
   }

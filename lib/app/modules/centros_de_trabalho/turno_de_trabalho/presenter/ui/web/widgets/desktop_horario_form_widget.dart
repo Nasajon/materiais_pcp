@@ -1,7 +1,7 @@
-import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/domain/entities/horario_entity.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/presenter/controller/turno_trabalho_form_controller.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/presenter/ui/web/widgets/desktop_card_criar_editar_horario_widget.dart';
@@ -21,13 +21,12 @@ class DesktopHorarioFormWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10nLocalization;
     final themeData = Theme.of(context);
 
     return RxBuilder(
       builder: (_) {
         Widget addButton = CustomOutlinedButton(
-            title: l10n.fields.adicionarHorario,
+            title: translation.fields.adicionarHorario,
             onPressed: () async {
               turnoTrabalhoFormController.horario = HorarioEntity.empty();
             });
@@ -40,12 +39,12 @@ class DesktopHorarioFormWidget extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    l10n.titles.adicioneUmHorario,
+                    translation.titles.adicioneUmHorario,
                     style: themeData.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    l10n.messages.nenhumHorarioFoiAdicionada,
+                    translation.messages.nenhumHorarioFoiAdicionada,
                     textAlign: TextAlign.center,
                     style: themeData.textTheme.bodyMedium,
                   ),

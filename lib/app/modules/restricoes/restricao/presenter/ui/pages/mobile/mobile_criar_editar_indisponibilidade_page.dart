@@ -1,33 +1,63 @@
-import 'package:ana_l10n/ana_localization.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/date_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/time_vo.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/controllers/restricao_form_controller.dart';
 
-class MobileCriarEditarIndisponibilidade extends StatelessWidget {
+class MobileCriarEditarIndisponibilidadePage extends StatefulWidget {
   final RestricaoFormController restricaoFormController;
+  final ValueNotifier<bool> adaptiveModalNotifier;
 
-  MobileCriarEditarIndisponibilidade({
+  const MobileCriarEditarIndisponibilidadePage({
     Key? key,
     required this.restricaoFormController,
+    required this.adaptiveModalNotifier,
   }) : super(key: key);
 
+  @override
+  State<MobileCriarEditarIndisponibilidadePage> createState() => _MobileCriarEditarIndisponibilidadePageState();
+}
+
+class _MobileCriarEditarIndisponibilidadePageState extends State<MobileCriarEditarIndisponibilidadePage> {
   final formKey = GlobalKey<FormState>();
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    verificarHorarioRouter();
+  }
+
+  void verificarHorarioRouter() {
+    final currentRoute = ModalRoute.of(context);
+
+    if (!ScreenSizeUtil(context).isMobile && widget.adaptiveModalNotifier.value) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        Navigator.of(context).pop();
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final l10n = context.l10nLocalization;
     final themeData = Theme.of(context);
     final colorTheme = themeData.extension<AnaColorTheme>();
 
     return CustomScaffold.titleString(
-      restricaoFormController.indisponibilidade != null && restricaoFormController.indisponibilidade?.codigo == 0
-          ? l10n.titles.adicionarIndisponibilidade
-          : l10n.titles.editarIndisponibilidade,
+      widget.restricaoFormController.indisponibilidade != null && widget.restricaoFormController.indisponibilidade?.codigo == 0
+          ? translation.titles.adicionarIndisponibilidade
+          : translation.titles.editarIndisponibilidade,
       controller: CustomScaffoldController(),
       alignment: Alignment.centerLeft,
       body: SingleChildScrollView(
@@ -40,16 +70,16 @@ class MobileCriarEditarIndisponibilidade extends StatelessWidget {
             children: [
               const SizedBox(height: 32),
               DateRangeTextFormFieldWidget(
-                label: l10n.fields.periodo,
-                initDateStart: restricaoFormController.indisponibilidade?.periodoInicial.getDate(),
-                initDateEnd: restricaoFormController.indisponibilidade?.periodoFinal.getDate(),
+                label: translation.fields.periodo,
+                initDateStart: widget.restricaoFormController.indisponibilidade?.periodoInicial.getDate(),
+                initDateEnd: widget.restricaoFormController.indisponibilidade?.periodoFinal.getDate(),
                 isRequiredField: true,
                 initialEntryMode: DatePickerEntryMode.calendar,
                 validator: (_) =>
-                    restricaoFormController.indisponibilidade?.periodoInicial.errorMessage ??
-                    restricaoFormController.indisponibilidade?.periodoFinal.errorMessage,
+                    widget.restricaoFormController.indisponibilidade?.periodoInicial.errorMessage ??
+                    widget.restricaoFormController.indisponibilidade?.periodoFinal.errorMessage,
                 dateTimeRange: (value) {
-                  restricaoFormController.indisponibilidade = restricaoFormController.indisponibilidade?.copyWith(
+                  widget.restricaoFormController.indisponibilidade = widget.restricaoFormController.indisponibilidade?.copyWith(
                     periodoInicial: DateVO.date(value!.start),
                     periodoFinal: DateVO.date(value.end),
                   );
@@ -57,11 +87,11 @@ class MobileCriarEditarIndisponibilidade extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               TextFormFieldWidget(
-                label: l10n.fields.motivo,
-                initialValue: restricaoFormController.indisponibilidade?.motivo.value,
-                validator: (_) => restricaoFormController.indisponibilidade?.motivo.errorMessage,
+                label: translation.fields.motivo,
+                initialValue: widget.restricaoFormController.indisponibilidade?.motivo.value,
+                validator: (_) => widget.restricaoFormController.indisponibilidade?.motivo.errorMessage,
                 onChanged: (value) {
-                  restricaoFormController.indisponibilidade = restricaoFormController.indisponibilidade?.copyWith(
+                  widget.restricaoFormController.indisponibilidade = widget.restricaoFormController.indisponibilidade?.copyWith(
                     motivo: TextVO(value),
                   );
                 },
@@ -74,26 +104,26 @@ class MobileCriarEditarIndisponibilidade extends StatelessWidget {
                 children: [
                   Flexible(
                     child: TimeTextFormFieldWidget(
-                        label: l10n.fields.horarioInicial,
-                        initTime: restricaoFormController.indisponibilidade?.horarioInicial.getTime(),
-                        validator: (_) => restricaoFormController.indisponibilidade?.horarioInicial.errorMessage,
+                        label: translation.fields.horarioInicial,
+                        initTime: widget.restricaoFormController.indisponibilidade?.horarioInicial.getTime(),
+                        validator: (_) => widget.restricaoFormController.indisponibilidade?.horarioInicial.errorMessage,
                         onChanged: (value) {
                           if (value != null) {
-                            restricaoFormController.indisponibilidade =
-                                restricaoFormController.indisponibilidade?.copyWith(horarioInicial: TimeVO.time(value));
+                            widget.restricaoFormController.indisponibilidade =
+                                widget.restricaoFormController.indisponibilidade?.copyWith(horarioInicial: TimeVO.time(value));
                           }
                         }),
                   ),
                   const SizedBox(width: 16),
                   Flexible(
                     child: TimeTextFormFieldWidget(
-                        label: l10n.fields.horarioFinal,
-                        initTime: restricaoFormController.indisponibilidade?.horarioFinal.getTime(),
-                        validator: (_) => restricaoFormController.indisponibilidade?.horarioFinal.errorMessage,
+                        label: translation.fields.horarioFinal,
+                        initTime: widget.restricaoFormController.indisponibilidade?.horarioFinal.getTime(),
+                        validator: (_) => widget.restricaoFormController.indisponibilidade?.horarioFinal.errorMessage,
                         onChanged: (value) {
                           if (value != null) {
-                            restricaoFormController.indisponibilidade =
-                                restricaoFormController.indisponibilidade?.copyWith(horarioFinal: TimeVO.time(value));
+                            widget.restricaoFormController.indisponibilidade =
+                                widget.restricaoFormController.indisponibilidade?.copyWith(horarioFinal: TimeVO.time(value));
                           }
                         }),
                   ),
@@ -109,14 +139,15 @@ class MobileCriarEditarIndisponibilidade extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Visibility(
-              visible: restricaoFormController.indisponibilidade != null && restricaoFormController.indisponibilidade!.codigo > 0,
+              visible:
+                  widget.restricaoFormController.indisponibilidade != null && widget.restricaoFormController.indisponibilidade!.codigo > 0,
               child: CustomTextButton(
-                title: l10n.fields.excluir,
+                title: translation.fields.excluir,
                 textColor: colorTheme?.danger,
                 onPressed: () {
-                  restricaoFormController.removerIndisponibilidade(restricaoFormController.indisponibilidade?.codigo ?? 0);
+                  widget.restricaoFormController.removerIndisponibilidade(widget.restricaoFormController.indisponibilidade?.codigo ?? 0);
 
-                  restricaoFormController.indisponibilidade = null;
+                  widget.restricaoFormController.indisponibilidade = null;
 
                   Modular.to.pop();
                 },
@@ -128,20 +159,20 @@ class MobileCriarEditarIndisponibilidade extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 CustomTextButton(
-                  title: l10n.fields.cancelar,
+                  title: translation.fields.cancelar,
                   onPressed: () {
-                    restricaoFormController.indisponibilidade = null;
+                    widget.restricaoFormController.indisponibilidade = null;
 
                     Modular.to.pop();
                   },
                 ),
                 const SizedBox(width: 16),
                 CustomPrimaryButton(
-                  title: l10n.fields.adicionar,
+                  title: translation.fields.adicionar,
                   onPressed: () {
-                    var indisponibilidade = restricaoFormController.indisponibilidade;
+                    var indisponibilidade = widget.restricaoFormController.indisponibilidade;
                     if (formKey.currentState!.validate() && indisponibilidade != null) {
-                      restricaoFormController.criarEditarIndisponibilidade(indisponibilidade);
+                      widget.restricaoFormController.criarEditarIndisponibilidade(indisponibilidade);
                       Modular.to.pop();
                     }
                   },

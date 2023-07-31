@@ -1,9 +1,8 @@
-import 'package:ana_l10n/ana_l10n.dart';
-import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/pesquisa_form_field_widget.dart';
@@ -25,14 +24,13 @@ class MobileCentroTrabalhoListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10nLocalization;
     final themeData = Theme.of(context);
     final colorTheme = themeData.extension<AnaColorTheme>();
 
     const horizontalPadding = 16.0;
 
     return CustomScaffold.titleString(
-      l10n.titles.centroDeTrabalho,
+      translation.titles.centroDeTrabalho,
       controller: scaffoldController,
       alignment: Alignment.centerLeft,
       actions: [
@@ -50,7 +48,7 @@ class MobileCentroTrabalhoListPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
                 child: PesquisaFormFieldWidget(
-                  label: l10n.messages.pesquisarNomeOuPalavraChave,
+                  label: translation.messages.pesquisarNomeOuPalavraChave,
                   onChanged: (value) => centroTrabalhoListStore.search = value,
                 ),
               ),
@@ -68,8 +66,8 @@ class MobileCentroTrabalhoListPage extends StatelessWidget {
                           padding: const EdgeInsets.only(bottom: 20, left: 16, right: 16),
                           child: Text(
                             centroTrabalhoListStore.search.isEmpty
-                                ? l10n.messages.nenhumEntidadeEncontrado(l10n.titles.centroDeTrabalho)
-                                : context.l10n.materiaisPcpNaoHaResultadosParaPesquisa,
+                                ? translation.messages.nenhumEntidadeEncontrado(translation.titles.centroDeTrabalho)
+                                : translation.messages.naoHaResultadosParaPesquisa,
                             style: AnaTextStyles.grey20Px,
                           ),
                         ),
@@ -77,7 +75,7 @@ class MobileCentroTrabalhoListPage extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
                           child: Text(
-                            l10n.titles.ultimosCentrosAcessados,
+                            translation.titles.ultimosCentrosAcessados,
                             style: AnaTextStyles.boldDarkGrey16Px.copyWith(fontSize: 18),
                           ),
                         ),
@@ -110,9 +108,9 @@ class MobileCentroTrabalhoListPage extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            CustomTextButton(title: context.l10n.materiaisPcpVoltar, onPressed: () => Modular.to.pop()),
+            CustomTextButton(title: translation.fields.voltar, onPressed: () => Modular.to.pop()),
             const SizedBox(width: 12),
-            CustomPrimaryButton(title: l10n.fields.criarCentro, onPressed: () => Modular.to.pushNamed('./new'))
+            CustomPrimaryButton(title: translation.fields.criarCentro, onPressed: () => Modular.to.pushNamed('./new'))
           ],
         ),
       ),

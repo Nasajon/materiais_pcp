@@ -9,28 +9,16 @@ import '../../domain/usecases/get_recurso_by_usecase_id.dart';
 import '../../domain/usecases/save_recurso_usecase.dart';
 import 'states/recurso_form_state.dart';
 
-class RecursoFormStore extends NasajonStreamStore<RecursoFormState> {
+class RecursoFormStore extends NasajonStreamStore<Recurso?> {
   final GetRecursoByIdUsecase _getRecursoByIdUsecase;
   final SaveRecursoUsecase _saveRecursoUsecase;
 
   RecursoFormStore(
     this._getRecursoByIdUsecase,
     this._saveRecursoUsecase,
-  ) : super(initialState: RecursoFormState.empty());
-
-  final codigoController = TextEditingController();
-  final nomeController = TextEditingController();
-  final custoHoraController = TextEditingController();
+  ) : super(initialState: null);
 
   final selectedTipoDeRecurso = ValueNotifier<DropdownItem<TipoDeRecursoEnum?>?>(null);
-
-  void selectTipoDeRecurso(TipoDeRecursoEnum? tipoDeRecurso) => selectedTipoDeRecurso.value = DropdownItem(value: tipoDeRecurso, label: '');
-
-  final selectedGrupoDeRecurso = ValueNotifier<DropdownItem<GrupoDeRecurso?>?>(null);
-
-  void selectGrupoDeRecurso(GrupoDeRecurso? grupoDeRecurso) {
-    selectedGrupoDeRecurso.value = DropdownItem(value: grupoDeRecurso, label: grupoDeRecurso?.codigo.toText ?? '');
-  }
 
   Future<Recurso> pegarRecurso(String id) async {
     return await _getRecursoByIdUsecase(id);
@@ -40,23 +28,13 @@ class RecursoFormStore extends NasajonStreamStore<RecursoFormState> {
     try {
       setLoading(true);
 
-      await _saveRecursoUsecase(recurso);
+      final response = await _saveRecursoUsecase(recurso);
 
-      clear();
+      update(response);
     } on Failure catch (error) {
       setError(error);
     } finally {
       setLoading(false);
     }
-  }
-
-  void clear() {
-    codigoController.clear();
-    nomeController.clear();
-    custoHoraController.clear();
-
-    selectTipoDeRecurso(null);
-    selectGrupoDeRecurso(null);
-    update(state.copyWith(recurso: () => null));
   }
 }

@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
+import 'package:pcp_flutter/app/core/localization/localizations.dart';
 
 import 'package:pcp_flutter/app/modules/restricoes/restricao/domain/entities/indisponibilidade_entity.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/controllers/restricao_form_controller.dart';
@@ -18,7 +18,6 @@ class DesktopCardIndisponibilidadeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10nLocalization;
     final themeData = Theme.of(context);
     final colorTheme = themeData.extension<AnaColorTheme>();
 
@@ -57,11 +56,11 @@ class DesktopCardIndisponibilidadeWidget extends StatelessWidget {
                     return [
                       PopupMenuItem<int>(
                         value: 1,
-                        child: Text(l10n.fields.editar),
+                        child: Text(translation.fields.editar),
                       ),
                       PopupMenuItem<int>(
                         value: 2,
-                        child: Text(l10n.fields.excluir),
+                        child: Text(translation.fields.excluir),
                       ),
                     ];
                   },
@@ -81,7 +80,7 @@ class DesktopCardIndisponibilidadeWidget extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      l10n.fields.periodo,
+                      translation.fields.periodo,
                       style: themeData.textTheme.labelLarge?.copyWith(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
@@ -103,7 +102,7 @@ class DesktopCardIndisponibilidadeWidget extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      l10n.fields.motivo,
+                      translation.fields.motivo,
                       style: themeData.textTheme.labelLarge?.copyWith(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
@@ -125,7 +124,7 @@ class DesktopCardIndisponibilidadeWidget extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      l10n.fields.horario,
+                      translation.fields.horario,
                       style: themeData.textTheme.labelLarge?.copyWith(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,

@@ -33,17 +33,18 @@ class TurnoTrabalhoListStore extends NasajonStreamStore<List<TurnoTrabalhoState>
     setLoading(true);
 
     try {
-      await Future.delayed(const Duration(seconds: 2));
       execute(() async {
         final response = await _getTurnoTrabalhoRecenteUsecase();
-        _listTurnoTrabalho.addAll(response
-            .map(
-              (turnoTrabalho) => TurnoTrabalhoState(
-                turnoTrabalho: turnoTrabalho,
-                deletarStore: DeletarTurnoTrabalhoStore(_deletarTurnoTrabalhoUsecase),
-              ),
-            )
-            .toList());
+        _listTurnoTrabalho
+          ..clear()
+          ..addAll(response
+              .map(
+                (turnoTrabalho) => TurnoTrabalhoState(
+                  turnoTrabalho: turnoTrabalho,
+                  deletarStore: DeletarTurnoTrabalhoStore(_deletarTurnoTrabalhoUsecase),
+                ),
+              )
+              .toList());
         return _listTurnoTrabalho;
       });
     } on Failure catch (e) {

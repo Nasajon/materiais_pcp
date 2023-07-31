@@ -1,9 +1,8 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/notification_snack_bar.dart';
@@ -74,7 +73,6 @@ class _MobileTurnoTrabalhoVisualizarPageState extends State<MobileTurnoTrabalhoV
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    final l10n = context.l10nLocalization;
 
     context.select(() => [widget.turnoTrabalhoFormController.turnoTrabalho]);
 
@@ -84,7 +82,7 @@ class _MobileTurnoTrabalhoVisualizarPageState extends State<MobileTurnoTrabalhoV
         return RxBuilder(
           builder: (context) {
             return CustomScaffold.titleString(
-              '${widget.turnoTrabalhoFormController.turnoTrabalho.codigo} - ${widget.turnoTrabalhoFormController.turnoTrabalho.nome}',
+              '${oldTurnoTrabalho?.codigo} - ${oldTurnoTrabalho?.nome}',
               controller: widget.scaffoldController,
               alignment: Alignment.centerLeft,
               actions: [
@@ -92,12 +90,12 @@ class _MobileTurnoTrabalhoVisualizarPageState extends State<MobileTurnoTrabalhoV
               ],
               tabStatusButtons: [
                 TabStatusButton(
-                  title: l10n.fields.dadosGerais,
+                  title: translation.fields.dadosGerais,
                   select: page == 0,
                   onTap: () => pageController.jumpToPage(0),
                 ),
                 TabStatusButton(
-                  title: l10n.fields.horarios,
+                  title: translation.fields.horarios,
                   select: page == 1,
                   onTap: () => pageController.jumpToPage(1),
                 ),
@@ -137,7 +135,7 @@ class _MobileTurnoTrabalhoVisualizarPageState extends State<MobileTurnoTrabalhoV
                       widget.turnoTrabalhoFormController.turnoTrabalhoNotifyListeners();
 
                       NotificationSnackBar.showSnackBar(
-                        l10n.messages.editouUmEntidadeComSucesso(l10n.titles.turnosDeTrabalho),
+                        translation.messages.editouUmEntidadeComSucesso(translation.titles.turnosDeTrabalho),
                         themeData: themeData,
                       );
                     }
@@ -147,17 +145,17 @@ class _MobileTurnoTrabalhoVisualizarPageState extends State<MobileTurnoTrabalhoV
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           CustomTextButton(
-                            title: l10n.fields.descartar,
+                            title: translation.fields.descartar,
                             isEnabled: !triple.isLoading,
                             onPressed: () {
                               Asuka.showDialog(
                                 barrierColor: Colors.black38,
                                 builder: (context) {
                                   return ConfirmationModalWidget(
-                                    title: l10n.titles.descartarAlteracoes,
-                                    messages: l10n.messages.descatarAlteracoesEdicaoEntidade,
-                                    titleCancel: l10n.fields.descartar,
-                                    titleSuccess: l10n.fields.continuar,
+                                    title: translation.titles.descartarAlteracoes,
+                                    messages: translation.messages.descatarAlteracoesEdicaoEntidade,
+                                    titleCancel: translation.fields.descartar,
+                                    titleSuccess: translation.fields.continuar,
                                     onCancel: () => Modular.to.pop(),
                                   );
                                 },
@@ -166,7 +164,7 @@ class _MobileTurnoTrabalhoVisualizarPageState extends State<MobileTurnoTrabalhoV
                           ),
                           const SizedBox(width: 10),
                           CustomPrimaryButton(
-                            title: l10n.fields.salvar,
+                            title: translation.fields.salvar,
                             isLoading: triple.isLoading,
                             onPressed: () async {
                               widget.inserirEditarTurnoTrabalhoStore.editarTurnoTrabalho(widget.turnoTrabalhoFormController.turnoTrabalho);

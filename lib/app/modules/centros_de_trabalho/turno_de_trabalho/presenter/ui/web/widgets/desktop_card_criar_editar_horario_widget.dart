@@ -1,9 +1,7 @@
-import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
-import 'package:pcp_flutter/app/core/modules/domain/enums/week_enum.dart';
-import 'package:pcp_flutter/app/core/modules/domain/value_object/date_vo.dart';
+import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/time_vo.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/domain/types/dias_da_semana_type.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/presenter/controller/turno_trabalho_form_controller.dart';
@@ -20,7 +18,6 @@ class DesktopCardCriarEditarHorarioWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10nLocalization;
     final themeData = Theme.of(context);
     final colorTheme = themeData.extension<AnaColorTheme>();
 
@@ -43,7 +40,7 @@ class DesktopCardCriarEditarHorarioWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              horario != null && horario.codigo == 0 ? l10n.titles.adicionarHorario : l10n.titles.editarHorario,
+              horario != null && horario.codigo == 0 ? translation.titles.adicionarHorario : translation.titles.editarHorario,
               style: themeData.textTheme.titleMedium?.copyWith(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
@@ -66,7 +63,7 @@ class DesktopCardCriarEditarHorarioWidget extends StatelessWidget {
               children: [
                 Flexible(
                   child: TimeTextFormFieldWidget(
-                      label: l10n.fields.horarioInicial,
+                      label: translation.fields.horarioInicial,
                       initTime: horario?.horarioInicial.getTime(),
                       validator: (_) => horario?.horarioInicial.errorMessage,
                       onChanged: (value) {
@@ -78,7 +75,7 @@ class DesktopCardCriarEditarHorarioWidget extends StatelessWidget {
                 const SizedBox(width: 16),
                 Flexible(
                   child: TimeTextFormFieldWidget(
-                      label: l10n.fields.horarioFinal,
+                      label: translation.fields.horarioFinal,
                       initTime: horario?.horarioFinal.getTime(),
                       validator: (_) => horario?.horarioFinal.errorMessage,
                       onChanged: (value) {
@@ -91,7 +88,7 @@ class DesktopCardCriarEditarHorarioWidget extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             TimeTextFormFieldWidget(
-              label: l10n.fields.intervalo,
+              label: translation.fields.intervalo,
               initTime: horario?.intervalo.getTime(),
               validator: (_) => horario?.intervalo.errorMessage,
               onChanged: (value) {
@@ -108,16 +105,16 @@ class DesktopCardCriarEditarHorarioWidget extends StatelessWidget {
                 Visibility(
                   visible: horario != null && horario.codigo > 0,
                   child: CustomTextButton(
-                    title: l10n.fields.excluir,
+                    title: translation.fields.excluir,
                     onPressed: () {
                       Asuka.showDialog(
                         barrierColor: Colors.black38,
                         builder: (context) {
                           return ConfirmationModalWidget(
-                            title: l10n.titles.excluirEntidade(l10n.fields.horario),
-                            messages: l10n.messages.excluirUmEntidade(l10n.titles.turnosDeTrabalho),
-                            titleCancel: l10n.fields.excluir,
-                            titleSuccess: l10n.fields.cancelar,
+                            title: translation.titles.excluirEntidade(translation.fields.horario),
+                            messages: translation.messages.excluirUmEntidade(translation.titles.turnosDeTrabalho),
+                            titleCancel: translation.fields.excluir,
+                            titleSuccess: translation.fields.cancelar,
                             onCancel: () {
                               turnoTrabalhoFormController.removerHorario(horario?.codigo ?? 0);
 
@@ -136,12 +133,12 @@ class DesktopCardCriarEditarHorarioWidget extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     CustomTextButton(
-                      title: l10n.fields.cancelar,
+                      title: translation.fields.cancelar,
                       onPressed: () => turnoTrabalhoFormController.horario = null,
                     ),
                     const SizedBox(width: 16),
                     CustomOutlinedButton(
-                      title: horario != null && horario.codigo > 0 ? l10n.fields.salvar : l10n.fields.adicionar,
+                      title: horario != null && horario.codigo > 0 ? translation.fields.salvar : translation.fields.adicionar,
                       onPressed: () {
                         var horario = turnoTrabalhoFormController.horario;
                         if (formKey.currentState!.validate() && horario != null) {

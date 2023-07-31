@@ -8,6 +8,8 @@ class RestricaoFormController {
   RestricaoAggregate get restricao => _restricao.value;
   set restricao(RestricaoAggregate value) => _restricao.value = value;
 
+  void restricaoNotifyListeners() => _restricao.call();
+
   final _indisponibilidade = RxNotifier<IndisponibilidadeEntity?>(null);
   IndisponibilidadeEntity? get indisponibilidade => _indisponibilidade.value;
   set indisponibilidade(IndisponibilidadeEntity? value) => _indisponibilidade.value = value;
@@ -34,37 +36,6 @@ class RestricaoFormController {
 
     for (var i = 0; i < restricao.indisponibilidades.length; i++) {
       restricao.indisponibilidades[i] = restricao.indisponibilidades[i].copyWith(codigo: i + 1);
-    }
-
-    restricao = restricao.copyWith();
-  }
-
-  final _disponibilidade = RxNotifier<DisponibilidadeEntity?>(null);
-  DisponibilidadeEntity? get disponibilidade => _disponibilidade.value;
-  set disponibilidade(DisponibilidadeEntity? value) => _disponibilidade.value = value;
-
-  void criarEditarDisponibilidade(DisponibilidadeEntity disponibilidade) {
-    if (disponibilidade.codigo == 0) {
-      restricao.disponibilidades.add(
-        disponibilidade,
-      );
-    } else {
-      restricao.disponibilidades[disponibilidade.codigo - 1] = disponibilidade;
-    }
-
-    for (var i = 0; i < restricao.disponibilidades.length; i++) {
-      restricao.disponibilidades[i] = restricao.disponibilidades[i].copyWith(codigo: i + 1);
-    }
-
-    this.disponibilidade = null;
-    restricao = restricao.copyWith();
-  }
-
-  void removerDisponibilidade(int index) {
-    restricao.disponibilidades.removeAt(index - 1);
-
-    for (var i = 0; i < restricao.disponibilidades.length; i++) {
-      restricao.disponibilidades[i] = restricao.disponibilidades[i].copyWith(codigo: i + 1);
     }
 
     restricao = restricao.copyWith();

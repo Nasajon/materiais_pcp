@@ -16,11 +16,11 @@ class RecursoDatasourceImpl implements RecursoDatasource {
 
   List<Interceptor> interceptors = [ApiKeyInterceptor(), EntidadesEmpresariaisInterceptor()];
 
+  Map<String, dynamic> queryParams = {'fields': 'grupo_de_recurso, centro_de_trabalho'};
+
   @override
   Future<List<Recurso>> getList(String? search) async {
     try {
-      Map<String, dynamic> queryParams = {'fields': 'tipo'};
-
       if (search != null && search.isNotEmpty) {
         queryParams['search'] = search;
       }
@@ -44,8 +44,6 @@ class RecursoDatasourceImpl implements RecursoDatasource {
   @override
   Future<Recurso> getItem(String id) async {
     try {
-      Map<String, dynamic> queryParams = {'fields': 'tipo,custo_hora,grupo_de_recurso'};
-
       final response = await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
         endPoint: '/1234/recursos/$id',
@@ -60,9 +58,9 @@ class RecursoDatasourceImpl implements RecursoDatasource {
 
       final recursoMap = response.data;
 
-      if (recursoMap['grupo_de_recurso'] != null) {
-        recursoMap['grupo_de_recurso'] = await _getGrupoDeRecursoById(recursoMap['grupo_de_recurso']);
-      }
+      // if (recursoMap['grupo_de_recurso'] != null) {
+      //   recursoMap['grupo_de_recurso'] = await _getGrupoDeRecursoById(recursoMap['grupo_de_recurso']);
+      // }
 
       return RecursoMapper.fromMap(recursoMap);
     } on Failure {
@@ -80,6 +78,7 @@ class RecursoDatasourceImpl implements RecursoDatasource {
         endPoint: '/1234/recursos',
         method: ClientRequestMethods.POST,
         body: RecursoMapper.toMap(recurso),
+        queryParams: queryParams,
         interceptors: interceptors,
       ));
 
@@ -99,6 +98,7 @@ class RecursoDatasourceImpl implements RecursoDatasource {
         endPoint: '/1234/recursos/${recurso.id!}',
         method: ClientRequestMethods.PUT,
         body: RecursoMapper.toMap(recurso),
+        queryParams: queryParams,
         interceptors: interceptors,
       ));
 
@@ -106,7 +106,7 @@ class RecursoDatasourceImpl implements RecursoDatasource {
         throw RecursoNotFound();
       }
 
-      return RecursoMapper.fromMap(response.data);
+      return recurso;
     } on Failure {
       rethrow;
     } on Exception catch (exception, stacktrace) {
@@ -131,6 +131,25 @@ class RecursoDatasourceImpl implements RecursoDatasource {
       }
 
       return response.data;
+    } on Failure {
+      rethrow;
+    } on Exception catch (exception, stacktrace) {
+      return Future.error(
+          UnknownError(exception: exception, stackTrace: stacktrace, label: 'RecursoDatasourceImpl-_getGrupoDeRecursoById'));
+    }
+  }
+
+  @override
+  Future<bool> deleteItem(String id) async {
+    try {
+      final response = await clientService.request(ClientRequestParams(
+        selectedApi: APIEnum.pcp,
+        endPoint: '/1234/recursos/$id',
+        method: ClientRequestMethods.DELETE,
+        interceptors: interceptors,
+      ));
+
+      return true;
     } on Failure {
       rethrow;
     } on Exception catch (exception, stacktrace) {

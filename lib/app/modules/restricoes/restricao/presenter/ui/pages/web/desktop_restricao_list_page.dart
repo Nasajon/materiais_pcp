@@ -1,14 +1,15 @@
-import 'package:ana_l10n/ana_l10n.dart';
-import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/list_tile_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/pesquisa_form_field_widget.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/domain/aggregates/restricao_aggregate.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/stores/restricao_list_store.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/stores/state/restricao_state.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/widgets/restricao_item_widget.dart';
 
 class DesktopRestricaoListPage extends StatelessWidget {
   final RestricaoListStore restricaoListStore;
@@ -24,12 +25,28 @@ class DesktopRestricaoListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10nLocalization;
     final themeData = Theme.of(context);
     final colorTheme = themeData.extension<AnaColorTheme>();
 
+    final createRestricaoButton = Center(
+      child: CustomPrimaryButton(
+        title: translation.titles.criarRestricaoSecundaria,
+        onPressed: () async {
+          await Modular.to.pushNamed('./new');
+        },
+      ),
+    );
+
+    final pesquisaWidget = [
+      PesquisaFormFieldWidget(
+        label: translation.messages.avisoPesquisarPorNomeOuPalavraChave,
+        onChanged: (value) => restricaoListStore.search = value,
+      ),
+      const SizedBox(height: 40),
+    ];
+
     return CustomScaffold.titleString(
-      l10n.titles.restricoesSecundarias,
+      translation.titles.restricoesSecundarias,
       controller: scaffoldController,
       alignment: Alignment.centerLeft,
       actions: [
@@ -42,37 +59,23 @@ class DesktopRestricaoListPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 40),
-              PesquisaFormFieldWidget(
-                label: context.l10n.materiaisPcpPesquisa,
-                onChanged: (value) => restricaoListStore.search = value,
-              ),
-              const SizedBox(height: 40),
               Expanded(
-                child: ScopedBuilder<RestricaoListStore, List<RestricaoAggregate>>(
+                child: ScopedBuilder<RestricaoListStore, List<RestricaoState>>(
                   onLoading: (_) => const Center(child: CircularProgressIndicator(color: AnaColors.darkBlue)),
                   onError: (context, error) => Container(),
                   onState: (context, state) {
-                    final createRestricaoButton = Center(
-                      child: CustomPrimaryButton(
-                        title: context.l10n.materiaisPcpCriarRestricao,
-                        onPressed: () async {
-                          await Modular.to.pushNamed('./new');
-                        },
-                      ),
-                    );
-
                     if (state.isEmpty) {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
+                          ...pesquisaWidget,
                           Padding(
                             padding: const EdgeInsets.only(bottom: 20),
                             child: Text(
                               restricaoListStore.search.isEmpty
-                                  ? context.l10n
-                                      .materiaisPcpNenhumaEntidadeEncontradaMasculino(context.l10n.materiaisPcpRestricao.toLowerCase())
-                                  : context.l10n.materiaisPcpNaoHaResultadosParaPesquisa,
+                                  ? translation.messages.nenhumaEntidadeEncontrada(translation.fields.restricao)
+                                  : translation.messages.naoHaResultadosParaPesquisa,
                               style: AnaTextStyles.grey20Px,
                             ),
                           ),
@@ -85,9 +88,10 @@ class DesktopRestricaoListPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
+                        ...pesquisaWidget,
                         if (restricaoListStore.search.isEmpty) ...{
                           Text(
-                            context.l10n.materiaisPcpUltimosRestricoesAcessados,
+                            translation.titles.ultimasRestricoesAcessadas,
                             style: AnaTextStyles.boldDarkGrey16Px.copyWith(fontSize: 18),
                           ),
                           const SizedBox(height: 40),
@@ -95,34 +99,11 @@ class DesktopRestricaoListPage extends StatelessWidget {
                         Flexible(
                           child: ListView(
                             children: [
-                              ...state.map((restricao) {
-                                return ListTileWidget(
-                                  title: '${restricao.codigo.toText} - ${restricao.descricao.value}',
-                                  subtitle: '${context.l10n.materiaisPcpTipoLabel}: ${restricao.grupoDeRestricao?.tipo.name}',
-                                  trailing: PopupMenuButton(
-                                    icon: Icon(
-                                      Icons.more_vert,
-                                      color: colorTheme?.icons,
-                                    ),
-                                    onSelected: (value) {
-                                      if (value == 1) {
-                                        Modular.to.pushNamed('./${restricao.id}/visualizar');
-                                      } else {}
-                                    },
-                                    itemBuilder: (context) {
-                                      return [
-                                        PopupMenuItem<int>(
-                                          value: 1,
-                                          child: Text(l10n.fields.visualizar),
-                                        ),
-                                        PopupMenuItem<int>(
-                                          value: 2,
-                                          child: Text(l10n.fields.excluir),
-                                        ),
-                                      ];
-                                    },
-                                  ),
-                                  onTap: () => Modular.to.pushNamed('./${restricao.id}/visualizar'),
+                              ...state.map((state) {
+                                return RestricaoItemWidget(
+                                  restricao: state.restricao,
+                                  deletarRestricaoStore: state.deletarStore,
+                                  restricaoListStore: restricaoListStore,
                                 );
                               }).toList(),
                               const SizedBox(height: 16),

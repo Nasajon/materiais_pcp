@@ -1,9 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
@@ -71,7 +71,6 @@ class _MobileCentroTrabalhoFormPageState extends State<MobileCentroTrabalhoFormP
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10nLocalization;
     final themeData = Theme.of(context);
     final colorTheme = themeData.extension<AnaColorTheme>();
 
@@ -89,7 +88,7 @@ class _MobileCentroTrabalhoFormPageState extends State<MobileCentroTrabalhoFormP
     final centroDeTrabalho = centroTrabalhoController.centroTrabalho;
 
     return CustomScaffold.titleString(
-      widget.id == null ? l10n.titles.criarCentroDeTrabalho : centroTrabalhoController.centroTrabalho.nome.value,
+      widget.id == null ? translation.titles.criarCentroDeTrabalho : centroTrabalhoController.centroTrabalho.nome.value,
       alignment: Alignment.centerLeft,
       controller: scaffoldController,
       actions: [
@@ -104,7 +103,7 @@ class _MobileCentroTrabalhoFormPageState extends State<MobileCentroTrabalhoFormP
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 IntegerTextFormFieldWidget(
-                  label: l10n.fields.codigo,
+                  label: translation.fields.codigo,
                   initialValue: centroDeTrabalho.codigo.value,
                   isRequiredField: true,
                   isEnabled: centroTrabalhoController.isEnabled,
@@ -114,7 +113,7 @@ class _MobileCentroTrabalhoFormPageState extends State<MobileCentroTrabalhoFormP
                 ),
                 const SizedBox(height: 16),
                 TextFormFieldWidget(
-                  label: l10n.fields.nome,
+                  label: translation.fields.nome,
                   initialValue: centroDeTrabalho.nome.value,
                   isRequiredField: true,
                   isEnabled: centroTrabalhoController.isEnabled,
@@ -125,7 +124,7 @@ class _MobileCentroTrabalhoFormPageState extends State<MobileCentroTrabalhoFormP
                 const SizedBox(height: 16),
                 ChipsTextField<TurnoTrabalhoEntity>(
                   key: ValueKey('turno-de-trabalho-${centroDeTrabalho.turnos.length}'),
-                  label: l10n.fields.turnosDeTrabalho,
+                  label: translation.fields.turnosDeTrabalho,
                   initialValue: centroDeTrabalho.turnos,
                   chip: (value) => Chip(
                     key: ValueKey(value.id),
@@ -196,14 +195,14 @@ class _MobileCentroTrabalhoFormPageState extends State<MobileCentroTrabalhoFormP
                     );
                   }
 
-                  final centroTrabalho = triple.state;
-                  if (centroTrabalho != null && !triple.isLoading) {
+                  final centroDeTrabalho = triple.state;
+                  if (centroDeTrabalho != null && !triple.isLoading && centroDeTrabalho != oldCentroTrabalho) {
                     Asuka.showSnackBar(
                       SnackBar(
                         content: Text(
                           widget.id == null
-                              ? l10n.messages.criouUmEntidadeComSucesso(l10n.titles.centroDeTrabalho)
-                              : l10n.messages.editouUmEntidadeComSucesso(l10n.titles.centroDeTrabalho),
+                              ? translation.messages.criouUmEntidadeComSucesso(translation.fields.centroDeTrabalho)
+                              : translation.messages.editouUmEntidadeComSucesso(translation.fields.centroDeTrabalho),
                           style: AnaTextStyles.grey14Px.copyWith(fontSize: 15, color: Colors.white, letterSpacing: 0.25),
                         ),
                         backgroundColor: const Color.fromRGBO(0, 0, 0, 0.87),
@@ -213,12 +212,13 @@ class _MobileCentroTrabalhoFormPageState extends State<MobileCentroTrabalhoFormP
                     );
 
                     if (widget.id == null) {
-                      widget.centroTrabalhoListStore.addCentroTrabalho(centroTrabalho);
+                      widget.centroTrabalhoListStore.addCentroTrabalho(centroDeTrabalho);
                       Modular.to.pop();
                     } else {
+                      widget.centroTrabalhoController.centroTrabalho = centroDeTrabalho;
                       oldCentroTrabalho = centroTrabalhoController.centroTrabalho.copyWith();
-                      widget.centroTrabalhoListStore.updateCentroTrabalho(centroTrabalho);
-                      centroTrabalhoController.centroTrabalhoNotifyListeners();
+                      widget.centroTrabalhoController.centroTrabalhoNotifyListeners();
+                      widget.centroTrabalhoListStore.updateCentroTrabalho(oldCentroTrabalho);
                     }
                   }
 
@@ -226,7 +226,7 @@ class _MobileCentroTrabalhoFormPageState extends State<MobileCentroTrabalhoFormP
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       CustomTextButton(
-                        title: widget.id == null ? l10n.fields.cancelar : l10n.fields.descartar,
+                        title: widget.id == null ? translation.fields.cancelar : translation.fields.descartar,
                         isEnabled: centroTrabalhoController.isEnabled,
                         onPressed: () {
                           if (oldCentroTrabalho != widget.centroTrabalhoController.centroTrabalho) {
@@ -234,10 +234,10 @@ class _MobileCentroTrabalhoFormPageState extends State<MobileCentroTrabalhoFormP
                               barrierColor: Colors.black38,
                               builder: (context) {
                                 return ConfirmationModalWidget(
-                                  title: l10n.titles.descartarAlteracoes,
-                                  messages: l10n.messages.descatarAlteracoesCriacaoEntidade,
-                                  titleCancel: l10n.fields.descartar,
-                                  titleSuccess: l10n.fields.continuar,
+                                  title: translation.titles.descartarAlteracoes,
+                                  messages: translation.messages.descatarAlteracoesCriacaoEntidade,
+                                  titleCancel: translation.fields.descartar,
+                                  titleSuccess: translation.fields.continuar,
                                   onCancel: () => Modular.to.pop(),
                                 );
                               },
@@ -249,7 +249,7 @@ class _MobileCentroTrabalhoFormPageState extends State<MobileCentroTrabalhoFormP
                       ),
                       const SizedBox(width: 10),
                       CustomPrimaryButton(
-                        title: widget.id != null ? l10n.fields.salvar : l10n.fields.criar,
+                        title: widget.id != null ? translation.fields.salvar : translation.fields.criar,
                         isEnabled: centroTrabalhoController.isEnabled,
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {

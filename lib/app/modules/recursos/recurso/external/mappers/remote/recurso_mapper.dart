@@ -1,8 +1,8 @@
 import 'package:flutter_core/ana_core.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart';
-import 'package:pcp_flutter/app/core/modules/domain/value_object/moeda_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/modules/recursos/common/external/mapper/remote/grupo_de_recurso_mapper.dart';
+import 'package:pcp_flutter/app/modules/recursos/recurso/external/mappers/remote/recurso_centro_de_trabalho_mapper.dart';
 
 import '../../../domain/entities/recurso.dart';
 
@@ -13,8 +13,10 @@ class RecursoMapper {
         id: map['recurso'] as String?,
         codigo: CodigoVO.text(map['codigo']),
         descricao: TextVO(map['nome']),
-        custoHora: map['custo_hora'] != null ? MoedaVO(map['custo_hora']) : null,
         grupoDeRecurso: map['grupo_de_recurso'] != null ? GrupoDeRecursoMapper.fromMap(map['grupo_de_recurso']) : null,
+        centroDeTrabalho: map['centro_de_trabalho'] != null
+            ? RecursoCentroDeTrabalhoMapper.fromMapToRecursoCentroDeTrabalho(map['centro_de_trabalho'])
+            : null,
       );
     } catch (error, stackTrace) {
       throw MapperError(
@@ -32,8 +34,8 @@ class RecursoMapper {
       'codigo': recurso.codigo.toText,
       'nome': recurso.descricao.value,
       'tipo': recurso.grupoDeRecurso?.tipo?.value,
-      'custo_hora': recurso.custoHora?.value,
       'grupo_de_recurso': recurso.grupoDeRecurso?.id,
+      'centro_de_trabalho': recurso.centroDeTrabalho?.id,
     };
   }
 }

@@ -1,9 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
@@ -60,8 +60,6 @@ class _GrupoDeRestricaoFormMobilePageState extends State<GrupoDeRestricaoFormMob
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10nLocalization;
-
     context.select(() => [
           grupoDeRestricaoController.grupoDeRestricao,
           grupoDeRestricaoController.isEnabled,
@@ -75,7 +73,7 @@ class _GrupoDeRestricaoFormMobilePageState extends State<GrupoDeRestricaoFormMob
     final grupoDeRestricao = grupoDeRestricaoController.grupoDeRestricao;
 
     return CustomScaffold.titleString(
-      widget.id == null ? l10n.titles.criarGrupoDeRestricoes : grupoDeRestricaoController.grupoDeRestricao.descricao.value,
+      widget.id == null ? translation.titles.criarGrupoDeRestricoes : oldGrupoRestricao?.descricao.value ?? '',
       alignment: Alignment.centerLeft,
       controller: scaffoldController,
       actions: [
@@ -88,7 +86,7 @@ class _GrupoDeRestricaoFormMobilePageState extends State<GrupoDeRestricaoFormMob
           child: Column(
             children: [
               IntegerTextFormFieldWidget(
-                label: l10n.fields.codigo,
+                label: translation.fields.codigo,
                 initialValue: grupoDeRestricao.codigo?.value,
                 isEnabled: grupoDeRestricaoController.isEnabled,
                 isRequiredField: true,
@@ -100,7 +98,7 @@ class _GrupoDeRestricaoFormMobilePageState extends State<GrupoDeRestricaoFormMob
               ),
               const SizedBox(height: 16),
               TextFormFieldWidget(
-                label: l10n.fields.nome,
+                label: translation.fields.nome,
                 initialValue: grupoDeRestricao.descricao.value,
                 isEnabled: grupoDeRestricaoController.isEnabled,
                 isRequiredField: true,
@@ -110,13 +108,13 @@ class _GrupoDeRestricaoFormMobilePageState extends State<GrupoDeRestricaoFormMob
               ),
               const SizedBox(height: 16),
               DropdownButtonWidget<TipoDeRestricaoEnum>(
-                label: l10n.fields.tipo,
+                label: translation.fields.tipo,
                 value: grupoDeRestricao.tipo,
                 items: TipoDeRestricaoEnum.values
                     .map<DropdownItem<TipoDeRestricaoEnum>>((tipo) => DropdownItem(value: tipo, label: tipo.description))
                     .toList(),
                 isRequiredField: true,
-                errorMessage: l10n.messages.errorCampoObrigatorio,
+                errorMessage: translation.messages.errorCampoObrigatorio,
                 onSelected: (value) => grupoDeRestricaoController.grupoDeRestricao = grupoDeRestricao.copyWith(tipo: value),
               ),
             ],
@@ -143,8 +141,8 @@ class _GrupoDeRestricaoFormMobilePageState extends State<GrupoDeRestricaoFormMob
                   SnackBar(
                     content: Text(
                       widget.id == null
-                          ? l10n.messages.criouUmEntidadeComSucesso(l10n.fields.grupoDeRestricao)
-                          : l10n.messages.editouUmEntidadeComSucesso(l10n.fields.grupoDeRestricao),
+                          ? translation.messages.criouUmEntidadeComSucesso(translation.fields.grupoDeRestricao)
+                          : translation.messages.editouUmEntidadeComSucesso(translation.fields.grupoDeRestricao),
                       style: AnaTextStyles.grey14Px.copyWith(fontSize: 15, color: Colors.white, letterSpacing: 0.25),
                     ),
                     backgroundColor: const Color.fromRGBO(0, 0, 0, 0.87),
@@ -165,7 +163,7 @@ class _GrupoDeRestricaoFormMobilePageState extends State<GrupoDeRestricaoFormMob
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   CustomTextButton(
-                    title: widget.id == null ? l10n.fields.cancelar : l10n.fields.descartar,
+                    title: widget.id == null ? translation.fields.cancelar : translation.fields.descartar,
                     isEnabled: grupoDeRestricaoController.isEnabled,
                     onPressed: () {
                       if (oldGrupoRestricao != widget.grupoDeRestricaoController.grupoDeRestricao) {
@@ -173,10 +171,10 @@ class _GrupoDeRestricaoFormMobilePageState extends State<GrupoDeRestricaoFormMob
                           barrierColor: Colors.black38,
                           builder: (context) {
                             return ConfirmationModalWidget(
-                              title: l10n.titles.descartarAlteracoes,
-                              messages: l10n.messages.descatarAlteracoesCriacaoEntidade,
-                              titleCancel: l10n.fields.descartar,
-                              titleSuccess: l10n.fields.continuar,
+                              title: translation.titles.descartarAlteracoes,
+                              messages: translation.messages.descatarAlteracoesCriacaoEntidade,
+                              titleCancel: translation.fields.descartar,
+                              titleSuccess: translation.fields.continuar,
                               onCancel: () => Modular.to.pop(),
                             );
                           },
@@ -188,7 +186,7 @@ class _GrupoDeRestricaoFormMobilePageState extends State<GrupoDeRestricaoFormMob
                   ),
                   const SizedBox(width: 12),
                   CustomPrimaryButton(
-                    title: widget.id != null ? l10n.fields.salvar : l10n.fields.criar,
+                    title: widget.id != null ? translation.fields.salvar : translation.fields.criar,
                     isLoading: triple.isLoading,
                     onPressed: () async {
                       grupoDeRestricaoFormStore.salvar(grupoDeRestricaoController.grupoDeRestricao);

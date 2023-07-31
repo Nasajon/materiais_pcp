@@ -1,10 +1,8 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:ana_l10n/ana_l10n.dart';
-import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/pesquisa_form_field_widget.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/presenter/stores/states/turno_trabalho_state.dart';
@@ -31,12 +29,10 @@ class _DesktopTurnoTrabalhoListPageState extends State<DesktopTurnoTrabalhoListP
     with DialogErrorMixin<DesktopTurnoTrabalhoListPage, TurnoTrabalhoListStore> {
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10nLocalization;
     final themeData = Theme.of(context);
-    final colorTheme = themeData.extension<AnaColorTheme>();
 
     return CustomScaffold.titleString(
-      l10n.titles.turnosDeTrabalho,
+      translation.titles.turnosDeTrabalho,
       controller: widget.scaffoldController,
       alignment: Alignment.centerLeft,
       actions: [
@@ -50,7 +46,7 @@ class _DesktopTurnoTrabalhoListPageState extends State<DesktopTurnoTrabalhoListP
             children: [
               const SizedBox(height: 40),
               PesquisaFormFieldWidget(
-                label: context.l10n.materiaisPcpPesquisa,
+                label: translation.messages.pesquisarNomeOuPalavraChave,
                 onChanged: (value) => widget.turnoTrabalhoListStore.search = value,
               ),
               const SizedBox(height: 40),
@@ -61,7 +57,7 @@ class _DesktopTurnoTrabalhoListPageState extends State<DesktopTurnoTrabalhoListP
                   onState: (context, state) {
                     final createTurnoTrabalhoButton = Center(
                       child: CustomPrimaryButton(
-                        title: l10n.fields.criarTurno,
+                        title: translation.fields.criarTurno,
                         onPressed: () async {
                           await Modular.to.pushNamed('./new');
                         },
@@ -77,8 +73,8 @@ class _DesktopTurnoTrabalhoListPageState extends State<DesktopTurnoTrabalhoListP
                             padding: const EdgeInsets.only(bottom: 20),
                             child: Text(
                               widget.turnoTrabalhoListStore.search.isEmpty
-                                  ? l10n.messages.nenhumTurnoTrabalhoEncontrado
-                                  : context.l10n.materiaisPcpNaoHaResultadosParaPesquisa,
+                                  ? translation.messages.nenhumTurnoTrabalhoEncontrado
+                                  : translation.messages.naoHaResultadosParaPesquisa,
                               style: AnaTextStyles.grey20Px,
                             ),
                           ),
@@ -93,7 +89,7 @@ class _DesktopTurnoTrabalhoListPageState extends State<DesktopTurnoTrabalhoListP
                       children: [
                         if (widget.turnoTrabalhoListStore.search.isEmpty) ...{
                           Text(
-                            l10n.titles.ultimosTurnosAcessados,
+                            translation.titles.ultimosTurnosAcessados,
                             style: AnaTextStyles.boldDarkGrey16Px.copyWith(fontSize: 18),
                           ),
                           const SizedBox(height: 40),

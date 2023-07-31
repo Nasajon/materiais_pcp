@@ -1,9 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/core/widgets/dropdown_widget.dart';
@@ -25,8 +25,6 @@ class MobileRestricaoDadosGeraisFormWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10nLocalization;
-
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Form(
@@ -35,7 +33,7 @@ class MobileRestricaoDadosGeraisFormWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             TextFormFieldWidget(
-              label: l10n.fields.codigo,
+              label: translation.fields.codigo,
               initialValue: restricaoFormController.restricao.codigo.toText,
               isRequiredField: true,
               isEnabled: true,
@@ -51,7 +49,7 @@ class MobileRestricaoDadosGeraisFormWidget extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             TextFormFieldWidget(
-              label: l10n.fields.nome,
+              label: translation.fields.nome,
               initialValue: restricaoFormController.restricao.descricao.value,
               isRequiredField: true,
               isEnabled: true,
@@ -63,32 +61,13 @@ class MobileRestricaoDadosGeraisFormWidget extends StatelessWidget {
             const SizedBox(height: 16),
             ScopedBuilder<GetGrupoDeRestricaoStore, List<GrupoDeRestricaoEntity>>(
               store: getGrupoDeRestricaoStore,
-              onLoading: (context) => DropdownLoadWidget(label: l10n.fields.grupoDeRestricao),
+              onLoading: (context) => DropdownLoadWidget(label: translation.fields.grupoDeRestricao),
               onState: (_, grupos) {
                 return DropdownButtonWidget<GrupoDeRestricaoEntity>(
-                  label: l10n.fields.grupoDeRestricao,
+                  label: translation.fields.grupoDeRestricao,
                   value: grupos.isNotEmpty ? restricaoFormController.restricao.grupoDeRestricao : null,
                   isRequiredField: true,
-                  errorMessage: l10n.messages.errorCampoObrigatorio,
-                  isEnabled: true,
-                  items: grupos
-                      .map((grupoDeRestricao) => DropdownItem(value: grupoDeRestricao, label: grupoDeRestricao.descricao.value))
-                      .toList(),
-                  onSelected: (value) =>
-                      restricaoFormController.restricao = restricaoFormController.restricao.copyWith(grupoDeRestricao: value),
-                );
-              },
-            ),
-            const SizedBox(height: 16),
-            ScopedBuilder<GetGrupoDeRestricaoStore, List<GrupoDeRestricaoEntity>>(
-              store: getGrupoDeRestricaoStore,
-              onLoading: (context) => DropdownLoadWidget(label: l10n.fields.centroDeTrabalho),
-              onState: (_, grupos) {
-                return DropdownButtonWidget<GrupoDeRestricaoEntity>(
-                  label: l10n.fields.centroDeTrabalho,
-                  value: grupos.isNotEmpty ? restricaoFormController.restricao.grupoDeRestricao : null,
-                  isRequiredField: true,
-                  errorMessage: l10n.messages.errorCampoObrigatorio,
+                  errorMessage: translation.messages.errorCampoObrigatorio,
                   isEnabled: true,
                   items: grupos
                       .map((grupoDeRestricao) => DropdownItem(value: grupoDeRestricao, label: grupoDeRestricao.descricao.value))

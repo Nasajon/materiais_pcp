@@ -1,9 +1,8 @@
-import 'package:ana_l10n/ana_l10n.dart';
-import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/widgets/list_tile_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/notification_snack_bar.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/domain/aggreagates/centro_trabalho_aggregate.dart';
@@ -24,7 +23,6 @@ class CentroTrabalhoItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10nLocalization;
     final themeData = Theme.of(context);
     final colorTheme = themeData.extension<AnaColorTheme>();
 
@@ -34,7 +32,7 @@ class CentroTrabalhoItemWidget extends StatelessWidget {
           if (triple.state && !triple.isLoading) {
             centroTrabalhoListStore.deleteCentroTrabalho(centroTrabalho.id);
             NotificationSnackBar.showSnackBar(
-              l10n.messages.excluiuUmEntidadeComSucesso(l10n.titles.centroDeTrabalho),
+              translation.messages.excluiuUmEntidadeComSucesso(translation.titles.centroDeTrabalho),
               themeData: themeData,
             );
           }
@@ -52,7 +50,7 @@ class CentroTrabalhoItemWidget extends StatelessWidget {
             key: key,
             title: '${centroTrabalho.codigo.toText} - ${centroTrabalho.nome.value}',
             // TODO: Adicionar os turnos
-            subtitle: '${l10n.fields.turnosDeTrabalho}: ',
+            subtitle: '${translation.fields.turnosDeTrabalho}: ',
             trailing: !triple.isLoading
                 ? PopupMenuButton(
                     icon: Icon(
@@ -67,10 +65,10 @@ class CentroTrabalhoItemWidget extends StatelessWidget {
                           barrierColor: Colors.black38,
                           builder: (context) {
                             return ConfirmationModalWidget(
-                              title: l10n.titles.excluirEntidade(l10n.titles.centroDeTrabalho),
-                              messages: l10n.messages.excluirUmEntidade(l10n.titles.centroDeTrabalho),
-                              titleCancel: l10n.fields.excluir,
-                              titleSuccess: l10n.fields.cancelar,
+                              title: translation.titles.excluirEntidade(translation.titles.centroDeTrabalho),
+                              messages: translation.messages.excluirUmEntidade(translation.titles.centroDeTrabalho),
+                              titleCancel: translation.fields.excluir,
+                              titleSuccess: translation.fields.cancelar,
                               onCancel: () => deletarCentroTrabalhoStore.deletar(centroTrabalho.id),
                             );
                           },
@@ -81,11 +79,11 @@ class CentroTrabalhoItemWidget extends StatelessWidget {
                       return [
                         PopupMenuItem<int>(
                           value: 1,
-                          child: Text(l10n.fields.visualizar),
+                          child: Text(translation.fields.visualizar),
                         ),
                         PopupMenuItem<int>(
                           value: 2,
-                          child: Text(l10n.fields.excluir),
+                          child: Text(translation.fields.excluir),
                         ),
                       ];
                     },
@@ -95,7 +93,13 @@ class CentroTrabalhoItemWidget extends StatelessWidget {
                     height: 24,
                     child: CircularProgressIndicator(),
                   ),
-            onTap: () => !triple.isLoading ? Modular.to.pushNamed('./${centroTrabalho.id}') : null,
+            onTap: !triple.isLoading
+                ? () async {
+                    await Modular.to.pushNamed('./${centroTrabalho.id}');
+
+                    centroTrabalhoListStore.getListCentroTrabalho();
+                  }
+                : null,
           );
         });
   }

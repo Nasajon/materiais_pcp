@@ -1,5 +1,4 @@
 import 'package:flutter_core/ana_core.dart';
-import 'package:pcp_flutter/app/common/pcp_common.dart';
 
 class CentroTrabalhoFailure extends Failure {
   CentroTrabalhoFailure({

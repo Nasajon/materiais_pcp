@@ -7,7 +7,7 @@ import '../datasources/remote/recurso_datasource.dart';
 class RecursoRepositoryImpl implements RecursoRepository {
   final RecursoDatasource _recursoDatasource;
 
-  RecursoRepositoryImpl(this._recursoDatasource);
+  const RecursoRepositoryImpl(this._recursoDatasource);
 
   @override
   Future<List<Recurso>> getList(String? search) {
@@ -51,5 +51,10 @@ class RecursoRepositoryImpl implements RecursoRepository {
     } on Exception catch (exception, stacktrace) {
       return Future.error(UnknownError(exception: exception, stackTrace: stacktrace, label: 'RecursoRepositoryImpl-updateItem'));
     }
+  }
+
+  @override
+  Future<bool> deleteItem(String id) {
+    return _recursoDatasource.deleteItem(id);
   }
 }

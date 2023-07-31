@@ -1,9 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/notification_snack_bar.dart';
@@ -99,10 +99,9 @@ class _MobileTurnoTrabalhoFormStatePage extends State<MobileTurnoTrabalhoFormPag
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    final l10n = context.l10nLocalization;
 
     return CustomScaffold.titleString(
-      l10n.titles.criarTurnoDeTrabalho,
+      translation.titles.criarTurnoDeTrabalho,
       controller: scaffoldController,
       alignment: Alignment.centerLeft,
       actions: [
@@ -124,11 +123,11 @@ class _MobileTurnoTrabalhoFormStatePage extends State<MobileTurnoTrabalhoFormPag
                       isStepperClickable: true,
                       steppers: [
                         StepperComponent(
-                          textInfo: l10n.fields.dadosGerais,
+                          textInfo: translation.fields.dadosGerais,
                           isValid: turnoTrabalhoFormController.turnoTrabalho.isDadosGeraisValid,
                         ),
                         StepperComponent(
-                          textInfo: l10n.fields.horarios,
+                          textInfo: translation.fields.horarios,
                           isValid: turnoTrabalhoFormController.turnoTrabalho.isHorarioValid,
                         ),
                       ],
@@ -173,7 +172,7 @@ class _MobileTurnoTrabalhoFormStatePage extends State<MobileTurnoTrabalhoFormPag
             turnoTrabalhoListStore.addTurnoTrabalho(turnoTrabalho);
             Modular.to.pop();
             NotificationSnackBar.showSnackBar(
-              l10n.messages.criouUmEntidadeComSucesso(l10n.titles.turnosDeTrabalho),
+              translation.messages.criouUmEntidadeComSucesso(translation.titles.turnosDeTrabalho),
               themeData: themeData,
             );
           }
@@ -190,17 +189,17 @@ class _MobileTurnoTrabalhoFormStatePage extends State<MobileTurnoTrabalhoFormPag
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           CustomTextButton(
-                            title: descartarEdicao ? l10n.fields.descartar : l10n.fields.cancelar,
+                            title: translation.fields.cancelar,
                             onPressed: () {
                               if (descartarEdicao) {
                                 Asuka.showDialog(
                                   barrierColor: Colors.black38,
                                   builder: (context) {
                                     return ConfirmationModalWidget(
-                                      title: l10n.titles.descartarAlteracoes,
-                                      messages: l10n.messages.descatarAlteracoesCriacaoEntidade,
-                                      titleCancel: l10n.fields.descartar,
-                                      titleSuccess: l10n.fields.continuar,
+                                      title: translation.titles.descartarAlteracoes,
+                                      messages: translation.messages.descatarAlteracoesCriacaoEntidade,
+                                      titleCancel: translation.fields.descartar,
+                                      titleSuccess: translation.fields.continuar,
                                       onCancel: () => Modular.to.pop(),
                                     );
                                   },
@@ -214,7 +213,7 @@ class _MobileTurnoTrabalhoFormStatePage extends State<MobileTurnoTrabalhoFormPag
                           Visibility(
                             visible: page > 0,
                             child: CustomOutlinedButton(
-                              title: l10n.fields.voltar,
+                              title: translation.fields.voltar,
                               isEnabled: !triple.isLoading,
                               onPressed: () {
                                 pageController.previousPage(duration: const Duration(microseconds: 1), curve: Curves.ease);
@@ -223,7 +222,7 @@ class _MobileTurnoTrabalhoFormStatePage extends State<MobileTurnoTrabalhoFormPag
                           ),
                           const SizedBox(width: 10),
                           CustomPrimaryButton(
-                            title: page + 1 < 2 ? l10n.fields.continuar : l10n.fields.criar,
+                            title: page + 1 < 2 ? translation.fields.continuar : translation.fields.criar,
                             isEnabled: !triple.isLoading,
                             isLoading: triple.isLoading,
                             onPressed: () async {

@@ -20,7 +20,7 @@ class LocalRecursoMapper extends TypeAdapter<Recurso> {
       codigo: CodigoVO(fields[1]),
       descricao: TextVO(fields[2]),
       grupoDeRecurso: fields[3],
-      custoHora: fields[4] != null ? MoedaVO(fields[4]) : null,
+      centroDeTrabalho: fields[4],
     );
   }
 
@@ -37,6 +37,6 @@ class LocalRecursoMapper extends TypeAdapter<Recurso> {
       ..writeByte(3)
       ..write(obj.grupoDeRecurso)
       ..writeByte(4)
-      ..write(obj.custoHora?.value);
+      ..write(obj.centroDeTrabalho);
   }
 }

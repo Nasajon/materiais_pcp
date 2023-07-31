@@ -26,4 +26,9 @@ class RestricaoRepositoryImpl implements RestricaoRepository {
   Future<bool> update(RestricaoAggregate restricao) {
     return _remoteRestricaoDatasource.update(restricao);
   }
+
+  @override
+  Future<bool> delete(String id) {
+    return _remoteRestricaoDatasource.delete(id);
+  }
 }

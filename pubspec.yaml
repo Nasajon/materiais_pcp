@@ -32,10 +32,10 @@ dependencies:
       url: git@github.com:Nasajon/NasajonUI-Flutter-Login.git
       ref: main
 
-  ana_l10n:
-    git:
-      url: https://github.com/Nasajon/ana_l10n
-      ref: main
+  # ana_l10n:
+  #   git:
+  #     url: https://github.com/Nasajon/ana_l10n
+  #     ref: main
 
 dev_dependencies:
   flutter_test:
@@ -61,5 +61,5 @@ dependency_overrides:
   nsj_flutter_login:
     path: ../NasajonUI-Flutter-Login
 
-  ana_l10n:
-    path: ../ana_l10n
+  # ana_l10n:
+  #   path: ../ana_l10n

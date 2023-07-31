@@ -5,4 +5,5 @@ abstract class GrupoDeRecursoDatasource {
   Future<GrupoDeRecurso> getItem(String id);
   Future<GrupoDeRecurso> insertItem(GrupoDeRecurso grupoDeRecurso);
   Future<GrupoDeRecurso> updateItem(GrupoDeRecurso grupoDeRecurso);
+  Future<bool> deleteItem(String id);
 }

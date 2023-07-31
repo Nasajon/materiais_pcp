@@ -1,8 +1,8 @@
-import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/time_vo.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/domain/types/dias_da_semana_type.dart';
@@ -51,15 +51,14 @@ class _MobileCriarEditarHorarioState extends State<MobileCriarEditarHorario> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10nLocalization;
     final themeData = Theme.of(context);
     final colorTheme = themeData.extension<AnaColorTheme>();
 
     return CustomScaffold.titleString(
       key: _scaffoldKey,
       widget.turnoTrabalhoFormController.horario != null && widget.turnoTrabalhoFormController.horario?.codigo == 0
-          ? l10n.titles.adicionarHorario
-          : l10n.titles.editarHorario,
+          ? translation.titles.adicionarHorario
+          : translation.titles.editarHorario,
       controller: CustomScaffoldController(),
       alignment: Alignment.centerLeft,
       body: SingleChildScrollView(
@@ -72,8 +71,8 @@ class _MobileCriarEditarHorarioState extends State<MobileCriarEditarHorario> {
             children: [
               Text(
                 widget.turnoTrabalhoFormController.horario != null && widget.turnoTrabalhoFormController.horario?.codigo == 0
-                    ? l10n.titles.adicionarHorario
-                    : l10n.titles.editarHorario,
+                    ? translation.titles.adicionarHorario
+                    : translation.titles.editarHorario,
                 style: themeData.textTheme.titleMedium?.copyWith(
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
@@ -90,7 +89,7 @@ class _MobileCriarEditarHorarioState extends State<MobileCriarEditarHorario> {
               ),
               const SizedBox(height: 16),
               TimeTextFormFieldWidget(
-                label: l10n.fields.horarioInicial,
+                label: translation.fields.horarioInicial,
                 initTime: widget.turnoTrabalhoFormController.horario?.horarioInicial.getTime(),
                 validator: (_) => widget.turnoTrabalhoFormController.horario?.horarioInicial.errorMessage,
                 onChanged: (value) {
@@ -102,7 +101,7 @@ class _MobileCriarEditarHorarioState extends State<MobileCriarEditarHorario> {
               ),
               const SizedBox(height: 20),
               TimeTextFormFieldWidget(
-                label: l10n.fields.horarioFinal,
+                label: translation.fields.horarioFinal,
                 initTime: widget.turnoTrabalhoFormController.horario?.horarioFinal.getTime(),
                 validator: (_) => widget.turnoTrabalhoFormController.horario?.horarioFinal.errorMessage,
                 onChanged: (value) {
@@ -114,7 +113,7 @@ class _MobileCriarEditarHorarioState extends State<MobileCriarEditarHorario> {
               ),
               const SizedBox(height: 16),
               TimeTextFormFieldWidget(
-                label: l10n.fields.intervalo,
+                label: translation.fields.intervalo,
                 initTime: widget.turnoTrabalhoFormController.horario?.intervalo.getTime(),
                 validator: (_) => widget.turnoTrabalhoFormController.horario?.intervalo.errorMessage,
                 onChanged: (value) {
@@ -136,17 +135,17 @@ class _MobileCriarEditarHorarioState extends State<MobileCriarEditarHorario> {
             Visibility(
               visible: widget.turnoTrabalhoFormController.horario != null && widget.turnoTrabalhoFormController.horario!.codigo > 0,
               child: CustomTextButton(
-                title: l10n.fields.excluir,
+                title: translation.fields.excluir,
                 textColor: colorTheme?.danger,
                 onPressed: () {
                   Asuka.showDialog(
                     barrierColor: Colors.black38,
                     builder: (context) {
                       return ConfirmationModalWidget(
-                        title: l10n.titles.excluirEntidade(l10n.fields.horario),
-                        messages: l10n.messages.excluirUmEntidade(l10n.titles.turnosDeTrabalho),
-                        titleCancel: l10n.fields.excluir,
-                        titleSuccess: l10n.fields.cancelar,
+                        title: translation.titles.excluirEntidade(translation.fields.horario),
+                        messages: translation.messages.excluirUmEntidade(translation.titles.turnosDeTrabalho),
+                        titleCancel: translation.fields.excluir,
+                        titleSuccess: translation.fields.cancelar,
                         onCancel: () {
                           widget.turnoTrabalhoFormController.removerHorario(widget.turnoTrabalhoFormController.horario?.codigo ?? 0);
 
@@ -166,7 +165,7 @@ class _MobileCriarEditarHorarioState extends State<MobileCriarEditarHorario> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 CustomTextButton(
-                  title: l10n.fields.cancelar,
+                  title: translation.fields.cancelar,
                   onPressed: () {
                     widget.turnoTrabalhoFormController.horario = null;
 
@@ -176,8 +175,8 @@ class _MobileCriarEditarHorarioState extends State<MobileCriarEditarHorario> {
                 const SizedBox(width: 16),
                 CustomPrimaryButton(
                   title: widget.turnoTrabalhoFormController.horario != null && widget.turnoTrabalhoFormController.horario!.codigo > 0
-                      ? l10n.fields.salvar
-                      : l10n.fields.adicionar,
+                      ? translation.fields.salvar
+                      : translation.fields.adicionar,
                   onPressed: () {
                     var horario = widget.turnoTrabalhoFormController.horario;
                     if (formKey.currentState!.validate() && horario != null) {

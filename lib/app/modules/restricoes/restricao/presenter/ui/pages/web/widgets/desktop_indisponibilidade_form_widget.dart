@@ -1,8 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/localization/localizations.dart';
 
 import 'package:pcp_flutter/app/modules/restricoes/restricao/domain/entities/indisponibilidade_entity.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/controllers/restricao_form_controller.dart';
@@ -23,14 +23,13 @@ class DesktopIndisponibilidadeFormWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10nLocalization;
     final themeData = Theme.of(context);
     final colorTheme = themeData.extension<AnaColorTheme>();
 
     return RxBuilder(
       builder: (_) {
         Widget addButton = CustomOutlinedButton(
-            title: l10n.fields.adicionarIndisponibilidade,
+            title: translation.fields.adicionarIndisponibilidade,
             onPressed: () async {
               restricaoFormController.indisponibilidade = IndisponibilidadeEntity.empty();
             });
@@ -43,12 +42,12 @@ class DesktopIndisponibilidadeFormWidget extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    l10n.titles.adicioneUmaIndisponibilidade,
+                    translation.titles.adicioneUmaIndisponibilidade,
                     style: themeData.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    l10n.messages.nenhumaIndisponibilidadeFoiAdicionada,
+                    translation.messages.nenhumaIndisponibilidadeFoiAdicionada,
                     textAlign: TextAlign.center,
                     style: themeData.textTheme.bodyMedium,
                   ),

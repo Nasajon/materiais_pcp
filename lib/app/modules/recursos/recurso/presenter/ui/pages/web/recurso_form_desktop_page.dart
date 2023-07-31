@@ -1,38 +1,43 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:ana_l10n/ana_l10n.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart';
-import 'package:pcp_flutter/app/core/modules/domain/value_object/moeda_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/dropdown_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
 import 'package:pcp_flutter/app/modules/recursos/common/domain/entities/grupo_de_recurso.dart';
+import 'package:pcp_flutter/app/modules/recursos/recurso/domain/entities/recurso.dart';
+import 'package:pcp_flutter/app/modules/recursos/recurso/domain/entities/recurso_centro_de_trabalho.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/presenter/controllers/recurso_controller.dart';
+import 'package:pcp_flutter/app/modules/recursos/recurso/presenter/stores/get_centro_de_trabalho_store.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/presenter/stores/get_grupo_de_recurso_store.dart';
 
 import '../../../stores/recurso_form_store.dart';
-import '../../../stores/states/recurso_form_state.dart';
 
 class RecursoFormDesktopPage extends StatefulWidget {
-  final String? id;
+  final RxNotifier<Recurso?> oldRecurso;
   final RecursoFormStore recursoFormStore;
   final GetGrupoDeRecursoStore getGrupoDeRecursoStore;
+  final GetCentroDeTrabalhoStore getCentroDeTrabalhoStore;
   final RecursoController recursoController;
   final InternetConnectionStore connectionStore;
   final CustomScaffoldController scaffoldController;
+  final GlobalKey<FormState> formKey;
 
   const RecursoFormDesktopPage({
     Key? key,
-    this.id,
+    required this.oldRecurso,
     required this.recursoFormStore,
     required this.getGrupoDeRecursoStore,
+    required this.getCentroDeTrabalhoStore,
     required this.recursoController,
     required this.connectionStore,
     required this.scaffoldController,
+    required this.formKey,
   }) : super(key: key);
 
   @override
@@ -40,42 +45,19 @@ class RecursoFormDesktopPage extends StatefulWidget {
 }
 
 class _RecursoFormDesktopPageState extends State<RecursoFormDesktopPage> {
-  RecursoFormStore get recursoFormStore => widget.recursoFormStore;
-  GetGrupoDeRecursoStore get getGrupoDeRecursoStore => widget.getGrupoDeRecursoStore;
-  RecursoController get recursoController => widget.recursoController;
-  CustomScaffoldController get scaffoldController => widget.scaffoldController;
-
-  final _formKey = GlobalKey<FormState>();
-
-  @override
-  void initState() {
-    super.initState();
-
-    recursoFormStore.clear();
-
-    recursoController.isLoading = true;
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final id = widget.id;
-
-      getGrupoDeRecursoStore.getGrupos();
-
-      if (id != null && recursoFormStore.state.recurso?.id != id) {
-        recursoController.recurso = await recursoFormStore.pegarRecurso(id);
-      }
-      recursoController.isLoading = false;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     final themeData = Theme.of(context);
     final colorTheme = themeData.extension<AnaColorTheme>();
 
+    context.select(() => [widget.recursoController.recurso]);
+
+    final recurso = widget.recursoController.recurso;
+
     return CustomScaffold.titleString(
-      widget.id != null ? context.l10n.materiaisPcpEditarRecurso : context.l10n.materiaisPcpCriarRecurso,
+      recurso.id == null ? translation.titles.criarRecurso : widget.oldRecurso.value?.descricao.value ?? '',
       alignment: Alignment.centerLeft,
-      controller: scaffoldController,
+      controller: widget.scaffoldController,
       actions: [
         InternetButtonIconWidget(connectionStore: widget.connectionStore),
       ],
@@ -85,143 +67,179 @@ class _RecursoFormDesktopPageState extends State<RecursoFormDesktopPage> {
             child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 635),
           child: Form(
-            key: _formKey,
-            child: RxBuilder(
-              builder: (context) {
-                if (recursoController.isLoading) {
-                  return Center(child: CircularProgressIndicator(color: colorTheme?.primary));
-                }
-
-                return Column(
+            key: widget.formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text(
-                      l10n.materiaisPcpCamposObrigatorios,
-                      style: AnaTextStyles.grey14Px,
+                    Flexible(
+                      child: IntegerTextFormFieldWidget(
+                        label: translation.fields.codigo,
+                        initialValue: widget.recursoController.recurso.codigo.value,
+                        isRequiredField: true,
+                        isEnabled: widget.recursoController.isEnabled,
+                        onChanged: (value) => widget.recursoController.recurso = widget.recursoController.recurso.copyWith(
+                          codigo: CodigoVO(value),
+                        ),
+                      ),
                     ),
-                    const SizedBox(height: 16),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Flexible(
-                          child: IntegerTextFormFieldWidget(
-                            label: l10n.materiaisPcpCodigoLabelObrigatorio,
-                            initialValue: recursoController.recurso.codigo.value,
-                            isRequiredField: true,
-                            isEnabled: recursoController.isEnabled,
-                            onChanged: (value) => recursoController.recurso = recursoController.recurso.copyWith(
-                              codigo: CodigoVO(value),
-                            ),
-                          ),
+                    const SizedBox(width: 16),
+                    Flexible(
+                      flex: 3,
+                      child: TextFormFieldWidget(
+                        label: translation.fields.nome,
+                        initialValue: widget.recursoController.recurso.descricao.value,
+                        isRequiredField: true,
+                        isEnabled: widget.recursoController.isEnabled,
+                        onChanged: (value) => widget.recursoController.recurso = widget.recursoController.recurso.copyWith(
+                          descricao: TextVO(value),
                         ),
-                        const SizedBox(width: 16),
-                        Flexible(
-                          flex: 3,
-                          child: TextFormFieldWidget(
-                            label: l10n.materiaisPcpNomeLabelObrigatorio,
-                            initialValue: recursoController.recurso.descricao.value,
-                            isRequiredField: true,
-                            isEnabled: recursoController.isEnabled,
-                            onChanged: (value) => recursoController.recurso = recursoController.recurso.copyWith(
-                              descricao: TextVO(value),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    Row(
-                      children: [
-                        Flexible(
-                          child: ScopedBuilder<GetGrupoDeRecursoStore, List<GrupoDeRecurso>>(
-                            store: getGrupoDeRecursoStore,
-                            onLoading: (context) => DropdownLoadWidget(label: l10n.materiaisPcpGrupoDeRecurso),
-                            onState: (_, grupos) {
-                              return DropdownButtonWidget<GrupoDeRecurso>(
-                                label: l10n.materiaisPcpGrupoDeRecurso,
-                                value: grupos.isNotEmpty ? recursoController.recurso.grupoDeRecurso : null,
-                                isRequiredField: true,
-                                errorMessage: l10n.materiaisPcpEsteCampoPrecisaEstarPreenchido,
-                                isEnabled: recursoController.isEnabled,
-                                items: grupos
-                                    .map((grupoDeRecurso) => DropdownItem(value: grupoDeRecurso, label: grupoDeRecurso.descricao.value))
-                                    .toList(),
-                                onSelected: (value) =>
-                                    recursoController.recurso = recursoController.recurso.copyWith(grupoDeRecurso: value, tipo: value.tipo),
-                              );
-                            },
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Flexible(
-                          child: MoneyTextFormFieldWidget(
-                            label: l10n.materiaisPcpCustoPorHoraLabel,
-                            initialValue: recursoController.recurso.custoHora?.value,
-                            isEnabled: recursoController.isEnabled,
-                            showSymbol: false,
-                            onChanged: (value) {
-                              recursoController.recurso = recursoController.recurso.copyWith(
-                                custoHora: MoedaVO(value),
-                              );
-                            },
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ],
-                );
-              },
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    Flexible(
+                      child: ScopedBuilder<GetGrupoDeRecursoStore, List<GrupoDeRecurso>>(
+                        store: widget.getGrupoDeRecursoStore,
+                        onLoading: (context) => DropdownLoadWidget(label: translation.fields.grupoDeRecurso),
+                        onState: (_, grupos) {
+                          return DropdownButtonWidget<GrupoDeRecurso>(
+                            label: translation.fields.grupoDeRecurso,
+                            value: grupos.isNotEmpty ? widget.recursoController.recurso.grupoDeRecurso : null,
+                            isRequiredField: true,
+                            errorMessage: translation.messages.errorCampoObrigatorio,
+                            isEnabled: widget.recursoController.isEnabled,
+                            items: grupos
+                                .map((grupoDeRecurso) => DropdownItem(value: grupoDeRecurso, label: grupoDeRecurso.descricao.value))
+                                .toList(),
+                            onSelected: (value) =>
+                                widget.recursoController.recurso = widget.recursoController.recurso.copyWith(grupoDeRecurso: value),
+                          );
+                        },
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Flexible(
+                      child: ScopedBuilder<GetCentroDeTrabalhoStore, List<RecursoCentroDeTrabalho>>(
+                        store: widget.getCentroDeTrabalhoStore,
+                        onLoading: (context) => DropdownLoadWidget(label: translation.fields.centroDeTrabalho),
+                        onState: (_, centros) {
+                          return DropdownButtonWidget<RecursoCentroDeTrabalho>(
+                            label: translation.fields.centroDeTrabalho,
+                            value: centros.isNotEmpty ? widget.recursoController.recurso.centroDeTrabalho : null,
+                            isRequiredField: true,
+                            errorMessage: translation.messages.errorCampoObrigatorio,
+                            isEnabled: widget.recursoController.isEnabled,
+                            items: centros
+                                .map((centroDeTrabalho) => DropdownItem(value: centroDeTrabalho, label: centroDeTrabalho.nome))
+                                .toList(),
+                            onSelected: (value) =>
+                                widget.recursoController.recurso = widget.recursoController.recurso.copyWith(centroDeTrabalho: value),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         )),
       ),
-      bottomNavigationBar: ContainerNavigationBarWidget(
-        child: TripleBuilder<RecursoFormStore, RecursoFormState>(
-          builder: (context, triple) {
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                CustomTextButton(
-                    title: l10n.materiaisPcpVoltar,
-                    isEnabled: recursoController.isEnabled,
-                    onPressed: () {
+      bottomNavigationBar: ValueListenableBuilder(
+        valueListenable: widget.oldRecurso,
+        builder: (context, oldRecurso, child) {
+          return Visibility(
+            visible: recurso.id == null || (recurso.id != null && oldRecurso != recurso),
+            child: ContainerNavigationBarWidget(
+              child: TripleBuilder<RecursoFormStore, Recurso?>(
+                store: widget.recursoFormStore,
+                builder: (context, triple) {
+                  final id = widget.recursoController.recurso.id;
+
+                  final error = triple.error;
+                  if (!triple.isLoading && error != null && error is Failure) {
+                    Asuka.showDialog(
+                      barrierColor: Colors.black38,
+                      builder: (context) {
+                        return ErrorModal(errorMessage: (triple.error as Failure).errorMessage ?? '');
+                      },
+                    );
+                  }
+
+                  final recurso = triple.state;
+                  if (recurso != null && !triple.isLoading && recurso != oldRecurso) {
+                    Asuka.showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          id == null
+                              ? translation.messages.criouUmEntidadeComSucesso(translation.fields.recurso)
+                              : translation.messages.editouUmEntidadeComSucesso(translation.fields.recurso),
+                          style: AnaTextStyles.grey14Px.copyWith(fontSize: 15, color: Colors.white, letterSpacing: 0.25),
+                        ),
+                        backgroundColor: const Color.fromRGBO(0, 0, 0, 0.87),
+                        behavior: SnackBarBehavior.floating,
+                        width: 635,
+                      ),
+                    );
+
+                    if (id == null) {
                       Modular.to.pop();
-
-                      recursoFormStore.clear();
-                    }),
-                const SizedBox(width: 10),
-                CustomPrimaryButton(
-                  title: widget.id != null ? l10n.materiaisPcpEditar : l10n.materiaisPcpCriar,
-                  isEnabled: recursoController.isEnabled,
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      try {
-                        await recursoFormStore.salvar(recursoController.recurso);
-
-                        Asuka.showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              widget.id != null
-                                  ? l10n.materiaisPpcEntidadeEditadoComSucessoMasculino(l10n.materiaisPcpRecurso)
-                                  : l10n.materiaisPpcEntidadeCriadoComSucessoMasculino(l10n.materiaisPcpRecurso),
-                              style: AnaTextStyles.grey14Px.copyWith(fontSize: 15, color: Colors.white, letterSpacing: 0.25),
-                            ),
-                            backgroundColor: const Color.fromRGBO(0, 0, 0, 0.87),
-                            behavior: SnackBarBehavior.floating,
-                            width: 635,
-                          ),
-                        );
-
-                        Modular.to.pop();
-                      } finally {}
+                    } else {
+                      widget.recursoController.recurso = recurso;
+                      widget.oldRecurso.value = widget.recursoController.recurso.copyWith();
+                      widget.recursoController.recursoNotifyListeners();
                     }
-                  },
-                )
-              ],
-            );
-          },
-        ),
+                  }
+
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      CustomTextButton(
+                        title: id == null ? translation.fields.cancelar : translation.fields.descartar,
+                        isEnabled: !triple.isLoading,
+                        onPressed: () {
+                          if (oldRecurso != widget.recursoController.recurso) {
+                            Asuka.showDialog(
+                              barrierColor: Colors.black38,
+                              builder: (context) {
+                                return ConfirmationModalWidget(
+                                  title: translation.titles.descartarAlteracoes,
+                                  messages: translation.messages.descatarAlteracoesCriacaoEntidade,
+                                  titleCancel: translation.fields.descartar,
+                                  titleSuccess: translation.fields.continuar,
+                                  onCancel: () => Modular.to.pop(),
+                                );
+                              },
+                            );
+                          } else {
+                            Modular.to.pop();
+                          }
+                        },
+                      ),
+                      const SizedBox(width: 10),
+                      CustomPrimaryButton(
+                        title: id != null ? translation.fields.salvar : translation.fields.criar,
+                        isLoading: triple.isLoading,
+                        onPressed: () async {
+                          if (widget.formKey.currentState!.validate()) {
+                            widget.recursoFormStore.salvar(widget.recursoController.recurso);
+                          }
+                        },
+                      )
+                    ],
+                  );
+                },
+              ),
+            ),
+          );
+        },
       ),
     );
   }

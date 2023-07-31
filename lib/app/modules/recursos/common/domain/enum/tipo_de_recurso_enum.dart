@@ -1,4 +1,5 @@
 import 'package:ana_l10n/ana_localization.dart';
+import 'package:pcp_flutter/app/core/localization/localizations.dart';
 
 enum TipoDeRecursoEnum {
   equipamento(value: 'equipamento'),
@@ -10,16 +11,16 @@ enum TipoDeRecursoEnum {
 
   const TipoDeRecursoEnum({required this.value});
 
-  String name(Localization localization) {
+  String get name {
     switch (this) {
       case TipoDeRecursoEnum.equipamento:
-        return localization.types.pcpTipoRecursoEquipamento;
+        return translation.types.pcpTipoRecursoEquipamento;
       case TipoDeRecursoEnum.maoDeObra:
-        return localization.types.pcpTipoRecursoMaoDeObra;
+        return translation.types.pcpTipoRecursoMaoDeObra;
       case TipoDeRecursoEnum.postoDeTrabalho:
-        return localization.types.pcpTipoRecursoPostoDeTrabalho;
+        return translation.types.pcpTipoRecursoPostoDeTrabalho;
       case TipoDeRecursoEnum.outros:
-        return localization.types.pcpTipoRecursoOutros;
+        return translation.types.pcpTipoRecursoOutros;
     }
   }
 

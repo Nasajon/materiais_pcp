@@ -1,8 +1,7 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:ana_l10n/ana_l10n.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
+import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/list_tile_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/pesquisa_form_field_widget.dart';
@@ -29,7 +28,7 @@ class GrupoDeRestricaoListDesktopPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold.titleString(
-      context.l10n.materiaisPcpGruposDeRestricao,
+      translation.titles.gruposDeRestricao,
       alignment: Alignment.centerLeft,
       controller: scaffoldController,
       actions: [
@@ -44,7 +43,7 @@ class GrupoDeRestricaoListDesktopPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 PesquisaFormFieldWidget(
-                  label: context.l10n.materiaisPcpPesquisa,
+                  label: translation.messages.avisoPesquisarPorNomeOuPalavraChave,
                   controller: grupoDeRestricaoStore.pesquisaController,
                   onChanged: (value) => grupoDeRestricaoStore.getList(search: value),
                 ),
@@ -63,16 +62,15 @@ class GrupoDeRestricaoListDesktopPage extends StatelessWidget {
                               padding: const EdgeInsets.only(bottom: 20),
                               child: Text(
                                 grupoDeRestricaoStore.pesquisaController.text.isEmpty
-                                    ? context.l10n.materiaisPcpNenhumaEntidadeEncontradaMasculino(
-                                        context.l10n.materiaisPcpGrupoDeRestricao.toLowerCase())
-                                    : context.l10n.materiaisPcpNaoHaResultadosParaPesquisa,
+                                    ? translation.messages.nenhumEntidadeEncontrado(translation.fields.grupoDeRestricao)
+                                    : translation.messages.naoHaResultadosParaPesquisa,
                                 style: AnaTextStyles.grey20Px,
                               ),
                             ),
                           );
                         } else {
                           if (grupoDeRestricaoStore.pesquisaController.text.isEmpty) {
-                            widgets.add(Text(context.l10n.materiaisPcpUltimosGruposAcessados,
+                            widgets.add(Text(translation.titles.ultimosGruposAcessados,
                                 style: AnaTextStyles.boldDarkGrey16Px.copyWith(fontSize: 18)));
                           }
 
@@ -87,7 +85,7 @@ class GrupoDeRestricaoListDesktopPage extends StatelessWidget {
                         widgets.add(
                           Center(
                             child: CustomPrimaryButton(
-                              title: context.l10n.materiaisPcpCriarGrupo,
+                              title: translation.fields.criarGrupo,
                               onPressed: () async {
                                 await Modular.to.pushNamed('./new');
 

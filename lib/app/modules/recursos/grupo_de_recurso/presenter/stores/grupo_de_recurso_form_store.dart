@@ -3,16 +3,15 @@ import 'package:pcp_flutter/app/modules/recursos/common/domain/entities/grupo_de
 
 import '../../domain/usecases/get_grupo_de_recurso_by_id_usecase.dart';
 import '../../domain/usecases/save_grupo_de_recurso_usecase.dart';
-import 'states/grupo_de_recurso_form_state.dart';
 
-class GrupoDeRecursoFormStore extends NasajonNotifierStore<GrupoDeRecursoFormState> {
+class GrupoDeRecursoFormStore extends NasajonStreamStore<GrupoDeRecurso?> {
   final GetGrupoDeRecursoByIdUsecase _getGrupoDeRecursoByIdUsecase;
   final SaveGrupoDeRecursoUsecase _saveGrupoDeRecursoUsecase;
 
   GrupoDeRecursoFormStore(
     this._getGrupoDeRecursoByIdUsecase,
     this._saveGrupoDeRecursoUsecase,
-  ) : super(initialState: GrupoDeRecursoFormState.empty());
+  ) : super(initialState: null);
 
   Future<GrupoDeRecurso> pegarGrupoDeRecurso(String id) async {
     return await _getGrupoDeRecursoByIdUsecase(id);
@@ -22,17 +21,13 @@ class GrupoDeRecursoFormStore extends NasajonNotifierStore<GrupoDeRecursoFormSta
     try {
       setLoading(true);
 
-      await _saveGrupoDeRecursoUsecase(grupoDeRecurso);
+      final response = await _saveGrupoDeRecursoUsecase(grupoDeRecurso);
 
-      clear();
+      update(response);
     } on Failure {
       rethrow;
     } finally {
       setLoading(false);
     }
-  }
-
-  void clear() {
-    update(state.copyWith(grupoDeRecurso: () => null));
   }
 }

@@ -1,6 +1,6 @@
-import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
+import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/date_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/time_vo.dart';
@@ -18,7 +18,6 @@ class DesktopCardCriarEditarIndisponibilidadeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10nLocalization;
     final themeData = Theme.of(context);
     final colorTheme = themeData.extension<AnaColorTheme>();
 
@@ -42,8 +41,8 @@ class DesktopCardCriarEditarIndisponibilidadeWidget extends StatelessWidget {
           children: [
             Text(
               indisponibilidade != null && indisponibilidade.codigo == 0
-                  ? l10n.titles.adicionarIndisponibilidade
-                  : l10n.titles.editarIndisponibilidade,
+                  ? translation.titles.adicionarIndisponibilidade
+                  : translation.titles.editarIndisponibilidade,
               style: themeData.textTheme.titleMedium?.copyWith(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
@@ -51,7 +50,7 @@ class DesktopCardCriarEditarIndisponibilidadeWidget extends StatelessWidget {
             ),
             const SizedBox(height: 28),
             DateRangeTextFormFieldWidget(
-              label: l10n.fields.periodo,
+              label: translation.fields.periodo,
               isRequiredField: true,
               initDateStart: indisponibilidade?.periodoInicial.getDate(),
               initDateEnd: indisponibilidade?.periodoFinal.getDate(),
@@ -65,7 +64,7 @@ class DesktopCardCriarEditarIndisponibilidadeWidget extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             TextFormFieldWidget(
-              label: l10n.fields.motivo,
+              label: translation.fields.motivo,
               initialValue: indisponibilidade?.motivo.value,
               validator: (_) => indisponibilidade?.motivo.errorMessage,
               onChanged: (value) {
@@ -82,7 +81,7 @@ class DesktopCardCriarEditarIndisponibilidadeWidget extends StatelessWidget {
               children: [
                 Flexible(
                   child: TimeTextFormFieldWidget(
-                      label: l10n.fields.horarioInicial,
+                      label: translation.fields.horarioInicial,
                       initTime: indisponibilidade?.horarioInicial.getTime(),
                       validator: (_) => indisponibilidade?.horarioInicial.errorMessage,
                       onChanged: (value) {
@@ -94,7 +93,7 @@ class DesktopCardCriarEditarIndisponibilidadeWidget extends StatelessWidget {
                 const SizedBox(width: 16),
                 Flexible(
                   child: TimeTextFormFieldWidget(
-                      label: l10n.fields.horarioFinal,
+                      label: translation.fields.horarioFinal,
                       initTime: indisponibilidade?.horarioFinal.getTime(),
                       validator: (_) => indisponibilidade?.horarioFinal.errorMessage,
                       onChanged: (value) {
@@ -113,7 +112,7 @@ class DesktopCardCriarEditarIndisponibilidadeWidget extends StatelessWidget {
                 Visibility(
                   visible: indisponibilidade != null && indisponibilidade.codigo > 0,
                   child: CustomTextButton(
-                    title: l10n.fields.excluir,
+                    title: translation.fields.excluir,
                     onPressed: () {
                       restricaoFormController.removerIndisponibilidade(indisponibilidade?.codigo ?? 0);
 
@@ -128,12 +127,12 @@ class DesktopCardCriarEditarIndisponibilidadeWidget extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     CustomTextButton(
-                      title: l10n.fields.cancelar,
+                      title: translation.fields.cancelar,
                       onPressed: () => restricaoFormController.indisponibilidade = null,
                     ),
                     const SizedBox(width: 16),
                     CustomOutlinedButton(
-                      title: l10n.fields.salvar,
+                      title: translation.fields.salvar,
                       onPressed: () {
                         var indisponibilidade = restricaoFormController.indisponibilidade;
                         if (formKey.currentState!.validate() && indisponibilidade != null) {

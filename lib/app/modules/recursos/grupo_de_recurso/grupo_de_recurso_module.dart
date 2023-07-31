@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/modules/presenter/widgets/card_widget.dart';
+import 'package:pcp_flutter/app/modules/recursos/grupo_de_recurso/domain/usecases/delete_grupo_de_recurso.dart';
 import 'package:pcp_flutter/app/modules/recursos/grupo_de_recurso/external/datasources/local/grupo_de_recurso_local_datasource_impl.dart';
 import 'package:pcp_flutter/app/modules/recursos/grupo_de_recurso/presenter/controllers/grupo_de_recurso_controller.dart';
 import 'package:pcp_flutter/app/modules/recursos/grupo_de_recurso/presenter/ui/pages/grupo_de_recurso_form_page.dart';
@@ -38,14 +39,15 @@ class GrupoDeRecursoModule extends Module {
         Bind.lazySingleton((i) => GetGrupoDeRecursoListUsecaseImpl(i())),
         Bind.lazySingleton((i) => GetGrupoDeRecursoByIdUsecaseImpl(i())),
         Bind.lazySingleton((i) => SaveGrupoDeRecursoUsecaseImpl(i())),
+        Bind.lazySingleton((i) => DeleteGrupoDeRecursoUsecaseImpl(i())),
 
         Bind.lazySingleton((i) => GetGrupoDeRecursoListUsecaseImpl(i()), export: true),
 
         //Stores
-        Bind.lazySingleton((i) => GrupoDeRecursoListStore(i())),
-        Bind.lazySingleton((i) => GrupoDeRecursoFormStore(i(), i())),
+        Bind.lazySingleton((i) => GrupoDeRecursoListStore(i(), i())),
+        Bind.factory((i) => GrupoDeRecursoFormStore(i(), i())),
 
-        Bind.lazySingleton((i) => GrupoDeRecursoListStore(i()), export: true),
+        Bind.lazySingleton((i) => GrupoDeRecursoListStore(i(), i()), export: true),
 
         //Controller
         Bind.factory((i) => GrupoDeRecursoController())

@@ -2,7 +2,6 @@ import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/core/client/interceptors/api_key_interceptor.dart';
 import 'package:pcp_flutter/app/core/client/interceptors/entidades_empresariais_interceptor.dart';
-import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/domain/aggregates/turno_trabalho_aggregate.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/domain/errors/turno_trabalho_failure.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/external/mappers/remote/remote_horario_mapper.dart';

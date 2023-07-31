@@ -5,4 +5,5 @@ abstract class RemoteRestricaoDatasource {
   Future<RestricaoAggregate> getRestricaoPorId(String id);
   Future<RestricaoAggregate> insert(RestricaoAggregate restricao);
   Future<bool> update(RestricaoAggregate restricao);
+  Future<bool> delete(String id);
 }
