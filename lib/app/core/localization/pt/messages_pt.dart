@@ -1,3 +1,4 @@
+import 'package:pcp_flutter/app/core/localization/artigos_enum.dart';
 import 'package:pcp_flutter/app/core/localization/messages.dart';
 
 class MessagesPt extends Messages {
@@ -47,10 +48,17 @@ class MessagesPt extends Messages {
   String criouUmEntidadeComSucesso(String entidade) => 'Você criou um ${entidade.toLowerCase()} com sucesso.';
 
   @override
+  String criouEntidadeComSucesso(String entidade, ArtigoEnum artigo) => 'Você criou ${artigo.value} ${entidade.toLowerCase()} com sucesso.';
+
+  @override
   String editouUmaEntidadeComSucesso(String entidade) => 'Você editou uma ${entidade.toLowerCase()} com sucesso.';
 
   @override
   String editouUmEntidadeComSucesso(String entidade) => 'Você editou um ${entidade.toLowerCase()} com sucesso.';
+
+  @override
+  String editouEntidadeComSucesso(String entidade, ArtigoEnum artigo) =>
+      'Você editou ${artigo.value} ${entidade.toLowerCase()} com sucesso.';
 
   @override
   String erroDadosIncompletoOuAusenteDaEntidade(String entidade) =>
@@ -69,14 +77,33 @@ class MessagesPt extends Messages {
       'Você está prestes a excluir um ${entidade.toLowerCase()}. Esta ação não poderá ser desfeita.';
 
   @override
+  String excluirEntidade(String entidade, ArtigoEnum artigo) =>
+      'Você está prestes a excluir ${artigo.value} ${entidade.toLowerCase()}. Esta ação não poderá ser desfeita.';
+  @override
   String excluiuUmaEntidadeComSucesso(String entidade) => 'Você excluiu uma ${entidade.toLowerCase()} com sucesso.';
 
   @override
   String excluiuUmEntidadeComSucesso(String entidade) => 'Você excluiu um ${entidade.toLowerCase()} com sucesso.';
 
   @override
+  String excluiuEntidadeComSucesso(String entidade, ArtigoEnum artigo) =>
+      'Você excluiu ${artigo.value} ${entidade.toLowerCase()} com sucesso.';
+
+  @override
   String nenhumaEntidadeEncontrada(String entidade) => 'Nenhuma ${entidade.toLowerCase()} encontrada.';
 
   @override
   String nenhumEntidadeEncontrado(String entidade) => 'Nenhum ${entidade.toLowerCase()} encontrado.';
+
+  @override
+  String selecione(String campo, ArtigoEnum artigo) => 'Selecione ${artigo.value} ${campo.toLowerCase()}';
+
+  @override
+  String insira(String campo, ArtigoEnum artigo) => 'Insira ${artigo.value} ${campo.toLowerCase()}';
+
+  @override
+  String get nenhumMaterialFoiAdicionado => 'Nenhum material foi adicionado\nAdicione um material clicando no botão abaixo.';
+
+  @override
+  String get nenhumaFichaTecnicaEncontrada => 'Nenhuma ficha técnica foi encontrada';
 }

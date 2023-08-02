@@ -20,5 +20,11 @@ class MoedaVO extends ValueObject<double> {
     }
   }
 
-  String get toText => toString();
+  String get toText {
+    var textSplitted = value.toString().split('.');
+    if (textSplitted[1] == '0') {
+      return textSplitted[0];
+    }
+    return "${textSplitted[0]},${textSplitted[1]}";
+  }
 }
