@@ -1,16 +1,16 @@
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/value_object.dart';
 
-class MoedaVO extends ValueObject<double> {
-  MoedaVO(super.value) {
+class DoubleVO extends ValueObject<double> {
+  DoubleVO(super.value) {
     _validate();
   }
 
-  factory MoedaVO.text(String value) {
+  factory DoubleVO.text(String value) {
     try {
-      return MoedaVO(double.parse(value));
+      return DoubleVO(double.parse(value));
     } on FormatException catch (_) {
-      return MoedaVO(0);
+      return DoubleVO(0);
     }
   }
 
