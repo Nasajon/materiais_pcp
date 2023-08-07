@@ -74,7 +74,6 @@ class _MobileFichaTecnicaVisualizarPageState extends State<MobileFichaTecnicaVis
 
   @override
   void dispose() {
-    widget.fichaTecnicaFormController.resetOld();
     pageController.dispose();
     super.dispose();
   }

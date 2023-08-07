@@ -75,6 +75,7 @@ class _FichaTecnicaVisualizarPageState extends State<FichaTecnicaVisualizarPage>
         } else {
           Modular.to.pop();
         }
+        widget.fichaTecnicaFormController.resetOld();
 
         final desktopFichaTecnicaVisualizar = DesktopFichaTecnicaVisualizarPage(
           pageNotifier: pageNotifier,

@@ -71,7 +71,6 @@ class _DesktopFichaTecnicaVisualizarPageState extends State<DesktopFichaTecnicaV
 
   @override
   void dispose() {
-    widget.fichaTecnicaFormController.resetOld();
     pageController.dispose();
     super.dispose();
   }
