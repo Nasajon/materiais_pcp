@@ -33,7 +33,7 @@ class RemoteFichaTecnicaMapper {
       'produto': fichaTecnica.produto!.id,
       'descricao': fichaTecnica.descricao.value,
       'codigo': fichaTecnica.codigo.value,
-      'quantidade': fichaTecnica.quantidade.value.toDouble(),
+      'quantidade': fichaTecnica.quantidade.value!.toDouble(),
       'produtos': fichaTecnica.materiais.map((produto) => RemoteFichaTecnicaProdutosMapper.fromFichaTecnicaProdutoToMap(produto)).toList(),
     };
   }

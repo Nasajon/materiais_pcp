@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:pcp_flutter/app/core/modules/domain/value_object/moeda_vo.dart';
-import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/entities/produto.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/entities/unidade.dart';
 
@@ -8,7 +7,7 @@ class FichaTecnicaMaterialAggregate {
   final String id;
   final int codigo;
   final ProdutoEntity? produto;
-  final MoedaVO quantidade;
+  final MoedaVO? quantidade;
   final UnidadeEntity? unidade;
 
   const FichaTecnicaMaterialAggregate({
@@ -38,7 +37,7 @@ class FichaTecnicaMaterialAggregate {
   factory FichaTecnicaMaterialAggregate.empty() {
     return FichaTecnicaMaterialAggregate(
       id: '',
-      quantidade: MoedaVO(0),
+      quantidade: MoedaVO(null),
       codigo: 0,
       produto: ProdutoEntity.empty(),
       unidade: UnidadeEntity.empty(),
@@ -57,5 +56,5 @@ class FichaTecnicaMaterialAggregate {
     return id.hashCode ^ produto.hashCode ^ unidade.hashCode;
   }
 
-  bool get isValid => quantidade.isValid && produto != null && unidade != null;
+  bool get isValid => quantidade != null && quantidade!.isValid && produto != null && unidade != null;
 }

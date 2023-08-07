@@ -129,7 +129,7 @@ class DesktopCardMaterialWidget extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        material.quantidade.toText,
+                        material.quantidade!.toText,
                         style: themeData.textTheme.bodyLarge?.copyWith(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,

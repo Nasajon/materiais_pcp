@@ -37,7 +37,7 @@ class DesktopCardCriarEditarMaterialWidget extends StatelessWidget {
     final material = fichaTecnicaFormController.material;
 
     return Container(
-      width: 450,
+      width: 480,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: colorTheme?.background,
@@ -53,7 +53,7 @@ class DesktopCardCriarEditarMaterialWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              material != null && material.codigo == 0 ? l10n.titles.adicioneUmMaterial : l10n.titles.editarMaterial,
+              material != null && material.codigo == 0 ? l10n.titles.adicionarMaterial : l10n.titles.editarMaterial,
               style: themeData.textTheme.titleMedium?.copyWith(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
@@ -101,8 +101,8 @@ class DesktopCardCriarEditarMaterialWidget extends StatelessWidget {
                       key: key,
                       label: l10n.fields.quantidade,
                       showSymbol: false,
-                      initialValue: material?.quantidade.value,
-                      validator: (_) => material!.quantidade.isNotValid
+                      initialValue: material?.quantidade?.value,
+                      validator: (_) => material!.quantidade != null && material!.quantidade!.isNotValid
                           ? l10n.messages.insira(l10n.fields.quantidade, ArtigoEnum.ARTIGO_FEMININO_INDEFINIDO)
                           : null,
                       onChanged: (value) {
@@ -120,7 +120,7 @@ class DesktopCardCriarEditarMaterialWidget extends StatelessWidget {
                     },
                     validator: (_) => material!.unidade!.isValid
                         ? null
-                        : l10n.messages.insira(l10n.fields.tipoDeUnidade, ArtigoEnum.ARTIGO_MASCULINO_INDEFINIDO),
+                        : l10n.messages.selecione(l10n.fields.tipoDeUnidade, ArtigoEnum.ARTIGO_MASCULINO_INDEFINIDO),
                     itemBuilder: (context, unidade) {
                       return ListTile(
                         title: Text("${unidade.codigo!} - ${unidade.nome!}"),

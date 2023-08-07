@@ -51,7 +51,7 @@ class FichaTecnicaAggregate {
   factory FichaTecnicaAggregate.empty() {
     return FichaTecnicaAggregate(
       id: '',
-      quantidade: MoedaVO(0),
+      quantidade: MoedaVO(null),
       codigo: TextVO(''),
       descricao: TextVO(''),
       materiais: [],

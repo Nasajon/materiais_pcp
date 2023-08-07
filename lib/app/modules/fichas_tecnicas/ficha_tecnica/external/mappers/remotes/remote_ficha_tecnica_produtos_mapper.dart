@@ -19,7 +19,7 @@ class RemoteFichaTecnicaProdutosMapper {
   static Map<String, dynamic> fromFichaTecnicaProdutoToMap(FichaTecnicaMaterialAggregate fichaTecnica) {
     return {
       'produto': fichaTecnica.produto?.id,
-      'quantidade': fichaTecnica.quantidade.value.toString(),
+      'quantidade': fichaTecnica.quantidade?.value.toString(),
       'unidade': fichaTecnica.unidade?.id,
     };
   }

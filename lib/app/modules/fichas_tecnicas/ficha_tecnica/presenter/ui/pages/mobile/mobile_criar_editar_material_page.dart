@@ -109,8 +109,9 @@ class _MobileCriarEditarMaterialPageState extends State<MobileCriarEditarMateria
               const SizedBox(height: 20),
               DecimalTextFormFieldWidget(
                 label: translations.fields.quantidade,
-                initialValue: widget.fichaTecnicaFormController.material?.quantidade.value,
-                validator: (_) => widget.fichaTecnicaFormController.material!.quantidade.isNotValid
+                initialValue: widget.fichaTecnicaFormController.material?.quantidade?.value,
+                validator: (_) => widget.fichaTecnicaFormController.material!.quantidade != null &&
+                        widget.fichaTecnicaFormController.material!.quantidade!.isNotValid
                     ? translations.messages.insira(translations.fields.quantidade, ArtigoEnum.ARTIGO_FEMININO_INDEFINIDO)
                     : '',
                 onChanged: (value) {

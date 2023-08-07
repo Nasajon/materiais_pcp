@@ -161,7 +161,7 @@ class _MobileCardMaterialWidgetState extends State<MobileCardMaterialWidget> {
                       ),
                     ),
                     Text(
-                      widget.material.quantidade.toText,
+                      widget.material.quantidade!.toText,
                       style: themeData.textTheme.bodyLarge?.copyWith(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
