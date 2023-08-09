@@ -1,7 +1,7 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
-import 'package:pcp_flutter/app/core/localization/artigos_enum.dart';
+import 'package:pcp_flutter/app/core/localization/enums/artigo.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/moeda_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
@@ -71,7 +71,7 @@ class DesktopFichaTecnicaDadosGeraisFormWidget extends StatelessWidget {
                           validator: (_) => fichaTecnicaFormController.fichaTecnica.produto != null &&
                                   fichaTecnicaFormController.fichaTecnica.produto!.isValid
                               ? null
-                              : l10n.messages.selecione(l10n.fields.produto, ArtigoEnum.ARTIGO_MASCULINO_INDEFINIDO),
+                              : l10n.messages.selecioneUm(l10n.fields.produto, ArtigoEnum.artigoMasculino),
                           itemBuilder: (context, produto) {
                             return ListTile(
                               title: Text("${produto.codigo!} - ${produto.nome!}"),
@@ -132,7 +132,7 @@ class DesktopFichaTecnicaDadosGeraisFormWidget extends StatelessWidget {
                         validator: (_) => fichaTecnicaFormController.fichaTecnica.unidade != null &&
                                 fichaTecnicaFormController.fichaTecnica.unidade!.isValid
                             ? null
-                            : l10n.messages.selecione(l10n.fields.tipoDeUnidade, ArtigoEnum.ARTIGO_MASCULINO_INDEFINIDO),
+                            : l10n.messages.selecioneUm(l10n.fields.tipoDeUnidade, ArtigoEnum.artigoMasculino),
                         itemBuilder: (context, unidade) {
                           return ListTile(
                             title: Text("${unidade.nome!} - ${unidade.codigo!}"),

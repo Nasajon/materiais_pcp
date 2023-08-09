@@ -15,7 +15,7 @@ import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/presenter/
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/presenter/ui/pages/web/desktop_ficha_tecnica_visualizar_page.dart';
 
 class FichaTecnicaVisualizarPage extends StatefulWidget {
-  final String id;
+  final String fichaTecnicaId;
   final InserirEditarFichaTecnicaStore inserirEditarFichaTecnicaStore;
   final FichaTecnicaListStore fichaTecnicaListStore;
   final GetFichaTecnicaPorIdStore getFichaTecnicaPorIdStore;
@@ -27,7 +27,7 @@ class FichaTecnicaVisualizarPage extends StatefulWidget {
 
   const FichaTecnicaVisualizarPage({
     Key? key,
-    required this.id,
+    required this.fichaTecnicaId,
     required this.fichaTecnicaListStore,
     required this.scaffoldController,
     required this.connectionStore,
@@ -55,7 +55,7 @@ class _FichaTecnicaVisualizarPageState extends State<FichaTecnicaVisualizarPage>
 
     widget.fichaTecnicaFormController.fichaTecnica = FichaTecnicaAggregate.empty();
 
-    widget.getFichaTecnicaPorIdStore.getFichaTecnicaPorId(widget.id);
+    widget.getFichaTecnicaPorIdStore.getFichaTecnicaPorId(widget.fichaTecnicaId);
   }
 
   @override

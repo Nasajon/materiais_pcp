@@ -9,7 +9,7 @@ class UnidadeFailure extends Failure {
   });
 }
 
-class DatasourceUnidadeFailure extends Failure {
+class DatasourceUnidadeFailure extends UnidadeFailure {
   DatasourceUnidadeFailure({
     super.errorMessage,
     super.stackTrace,
@@ -17,7 +17,7 @@ class DatasourceUnidadeFailure extends Failure {
   });
 }
 
-class IdNotFoundUnidadeFailure extends Failure {
+class IdNotFoundUnidadeFailure extends UnidadeFailure {
   IdNotFoundUnidadeFailure({
     required super.errorMessage,
     super.stackTrace,
@@ -25,7 +25,7 @@ class IdNotFoundUnidadeFailure extends Failure {
   });
 }
 
-class IncompleteOrMissingDataUnidadeFailure extends Failure {
+class IncompleteOrMissingDataUnidadeFailure extends UnidadeFailure {
   IncompleteOrMissingDataUnidadeFailure({
     required super.errorMessage,
     super.stackTrace,

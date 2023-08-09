@@ -15,11 +15,11 @@ class InserirEditarFichaTecnicaStore extends NasajonStreamStore<FichaTecnicaAggr
     this._getFichaTecnicaPorIdUsecase,
   ) : super(initialState: null);
 
-  Future<void> adicionarFichaTecnica(FichaTecnicaAggregate turnoTrabalho) async {
+  Future<void> adicionarFichaTecnica(FichaTecnicaAggregate fichaTecnica) async {
     setLoading(true, force: true);
 
     try {
-      final response = await _inserirFichaTecnicaUsecase(turnoTrabalho);
+      final response = await _inserirFichaTecnicaUsecase(fichaTecnica);
 
       update(response, force: true);
     } on Failure catch (e) {
@@ -29,14 +29,14 @@ class InserirEditarFichaTecnicaStore extends NasajonStreamStore<FichaTecnicaAggr
     setLoading(false, force: true);
   }
 
-  Future<void> editarFichaTecnica(FichaTecnicaAggregate turnoTrabalho) async {
+  Future<void> editarFichaTecnica(FichaTecnicaAggregate fichaTecnica) async {
     setLoading(true, force: true);
 
     try {
-      final response = await _editarFichaTecnicaUsecase(turnoTrabalho);
+      final response = await _editarFichaTecnicaUsecase(fichaTecnica);
 
       if (response) {
-        update(turnoTrabalho, force: true);
+        update(fichaTecnica, force: true);
       }
     } on Failure catch (error) {
       setError(error, force: true);
@@ -45,9 +45,9 @@ class InserirEditarFichaTecnicaStore extends NasajonStreamStore<FichaTecnicaAggr
     setLoading(false, force: true);
   }
 
-  Future<FichaTecnicaAggregate?> getFichaTecnicaPorId(String id) async {
+  Future<FichaTecnicaAggregate?> getFichaTecnicaPorId(String fichaTecnicaId) async {
     try {
-      return await _getFichaTecnicaPorIdUsecase(id);
+      return await _getFichaTecnicaPorIdUsecase(fichaTecnicaId);
     } on Failure catch (e) {
       setError(e);
       return null;

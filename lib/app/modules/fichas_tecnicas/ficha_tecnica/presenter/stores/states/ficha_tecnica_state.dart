@@ -6,7 +6,7 @@ class FichaTecnicaState {
   final FichaTecnicaAggregate fichaTecnica;
   final DeletarFichaTecnicaStore deletarStore;
 
-  FichaTecnicaState({
+  const FichaTecnicaState({
     required this.fichaTecnica,
     required this.deletarStore,
   });

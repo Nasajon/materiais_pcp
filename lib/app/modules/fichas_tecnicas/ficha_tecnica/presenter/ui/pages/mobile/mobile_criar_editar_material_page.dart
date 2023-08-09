@@ -2,7 +2,7 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
-import 'package:pcp_flutter/app/core/localization/artigos_enum.dart';
+import 'package:pcp_flutter/app/core/localization/enums/artigo.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/moeda_vo.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
@@ -94,7 +94,7 @@ class _MobileCriarEditarMaterialPageState extends State<MobileCriarEditarMateria
                   },
                   validator: (_) => widget.fichaTecnicaFormController.material!.produto!.isValid
                       ? ''
-                      : translations.messages.selecione(translations.fields.produto, ArtigoEnum.ARTIGO_MASCULINO_INDEFINIDO),
+                      : translations.messages.selecioneUm(translations.fields.produto, ArtigoEnum.artigoMasculino),
                   itemBuilder: (context, produto) {
                     return ListTile(
                       title: Text("${produto.codigo!} - ${produto.nome!}"),
@@ -112,7 +112,7 @@ class _MobileCriarEditarMaterialPageState extends State<MobileCriarEditarMateria
                 initialValue: widget.fichaTecnicaFormController.material?.quantidade?.value,
                 validator: (_) => widget.fichaTecnicaFormController.material!.quantidade != null &&
                         widget.fichaTecnicaFormController.material!.quantidade!.isNotValid
-                    ? translations.messages.insira(translations.fields.quantidade, ArtigoEnum.ARTIGO_FEMININO_INDEFINIDO)
+                    ? translations.messages.insiraUm(translations.fields.quantidade, ArtigoEnum.artigoFeminino)
                     : '',
                 onChanged: (value) {
                   widget.fichaTecnicaFormController.material =
@@ -131,7 +131,7 @@ class _MobileCriarEditarMaterialPageState extends State<MobileCriarEditarMateria
                   },
                   validator: (_) => widget.fichaTecnicaFormController.material!.unidade!.isValid
                       ? ''
-                      : translations.messages.selecione(translations.fields.tipoDeUnidade, ArtigoEnum.ARTIGO_MASCULINO_INDEFINIDO),
+                      : translations.messages.selecioneUm(translations.fields.tipoDeUnidade, ArtigoEnum.artigoMasculino),
                   itemBuilder: (context, unidade) {
                     return ListTile(
                       title: Text("${unidade.codigo!} - ${unidade.nome!}"),
@@ -163,7 +163,7 @@ class _MobileCriarEditarMaterialPageState extends State<MobileCriarEditarMateria
                     builder: (context) {
                       return ConfirmationModalWidget(
                         title: translations.titles.excluirEntidade(translations.fields.material),
-                        messages: translations.messages.excluirEntidade(translations.fields.material, ArtigoEnum.ARTIGO_MASCULINO_DEFINIDO),
+                        messages: translations.messages.excluirAEntidade(translations.fields.material, ArtigoEnum.artigoMasculino),
                         titleCancel: translations.fields.excluir,
                         titleSuccess: translations.fields.cancelar,
                         onCancel: () {

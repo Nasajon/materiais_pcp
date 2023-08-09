@@ -2,7 +2,7 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
-import 'package:pcp_flutter/app/core/localization/artigos_enum.dart';
+import 'package:pcp_flutter/app/core/localization/enums/artigo.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/aggreagates/ficha_tecnica_produto_aggregate.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/presenter/controllers/ficha_tecnica_form_controller.dart';
@@ -115,7 +115,7 @@ class _MobileCardMaterialWidgetState extends State<MobileCardMaterialWidget> {
                         builder: (context) {
                           return ConfirmationModalWidget(
                             title: l10n.titles.excluirEntidade(l10n.fields.material),
-                            messages: l10n.messages.excluirEntidade(l10n.fields.material, ArtigoEnum.ARTIGO_MASCULINO_DEFINIDO),
+                            messages: l10n.messages.excluirAEntidade(l10n.fields.material, ArtigoEnum.artigoMasculino),
                             titleCancel: l10n.fields.excluir,
                             titleSuccess: l10n.fields.cancelar,
                             onCancel: () => widget.fichaTecnicaFormController.removerMaterial(widget.material.codigo),

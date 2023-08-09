@@ -9,7 +9,7 @@ class FichaTecnicaFailure extends Failure {
   });
 }
 
-class DatasourceFichaTecnicaFailure extends Failure {
+class DatasourceFichaTecnicaFailure extends FichaTecnicaFailure {
   DatasourceFichaTecnicaFailure({
     super.errorMessage,
     super.stackTrace,
@@ -17,7 +17,7 @@ class DatasourceFichaTecnicaFailure extends Failure {
   });
 }
 
-class IdNotFoundFichaTecnicaFailure extends Failure {
+class IdNotFoundFichaTecnicaFailure extends FichaTecnicaFailure {
   IdNotFoundFichaTecnicaFailure({
     required super.errorMessage,
     super.stackTrace,
@@ -25,7 +25,7 @@ class IdNotFoundFichaTecnicaFailure extends Failure {
   });
 }
 
-class IncompleteOrMissingDataFichaTecnicaFailure extends Failure {
+class IncompleteOrMissingDataFichaTecnicaFailure extends FichaTecnicaFailure {
   IncompleteOrMissingDataFichaTecnicaFailure({
     required super.errorMessage,
     super.stackTrace,

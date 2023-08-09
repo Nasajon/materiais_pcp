@@ -36,11 +36,11 @@ class FichaTecnicaModule extends Module {
   @override
   List<Bind<Object>> get binds => [
         //Datasources
-        Bind.lazySingleton((i) => RemoteFichaTecnicaDatasourceImpl(i())),
         Bind.lazySingleton((i) => RemoteUnidadeDatasourceImpl(i())),
         Bind.lazySingleton((i) => RemoteProdutoDatasourceImpl(i())),
+        Bind.lazySingleton((i) => RemoteFichaTecnicaDatasourceImpl(i(), i(), i())),
         //Repositories
-        Bind.lazySingleton((i) => FichaTecnicaRepositoryImpl(i(), i(), i())),
+        Bind.lazySingleton((i) => FichaTecnicaRepositoryImpl(i())),
         Bind.lazySingleton((i) => UnidadeRepositoryImpl(i())),
         Bind.lazySingleton((i) => ProdutoRepositoryImpl(i())),
 
@@ -90,7 +90,7 @@ class FichaTecnicaModule extends Module {
         ChildRoute(
           "/:id/visualizar",
           child: (context, args) => FichaTecnicaVisualizarPage(
-            id: args.params['id'],
+            fichaTecnicaId: args.params['id'],
             produtoListStore: context.read(),
             unidadeListStore: context.read(),
             inserirEditarFichaTecnicaStore: context.read(),

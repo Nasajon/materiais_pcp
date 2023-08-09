@@ -7,11 +7,11 @@ class GetFichaTecnicaPorIdStore extends NasajonStreamStore<FichaTecnicaAggregate
 
   GetFichaTecnicaPorIdStore(this._getFichaTecnicaPorIdUsecase) : super(initialState: null);
 
-  Future<void> getFichaTecnicaPorId(String id) async {
+  Future<void> getFichaTecnicaPorId(String fichaTecnicaId) async {
     setLoading(true, force: true);
 
     try {
-      final response = await _getFichaTecnicaPorIdUsecase(id);
+      final response = await _getFichaTecnicaPorIdUsecase(fichaTecnicaId);
 
       update(response, force: true);
     } on Failure catch (e) {

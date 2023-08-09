@@ -1,6 +1,6 @@
-import 'package:flutter_core/ana_core.dart';
+import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/errors/ficha_tecnica_failure.dart';
 
-class ProdutoFailure extends Failure {
+class ProdutoFailure extends FichaTecnicaFailure {
   ProdutoFailure({
     super.errorMessage,
     super.stackTrace,
@@ -9,7 +9,7 @@ class ProdutoFailure extends Failure {
   });
 }
 
-class DatasourceProdutoFailure extends Failure {
+class DatasourceProdutoFailure extends ProdutoFailure {
   DatasourceProdutoFailure({
     super.errorMessage,
     super.stackTrace,
@@ -17,7 +17,7 @@ class DatasourceProdutoFailure extends Failure {
   });
 }
 
-class IdNotFoundProdutoFailure extends Failure {
+class IdNotFoundProdutoFailure extends ProdutoFailure {
   IdNotFoundProdutoFailure({
     required super.errorMessage,
     super.stackTrace,
@@ -25,7 +25,7 @@ class IdNotFoundProdutoFailure extends Failure {
   });
 }
 
-class IncompleteOrMissingDataProdutoFailure extends Failure {
+class IncompleteOrMissingDataProdutoFailure extends ProdutoFailure {
   IncompleteOrMissingDataProdutoFailure({
     required super.errorMessage,
     super.stackTrace,

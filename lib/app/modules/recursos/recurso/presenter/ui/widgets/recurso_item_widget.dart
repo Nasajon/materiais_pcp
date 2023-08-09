@@ -2,6 +2,7 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/localization/enums/artigo.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/widgets/list_tile_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/notification_snack_bar.dart';
@@ -32,7 +33,7 @@ class RecursoItemWidget extends StatelessWidget {
           if (triple.state && !triple.isLoading) {
             recursoListStore.deleteRecurso(recurso.id ?? '');
             NotificationSnackBar.showSnackBar(
-              translation.messages.excluiuUmEntidadeComSucesso(translation.fields.recurso),
+              translation.messages.excluiuAEntidadeComSucesso(translation.fields.recurso, ArtigoEnum.artigoMasculino),
               themeData: themeData,
             );
           }
@@ -68,7 +69,7 @@ class RecursoItemWidget extends StatelessWidget {
                           builder: (context) {
                             return ConfirmationModalWidget(
                               title: translation.titles.excluirEntidade(translation.fields.recurso),
-                              messages: translation.messages.excluirUmEntidade(translation.fields.recurso),
+                              messages: translation.messages.excluirAEntidade(translation.fields.recurso, ArtigoEnum.artigoMasculino),
                               titleCancel: translation.fields.excluir,
                               titleSuccess: translation.fields.cancelar,
                               onCancel: () => deletarRecursoStore.deletar(recurso.id ?? ''),

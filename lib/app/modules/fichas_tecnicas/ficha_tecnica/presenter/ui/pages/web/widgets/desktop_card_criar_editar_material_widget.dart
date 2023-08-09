@@ -1,7 +1,7 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
-import 'package:pcp_flutter/app/core/localization/artigos_enum.dart';
+import 'package:pcp_flutter/app/core/localization/enums/artigo.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/moeda_vo.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/entities/produto.dart';
@@ -71,9 +71,8 @@ class DesktopCardCriarEditarMaterialWidget extends StatelessWidget {
                     key: key,
                     label: l10n.fields.produto,
                     initialValue: isProdutoSelected ? "${material?.produto?.codigo} - ${material?.produto?.nome}" : '',
-                    validator: (_) => material!.produto!.isValid
-                        ? null
-                        : l10n.messages.selecione(l10n.fields.produto, ArtigoEnum.ARTIGO_MASCULINO_INDEFINIDO),
+                    validator: (_) =>
+                        material!.produto!.isValid ? null : l10n.messages.selecioneUm(l10n.fields.produto, ArtigoEnum.artigoMasculino),
                     onSelected: (value) {
                       fichaTecnicaFormController.material = material?.copyWith(produto: value);
                     },
@@ -103,7 +102,7 @@ class DesktopCardCriarEditarMaterialWidget extends StatelessWidget {
                       showSymbol: false,
                       initialValue: material?.quantidade?.value,
                       validator: (_) => material!.quantidade != null && material!.quantidade!.isNotValid
-                          ? l10n.messages.insira(l10n.fields.quantidade, ArtigoEnum.ARTIGO_FEMININO_INDEFINIDO)
+                          ? l10n.messages.insiraUm(l10n.fields.quantidade, ArtigoEnum.artigoFeminino)
                           : null,
                       onChanged: (value) {
                         fichaTecnicaFormController.material = material?.copyWith(quantidade: MoedaVO(value));
@@ -120,7 +119,7 @@ class DesktopCardCriarEditarMaterialWidget extends StatelessWidget {
                     },
                     validator: (_) => material!.unidade!.isValid
                         ? null
-                        : l10n.messages.selecione(l10n.fields.tipoDeUnidade, ArtigoEnum.ARTIGO_MASCULINO_INDEFINIDO),
+                        : l10n.messages.selecioneUm(l10n.fields.tipoDeUnidade, ArtigoEnum.artigoMasculino),
                     itemBuilder: (context, unidade) {
                       return ListTile(
                         title: Text("${unidade.codigo!} - ${unidade.nome!}"),
@@ -149,7 +148,7 @@ class DesktopCardCriarEditarMaterialWidget extends StatelessWidget {
                         builder: (context) {
                           return ConfirmationModalWidget(
                             title: l10n.titles.excluirEntidade(l10n.fields.material),
-                            messages: l10n.messages.excluirEntidade(l10n.fields.material, ArtigoEnum.ARTIGO_MASCULINO_DEFINIDO),
+                            messages: l10n.messages.excluirAEntidade(l10n.fields.material, ArtigoEnum.artigoMasculino),
                             titleCancel: l10n.fields.excluir,
                             titleSuccess: l10n.fields.cancelar,
                             onCancel: () {

@@ -5,7 +5,7 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
-import 'package:pcp_flutter/app/core/localization/artigos_enum.dart';
+import 'package:pcp_flutter/app/core/localization/enums/artigo.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/widgets/list_tile_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/notification_snack_bar.dart';
@@ -37,7 +37,7 @@ class FichaTecnicaItemWidget extends StatelessWidget {
           if (triple.state && !triple.isLoading) {
             fichaTecnicaListStore.deleteFichaTecnica(fichaTecnica.id);
             NotificationSnackBar.showSnackBar(
-              l10n.messages.excluiuEntidadeComSucesso(l10n.titles.fichaTecnica, ArtigoEnum.ARTIGO_FEMININO_DEFINIDO),
+              l10n.messages.excluiuAEntidadeComSucesso(l10n.titles.fichaTecnica, ArtigoEnum.artigoFeminino),
               themeData: themeData,
             );
           }
@@ -70,7 +70,7 @@ class FichaTecnicaItemWidget extends StatelessWidget {
                           builder: (context) {
                             return ConfirmationModalWidget(
                               title: l10n.titles.excluirEntidade(l10n.titles.fichaTecnica),
-                              messages: l10n.messages.excluirEntidade(l10n.titles.fichaTecnica, ArtigoEnum.ARTIGO_FEMININO_DEFINIDO),
+                              messages: l10n.messages.excluirAEntidade(l10n.titles.fichaTecnica, ArtigoEnum.artigoFeminino),
                               titleCancel: l10n.fields.excluir,
                               titleSuccess: l10n.fields.cancelar,
                               onCancel: () => deletarFichaTecnicaStore.deletar(fichaTecnica.id),
