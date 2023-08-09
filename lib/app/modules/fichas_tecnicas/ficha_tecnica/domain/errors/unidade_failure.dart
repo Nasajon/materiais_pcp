@@ -1,6 +1,6 @@
-import 'package:flutter_core/ana_core.dart';
+import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/errors/ficha_tecnica_failure.dart';
 
-class UnidadeFailure extends Failure {
+class UnidadeFailure extends FichaTecnicaFailure {
   UnidadeFailure({
     super.errorMessage,
     super.stackTrace,
