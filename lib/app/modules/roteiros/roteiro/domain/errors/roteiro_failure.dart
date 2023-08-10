@@ -9,7 +9,14 @@ class RoteiroFailure extends Failure {
   });
 }
 
-class IdNotFoundRoteiroFailure extends Failure {
+class DatasourceRoteiroFailure extends RoteiroFailure {
+  DatasourceRoteiroFailure({
+    required super.errorMessage,
+    required super.stackTrace,
+  });
+}
+
+class IdNotFoundRoteiroFailure extends RoteiroFailure {
   IdNotFoundRoteiroFailure({
     required super.errorMessage,
     required super.stackTrace,

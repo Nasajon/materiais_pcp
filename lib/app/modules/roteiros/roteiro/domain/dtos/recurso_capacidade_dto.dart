@@ -17,6 +17,16 @@ class RecursoCapacidadeDTO {
     required this.maxima,
   });
 
+  factory RecursoCapacidadeDTO.empty() {
+    return RecursoCapacidadeDTO(
+      preparacao: TimeVO(''),
+      execucao: TimeVO(''),
+      total: DoubleVO(0),
+      minima: DoubleVO(0),
+      maxima: DoubleVO(0),
+    );
+  }
+
   RecursoCapacidadeDTO copyWith({
     TimeVO? preparacao,
     TimeVO? execucao,

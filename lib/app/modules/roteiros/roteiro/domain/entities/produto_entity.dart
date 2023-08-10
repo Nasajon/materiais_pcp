@@ -9,6 +9,26 @@ class ProdutoEntity {
     required this.nome,
   });
 
+  factory ProdutoEntity.id(String id) {
+    return ProdutoEntity(
+      id: id,
+      codigo: '',
+      nome: '',
+    );
+  }
+
+  ProdutoEntity copyWith({
+    String? id,
+    String? codigo,
+    String? nome,
+  }) {
+    return ProdutoEntity(
+      id: id ?? this.id,
+      codigo: codigo ?? this.codigo,
+      nome: nome ?? this.nome,
+    );
+  }
+
   @override
   bool operator ==(covariant ProdutoEntity other) {
     if (identical(this, other)) return true;
