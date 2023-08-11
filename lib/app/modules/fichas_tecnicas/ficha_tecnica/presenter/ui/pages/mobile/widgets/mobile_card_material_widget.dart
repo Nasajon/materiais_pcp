@@ -91,7 +91,7 @@ class _MobileCardMaterialWidgetState extends State<MobileCardMaterialWidget> {
                         ),
                       ),
                       Text(
-                        widget.material.produto!.nome!,
+                        (widget.material.produto == null || widget.material.produto!.nome == null) ? '' : widget.material.produto!.nome!,
                         style: themeData.textTheme.bodyLarge?.copyWith(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
@@ -183,7 +183,9 @@ class _MobileCardMaterialWidgetState extends State<MobileCardMaterialWidget> {
                       ),
                     ),
                     Text(
-                      "${widget.material.unidade?.codigo} - ${widget.material.unidade?.nome}",
+                      widget.material.unidade == null || widget.material.unidade!.codigo == null || widget.material.unidade!.nome == null
+                          ? ""
+                          : "${widget.material.unidade?.codigo} - ${widget.material.unidade?.nome}",
                       style: themeData.textTheme.bodyLarge?.copyWith(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,

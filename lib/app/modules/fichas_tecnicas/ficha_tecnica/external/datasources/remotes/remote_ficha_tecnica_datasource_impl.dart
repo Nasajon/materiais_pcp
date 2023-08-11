@@ -73,15 +73,19 @@ class RemoteFichaTecnicaDatasourceImpl implements RemoteFichaTecnicaDatasource {
       var setIdProduto = <String>{};
       var setIdUnidade = <String>{};
 
-      setIdProduto.add(data.produto!.id);
-      setIdUnidade.add(data.unidade!.id);
+      if (data.produto != null) {
+        setIdProduto.add(data.produto!.id);
+      }
+      if (data.unidade != null) {
+        setIdUnidade.add(data.unidade!.id);
+      }
 
-      for (var element in data.materiais) {
-        if (!setIdProduto.contains(element.produto!.id)) {
-          setIdProduto.add(element.produto!.id);
+      for (var material in data.materiais) {
+        if (material.produto != null && !setIdProduto.contains(material.produto!.id)) {
+          setIdProduto.add(material.produto!.id);
         }
-        if (!setIdUnidade.contains(element.unidade!.id)) {
-          setIdUnidade.add(element.unidade!.id);
+        if (material.unidade != null && !setIdUnidade.contains(material.unidade!.id)) {
+          setIdUnidade.add(material.unidade!.id);
         }
       }
 
@@ -89,10 +93,17 @@ class RemoteFichaTecnicaDatasourceImpl implements RemoteFichaTecnicaDatasource {
       var unidades = await remoteUnidadeDatasource.getTodasUnidadesPorIds(setIdUnidade.toList());
 
       data = data.copyWith(
-          unidade: unidades[data.unidade!.id],
-          produto: produtos[data.produto!.id],
+          unidade: (data.unidade != null && unidades.containsKey(data.unidade!.id)) ? unidades[data.unidade!.id] : data.unidade,
+          produto: (data.produto != null && produtos.containsKey(data.produto!.id)) ? produtos[data.produto!.id] : data.produto,
           materiais: data.materiais
-              .map((material) => material.copyWith(unidade: unidades[material.unidade!.id], produto: produtos[material.produto!.id]))
+              .map((material) => material.copyWith(
+                    unidade: (material.unidade != null && unidades.containsKey(material.unidade!.id))
+                        ? unidades[material.unidade!.id]
+                        : material.unidade,
+                    produto: (material.produto != null && produtos.containsKey(material.produto!.id))
+                        ? produtos[material.produto!.id]
+                        : material.produto,
+                  ))
               .toList());
       return data;
     } on ClientError catch (e) {
@@ -168,23 +179,36 @@ class RemoteFichaTecnicaDatasourceImpl implements RemoteFichaTecnicaDatasource {
       return fichasTecnicas;
     }
     for (var ficha in fichasTecnicas) {
-      setIdProduto.add(ficha.produto!.id);
-      setIdUnidade.add(ficha.unidade!.id);
+      if (ficha.produto != null) {
+        setIdProduto.add(ficha.produto!.id);
+      }
+      if (ficha.unidade != null) {
+        setIdUnidade.add(ficha.unidade!.id);
+      }
+
       for (var material in ficha.materiais) {
-        setIdProduto.add(material.produto!.id);
-        setIdUnidade.add(material.unidade!.id);
+        if (material.produto != null && !setIdProduto.contains(material.produto!.id)) {
+          setIdProduto.add(material.produto!.id);
+        }
+        if (material.unidade != null && !setIdUnidade.contains(material.unidade!.id)) {
+          setIdUnidade.add(material.unidade!.id);
+        }
       }
     }
     var produtos = await remoteProdutoDatasource.getTodosProdutosPorIds(setIdProduto.toList());
     var unidades = await remoteUnidadeDatasource.getTodasUnidadesPorIds(setIdUnidade.toList());
     return fichasTecnicas.map((ficha) {
       return ficha.copyWith(
-        produto: produtos.containsKey(ficha.produto!.id) ? produtos[ficha.produto!.id] : ficha.produto,
-        unidade: unidades.containsKey(ficha.unidade!.id) ? unidades[ficha.unidade!.id] : ficha.unidade,
+        produto: (ficha.produto != null && produtos.containsKey(ficha.produto!.id)) ? produtos[ficha.produto!.id] : ficha.produto,
+        unidade: (ficha.unidade != null && unidades.containsKey(ficha.unidade!.id)) ? unidades[ficha.unidade!.id] : ficha.unidade,
         materiais: ficha.materiais.map((material) {
           return material.copyWith(
-            produto: produtos.containsKey(material.produto!.id) ? produtos[material.produto!.id] : material.produto,
-            unidade: unidades.containsKey(material.unidade!.id) ? unidades[material.unidade!.id] : material.unidade,
+            produto: (material.produto != null && produtos.containsKey(material.produto!.id))
+                ? produtos[material.produto!.id]
+                : material.produto,
+            unidade: (material.unidade != null && unidades.containsKey(material.unidade!.id))
+                ? unidades[material.unidade!.id]
+                : material.unidade,
           );
         }).toList(),
       );
