@@ -6,7 +6,7 @@ import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/materia
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/errors/roteiro_failure.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/external/mappers/remotes/remote_material_mapper.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/external/mappers/remotes/remote_produto_mapper.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/external/mappers/remotes/remote_tipo_unidade_mapper.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/external/mappers/remotes/remote_unidade_mapper.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/infra/datasources/remotes/remote_get_material_datasource.dart';
 
 class RemoteGetMaterialDatasourceImpl implements RemoteGetMaterialDatasource {
@@ -91,7 +91,7 @@ class RemoteGetMaterialDatasourceImpl implements RemoteGetMaterialDatasource {
         .map(
           (material) => material.copyWith(
             unidade: List.from(responseUnidade.data['result'])
-                .map((unidadeMap) => RemoteTipoUnidadeMapper.fromMapToTipoUnidadeEntity(unidadeMap))
+                .map((unidadeMap) => RemoteUnidadeMapper.fromMapToUnidadeEntity(unidadeMap))
                 .toList()
                 .where((unidade) => material.unidade.id == unidade.id)
                 .first,

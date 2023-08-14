@@ -1,14 +1,14 @@
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/tipo_unidade_entity.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/repositories/get_tipo_unidade_repository.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/infra/datasources/remotes/remote_get_tipo_unidade_datasource.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/unidade_entity.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/repositories/get_unidade_repository.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/infra/datasources/remotes/remote_get_unidade_datasource.dart';
 
-class GetTipoUnidadeRepositoryImpl implements GetTipoUnidadeRepository {
-  final RemoteGetTipoUnidadeDatasource _remoteGetTipoUnidadeDatasource;
+class GetUnidadeRepositoryImpl implements GetUnidadeRepository {
+  final RemoteGetUnidadeDatasource _remoteGetUnidadeDatasource;
 
-  const GetTipoUnidadeRepositoryImpl(this._remoteGetTipoUnidadeDatasource);
+  const GetUnidadeRepositoryImpl(this._remoteGetUnidadeDatasource);
 
   @override
-  Future<List<TipoUnidadeEntity>> call(String search) {
-    return _remoteGetTipoUnidadeDatasource(search);
+  Future<List<UnidadeEntity>> call(String search) {
+    return _remoteGetUnidadeDatasource(search);
   }
 }

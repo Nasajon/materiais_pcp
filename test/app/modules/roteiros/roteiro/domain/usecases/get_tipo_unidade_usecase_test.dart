@@ -1,38 +1,38 @@
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/tipo_unidade_entity.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/unidade_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/errors/roteiro_failure.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/repositories/get_tipo_unidade_repository.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/usecases/get_tipo_unidade_usecase.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/repositories/get_unidade_repository.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/usecases/get_unidade_usecase.dart';
 
-class GetTipoUnidadeRepositoryMock extends Mock implements GetTipoUnidadeRepository {}
+class GetUnidadeRepositoryMock extends Mock implements GetUnidadeRepository {}
 
 void main() {
-  late GetTipoUnidadeRepository getTipoUnidadeRepository;
-  late GetTipoUnidadeUsecase getTipoUnidadeUsecase;
+  late GetUnidadeRepository getUnidadeRepository;
+  late GetUnidadeUsecase getUnidadeUsecase;
 
   setUp(() {
-    getTipoUnidadeRepository = GetTipoUnidadeRepositoryMock();
-    getTipoUnidadeUsecase = GetTipoUnidadeUsecaseImpl(getTipoUnidadeRepository);
+    getUnidadeRepository = GetUnidadeRepositoryMock();
+    getUnidadeUsecase = GetUnidadeUsecaseImpl(getUnidadeRepository);
   });
 
-  group('GetTipoUnidadeUsecaseImpl -', () {
+  group('GetUnidadeUsecaseImpl -', () {
     group('Sucesso -', () {
       test('Deve retornar uma lista dos tipos de unidades quando passar ou não uma pesquisa.', () async {
-        when(() => getTipoUnidadeRepository('')).thenAnswer((_) async => <TipoUnidadeEntity>[]);
+        when(() => getUnidadeRepository('')).thenAnswer((_) async => <UnidadeEntity>[]);
 
-        final response = await getTipoUnidadeUsecase('');
+        final response = await getUnidadeUsecase('');
 
-        expect(response, isA<List<TipoUnidadeEntity>>());
+        expect(response, isA<List<UnidadeEntity>>());
       });
     });
 
     group('Falha -', () {
       test('Deve retornar uma falha quando ocorrer um erro na pesquisa.', () async {
-        when(() => getTipoUnidadeRepository('')).thenThrow(RoteiroFailure());
+        when(() => getUnidadeRepository('')).thenThrow(RoteiroFailure());
 
-        expect(() => getTipoUnidadeUsecase(''), throwsA(isA<Failure>()));
+        expect(() => getUnidadeUsecase(''), throwsA(isA<Failure>()));
       });
     });
   });

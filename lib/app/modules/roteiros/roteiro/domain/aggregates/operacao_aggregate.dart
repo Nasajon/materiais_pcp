@@ -6,7 +6,7 @@ import 'package:pcp_flutter/app/core/modules/domain/value_object/time_vo.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/grupo_de_recurso_aggregate.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/centro_de_trabalho_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/material_entity.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/tipo_unidade_entity.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/unidade_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/enums/medicao_tempo_enum.dart';
 
 class OperacaoAggregate {
@@ -17,7 +17,7 @@ class OperacaoAggregate {
   final TimeVO execucao;
   final String produtoResultante;
   final MedicaoTempoEnum medicaoTempo;
-  final TipoUnidadeEntity tipoUnidade;
+  final UnidadeEntity unidade;
   final CentroDeTrabalhoEntity centroDeTrabalho;
   final List<MaterialEntity> material;
   final List<GrupoDeRecursoAggregate> gruposDeRecurso;
@@ -30,7 +30,7 @@ class OperacaoAggregate {
     required this.execucao,
     required this.produtoResultante,
     required this.medicaoTempo,
-    required this.tipoUnidade,
+    required this.unidade,
     required this.centroDeTrabalho,
     required this.material,
     required this.gruposDeRecurso,
@@ -44,7 +44,7 @@ class OperacaoAggregate {
     TimeVO? execucao,
     String? produtoResultante,
     MedicaoTempoEnum? medicaoTempo,
-    TipoUnidadeEntity? tipoUnidade,
+    UnidadeEntity? unidade,
     CentroDeTrabalhoEntity? centroDeTrabalho,
     List<MaterialEntity>? material,
     List<GrupoDeRecursoAggregate>? gruposDeRecurso,
@@ -57,7 +57,7 @@ class OperacaoAggregate {
       execucao: execucao ?? this.execucao,
       produtoResultante: produtoResultante ?? this.produtoResultante,
       medicaoTempo: medicaoTempo ?? this.medicaoTempo,
-      tipoUnidade: tipoUnidade ?? this.tipoUnidade,
+      unidade: unidade ?? this.unidade,
       centroDeTrabalho: centroDeTrabalho ?? this.centroDeTrabalho,
       material: material ?? List.from(this.material),
       gruposDeRecurso: gruposDeRecurso ?? List.from(this.gruposDeRecurso),
@@ -75,7 +75,7 @@ class OperacaoAggregate {
         other.execucao == execucao &&
         other.produtoResultante == produtoResultante &&
         other.medicaoTempo == medicaoTempo &&
-        other.tipoUnidade == tipoUnidade &&
+        other.unidade == unidade &&
         other.centroDeTrabalho == centroDeTrabalho &&
         listEquals(other.material, material) &&
         listEquals(other.gruposDeRecurso, gruposDeRecurso);
@@ -90,7 +90,7 @@ class OperacaoAggregate {
         execucao.hashCode ^
         produtoResultante.hashCode ^
         medicaoTempo.hashCode ^
-        tipoUnidade.hashCode ^
+        unidade.hashCode ^
         centroDeTrabalho.hashCode ^
         material.hashCode ^
         gruposDeRecurso.hashCode;

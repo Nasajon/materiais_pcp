@@ -1,10 +1,10 @@
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/tipo_unidade_entity.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/unidade_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/errors/roteiro_failure.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/external/datasource/remotes/remote_get_tipo_unidade_datasource_impl.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/infra/datasources/remotes/remote_get_tipo_unidade_datasource.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/external/datasource/remotes/remote_get_unidade_datasource_impl.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/infra/datasources/remotes/remote_get_unidade_datasource.dart';
 
 class ClientServiceMock extends Mock implements IClientService {}
 
@@ -12,15 +12,15 @@ class ClientRequestParamsMock extends Mock implements ClientRequestParams {}
 
 void main() {
   late IClientService clientService;
-  late RemoteGetTipoUnidadeDatasource remoteGetTipoUnidadeDatasource;
+  late RemoteGetUnidadeDatasource remoteGetUnidadeDatasource;
 
   setUp(() {
     clientService = ClientServiceMock();
-    remoteGetTipoUnidadeDatasource = RemoteGetTipoUnidadeDatasourceImpl(clientService);
+    remoteGetUnidadeDatasource = RemoteGetUnidadeDatasourceImpl(clientService);
     registerFallbackValue(ClientRequestParamsMock());
   });
 
-  group('RemoteGetTipoUnidadeDatasourceImpl -', () {
+  group('RemoteGetUnidadeDatasourceImpl -', () {
     group('remotes -', () {
       group('sucesso -', () {
         test('Deve retornar uma lista dos tipos de unidade quando informar ou não uma pesquisa para o backend.', () async {
@@ -28,9 +28,9 @@ void main() {
             (_) async => const ClientResponse(data: jsonMock, statusCode: 200),
           );
 
-          final response = await remoteGetTipoUnidadeDatasource('');
+          final response = await remoteGetUnidadeDatasource('');
 
-          expect(response, isA<List<TipoUnidadeEntity>>());
+          expect(response, isA<List<UnidadeEntity>>());
           expect(response.length, 1);
         });
       });
@@ -41,7 +41,7 @@ void main() {
             ClientError(message: 'error', statusCode: 500),
           );
 
-          expect(() => remoteGetTipoUnidadeDatasource(''), throwsA(isA<RoteiroFailure>()));
+          expect(() => remoteGetUnidadeDatasource(''), throwsA(isA<RoteiroFailure>()));
         });
       });
     });

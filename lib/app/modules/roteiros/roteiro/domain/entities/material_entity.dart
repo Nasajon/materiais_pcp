@@ -1,11 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/produto_entity.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/tipo_unidade_entity.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/unidade_entity.dart';
 
 class MaterialEntity {
   final String id;
   final ProdutoEntity produto;
-  final TipoUnidadeEntity unidade;
+  final UnidadeEntity unidade;
   final double disponivel;
   final double quantidade;
 
@@ -20,7 +20,7 @@ class MaterialEntity {
   MaterialEntity copyWith({
     String? id,
     ProdutoEntity? produto,
-    TipoUnidadeEntity? unidade,
+    UnidadeEntity? unidade,
     double? disponivel,
     double? quantidade,
   }) {

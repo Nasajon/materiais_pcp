@@ -4,7 +4,7 @@ import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/operacao_aggregate.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/ficha_tecnica_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/produto_entity.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/tipo_unidade_entity.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/unidade_entity.dart';
 
 class RoteiroAggregate {
   final String id;
@@ -14,7 +14,7 @@ class RoteiroAggregate {
   final String? observacao;
   final ProdutoEntity produto;
   final FichaTecnicaEntity fichaTecnica;
-  final TipoUnidadeEntity tipoUnidade;
+  final UnidadeEntity unidade;
   final List<OperacaoAggregate> operacoes;
 
   const RoteiroAggregate({
@@ -25,7 +25,7 @@ class RoteiroAggregate {
     this.observacao,
     required this.produto,
     required this.fichaTecnica,
-    required this.tipoUnidade,
+    required this.unidade,
     required this.operacoes,
   });
 
@@ -37,7 +37,7 @@ class RoteiroAggregate {
     String? observacao,
     ProdutoEntity? produto,
     FichaTecnicaEntity? fichaTecnica,
-    TipoUnidadeEntity? tipoUnidade,
+    UnidadeEntity? unidade,
     List<OperacaoAggregate>? operacoes,
   }) {
     return RoteiroAggregate(
@@ -48,7 +48,7 @@ class RoteiroAggregate {
       observacao: observacao ?? this.observacao,
       produto: produto ?? this.produto,
       fichaTecnica: fichaTecnica ?? this.fichaTecnica,
-      tipoUnidade: tipoUnidade ?? this.tipoUnidade,
+      unidade: unidade ?? this.unidade,
       operacoes: operacoes ?? List.from(this.operacoes),
     );
   }
@@ -64,7 +64,7 @@ class RoteiroAggregate {
         other.observacao == observacao &&
         other.produto == produto &&
         other.fichaTecnica == fichaTecnica &&
-        other.tipoUnidade == tipoUnidade &&
+        other.unidade == unidade &&
         listEquals(other.operacoes, operacoes);
   }
 
@@ -77,7 +77,7 @@ class RoteiroAggregate {
         observacao.hashCode ^
         produto.hashCode ^
         fichaTecnica.hashCode ^
-        tipoUnidade.hashCode ^
+        unidade.hashCode ^
         operacoes.hashCode;
   }
 }

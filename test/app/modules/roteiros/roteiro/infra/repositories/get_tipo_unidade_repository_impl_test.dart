@@ -1,41 +1,41 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/tipo_unidade_entity.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/unidade_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/errors/roteiro_failure.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/repositories/get_tipo_unidade_repository.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/infra/datasources/remotes/remote_get_tipo_unidade_datasource.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/repositories/get_unidade_repository.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/infra/datasources/remotes/remote_get_unidade_datasource.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/infra/repositories/get_tipo_unidade_repository_impl.dart';
 
-class RemoteGetTipoUnidadeDatasourceMock extends Mock implements RemoteGetTipoUnidadeDatasource {}
+class RemoteGetUnidadeDatasourceMock extends Mock implements RemoteGetUnidadeDatasource {}
 
 void main() {
-  late RemoteGetTipoUnidadeDatasource remoteGetTipoUnidadeDatasource;
-  late GetTipoUnidadeRepository getTipoUnidadeRepository;
+  late RemoteGetUnidadeDatasource remoteGetUnidadeDatasource;
+  late GetUnidadeRepository getUnidadeRepository;
 
   setUp(() {
-    remoteGetTipoUnidadeDatasource = RemoteGetTipoUnidadeDatasourceMock();
-    getTipoUnidadeRepository = GetTipoUnidadeRepositoryImpl(remoteGetTipoUnidadeDatasource);
+    remoteGetUnidadeDatasource = RemoteGetUnidadeDatasourceMock();
+    getUnidadeRepository = GetUnidadeRepositoryImpl(remoteGetUnidadeDatasource);
   });
 
-  group('GetTipoUnidadeRepositoryImpl -', () {
+  group('GetUnidadeRepositoryImpl -', () {
     group('remote -', () {
       group('sucesso -', () {
         test('Deve retornar uma lista dos tipos de unidades quando informar ou não uma pesquisa.', () async {
-          when(() => remoteGetTipoUnidadeDatasource('')).thenAnswer((_) async => <TipoUnidadeEntity>[]);
+          when(() => remoteGetUnidadeDatasource('')).thenAnswer((_) async => <UnidadeEntity>[]);
 
-          final response = await getTipoUnidadeRepository('');
+          final response = await getUnidadeRepository('');
 
-          expect(response, isA<List<TipoUnidadeEntity>>());
+          expect(response, isA<List<UnidadeEntity>>());
         });
       });
 
       group('falha -', () {
         test('Deve retornar um RoteiroFailure quando ocorrer um erro no datasource.', () async {
-          when(() => remoteGetTipoUnidadeDatasource('')).thenThrow(
+          when(() => remoteGetUnidadeDatasource('')).thenThrow(
             DatasourceRoteiroFailure(errorMessage: 'error', stackTrace: StackTrace.current),
           );
 
-          expect(() => getTipoUnidadeRepository(''), throwsA(isA<RoteiroFailure>()));
+          expect(() => getUnidadeRepository(''), throwsA(isA<RoteiroFailure>()));
         });
       });
     });

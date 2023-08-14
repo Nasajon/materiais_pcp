@@ -1,19 +1,19 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-class TipoUnidadeEntity {
+class UnidadeEntity {
   final String id;
   final String codigo;
   final String descricao;
   final int decimal;
 
-  const TipoUnidadeEntity({
+  const UnidadeEntity({
     required this.id,
     required this.codigo,
     required this.descricao,
     required this.decimal,
   });
 
-  factory TipoUnidadeEntity.id(String id) {
-    return TipoUnidadeEntity(
+  factory UnidadeEntity.id(String id) {
+    return UnidadeEntity(
       id: id,
       codigo: '',
       descricao: '',
@@ -21,13 +21,13 @@ class TipoUnidadeEntity {
     );
   }
 
-  TipoUnidadeEntity copyWith({
+  UnidadeEntity copyWith({
     String? id,
     String? codigo,
     String? descricao,
     int? decimal,
   }) {
-    return TipoUnidadeEntity(
+    return UnidadeEntity(
       id: id ?? this.id,
       codigo: codigo ?? this.codigo,
       descricao: descricao ?? this.descricao,
@@ -36,7 +36,7 @@ class TipoUnidadeEntity {
   }
 
   @override
-  bool operator ==(covariant TipoUnidadeEntity other) {
+  bool operator ==(covariant UnidadeEntity other) {
     if (identical(this, other)) return true;
 
     return other.id == id && other.codigo == codigo && other.descricao == descricao && other.decimal == decimal;
