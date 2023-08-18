@@ -1,7 +1,7 @@
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/roteiro_aggregate.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/roteiro_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/repositories/roteiro_repository.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/infra/datasources/remote_roteiro_datasource.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/infra/datasources/remotes/remote_roteiro_datasource.dart';
 
 class RoteiroRepositoryImpl implements RoteiroRepository {
   final RemoteRoteiroDatasource _remoteRoteiroDatasource;

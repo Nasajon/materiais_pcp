@@ -1,16 +1,16 @@
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/restricao_aggregate.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/errors/roteiro_failure.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/repositories/get_restricao_by_grupo_repository.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/repositories/get_restricao_por_grupo_repository.dart';
 
-abstract class GetRestricaoByGrupoUsecase {
+abstract class GetRestricaoPorGrupoUsecase {
   Future<List<RestricaoAggregate>> call(String grupoDeRestricaoId);
 }
 
-class GetRestricaoByGrupoUsecaseImpl implements GetRestricaoByGrupoUsecase {
-  final GetRestricaoByGrupoRepository _getRestricaoByGrupoRepository;
+class GetRestricaoPorGrupoUsecaseImpl implements GetRestricaoPorGrupoUsecase {
+  final GetRestricaoPorGrupoRepository _getRestricaoPorGrupoRepository;
 
-  const GetRestricaoByGrupoUsecaseImpl(this._getRestricaoByGrupoRepository);
+  const GetRestricaoPorGrupoUsecaseImpl(this._getRestricaoPorGrupoRepository);
 
   @override
   Future<List<RestricaoAggregate>> call(String grupoDeRestricaoId) {
@@ -18,6 +18,6 @@ class GetRestricaoByGrupoUsecaseImpl implements GetRestricaoByGrupoUsecase {
       throw IdNotFoundRoteiroFailure(errorMessage: translation.messages.erroIdNaoInformado, stackTrace: StackTrace.current);
     }
 
-    return _getRestricaoByGrupoRepository(grupoDeRestricaoId);
+    return _getRestricaoPorGrupoRepository(grupoDeRestricaoId);
   }
 }

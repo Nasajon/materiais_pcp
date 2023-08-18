@@ -5,12 +5,12 @@ import 'package:pcp_flutter/app/core/client/interceptors/entidades_empresariais_
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/restricao_aggregate.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/errors/roteiro_failure.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/external/mappers/remotes/remote_restricao_mapper.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/infra/datasources/remotes/remote_get_restricao_by_grupo_datasource.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/infra/datasources/remotes/remote_get_restricao_por_grupo_datasource.dart';
 
-class RemoteGetRestricaoByGrupoDatasourceImpl implements RemoteGetRestricaoByGrupoDatasource {
+class RemoteGetRestricaoPorGrupoDatasourceImpl implements RemoteGetRestricaoPorGrupoDatasource {
   final IClientService _clientService;
 
-  RemoteGetRestricaoByGrupoDatasourceImpl(this._clientService);
+  RemoteGetRestricaoPorGrupoDatasourceImpl(this._clientService);
 
   List<Interceptor> interceptors = [ApiKeyInterceptor(), EntidadesEmpresariaisInterceptor()];
 

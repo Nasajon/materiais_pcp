@@ -3,21 +3,21 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/recurso_aggregate.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/errors/roteiro_failure.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/repositories/get_recurso_repository.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/usecases/get_recurso_usecase.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/repositories/get_recurso_por_repository.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/usecases/get_recurso_por_grupo_usecase.dart';
 
-class GetRecursoRepositoryMock extends Mock implements GetRecursoRepository {}
+class GetRecursoPorGrupoRepositoryMock extends Mock implements GetRecursoPorGrupoRepository {}
 
 void main() {
-  late GetRecursoRepository getRecursoRepository;
-  late GetRecursoUsecase getRecursoUsecase;
+  late GetRecursoPorGrupoRepository getRecursoRepository;
+  late GetRecursoPorGrupoUsecase getRecursoUsecase;
 
   setUp(() {
-    getRecursoRepository = GetRecursoRepositoryMock();
-    getRecursoUsecase = GetRecursoUsecaseImpl(getRecursoRepository);
+    getRecursoRepository = GetRecursoPorGrupoRepositoryMock();
+    getRecursoUsecase = GetRecursoPorGrupoUsecaseImpl(getRecursoRepository);
   });
 
-  group('GetRecursoUsecaseImpl -', () {
+  group('GetRecursoPorGrupoUsecaseImpl -', () {
     group('Sucesso -', () {
       test('Deve retornar uma lista de recurso quando passar o id do grupo de recurso.', () async {
         when(() => getRecursoRepository('1')).thenAnswer((_) async => <RecursoAggregate>[]);

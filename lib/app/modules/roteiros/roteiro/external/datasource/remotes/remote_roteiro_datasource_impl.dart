@@ -6,7 +6,7 @@ import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/rotei
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/roteiro_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/errors/roteiro_failure.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/external/mappers/remotes/remote_roteiro_mapper.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/infra/datasources/remote_roteiro_datasource.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/infra/datasources/remotes/remote_roteiro_datasource.dart';
 
 class RemoteRoteiroDatasourceImpl implements RemoteRoteiroDatasource {
   final IClientService _clientService;

@@ -2,26 +2,26 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/recurso_aggregate.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/errors/roteiro_failure.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/repositories/get_recurso_repository.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/infra/datasources/remotes/remote_get_recurso_datasource.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/infra/repositories/get_recurso_repository_impl.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/repositories/get_recurso_por_repository.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/infra/datasources/remotes/remote_get_recurso_por_grupo_datasource.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/infra/repositories/get_recurso_por_grupo_repository_impl.dart';
 
-class RemoteGetRecursoDatasourceMock extends Mock implements RemoteGetRecursoDatasource {}
+class RemoteGetRecursoPorGrupoDatasourceMock extends Mock implements RemoteGetRecursoPorGrupoDatasource {}
 
 void main() {
-  late RemoteGetRecursoDatasource remoteGetRecursoDatasource;
-  late GetRecursoRepository getRecursoRepository;
+  late RemoteGetRecursoPorGrupoDatasource remoteGetRecursoPorGrupoDatasource;
+  late GetRecursoPorGrupoRepository getRecursoRepository;
 
   setUp(() {
-    remoteGetRecursoDatasource = RemoteGetRecursoDatasourceMock();
-    getRecursoRepository = GetRecursoRepositoryImpl(remoteGetRecursoDatasource);
+    remoteGetRecursoPorGrupoDatasource = RemoteGetRecursoPorGrupoDatasourceMock();
+    getRecursoRepository = GetRecursoPorGrupoRepositoryImpl(remoteGetRecursoPorGrupoDatasource);
   });
 
-  group('GetRecursoRepositoryImpl -', () {
+  group('GetRecursoPorGrupoRepositoryImpl -', () {
     group('remote -', () {
       group('sucesso -', () {
         test('Deve retornar uma lista dos recursos quando informar o id do grupo de recurso.', () async {
-          when(() => remoteGetRecursoDatasource('1')).thenAnswer((_) async => <RecursoAggregate>[]);
+          when(() => remoteGetRecursoPorGrupoDatasource('1')).thenAnswer((_) async => <RecursoAggregate>[]);
 
           final response = await getRecursoRepository('1');
 
@@ -31,7 +31,7 @@ void main() {
 
       group('falha -', () {
         test('Deve retornar um RemoteDatasourceRoteiroFailure quando ocorrer erro mapeado no Datasource.', () async {
-          when(() => remoteGetRecursoDatasource('')).thenThrow(
+          when(() => remoteGetRecursoPorGrupoDatasource('')).thenThrow(
             RemoteDatasourceRoteiroFailure(errorMessage: 'error', stackTrace: StackTrace.current),
           );
 
