@@ -12,6 +12,15 @@ class UnidadeEntity {
     required this.decimal,
   });
 
+  factory UnidadeEntity.empty() {
+    return const UnidadeEntity(
+      id: '',
+      codigo: '',
+      descricao: '',
+      decimal: 0,
+    );
+  }
+
   factory UnidadeEntity.id(String id) {
     return UnidadeEntity(
       id: id,

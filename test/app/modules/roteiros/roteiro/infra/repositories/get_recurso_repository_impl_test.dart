@@ -30,12 +30,12 @@ void main() {
       });
 
       group('falha -', () {
-        test('Deve retornar um RoteiroFailure quando ocorrer um erro no datasource.', () async {
+        test('Deve retornar um RemoteDatasourceRoteiroFailure quando ocorrer erro mapeado no Datasource.', () async {
           when(() => remoteGetRecursoDatasource('')).thenThrow(
-            DatasourceRoteiroFailure(errorMessage: 'error', stackTrace: StackTrace.current),
+            RemoteDatasourceRoteiroFailure(errorMessage: 'error', stackTrace: StackTrace.current),
           );
 
-          expect(() => getRecursoRepository(''), throwsA(isA<RoteiroFailure>()));
+          expect(() => getRecursoRepository(''), throwsA(isA<RemoteDatasourceRoteiroFailure>()));
         });
       });
     });

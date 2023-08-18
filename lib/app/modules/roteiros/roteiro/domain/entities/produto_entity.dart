@@ -9,6 +9,14 @@ class ProdutoEntity {
     required this.nome,
   });
 
+  factory ProdutoEntity.empty() {
+    return const ProdutoEntity(
+      id: '',
+      codigo: '',
+      nome: '',
+    );
+  }
+
   factory ProdutoEntity.id(String id) {
     return ProdutoEntity(
       id: id,

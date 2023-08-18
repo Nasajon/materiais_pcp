@@ -1,4 +1,7 @@
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/grupo_de_restricao_aggregate.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/grupo_de_restricao_entity.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/external/mappers/remotes/remote_restricao_capacidade_mapper.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/external/mappers/remotes/remote_restricao_mapper.dart';
 
 class RemoteGrupoDeRestricaoMapper {
   const RemoteGrupoDeRestricaoMapper._();
@@ -9,5 +12,21 @@ class RemoteGrupoDeRestricaoMapper {
       codigo: map['codigo'],
       nome: map['nome'],
     );
+  }
+
+  static GrupoDeRestricaoAggregate fromMapToGrupoDeRestricaoAggregate(Map<String, dynamic> map) {
+    return GrupoDeRestricaoAggregate(
+      grupoDeRestricao: fromMapToGrupoDeRestricao(map['grupos_restricoes']),
+      restricaoCapacidade: RemoteRestricaoCapacidadeMapper.fromMapToRestricaoCapacidadeDTO(map),
+      restricoes: List.from(map['restricoes']).map((map) => RemoteRestricaoMapper.fromMapToRestricaoAggregate(map)).toList(),
+    );
+  }
+
+  static Map<String, dynamic> fromGrupoDeRestricaoAggregateToMap(GrupoDeRestricaoAggregate grupoDeRestricao) {
+    return {
+      'grupo_de_restricao': grupoDeRestricao.grupoDeRestricao.id,
+      ...RemoteRestricaoCapacidadeMapper.fromRestricaoCapacidadeToMap(grupoDeRestricao.restricaoCapacidade),
+      'restricoes': grupoDeRestricao.restricoes.map((restricao) => RemoteRestricaoMapper.fromRestricaoAggregateToMap(restricao)).toList(),
+    };
   }
 }

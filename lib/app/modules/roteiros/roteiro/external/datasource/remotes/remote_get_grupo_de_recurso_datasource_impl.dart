@@ -37,7 +37,7 @@ class RemoteGetGrupoDeRecursoDatasourceImpl implements RemoteGetGrupoDeRecursoDa
 
       return data;
     } on ClientError catch (e) {
-      throw DatasourceRoteiroFailure(errorMessage: e.message, stackTrace: e.stackTrace);
+      throw RemoteDatasourceRoteiroFailure(errorMessage: e.message, stackTrace: e.stackTrace);
     }
   }
 }

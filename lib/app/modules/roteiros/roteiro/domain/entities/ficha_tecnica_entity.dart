@@ -9,6 +9,14 @@ class FichaTecnicaEntity {
     required this.descricao,
   });
 
+  factory FichaTecnicaEntity.empty() {
+    return const FichaTecnicaEntity(
+      id: '',
+      codigo: '',
+      descricao: '',
+    );
+  }
+
   @override
   bool operator ==(covariant FichaTecnicaEntity other) {
     if (identical(this, other)) return true;

@@ -9,8 +9,8 @@ class RoteiroFailure extends Failure {
   });
 }
 
-class DatasourceRoteiroFailure extends RoteiroFailure {
-  DatasourceRoteiroFailure({
+class RemoteDatasourceRoteiroFailure extends RoteiroFailure {
+  RemoteDatasourceRoteiroFailure({
     required super.errorMessage,
     required super.stackTrace,
   });
@@ -18,6 +18,13 @@ class DatasourceRoteiroFailure extends RoteiroFailure {
 
 class IdNotFoundRoteiroFailure extends RoteiroFailure {
   IdNotFoundRoteiroFailure({
+    required super.errorMessage,
+    required super.stackTrace,
+  });
+}
+
+class RoteiroIsNotValidFailure extends RoteiroFailure {
+  RoteiroIsNotValidFailure({
     required super.errorMessage,
     required super.stackTrace,
   });

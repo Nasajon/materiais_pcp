@@ -6,7 +6,7 @@ void main() {
   testWidgets('Deve converter um Map em MaterialEntity', (tester) async {
     final response = RemoteMaterialMapper.fromMapToMaterialEntity(map);
     expect(response, isA<MaterialEntity>());
-    expect(response.id, '74dcd3fa-036d-4b62-b757-fe4888d354ed');
+    expect(response.fichaTecnicaId, '74dcd3fa-036d-4b62-b757-fe4888d354ed');
   });
 }
 

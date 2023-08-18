@@ -1,7 +1,7 @@
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/restricao_entity.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/restricao_aggregate.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/errors/roteiro_failure.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/external/datasource/remotes/remote_get_restricao_by_grupo_datasource_impl.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/infra/datasources/remotes/remote_get_restricao_by_grupo_datasource.dart';
@@ -30,7 +30,7 @@ void main() {
 
           final response = await remoteGetRestricaoByGrupoDatasource('1');
 
-          expect(response, isA<List<RestricaoEntity>>());
+          expect(response, isA<List<RestricaoAggregate>>());
           expect(response.length, 3);
         });
       });

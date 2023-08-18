@@ -29,11 +29,11 @@ class RemoteGetRecursoDatasourceImpl implements RemoteGetRecursoDatasource {
         ),
       );
 
-      final data = List.from(response.data).map((map) => RemoteRecursoMapper.fromMapToRecursoAggregate(map)).toList();
+      final data = List.from(response.data).map((map) => RemoteRecursoMapper.fromMapToRecurso(map)).toList();
 
       return data;
     } on ClientError catch (e) {
-      throw DatasourceRoteiroFailure(errorMessage: e.message, stackTrace: e.stackTrace);
+      throw RemoteDatasourceRoteiroFailure(errorMessage: e.message, stackTrace: e.stackTrace);
     }
   }
 }

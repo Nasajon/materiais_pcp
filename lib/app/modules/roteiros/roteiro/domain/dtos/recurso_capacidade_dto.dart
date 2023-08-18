@@ -5,14 +5,14 @@ import 'package:pcp_flutter/app/core/modules/domain/value_object/time_vo.dart';
 class RecursoCapacidadeDTO {
   final TimeVO preparacao;
   final TimeVO execucao;
-  final DoubleVO total;
+  final DoubleVO capacidadeTotal;
   final DoubleVO minima;
   final DoubleVO maxima;
 
   const RecursoCapacidadeDTO({
     required this.preparacao,
     required this.execucao,
-    required this.total,
+    required this.capacidadeTotal,
     required this.minima,
     required this.maxima,
   });
@@ -21,7 +21,7 @@ class RecursoCapacidadeDTO {
     return RecursoCapacidadeDTO(
       preparacao: TimeVO(''),
       execucao: TimeVO(''),
-      total: DoubleVO(0),
+      capacidadeTotal: DoubleVO(0),
       minima: DoubleVO(0),
       maxima: DoubleVO(0),
     );
@@ -30,14 +30,14 @@ class RecursoCapacidadeDTO {
   RecursoCapacidadeDTO copyWith({
     TimeVO? preparacao,
     TimeVO? execucao,
-    DoubleVO? total,
+    DoubleVO? capacidadeTotal,
     DoubleVO? minima,
     DoubleVO? maxima,
   }) {
     return RecursoCapacidadeDTO(
       preparacao: preparacao ?? this.preparacao,
       execucao: execucao ?? this.execucao,
-      total: total ?? this.total,
+      capacidadeTotal: capacidadeTotal ?? this.capacidadeTotal,
       minima: minima ?? this.minima,
       maxima: maxima ?? this.maxima,
     );
@@ -49,13 +49,20 @@ class RecursoCapacidadeDTO {
 
     return other.preparacao == preparacao &&
         other.execucao == execucao &&
-        other.total == total &&
+        other.capacidadeTotal == capacidadeTotal &&
         other.minima == minima &&
         other.maxima == maxima;
   }
 
   @override
   int get hashCode {
-    return preparacao.hashCode ^ execucao.hashCode ^ total.hashCode ^ minima.hashCode ^ maxima.hashCode;
+    return preparacao.hashCode ^ execucao.hashCode ^ capacidadeTotal.hashCode ^ minima.hashCode ^ maxima.hashCode;
   }
+
+  bool get isValid =>
+      preparacao.isValid && //
+      execucao.isValid &&
+      capacidadeTotal.isValid &&
+      minima.isValid &&
+      maxima.isValid;
 }

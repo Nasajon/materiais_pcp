@@ -35,4 +35,6 @@ class GrupoDeRecursoAggregate {
 
   @override
   int get hashCode => grupo.hashCode ^ capacidade.hashCode ^ recursos.hashCode;
+
+  bool get isValid => grupo.id.isNotEmpty && capacidade.isValid && recursos.isNotEmpty;
 }

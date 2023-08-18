@@ -1,29 +1,32 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/foundation.dart';
-import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/double_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/time_vo.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/grupo_de_recurso_aggregate.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/centro_de_trabalho_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/material_entity.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/produto_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/unidade_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/enums/medicao_tempo_enum.dart';
 
 class OperacaoAggregate {
-  final CodigoVO codigo;
+  final String id;
+  final int ordem;
   final TextVO nome;
   final DoubleVO razaoConversao;
   final TimeVO preparacao;
   final TimeVO execucao;
-  final String produtoResultante;
+  final ProdutoEntity? produtoResultante;
   final MedicaoTempoEnum medicaoTempo;
   final UnidadeEntity unidade;
   final CentroDeTrabalhoEntity centroDeTrabalho;
-  final List<MaterialEntity> material;
+  final List<MaterialEntity> materiais;
   final List<GrupoDeRecursoAggregate> gruposDeRecurso;
 
   const OperacaoAggregate({
-    required this.codigo,
+    this.id = '',
+    required this.ordem,
     required this.nome,
     required this.razaoConversao,
     required this.preparacao,
@@ -32,25 +35,27 @@ class OperacaoAggregate {
     required this.medicaoTempo,
     required this.unidade,
     required this.centroDeTrabalho,
-    required this.material,
+    required this.materiais,
     required this.gruposDeRecurso,
   });
 
   OperacaoAggregate copyWith({
-    CodigoVO? codigo,
+    String? id,
+    int? ordem,
     TextVO? nome,
     DoubleVO? razaoConversao,
     TimeVO? preparacao,
     TimeVO? execucao,
-    String? produtoResultante,
+    ProdutoEntity? produtoResultante,
     MedicaoTempoEnum? medicaoTempo,
     UnidadeEntity? unidade,
     CentroDeTrabalhoEntity? centroDeTrabalho,
-    List<MaterialEntity>? material,
+    List<MaterialEntity>? materiais,
     List<GrupoDeRecursoAggregate>? gruposDeRecurso,
   }) {
     return OperacaoAggregate(
-      codigo: codigo ?? this.codigo,
+      id: id ?? this.id,
+      ordem: ordem ?? this.ordem,
       nome: nome ?? this.nome,
       razaoConversao: razaoConversao ?? this.razaoConversao,
       preparacao: preparacao ?? this.preparacao,
@@ -59,8 +64,8 @@ class OperacaoAggregate {
       medicaoTempo: medicaoTempo ?? this.medicaoTempo,
       unidade: unidade ?? this.unidade,
       centroDeTrabalho: centroDeTrabalho ?? this.centroDeTrabalho,
-      material: material ?? List.from(this.material),
-      gruposDeRecurso: gruposDeRecurso ?? List.from(this.gruposDeRecurso),
+      materiais: materiais ?? this.materiais,
+      gruposDeRecurso: gruposDeRecurso ?? this.gruposDeRecurso,
     );
   }
 
@@ -68,7 +73,8 @@ class OperacaoAggregate {
   bool operator ==(covariant OperacaoAggregate other) {
     if (identical(this, other)) return true;
 
-    return other.codigo == codigo &&
+    return other.id == id &&
+        other.ordem == ordem &&
         other.nome == nome &&
         other.razaoConversao == razaoConversao &&
         other.preparacao == preparacao &&
@@ -77,13 +83,14 @@ class OperacaoAggregate {
         other.medicaoTempo == medicaoTempo &&
         other.unidade == unidade &&
         other.centroDeTrabalho == centroDeTrabalho &&
-        listEquals(other.material, material) &&
+        listEquals(other.materiais, materiais) &&
         listEquals(other.gruposDeRecurso, gruposDeRecurso);
   }
 
   @override
   int get hashCode {
-    return codigo.hashCode ^
+    return id.hashCode ^
+        ordem.hashCode ^
         nome.hashCode ^
         razaoConversao.hashCode ^
         preparacao.hashCode ^
@@ -92,7 +99,17 @@ class OperacaoAggregate {
         medicaoTempo.hashCode ^
         unidade.hashCode ^
         centroDeTrabalho.hashCode ^
-        material.hashCode ^
+        materiais.hashCode ^
         gruposDeRecurso.hashCode;
   }
+
+  bool get isValid =>
+      nome.isValid &&
+      unidade.id.isNotEmpty &&
+      razaoConversao.isValid &&
+      medicaoTempo.value.isNotEmpty &&
+      preparacao.isValid &&
+      execucao.isValid &&
+      centroDeTrabalho.id.isNotEmpty &&
+      gruposDeRecurso.isNotEmpty;
 }

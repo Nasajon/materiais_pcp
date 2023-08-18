@@ -1,4 +1,5 @@
-import 'package:flutter/foundation.dart';
+import 'package:collection/collection.dart';
+import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/date_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/operacao_aggregate.dart';
@@ -8,6 +9,7 @@ import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/unidade
 
 class RoteiroAggregate {
   final String id;
+  final CodigoVO codigo;
   final TextVO descricao;
   final DateVO inicio;
   final DateVO fim;
@@ -19,6 +21,7 @@ class RoteiroAggregate {
 
   const RoteiroAggregate({
     required this.id,
+    required this.codigo,
     required this.descricao,
     required this.inicio,
     required this.fim,
@@ -29,8 +32,23 @@ class RoteiroAggregate {
     required this.operacoes,
   });
 
+  factory RoteiroAggregate.empty() {
+    return RoteiroAggregate(
+      id: '',
+      codigo: CodigoVO(null),
+      descricao: TextVO(''),
+      inicio: DateVO(''),
+      fim: DateVO(''),
+      produto: ProdutoEntity.empty(),
+      fichaTecnica: FichaTecnicaEntity.empty(),
+      unidade: UnidadeEntity.empty(),
+      operacoes: [],
+    );
+  }
+
   RoteiroAggregate copyWith({
     String? id,
+    CodigoVO? codigo,
     TextVO? descricao,
     DateVO? inicio,
     DateVO? fim,
@@ -42,6 +60,7 @@ class RoteiroAggregate {
   }) {
     return RoteiroAggregate(
       id: id ?? this.id,
+      codigo: codigo ?? this.codigo,
       descricao: descricao ?? this.descricao,
       inicio: inicio ?? this.inicio,
       fim: fim ?? this.fim,
@@ -56,8 +75,10 @@ class RoteiroAggregate {
   @override
   bool operator ==(covariant RoteiroAggregate other) {
     if (identical(this, other)) return true;
+    final listEquals = const DeepCollectionEquality().equals;
 
     return other.id == id &&
+        other.codigo == codigo &&
         other.descricao == descricao &&
         other.inicio == inicio &&
         other.fim == fim &&
@@ -71,6 +92,7 @@ class RoteiroAggregate {
   @override
   int get hashCode {
     return id.hashCode ^
+        codigo.hashCode ^
         descricao.hashCode ^
         inicio.hashCode ^
         fim.hashCode ^
@@ -80,4 +102,20 @@ class RoteiroAggregate {
         unidade.hashCode ^
         operacoes.hashCode;
   }
+
+  bool get isDadosBasicosIsValid =>
+      codigo.isValid && //
+      produto.id.isNotEmpty &&
+      descricao.isValid &&
+      fichaTecnica.id.isNotEmpty &&
+      unidade.id.isNotEmpty;
+
+  bool get isPeriodoDeVigenciaIsValid => inicio.isValid && fim.isValid;
+
+  bool get isOperacoesIsValid => operacoes.isNotEmpty;
+
+  bool get isValid =>
+      isDadosBasicosIsValid && //
+      isPeriodoDeVigenciaIsValid &&
+      isOperacoesIsValid;
 }

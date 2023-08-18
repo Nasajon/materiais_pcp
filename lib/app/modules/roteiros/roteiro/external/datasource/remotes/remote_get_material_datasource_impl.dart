@@ -44,7 +44,7 @@ class RemoteGetMaterialDatasourceImpl implements RemoteGetMaterialDatasource {
 
       return materiais;
     } on ClientError catch (e) {
-      throw DatasourceRoteiroFailure(errorMessage: e.message, stackTrace: e.stackTrace);
+      throw RemoteDatasourceRoteiroFailure(errorMessage: e.message, stackTrace: e.stackTrace);
     }
   }
 

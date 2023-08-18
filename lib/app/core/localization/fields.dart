@@ -41,6 +41,7 @@ abstract class Fields {
   String get periodo;
   String get recurso;
   String get restricao;
+  String get roteiro;
   String get salvar;
   String get tipo;
   String get tipoDeRecurso;
