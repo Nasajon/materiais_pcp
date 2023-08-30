@@ -4,26 +4,26 @@ class RestricaoAggregate {
   final String id;
   final String codigo;
   final String nome;
-  final RestricaoCapacidadeDTO restricaoCapacidade;
+  final RestricaoCapacidadeDTO capacidade;
 
   const RestricaoAggregate({
     required this.id,
     required this.codigo,
     required this.nome,
-    required this.restricaoCapacidade,
+    required this.capacidade,
   });
 
   RestricaoAggregate copyWith({
     String? id,
     String? codigo,
     String? nome,
-    RestricaoCapacidadeDTO? restricaoCapacidade,
+    RestricaoCapacidadeDTO? capacidade,
   }) {
     return RestricaoAggregate(
       id: id ?? this.id,
       codigo: codigo ?? this.codigo,
       nome: nome ?? this.nome,
-      restricaoCapacidade: restricaoCapacidade ?? this.restricaoCapacidade,
+      capacidade: capacidade ?? this.capacidade,
     );
   }
 
@@ -31,13 +31,13 @@ class RestricaoAggregate {
   bool operator ==(covariant RestricaoAggregate other) {
     if (identical(this, other)) return true;
 
-    return other.id == id && other.codigo == codigo && other.nome == nome && other.restricaoCapacidade == restricaoCapacidade;
+    return other.id == id && other.codigo == codigo && other.nome == nome && other.capacidade == capacidade;
   }
 
   @override
   int get hashCode {
-    return id.hashCode ^ codigo.hashCode ^ nome.hashCode ^ restricaoCapacidade.hashCode;
+    return id.hashCode ^ codigo.hashCode ^ nome.hashCode ^ capacidade.hashCode;
   }
 
-  bool get isValid => id.isNotEmpty && restricaoCapacidade.isValid;
+  bool get isValid => id.isNotEmpty && capacidade.isValid;
 }

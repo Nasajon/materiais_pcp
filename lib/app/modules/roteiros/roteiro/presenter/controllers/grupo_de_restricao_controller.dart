@@ -1,3 +1,4 @@
+import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/grupo_de_restricao_aggregate.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/restricao_aggregate.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/errors/roteiro_failure.dart';
@@ -5,7 +6,7 @@ import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/usecases/get_res
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/controllers/restricao_controller.dart';
 
 class GrupoDeRestricaoController {
-  late final GrupoDeRestricaoAggregate _grupoDeRestricao;
+  late final RxNotifier<GrupoDeRestricaoAggregate> _grupoDeRestricaoNotifier;
   late final GetRestricaoPorGrupoUsecase _getRestricaoPorGrupoUsecase;
 
   List<RestricaoController> listRestricaoController = [];
@@ -14,10 +15,10 @@ class GrupoDeRestricaoController {
     required GrupoDeRestricaoAggregate grupoDeRestricao,
     required GetRestricaoPorGrupoUsecase getRestricaoPorGrupoUsecase,
   }) {
-    _grupoDeRestricao = grupoDeRestricao;
+    _grupoDeRestricaoNotifier = RxNotifier(grupoDeRestricao);
     _getRestricaoPorGrupoUsecase = getRestricaoPorGrupoUsecase;
 
-    _addListRestricaoController(_grupoDeRestricao.restricoes);
+    _addListRestricaoController(_grupoDeRestricaoNotifier.value.restricoes);
   }
 
   Future<void> getRestricaoPorGrupo(String grupoDeRestricaoId) async {
@@ -41,6 +42,25 @@ class GrupoDeRestricaoController {
 
   GrupoDeRestricaoAggregate get grupoDeRestricao {
     final restricaos = listRestricaoController.map((controller) => controller.restricao).toList();
-    return _grupoDeRestricao.copyWith(restricoes: restricaos);
+    return _grupoDeRestricaoNotifier.value.copyWith(restricoes: restricaos);
+  }
+
+  set grupoDeRestricao(GrupoDeRestricaoAggregate value) => _grupoDeRestricaoNotifier.value = value;
+
+  // Restrições
+  Future<void> adicionarRestricoes() async {
+    try {
+      final response = await _getRestricaoPorGrupoUsecase(grupoDeRestricao.grupo.id);
+
+      if (response.isNotEmpty) {
+        listRestricaoController = response
+            .map(
+              (recurso) => RestricaoController(
+                restricao: recurso.copyWith(capacidade: grupoDeRestricao.capacidade),
+              ),
+            )
+            .toList();
+      }
+    } on RoteiroFailure catch (error) {}
   }
 }

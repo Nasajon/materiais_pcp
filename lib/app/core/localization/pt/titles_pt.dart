@@ -11,6 +11,9 @@ class TitlesPt extends Titles {
   String get adicionarIndisponibilidade => 'Adicionar indisponibilidade';
 
   @override
+  String get adicionarOperacao => 'Adicionar operação';
+
+  @override
   String get adicioneUmaDisponibilidade => 'Adicione uma disponibilidade';
 
   @override
@@ -68,6 +71,9 @@ class TitlesPt extends Titles {
   String get restricoesSecundarias => 'Restrições secundárias';
 
   @override
+  String get roteiroDeProducao => 'Roteiros de produção';
+
+  @override
   String get tituloRecursos => 'Recursos';
 
   @override
@@ -92,8 +98,35 @@ class TitlesPt extends Titles {
   String get ultimosRecursosAcessados => 'Últimos recursos acessados';
 
   @override
+  String get ultimosRoteirosAcessados => 'Últimos roteiros acessados';
+
+  @override
   String get ultimosTurnosAcessados => 'Últimos turnos acessados';
 
   @override
+  String criarEntidade(String entidade) => 'Criar ${entidade.toLowerCase()}';
+
+  @override
   String excluirEntidade(String entidade) => 'Excluir ${entidade.toLowerCase()}?';
+
+  @override
+  String get dadosBasicos => 'Dados básicos';
+
+  @override
+  String get materiais => 'Materiais';
+
+  @override
+  String editarEntidade(String entidade) => 'Editar $entidade';
+
+  @override
+  String get restricoes => 'Restrições';
+
+  @override
+  String get semRestricoes => 'Sem restrições';
+
+  @override
+  String get grupoDeRestricoes => 'Grupos de restrições';
+
+  @override
+  String get adicionarGrupoDeRestricoes => 'Adicionar grupo de restrições';
 }

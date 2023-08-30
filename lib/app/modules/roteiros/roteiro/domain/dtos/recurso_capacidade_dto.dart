@@ -21,9 +21,9 @@ class RecursoCapacidadeDTO {
     return RecursoCapacidadeDTO(
       preparacao: TimeVO(''),
       execucao: TimeVO(''),
-      capacidadeTotal: DoubleVO(0),
-      minima: DoubleVO(0),
-      maxima: DoubleVO(0),
+      capacidadeTotal: DoubleVO(null),
+      minima: DoubleVO(null),
+      maxima: DoubleVO(null),
     );
   }
 

@@ -19,8 +19,8 @@ class RestricaoCapacidadeDTO {
   factory RestricaoCapacidadeDTO.empty() {
     return RestricaoCapacidadeDTO(
       unidade: UnidadeEntity.empty(),
-      capacidade: DoubleVO(0),
-      usar: DoubleVO(0),
+      capacidade: DoubleVO(null),
+      usar: DoubleVO(null),
       tempo: TimeVO(''),
     );
   }

@@ -5,6 +5,11 @@ abstract class Messages {
   String get descatarAlteracoesEdicaoEntidade;
   String get erroIdNaoInformado;
   String get errorCampoObrigatorio;
+  String get mensagemAdicioneAsAperacoes;
+  String get mensagemComoCriarRoteiro;
+  String get mensagemNaoEncontrouMaterial;
+  String get mensagemSelecionePeriodoVigencia;
+  String get mensagemAdicioneUmaOuMaisRestricoes;
   String get naoHaResultadosParaPesquisa;
   String get nenhumaDisponibilidadeFoiAdicionada;
   String get nenhumaIndisponibilidadeFoiAdicionada;

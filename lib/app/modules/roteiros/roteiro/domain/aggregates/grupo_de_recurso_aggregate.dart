@@ -14,6 +14,14 @@ class GrupoDeRecursoAggregate {
     required this.recursos,
   });
 
+  factory GrupoDeRecursoAggregate.empty() {
+    return GrupoDeRecursoAggregate(
+      grupo: GrupoDeRecursoEntity.empty(),
+      capacidade: RecursoCapacidadeDTO.empty(),
+      recursos: [],
+    );
+  }
+
   GrupoDeRecursoAggregate copyWith({
     GrupoDeRecursoEntity? grupo,
     RecursoCapacidadeDTO? capacidade,

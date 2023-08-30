@@ -9,6 +9,14 @@ class CentroDeTrabalhoEntity {
     required this.nome,
   });
 
+  factory CentroDeTrabalhoEntity.empty() {
+    return const CentroDeTrabalhoEntity(
+      id: '',
+      codigo: '',
+      nome: '',
+    );
+  }
+
   @override
   bool operator ==(covariant CentroDeTrabalhoEntity other) {
     if (identical(this, other)) return true;

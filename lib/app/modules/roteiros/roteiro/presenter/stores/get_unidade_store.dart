@@ -3,10 +3,10 @@ import 'package:flutter_core/ana_core.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/unidade_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/usecases/get_unidade_usecase.dart';
 
-class UnidadeStore extends NasajonNotifierStore<List<UnidadeEntity>> {
+class GetUnidadeStore extends NasajonNotifierStore<List<UnidadeEntity>> {
   final GetUnidadeUsecase _getUnidadeUsecase;
 
-  UnidadeStore(this._getUnidadeUsecase) : super(initialState: []);
+  GetUnidadeStore(this._getUnidadeUsecase) : super(initialState: []);
 
   void getList({required search, Duration delay = const Duration(milliseconds: 500)}) {
     execute(() async {
@@ -14,5 +14,9 @@ class UnidadeStore extends NasajonNotifierStore<List<UnidadeEntity>> {
 
       return response;
     }, delay: delay);
+  }
+
+  Future<List<UnidadeEntity>> getListUnidade({required search}) {
+    return _getUnidadeUsecase(search);
   }
 }

@@ -11,7 +11,7 @@ class RemoteRestricaoMapper {
       id: map['restricao'],
       codigo: map['codigo'],
       nome: map['nome'],
-      restricaoCapacidade: RestricaoCapacidadeDTO.empty(),
+      capacidade: RestricaoCapacidadeDTO.empty(),
     );
   }
 
@@ -20,14 +20,14 @@ class RemoteRestricaoMapper {
       id: map['restricao'],
       codigo: map['codigo'],
       nome: map['nome'],
-      restricaoCapacidade: RemoteRestricaoCapacidadeMapper.fromMapToRestricaoCapacidadeDTO(map),
+      capacidade: RemoteRestricaoCapacidadeMapper.fromMapToRestricaoCapacidadeDTO(map),
     );
   }
 
   static Map<String, dynamic> fromRestricaoAggregateToMap(RestricaoAggregate restricao) {
     return {
       'restricao': restricao.id,
-      ...RemoteRestricaoCapacidadeMapper.fromRestricaoCapacidadeToMap(restricao.restricaoCapacidade),
+      ...RemoteRestricaoCapacidadeMapper.fromRestricaoCapacidadeToMap(restricao.capacidade),
     };
   }
 }

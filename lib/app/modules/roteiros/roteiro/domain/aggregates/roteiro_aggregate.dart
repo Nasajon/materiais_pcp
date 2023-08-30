@@ -103,19 +103,19 @@ class RoteiroAggregate {
         operacoes.hashCode;
   }
 
-  bool get isDadosBasicosIsValid =>
+  bool get dadosBasicosIsValid =>
       codigo.isValid && //
       produto.id.isNotEmpty &&
       descricao.isValid &&
       fichaTecnica.id.isNotEmpty &&
       unidade.id.isNotEmpty;
 
-  bool get isPeriodoDeVigenciaIsValid => inicio.isValid && fim.isValid;
+  bool get periodoDeVigenciaIsValid => inicio.isValid && fim.isValid;
 
-  bool get isOperacoesIsValid => operacoes.isNotEmpty;
+  bool get operacoesIsValid => operacoes.isNotEmpty;
 
   bool get isValid =>
-      isDadosBasicosIsValid && //
-      isPeriodoDeVigenciaIsValid &&
-      isOperacoesIsValid;
+      dadosBasicosIsValid && //
+      periodoDeVigenciaIsValid &&
+      operacoesIsValid;
 }

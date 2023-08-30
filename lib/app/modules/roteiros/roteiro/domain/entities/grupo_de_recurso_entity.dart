@@ -9,6 +9,14 @@ class GrupoDeRecursoEntity {
     required this.nome,
   });
 
+  factory GrupoDeRecursoEntity.empty() {
+    return const GrupoDeRecursoEntity(
+      id: '',
+      codigo: '',
+      nome: '',
+    );
+  }
+
   @override
   bool operator ==(covariant GrupoDeRecursoEntity other) {
     if (identical(this, other)) return true;

@@ -23,17 +23,25 @@ class RemoteGetUnidadeDatasourceImpl implements RemoteGetUnidadeDatasource {
         queryParams['search'] = search;
       }
 
-      final response = await _clientService.request(
-        ClientRequestParams(
-          selectedApi: APIEnum.dadosmestre,
-          endPoint: '/4311/unidades',
-          method: ClientRequestMethods.GET,
-          interceptors: interceptors,
-          queryParams: queryParams,
-        ),
-      );
+      // final response = await _clientService.request(
+      //   ClientRequestParams(
+      //     selectedApi: APIEnum.dadosmestre,
+      //     endPoint: '/4311/unidades',
+      //     method: ClientRequestMethods.GET,
+      //     interceptors: interceptors,
+      //     queryParams: queryParams,
+      //   ),
+      // );
 
-      final data = List.from(response.data['result']).map((map) => RemoteUnidadeMapper.fromMapToUnidadeEntity(map)).toList();
+      const response = jsonMock;
+      await Future.delayed(const Duration(seconds: 1));
+
+      final data = List.from(response['result'])
+          .map((map) => RemoteUnidadeMapper.fromMapToUnidadeEntity(map))
+          .toList()
+          .where((produto) => '${produto.codigo} - ${produto.descricao}'.toLowerCase().contains(search.toLowerCase()))
+          .toList();
+      // final data = List.from(response.data['result']).map((map) => RemoteUnidadeMapper.fromMapToUnidadeEntity(map)).toList();
 
       return data;
     } on ClientError catch (e) {
@@ -41,3 +49,15 @@ class RemoteGetUnidadeDatasourceImpl implements RemoteGetUnidadeDatasource {
     }
   }
 }
+
+const jsonMock = <String, dynamic>{
+  'next': null,
+  'prev': null,
+  'result': [
+    {
+      'id': 'fbf7ab8a-11d5-4170-99c6-ade99311b4ed',
+      'codigo': 'UN',
+      'descricao': 'UNIDADE',
+    }
+  ]
+};

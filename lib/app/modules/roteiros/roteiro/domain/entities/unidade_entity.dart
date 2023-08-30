@@ -17,7 +17,7 @@ class UnidadeEntity {
       id: '',
       codigo: '',
       descricao: '',
-      decimal: 0,
+      decimal: 2,
     );
   }
 

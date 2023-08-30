@@ -37,7 +37,7 @@ class RemoteOperacaoMapper {
       'preparacao': operacao.preparacao.timeFormat(shouldAddSeconds: true),
       'execucao': operacao.execucao.timeFormat(shouldAddSeconds: true),
       'produto_resultante': operacao.produtoResultante?.id,
-      'medicao_tempo': operacao.medicaoTempo.value,
+      'medicao_tempo': operacao.medicaoTempo != null ? operacao.medicaoTempo!.value : '',
       'unidade': operacao.unidade.id,
       'centro_de_trabalho': operacao.centroDeTrabalho.id,
       'produtos': operacao.materiais.map((material) => RemoteMaterialMapper.fromMaterialToMap(material)).toList(),

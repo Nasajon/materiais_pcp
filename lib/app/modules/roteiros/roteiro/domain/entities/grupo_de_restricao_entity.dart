@@ -9,6 +9,14 @@ class GrupoDeRestricaoEntity {
     required this.nome,
   });
 
+  factory GrupoDeRestricaoEntity.empty() {
+    return const GrupoDeRestricaoEntity(
+      id: '',
+      codigo: '',
+      nome: '',
+    );
+  }
+
   @override
   bool operator ==(covariant GrupoDeRestricaoEntity other) {
     if (identical(this, other)) return true;

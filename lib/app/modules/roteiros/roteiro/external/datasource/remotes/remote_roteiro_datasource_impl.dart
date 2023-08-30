@@ -22,7 +22,7 @@ class RemoteRoteiroDatasourceImpl implements RemoteRoteiroDatasource {
 
       final response = await _clientService.request(
         ClientRequestParams(
-          selectedApi: APIEnum.dadosmestre,
+          selectedApi: APIEnum.pcp,
           endPoint: '/1234/roteiros',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
@@ -49,7 +49,7 @@ class RemoteRoteiroDatasourceImpl implements RemoteRoteiroDatasource {
 
       final response = await _clientService.request(
         ClientRequestParams(
-          selectedApi: APIEnum.dadosmestre,
+          selectedApi: APIEnum.pcp,
           endPoint: '/1234/roteiros',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
@@ -72,7 +72,7 @@ class RemoteRoteiroDatasourceImpl implements RemoteRoteiroDatasource {
 
       final response = await _clientService.request(
         ClientRequestParams(
-          selectedApi: APIEnum.dadosmestre,
+          selectedApi: APIEnum.pcp,
           endPoint: '/1234/roteiros',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
@@ -91,7 +91,7 @@ class RemoteRoteiroDatasourceImpl implements RemoteRoteiroDatasource {
     try {
       final response = await _clientService.request(
         ClientRequestParams(
-          selectedApi: APIEnum.dadosmestre,
+          selectedApi: APIEnum.pcp,
           endPoint: '/1234/roteiros',
           method: ClientRequestMethods.POST,
           interceptors: interceptors,
@@ -110,7 +110,7 @@ class RemoteRoteiroDatasourceImpl implements RemoteRoteiroDatasource {
     try {
       await _clientService.request(
         ClientRequestParams(
-          selectedApi: APIEnum.dadosmestre,
+          selectedApi: APIEnum.pcp,
           endPoint: '/1234/roteiros',
           method: ClientRequestMethods.PUT,
           interceptors: interceptors,
@@ -129,7 +129,7 @@ class RemoteRoteiroDatasourceImpl implements RemoteRoteiroDatasource {
     try {
       await _clientService.request(
         ClientRequestParams(
-          selectedApi: APIEnum.dadosmestre,
+          selectedApi: APIEnum.pcp,
           endPoint: '/1234/roteiros/$roteiroId',
           method: ClientRequestMethods.DELETE,
           interceptors: interceptors,

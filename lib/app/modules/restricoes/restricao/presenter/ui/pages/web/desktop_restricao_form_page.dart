@@ -115,7 +115,6 @@ class _DesktopRestricaoFormStatePage extends State<DesktopRestricaoFormPage> {
               valueListenable: page,
               builder: (context, value, child) {
                 return VerticalStepperWidget(
-                  scrollController: ScrollController(),
                   pageController: pageController,
                   isStepperClickable: true,
                   steppers: [

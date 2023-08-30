@@ -3,8 +3,7 @@ import 'package:nsj_flutter_login/nsj_login.dart';
 
 class ApiKeyInterceptor extends Interceptor {
   @override
-  void onRequest(
-      RequestOptions options, RequestInterceptorHandler handler) async {
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     final profileStore = Modular.get<ProfileStore>();
 
     final token = await profileStore.tokenUpdated;

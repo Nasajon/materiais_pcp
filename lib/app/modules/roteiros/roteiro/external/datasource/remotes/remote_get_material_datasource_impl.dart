@@ -17,21 +17,14 @@ class RemoteGetMaterialDatasourceImpl implements RemoteGetMaterialDatasource {
   List<Interceptor> interceptors = [ApiKeyInterceptor(), EntidadesEmpresariaisInterceptor()];
 
   @override
-  Future<List<MaterialEntity>> call(String search) async {
+  Future<List<MaterialEntity>> call(String fichaTecnicaId) async {
     try {
-      Map<String, dynamic> queryParams = {};
-
-      if (search.isNotEmpty) {
-        queryParams['search'] = search;
-      }
-
       final responseMateriais = await _clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/fichastecnicas?fields=produtos,unidades',
+          endPoint: '/1234/fichastecnicas/$fichaTecnicaId?fields=produtos,unidades',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
-          queryParams: queryParams,
         ),
       );
 
@@ -53,7 +46,7 @@ class RemoteGetMaterialDatasourceImpl implements RemoteGetMaterialDatasource {
 
     final responseProduto = await _clientService.request(
       ClientRequestParams(
-        selectedApi: APIEnum.dadosmestre,
+        selectedApi: APIEnum.pcp,
         endPoint: '/4311/produtos?id=$produtosId',
         method: ClientRequestMethods.GET,
         interceptors: interceptors,

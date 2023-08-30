@@ -21,6 +21,20 @@ class MessagesPt extends Messages {
   String get errorCampoObrigatorio => 'Este campo precisa estar preenchido';
 
   @override
+  String get mensagemAdicioneAsAperacoes => 'Adicione as operações e defina os materiais e recursos utilizados em cada uma delas.';
+
+  @override
+  String get mensagemComoCriarRoteiro =>
+      'Nos próximos passos você criará um novo roteiro.\nPrimeiramente, insira alguns dados básicos sobre este novo roteiro.';
+
+  @override
+  String get mensagemNaoEncontrouMaterial => 'Não encontrou o material que gostaria? Adicione outro de fora da ficha técnica.';
+
+  @override
+  String get mensagemSelecionePeriodoVigencia =>
+      'Selecione o período de vigência durante o qual o roteiro de produção estará disponível para utilização';
+
+  @override
   String get naoHaResultadosParaPesquisa => 'Não há resultados para pesquisa.';
 
   @override
@@ -79,4 +93,7 @@ class MessagesPt extends Messages {
 
   @override
   String nenhumEntidadeEncontrado(String entidade) => 'Nenhum ${entidade.toLowerCase()} encontrado.';
+
+  @override
+  String get mensagemAdicioneUmaOuMaisRestricoes => 'Adicione uma ou mais restrições e, então, elas aparecerão aqui.';
 }

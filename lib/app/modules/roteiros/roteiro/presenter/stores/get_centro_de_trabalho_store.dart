@@ -3,10 +3,10 @@ import 'package:flutter_core/ana_core.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/centro_de_trabalho_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/usecases/get_centro_de_trabalho_usecase.dart';
 
-class CentroDeTrabalhoStore extends NasajonNotifierStore<List<CentroDeTrabalhoEntity>> {
+class GetCentroDeTrabalhoStore extends NasajonNotifierStore<List<CentroDeTrabalhoEntity>> {
   final GetCentroDeTrabalhoUsecase _getCentroDeTrabalhoUsecase;
 
-  CentroDeTrabalhoStore(this._getCentroDeTrabalhoUsecase) : super(initialState: []);
+  GetCentroDeTrabalhoStore(this._getCentroDeTrabalhoUsecase) : super(initialState: []);
 
   void getList({required search, Duration delay = const Duration(milliseconds: 500)}) {
     execute(() async {
@@ -14,5 +14,9 @@ class CentroDeTrabalhoStore extends NasajonNotifierStore<List<CentroDeTrabalhoEn
 
       return response;
     }, delay: delay);
+  }
+
+  Future<List<CentroDeTrabalhoEntity>> getListCentroDeTrabalho({required search}) async {
+    return _getCentroDeTrabalhoUsecase(search);
   }
 }

@@ -113,7 +113,6 @@ class _DesktopTurnoTrabalhoFormStatePage extends State<DesktopTurnoTrabalhoFormP
                 valueListenable: page,
                 builder: (_, __, ___) {
                   return VerticalStepperWidget(
-                    scrollController: ScrollController(),
                     pageController: pageController,
                     isStepperClickable: true,
                     steppers: [

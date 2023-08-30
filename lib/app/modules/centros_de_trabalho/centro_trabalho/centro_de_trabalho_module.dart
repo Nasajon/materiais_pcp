@@ -17,7 +17,7 @@ import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/pres
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/presenter/stores/centro_trabalho_list_store.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/presenter/stores/inserir_editar_centro_trabalho_store.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/presenter/ui/pages/centro_trabalho_form_page.dart';
-import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/presenter/ui/pages/turno_trabalho_list_page.dart';
+import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/presenter/ui/pages/centro_trabalho_list_page.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/presenter/ui/widgets/centro_de_trabalho_card.dart';
 import 'package:pcp_flutter/app/modules/presenter/presenter.dart';
 

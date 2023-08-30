@@ -3,10 +3,10 @@ import 'package:flutter_core/ana_core.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/produto_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/usecases/get_produto_usecase.dart';
 
-class ProdutoStore extends NasajonNotifierStore<List<ProdutoEntity>> {
+class GetProdutoStore extends NasajonNotifierStore<List<ProdutoEntity>> {
   final GetProdutoUsecase _getProdutoUsecase;
 
-  ProdutoStore(this._getProdutoUsecase) : super(initialState: []);
+  GetProdutoStore(this._getProdutoUsecase) : super(initialState: []);
 
   void getList({required search, Duration delay = const Duration(milliseconds: 500)}) {
     execute(() async {
@@ -14,5 +14,9 @@ class ProdutoStore extends NasajonNotifierStore<List<ProdutoEntity>> {
 
       return response;
     }, delay: delay);
+  }
+
+  Future<List<ProdutoEntity>> getListProdutos({required search}) {
+    return _getProdutoUsecase(search);
   }
 }

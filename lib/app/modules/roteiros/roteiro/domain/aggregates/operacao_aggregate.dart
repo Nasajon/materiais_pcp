@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
+
 import 'package:pcp_flutter/app/core/modules/domain/value_object/double_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/time_vo.dart';
@@ -18,7 +20,7 @@ class OperacaoAggregate {
   final TimeVO preparacao;
   final TimeVO execucao;
   final ProdutoEntity? produtoResultante;
-  final MedicaoTempoEnum medicaoTempo;
+  final MedicaoTempoEnum? medicaoTempo;
   final UnidadeEntity unidade;
   final CentroDeTrabalhoEntity centroDeTrabalho;
   final List<MaterialEntity> materiais;
@@ -32,12 +34,27 @@ class OperacaoAggregate {
     required this.preparacao,
     required this.execucao,
     required this.produtoResultante,
-    required this.medicaoTempo,
+    this.medicaoTempo,
     required this.unidade,
     required this.centroDeTrabalho,
     required this.materiais,
     required this.gruposDeRecurso,
   });
+
+  factory OperacaoAggregate.empty() {
+    return OperacaoAggregate(
+      ordem: 0,
+      nome: TextVO(''),
+      razaoConversao: DoubleVO(null),
+      preparacao: TimeVO(''),
+      execucao: TimeVO(''),
+      produtoResultante: null,
+      unidade: UnidadeEntity.empty(),
+      centroDeTrabalho: CentroDeTrabalhoEntity.empty(),
+      materiais: [],
+      gruposDeRecurso: [],
+    );
+  }
 
   OperacaoAggregate copyWith({
     String? id,
@@ -64,14 +81,15 @@ class OperacaoAggregate {
       medicaoTempo: medicaoTempo ?? this.medicaoTempo,
       unidade: unidade ?? this.unidade,
       centroDeTrabalho: centroDeTrabalho ?? this.centroDeTrabalho,
-      materiais: materiais ?? this.materiais,
-      gruposDeRecurso: gruposDeRecurso ?? this.gruposDeRecurso,
+      materiais: materiais ?? List.from(this.materiais),
+      gruposDeRecurso: gruposDeRecurso ?? List.from(this.gruposDeRecurso),
     );
   }
 
   @override
   bool operator ==(covariant OperacaoAggregate other) {
     if (identical(this, other)) return true;
+    final listEquals = const DeepCollectionEquality().equals;
 
     return other.id == id &&
         other.ordem == ordem &&
@@ -107,7 +125,7 @@ class OperacaoAggregate {
       nome.isValid &&
       unidade.id.isNotEmpty &&
       razaoConversao.isValid &&
-      medicaoTempo.value.isNotEmpty &&
+      (medicaoTempo != null && medicaoTempo!.value.isNotEmpty) &&
       preparacao.isValid &&
       execucao.isValid &&
       centroDeTrabalho.id.isNotEmpty &&

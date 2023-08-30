@@ -17,11 +17,13 @@ class RemoteGetRecursoPorGrupoDatasourceImpl implements RemoteGetRecursoPorGrupo
   @override
   Future<List<RecursoAggregate>> call(String idGrupoDeRecurso) async {
     try {
-      Map<String, dynamic> queryParams = {'grupo_de_recurso': idGrupoDeRecurso};
+      Map<String, dynamic> queryParams = {
+        'grupo_de_recurso': idGrupoDeRecurso,
+      };
 
       final response = await _clientService.request(
         ClientRequestParams(
-          selectedApi: APIEnum.dadosmestre,
+          selectedApi: APIEnum.pcp,
           endPoint: '/1234/recursos',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
