@@ -1,4 +1,6 @@
 import 'package:flutter_core/ana_core.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/roteiro_aggregate.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/roteiro_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/errors/roteiro_failure.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/usecases/deletar_roteiro_usecase.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/usecases/get_roteiro_recente_usecase.dart';
@@ -58,6 +60,17 @@ class RoteiroListStore extends NasajonNotifierStore<List<RoteiroState>> {
     } finally {
       setLoading(false);
     }
+  }
+
+  void adicionarRoteiro(RoteiroAggregate roteiro) {
+    state.add(
+      RoteiroState(
+        roteiro: RoteiroEntity(id: roteiro.id, codigo: roteiro.codigo.toText, descricao: roteiro.descricao.value, produto: roteiro.produto),
+        deletarRoteiroStore: DeletarRoteiroStore(_deletarRoteiroUsecase),
+      ),
+    );
+
+    update(state, force: true);
   }
 
   Future<void> deletarRoteiro(String id) async {

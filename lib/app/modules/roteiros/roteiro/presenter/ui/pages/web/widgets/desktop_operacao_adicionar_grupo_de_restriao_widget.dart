@@ -5,6 +5,7 @@ import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/double_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/time_vo.dart';
+import 'package:pcp_flutter/app/core/utils/event_timer.dart';
 import 'package:pcp_flutter/app/core/widgets/dropdown_widget.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/grupo_de_restricao_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/unidade_entity.dart';
@@ -17,15 +18,18 @@ class DesktopOperacaoAdicionarGrupoDeRestricaoWidget extends StatelessWidget {
   final GrupoDeRestricaoController grupoDeRestricaoController;
   final GetGrupoDeRestricaoStore getGrupoDeRestricaoStore;
   final GetUnidadeStore getUnidadeStore;
+  final List<String> listaDeIdsDosGruposParaDeletar;
 
   DesktopOperacaoAdicionarGrupoDeRestricaoWidget({
     Key? key,
     required this.grupoDeRestricaoController,
     required this.getGrupoDeRestricaoStore,
     required this.getUnidadeStore,
+    required this.listaDeIdsDosGruposParaDeletar,
   }) : super(key: key);
 
   final formKey = GlobalKey<FormState>();
+  final eventTimer = EventTimer<List<GrupoDeRestricaoEntity>>();
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +73,10 @@ class DesktopOperacaoAdicionarGrupoDeRestricaoWidget extends StatelessWidget {
                   ),
                 ),
                 suggestionsCallback: (pattern) async {
-                  return await getGrupoDeRestricaoStore.getListGrupoDeRestricao(search: pattern);
+                  return getGrupoDeRestricaoStore.getListGrupoDeRestricao(search: pattern).then(
+                        (value) =>
+                            value.where((grupo) => listaDeIdsDosGruposParaDeletar.where((idDeletar) => grupo.id == idDeletar).isEmpty),
+                      );
                 },
                 itemBuilder: (context, grupoDeRestricao) {
                   return ListTile(
@@ -90,9 +97,9 @@ class DesktopOperacaoAdicionarGrupoDeRestricaoWidget extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               AutocompleteTextFormField<UnidadeEntity>(
-                key: ValueKey(grupoDeRestricao.unidade),
-                initialValue: grupoDeRestricao.unidade != UnidadeEntity.empty()
-                    ? '${grupoDeRestricao.unidade.codigo} - ${grupoDeRestricao.unidade.descricao}'
+                key: ValueKey(grupoDeRestricao.capacidade.unidade),
+                initialValue: grupoDeRestricao.capacidade.unidade != UnidadeEntity.empty()
+                    ? '${grupoDeRestricao.capacidade.unidade.codigo} - ${grupoDeRestricao.capacidade.unidade.descricao}'
                     : null,
                 textFieldConfiguration: TextFieldConfiguration(
                   decoration: InputDecoration(
@@ -111,12 +118,13 @@ class DesktopOperacaoAdicionarGrupoDeRestricaoWidget extends StatelessWidget {
                   return Text(error.toString());
                 },
                 validator: (value) {
-                  if (grupoDeRestricao.unidade == UnidadeEntity.empty()) {
+                  if (grupoDeRestricao.capacidade.unidade == UnidadeEntity.empty()) {
                     return translation.messages.errorCampoObrigatorio;
                   }
                 },
                 onSelected: (unidade) {
-                  grupoDeRestricaoController.grupoDeRestricao = grupoDeRestricao.copyWith(unidade: unidade);
+                  final capacidade = grupoDeRestricao.capacidade.copyWith(unidade: unidade);
+                  grupoDeRestricaoController.grupoDeRestricao = grupoDeRestricao.copyWith(capacidade: capacidade);
                 },
               ),
               const SizedBox(height: 16),
@@ -128,8 +136,8 @@ class DesktopOperacaoAdicionarGrupoDeRestricaoWidget extends StatelessWidget {
                     child: DoubleTextFormFieldWidget(
                       label: translation.fields.capacidade,
                       initialValue: grupoDeRestricao.capacidade.capacidade.valueOrNull,
-                      suffixSymbol: grupoDeRestricao.unidade.codigo,
-                      decimalDigits: grupoDeRestricao.unidade.decimal,
+                      suffixSymbol: grupoDeRestricao.capacidade.unidade.codigo,
+                      decimalDigits: grupoDeRestricao.capacidade.unidade.decimal,
                       validator: (_) => grupoDeRestricao.capacidade.capacidade.errorMessage,
                       onChanged: (value) {
                         final capacidade = grupoDeRestricao.capacidade.copyWith(capacidade: DoubleVO(value));
@@ -142,8 +150,8 @@ class DesktopOperacaoAdicionarGrupoDeRestricaoWidget extends StatelessWidget {
                     child: DoubleTextFormFieldWidget(
                       label: translation.fields.usar,
                       initialValue: grupoDeRestricao.capacidade.usar.valueOrNull,
-                      suffixSymbol: grupoDeRestricao.unidade.codigo,
-                      decimalDigits: grupoDeRestricao.unidade.decimal,
+                      suffixSymbol: grupoDeRestricao.capacidade.unidade.codigo,
+                      decimalDigits: grupoDeRestricao.capacidade.unidade.decimal,
                       validator: (_) => grupoDeRestricao.capacidade.usar.errorMessage,
                       onChanged: (value) {
                         final usar = grupoDeRestricao.capacidade.copyWith(usar: DoubleVO(value));
@@ -192,8 +200,6 @@ class DesktopOperacaoAdicionarGrupoDeRestricaoWidget extends StatelessWidget {
                     title: translation.fields.adicionar,
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
-                        await grupoDeRestricaoController.adicionarRestricoes();
-
                         Navigator.of(context).pop(grupoDeRestricaoController);
                       }
                     },

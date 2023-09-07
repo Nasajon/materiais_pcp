@@ -18,6 +18,7 @@ class DesktopDadosBasicosFormWidget extends StatelessWidget {
   final GetProdutoStore getProdutoStore;
   final GetFichaTecnicaStore getFichaTecnicaStore;
   final GetUnidadeStore getUnidadeStore;
+  final GlobalKey<FormState> formKey;
 
   const DesktopDadosBasicosFormWidget({
     Key? key,
@@ -25,6 +26,7 @@ class DesktopDadosBasicosFormWidget extends StatelessWidget {
     required this.getProdutoStore,
     required this.getFichaTecnicaStore,
     required this.getUnidadeStore,
+    required this.formKey,
   }) : super(key: key);
 
   @override
@@ -35,6 +37,7 @@ class DesktopDadosBasicosFormWidget extends StatelessWidget {
     final roteiro = roteiroController.roteiro;
 
     return Form(
+      key: formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -46,11 +49,13 @@ class DesktopDadosBasicosFormWidget extends StatelessWidget {
           const SizedBox(height: 20),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Flexible(
                 child: IntegerTextFormFieldWidget(
                   label: translation.fields.codigo,
                   initialValue: roteiro.codigo.value,
+                  validator: (_) => roteiro.codigo.errorMessage,
                   onChanged: (value) {
                     roteiroController.roteiro = roteiro.copyWith(codigo: CodigoVO(value));
                   },
@@ -78,6 +83,11 @@ class DesktopDadosBasicosFormWidget extends StatelessWidget {
                   errorBuilder: (context, error) {
                     return Text(error.toString());
                   },
+                  validator: (value) {
+                    if (roteiro.produto == ProdutoEntity.empty()) {
+                      return translation.messages.errorCampoObrigatorio;
+                    }
+                  },
                   onSelected: (produto) {
                     roteiroController.roteiro = roteiro.copyWith(produto: produto);
                   },
@@ -96,6 +106,8 @@ class DesktopDadosBasicosFormWidget extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Flexible(
                 child: AutocompleteTextFormField<FichaTecnicaEntity>(
@@ -118,6 +130,11 @@ class DesktopDadosBasicosFormWidget extends StatelessWidget {
                   },
                   errorBuilder: (context, error) {
                     return Text(error.toString());
+                  },
+                  validator: (value) {
+                    if (roteiro.fichaTecnica == FichaTecnicaEntity.empty()) {
+                      return translation.messages.errorCampoObrigatorio;
+                    }
                   },
                   onSelected: (fichaTecnica) {
                     roteiroController.roteiro = roteiro.copyWith(fichaTecnica: fichaTecnica);
@@ -145,6 +162,11 @@ class DesktopDadosBasicosFormWidget extends StatelessWidget {
                   },
                   errorBuilder: (context, error) {
                     return Text(error.toString());
+                  },
+                  validator: (value) {
+                    if (roteiro.unidade == UnidadeEntity.empty()) {
+                      return translation.messages.errorCampoObrigatorio;
+                    }
                   },
                   onSelected: (unidade) {
                     roteiroController.roteiro = roteiro.copyWith(unidade: unidade);

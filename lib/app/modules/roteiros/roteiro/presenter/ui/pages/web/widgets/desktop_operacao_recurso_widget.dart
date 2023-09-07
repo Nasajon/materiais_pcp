@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart' hide showDialog;
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/unidade_entity.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/controllers/operacao_controller.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/controllers/recurso_controller.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_grupo_de_restricao_store.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_unidade_store.dart';
@@ -12,7 +13,8 @@ import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/web/
 class DesktopOperacaoRecursoWidget extends StatefulWidget {
   final UnidadeEntity unidade;
   final RecursoController recursoController;
-
+  final String grupoRecursoId;
+  final OperacaoController operacaoController;
   final GetGrupoDeRestricaoStore getGrupoDeRestricaoStore;
   final GetUnidadeStore getUnidadeStore;
 
@@ -20,6 +22,8 @@ class DesktopOperacaoRecursoWidget extends StatefulWidget {
     Key? key,
     required this.unidade,
     required this.recursoController,
+    required this.grupoRecursoId,
+    required this.operacaoController,
     required this.getGrupoDeRestricaoStore,
     required this.getUnidadeStore,
   }) : super(key: key);
@@ -36,66 +40,73 @@ class _DesktopOperacaoRecursoWidgetState extends State<DesktopOperacaoRecursoWid
     final themeData = Theme.of(context);
     final colorTheme = themeData.extension<AnaColorTheme>();
 
-    context.select(() => [widget.recursoController.recurso]);
-
-    final recurso = widget.recursoController.recurso;
-
     return LayoutBuilder(
       builder: (context, constraints) {
-        return Column(
-          children: [
-            ValueListenableBuilder(
-              valueListenable: isEdit,
-              builder: (context, value, child) {
-                return AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  child: value
-                      ? DesktopOperacaoEditarRecursoWidget(
-                          isEdit: isEdit,
-                          recursoController: widget.recursoController,
-                          unidade: widget.unidade,
-                          getGrupoDeRestricaoStore: widget.getGrupoDeRestricaoStore,
-                          getUnidadeStore: widget.getUnidadeStore,
-                        )
-                      : Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 14, left: 30, right: 14, bottom: 14),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    recurso.nome,
-                                    style: themeData.textTheme.bodyLarge,
-                                  ),
-                                  const Spacer(),
-                                  // TODO: Formatar os textos corretos
-                                  TagWidget(title: '${translation.fields.preparacao}: ${recurso.capacidade.preparacao.timeFormat()}'),
-                                  const SizedBox(width: 10),
-                                  TagWidget(title: '${translation.fields.execucao}: ${recurso.capacidade.execucao.timeFormat()}'),
-                                  const SizedBox(width: 10),
-                                  TagWidget(title: recurso.capacidade.capacidadeTotal.toText),
-                                  const SizedBox(width: 10),
-                                  CustomTextButton(
-                                    title: translation.fields.editar,
-                                    style: themeData.textTheme.labelLarge?.copyWith(
-                                      color: colorTheme?.primary,
-                                      fontWeight: FontWeight.bold,
+        // context.select(() => [widget.recursoController.recurso]);
+
+        return RxBuilder(builder: (context) {
+          final recurso = widget.recursoController.recurso;
+
+          return Column(
+            children: [
+              ValueListenableBuilder(
+                valueListenable: isEdit,
+                builder: (context, value, child) {
+                  return AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    child: value
+                        ? DesktopOperacaoEditarRecursoWidget(
+                            isEdit: isEdit,
+                            grupoRecursoId: widget.grupoRecursoId,
+                            operacaoController: widget.operacaoController,
+                            recursoController: widget.recursoController,
+                            unidade: widget.unidade,
+                            getGrupoDeRestricaoStore: widget.getGrupoDeRestricaoStore,
+                            getUnidadeStore: widget.getUnidadeStore,
+                          )
+                        : Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 14, left: 30, right: 14, bottom: 14),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      recurso.nome,
+                                      style: themeData.textTheme.bodyLarge,
                                     ),
-                                    onPressed: () {
-                                      isEdit.value = true;
-                                    },
-                                  )
-                                ],
+                                    const Spacer(),
+                                    // TODO: Formatar os textos corretos
+                                    TagWidget(title: '${translation.fields.preparacao}: ${recurso.capacidade.preparacao.timeFormat()}'),
+                                    const SizedBox(width: 10),
+                                    TagWidget(title: '${translation.fields.execucao}: ${recurso.capacidade.execucao.timeFormat()}'),
+                                    const SizedBox(width: 10),
+                                    TagWidget(
+                                      title:
+                                          '${recurso.capacidade.capacidadeTotal.formatDoubleToString(decimalDigits: widget.unidade.decimal)}${widget.unidade.codigo.toLowerCase()}',
+                                    ),
+                                    const SizedBox(width: 10),
+                                    CustomTextButton(
+                                      title: translation.fields.editar,
+                                      style: themeData.textTheme.labelLarge?.copyWith(
+                                        color: colorTheme?.primary,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      onPressed: () {
+                                        isEdit.value = true;
+                                      },
+                                    )
+                                  ],
+                                ),
                               ),
-                            ),
-                            Divider(color: colorTheme?.border, height: 1),
-                          ],
-                        ),
-                );
-              },
-            ),
-          ],
-        );
+                              Divider(color: colorTheme?.border, height: 1),
+                            ],
+                          ),
+                  );
+                },
+              ),
+            ],
+          );
+        });
       },
     );
   }

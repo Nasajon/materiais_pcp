@@ -29,11 +29,11 @@ class RemoteOperacaoMapper {
   }
 
   static Map<String, dynamic> fromOperacaoToMap(OperacaoAggregate operacao) {
-    return {
-      'operacao': operacao.id,
+    final map = {
+      'codigo': operacao.codigo,
       'ordem': operacao.ordem,
-      'nome': operacao.nome,
-      'razao_conversao': operacao.razaoConversao,
+      'nome': operacao.nome.value,
+      'razao_conversao': operacao.razaoConversao.value,
       'preparacao': operacao.preparacao.timeFormat(shouldAddSeconds: true),
       'execucao': operacao.execucao.timeFormat(shouldAddSeconds: true),
       'produto_resultante': operacao.produtoResultante?.id,
@@ -44,5 +44,11 @@ class RemoteOperacaoMapper {
       'grupos_recursos':
           operacao.gruposDeRecurso.map((grupoDeRecurso) => RemoteGrupoDeRecursoMapper.fromGrupoDeRecursoToMap(grupoDeRecurso)).toList(),
     };
+
+    if (operacao.id.isNotEmpty && operacao != OperacaoAggregate.empty()) {
+      map['operacao'] = operacao.id;
+    }
+
+    return map;
   }
 }

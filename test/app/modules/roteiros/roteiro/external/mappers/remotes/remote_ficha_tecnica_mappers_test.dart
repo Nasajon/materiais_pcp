@@ -3,7 +3,7 @@ import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/ficha_t
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/external/mappers/remotes/remote_ficha_tecnica_mappers.dart';
 
 void main() {
-  testWidgets('Deve converter um Map em FinchaTecnicaEntity', (tester) async {
+  test('Deve converter um Map em FinchaTecnicaEntity', () async {
     final response = RemoteFichaTecnicaMapper.fromMapToFichaTecnicaEntity(map);
     expect(response, isA<FichaTecnicaEntity>());
     expect(response.id, '74dcd3fa-036d-4b62-b757-fe4888d354ed');

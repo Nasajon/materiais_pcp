@@ -31,7 +31,7 @@ void main() {
           final response = await remoteGetUnidadeDatasource('');
 
           expect(response, isA<List<UnidadeEntity>>());
-          expect(response.length, 1);
+          expect(response.length, 8);
         });
       });
 
@@ -48,14 +48,13 @@ void main() {
   });
 }
 
-const jsonMock = {
-  'next': null,
-  'prev': null,
-  'result': [
-    {
-      'id': 'fbf7ab8a-11d5-4170-99c6-ade99311b4ed',
-      'codigo': 'UN',
-      'descricao': 'UNIDADE',
-    }
-  ]
-};
+const jsonMock = [
+  {'unidade': 'ec870668-fb64-495c-a7ac-abfeb64bd3c9', 'codigo': 'CM', 'nome': 'Centimetro', 'decimais': 2},
+  {'unidade': 'e9bc4ce7-fa34-4d93-86f7-a9a34d4bf68e', 'codigo': 'GR', 'nome': 'Grama', 'decimais': 2},
+  {'unidade': '482cb303-0a84-46a6-a8e6-5345fd655c70', 'codigo': 'KG', 'nome': 'Kilo', 'decimais': 2},
+  {'unidade': 'edcb6c5b-8cd4-48e5-b098-98814835b2cd', 'codigo': 'KM', 'nome': 'Kilometro', 'decimais': 2},
+  {'unidade': 'fca69f81-ddd6-47ff-ade7-c516488e90ad', 'codigo': 'LT', 'nome': 'Litro', 'decimais': 2},
+  {'unidade': '2ad0f887-f9f5-469f-83f4-6f7acf4de211', 'codigo': 'ML', 'nome': 'Mililitro', 'decimais': 2},
+  {'unidade': '8ae427ed-c32b-4bb8-b0cd-1cfed48c309b', 'codigo': 'T', 'nome': 'Tonelada', 'decimais': 2},
+  {'unidade': '45448dce-c4c1-4106-84fb-4c41fe476d8a', 'codigo': 'UN', 'nome': 'Unidade', 'decimais': 0}
+];

@@ -23,25 +23,17 @@ class RemoteGetProdutoDatasourceImpl implements RemoteGetProdutoDatasource {
         queryParams['search'] = search;
       }
 
-      // final response = await _clientService.request(
-      //   ClientRequestParams(
-      //     selectedApi: APIEnum.dadosmestre,
-      //     endPoint: '/4311/produtos',
-      //     method: ClientRequestMethods.GET,
-      //     interceptors: interceptors,
-      //     queryParams: queryParams,
-      //   ),
-      // );
+      final response = await _clientService.request(
+        ClientRequestParams(
+          selectedApi: APIEnum.pcp,
+          endPoint: '/1234/produtos',
+          method: ClientRequestMethods.GET,
+          interceptors: interceptors,
+          queryParams: queryParams,
+        ),
+      );
 
-      final response = jsonMock;
-      await Future.delayed(const Duration(seconds: 3));
-
-      final data = List.from(response['result'])
-          .map((map) => RemoteProdutoMapper.fromMapToProdutoEntity(map))
-          .toList()
-          .where((produto) => '${produto.codigo} - ${produto.nome}'.toLowerCase().contains(search.toLowerCase()))
-          .toList();
-      // final data = List.from(response.data['result']).map((map) => RemoteProdutoMapper.fromMapToProdutoEntity(map)).toList();
+      final data = List.from(response.data).map((map) => RemoteProdutoMapper.fromMapToProdutoEntity(map)).toList();
 
       return data;
     } on ClientError catch (e) {
@@ -49,38 +41,3 @@ class RemoteGetProdutoDatasourceImpl implements RemoteGetProdutoDatasource {
     }
   }
 }
-
-const jsonMock = <String, dynamic>{
-  'next': null,
-  'prev': null,
-  'result': [
-    {
-      'id': '358c2657-00e1-48dc-8beb-5175d691bcdw',
-      'codigo': '1',
-      'especificacao': 'Produto 1',
-      'unidade_padrao': 'fbf7ab8a-11d5-4170-99c6-ade99311b4ed',
-      'ncm': '19059090'
-    },
-    {
-      'id': '358c2657-00e1-48dc-8beb-5175d691bcre',
-      'codigo': '2',
-      'especificacao': 'Produto 2',
-      'unidade_padrao': 'fbf7ab8a-11d5-4170-99c6-ade99311b4ed',
-      'ncm': '19059090'
-    },
-    {
-      'id': '358c2657-00e1-48dc-8beb-5175d691bcr1',
-      'codigo': '3',
-      'especificacao': 'Produto 3',
-      'unidade_padrao': 'fbf7ab8a-11d5-4170-99c6-ade99311b4ed',
-      'ncm': '19059090'
-    },
-    {
-      'id': '358c2658-00e1-48dc-8beb-5175d691bcr1',
-      'codigo': '4',
-      'especificacao': 'Produto 4',
-      'unidade_padrao': 'fbf7ab8a-11d5-4170-99c6-ade99311b4ed',
-      'ncm': '19059090'
-    },
-  ]
-};

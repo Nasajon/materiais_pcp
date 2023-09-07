@@ -5,10 +5,10 @@ class RemoteUnidadeMapper {
 
   static UnidadeEntity fromMapToUnidadeEntity(Map<String, dynamic> map) {
     return UnidadeEntity(
-      id: map['id'],
+      id: map['unidade'],
       codigo: map['codigo'],
-      descricao: map['descricao'],
-      decimal: map['decimal'] ?? 0,
+      descricao: map['nome'],
+      decimal: map['decimais'] ?? 0,
     );
   }
 }

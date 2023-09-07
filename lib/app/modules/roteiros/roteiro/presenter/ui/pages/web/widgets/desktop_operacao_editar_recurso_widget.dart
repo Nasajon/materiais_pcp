@@ -9,6 +9,7 @@ import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/grupo
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/recurso_aggregate.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/unidade_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/controllers/grupo_de_restricao_controller.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/controllers/operacao_controller.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/controllers/recurso_controller.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_grupo_de_restricao_store.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_unidade_store.dart';
@@ -18,6 +19,8 @@ import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/web/
 class DesktopOperacaoEditarRecursoWidget extends StatefulWidget {
   final ValueNotifier isEdit;
   final UnidadeEntity unidade;
+  final String grupoRecursoId;
+  final OperacaoController operacaoController;
   final RecursoController recursoController;
   final GetGrupoDeRestricaoStore getGrupoDeRestricaoStore;
   final GetUnidadeStore getUnidadeStore;
@@ -26,7 +29,9 @@ class DesktopOperacaoEditarRecursoWidget extends StatefulWidget {
     Key? key,
     required this.isEdit,
     required this.unidade,
+    required this.grupoRecursoId,
     required this.recursoController,
+    required this.operacaoController,
     required this.getGrupoDeRestricaoStore,
     required this.getUnidadeStore,
   }) : super(key: key);
@@ -36,14 +41,20 @@ class DesktopOperacaoEditarRecursoWidget extends StatefulWidget {
 }
 
 class _DesktopOperacaoEditarRecursoWidgetState extends State<DesktopOperacaoEditarRecursoWidget> {
-  late final RxNotifier<RecursoAggregate> novoRecurso;
+  late final RecursoController novoRecursoController;
   final formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
 
-    novoRecurso = RxNotifier(widget.recursoController.recurso.copyWith());
+    novoRecursoController = widget.recursoController.copyWith();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    novoRecursoController.recurso;
   }
 
   @override
@@ -51,9 +62,9 @@ class _DesktopOperacaoEditarRecursoWidgetState extends State<DesktopOperacaoEdit
     final themeData = Theme.of(context);
     final colorTheme = themeData.extension<AnaColorTheme>();
 
-    context.select(() => [novoRecurso.value]);
+    context.select(() => [novoRecursoController.recurso]);
 
-    final recurso = novoRecurso.value;
+    final recurso = novoRecursoController.recurso;
 
     return Column(
       children: [
@@ -100,7 +111,7 @@ class _DesktopOperacaoEditarRecursoWidgetState extends State<DesktopOperacaoEdit
                         onChanged: (value) {
                           if (value != null) {
                             final capacidade = recurso.capacidade.copyWith(preparacao: TimeVO.time(value));
-                            novoRecurso.value = recurso.copyWith(capacidade: capacidade);
+                            novoRecursoController.recurso = recurso.copyWith(capacidade: capacidade);
                           }
                         },
                       ),
@@ -114,7 +125,7 @@ class _DesktopOperacaoEditarRecursoWidgetState extends State<DesktopOperacaoEdit
                         onChanged: (value) {
                           if (value != null) {
                             final capacidade = recurso.capacidade.copyWith(execucao: TimeVO.time(value));
-                            novoRecurso.value = recurso.copyWith(capacidade: capacidade);
+                            novoRecursoController.recurso = recurso.copyWith(capacidade: capacidade);
                           }
                         },
                       ),
@@ -133,7 +144,7 @@ class _DesktopOperacaoEditarRecursoWidgetState extends State<DesktopOperacaoEdit
                         validator: (_) => recurso.capacidade.capacidadeTotal.errorMessage,
                         onValueOrNull: (value) {
                           final capacidade = recurso.capacidade.copyWith(capacidadeTotal: DoubleVO(value));
-                          novoRecurso.value = recurso.copyWith(capacidade: capacidade);
+                          novoRecursoController.recurso = recurso.copyWith(capacidade: capacidade);
                         },
                       ),
                     ),
@@ -144,10 +155,20 @@ class _DesktopOperacaoEditarRecursoWidgetState extends State<DesktopOperacaoEdit
                         initialValue: recurso.capacidade.minima.valueOrNull,
                         suffixSymbol: widget.unidade.codigo,
                         decimalDigits: widget.unidade.decimal,
-                        validator: (_) => recurso.capacidade.minima.errorMessage,
+                        validator: (_) {
+                          if (recurso.capacidade.minima.isNotValid) {
+                            return recurso.capacidade.minima.errorMessage;
+                          } else if (recurso.capacidade.minima.value > recurso.capacidade.capacidadeTotal.value) {
+                            return translation.messages.erroCapacidadeMinimaMaiorTotal;
+                          } else if (recurso.capacidade.minima.value > recurso.capacidade.maxima.value) {
+                            return translation.messages.erroCapacidadeMinimaMaiorMaxima;
+                          }
+
+                          return null;
+                        },
                         onValueOrNull: (value) {
                           final capacidade = recurso.capacidade.copyWith(minima: DoubleVO(value));
-                          novoRecurso.value = recurso.copyWith(capacidade: capacidade);
+                          novoRecursoController.recurso = recurso.copyWith(capacidade: capacidade);
                         },
                       ),
                     ),
@@ -158,10 +179,20 @@ class _DesktopOperacaoEditarRecursoWidgetState extends State<DesktopOperacaoEdit
                         initialValue: recurso.capacidade.maxima.valueOrNull,
                         suffixSymbol: widget.unidade.codigo,
                         decimalDigits: widget.unidade.decimal,
-                        validator: (_) => recurso.capacidade.maxima.errorMessage,
+                        validator: (_) {
+                          if (recurso.capacidade.maxima.isNotValid) {
+                            return recurso.capacidade.maxima.errorMessage;
+                          } else if (recurso.capacidade.maxima.value > recurso.capacidade.capacidadeTotal.value) {
+                            return translation.messages.erroCapacidadeMaximaMaiorTotal;
+                          } else if (recurso.capacidade.maxima.value < recurso.capacidade.minima.value) {
+                            return translation.messages.erroCapacidadeMaximaMenorMinima;
+                          }
+
+                          return null;
+                        },
                         onValueOrNull: (value) {
                           final capacidade = recurso.capacidade.copyWith(maxima: DoubleVO(value));
-                          novoRecurso.value = recurso.copyWith(capacidade: capacidade);
+                          novoRecursoController.recurso = recurso.copyWith(capacidade: capacidade);
                         },
                       ),
                     ),
@@ -169,7 +200,7 @@ class _DesktopOperacaoEditarRecursoWidgetState extends State<DesktopOperacaoEdit
                 ),
                 const SizedBox(height: 20),
                 DesktopOperacaoGrupoDeRescricaoWidget(
-                  gruposDeRestricoesControllers: widget.recursoController.listGrupoDeRestricaoController,
+                  recursoController: novoRecursoController,
                 ),
                 const SizedBox(height: 20),
                 Center(
@@ -180,9 +211,12 @@ class _DesktopOperacaoEditarRecursoWidgetState extends State<DesktopOperacaoEdit
                         context: context,
                         builder: (context) {
                           return DesktopOperacaoAdicionarGrupoDeRestricaoWidget(
-                            grupoDeRestricaoController: widget.recursoController.novoGrupoDeRestricaoController,
+                            grupoDeRestricaoController: novoRecursoController.novoGrupoDeRestricaoController,
                             getGrupoDeRestricaoStore: widget.getGrupoDeRestricaoStore,
                             getUnidadeStore: widget.getUnidadeStore,
+                            listaDeIdsDosGruposParaDeletar: novoRecursoController.listGrupoDeRestricaoController
+                                .map((controller) => controller.grupoDeRestricao.grupo.id)
+                                .toList(),
                           );
                         },
                       );
@@ -190,7 +224,7 @@ class _DesktopOperacaoEditarRecursoWidgetState extends State<DesktopOperacaoEdit
                       if (responseModal != null &&
                           responseModal is GrupoDeRestricaoController &&
                           responseModal.grupoDeRestricao != GrupoDeRestricaoAggregate.empty()) {
-                        widget.recursoController.adicionarGrupoDeRestricaoController = responseModal;
+                        widget.recursoController.adicionarGrupoDeRestricao(responseModal.grupoDeRestricao);
                         setState(() {});
                       }
                     },
@@ -201,9 +235,9 @@ class _DesktopOperacaoEditarRecursoWidgetState extends State<DesktopOperacaoEdit
                   children: [
                     CustomTextButton(
                       title: translation.fields.cancelar,
-                      onPressed: () async {
-                        if (novoRecurso.value != widget.recursoController.recurso) {
-                          await showDialog(
+                      onPressed: () {
+                        if (novoRecursoController.recurso != widget.recursoController.recurso) {
+                          showDialog(
                               context: context,
                               builder: (context) {
                                 return ConfirmationModalWidget(
@@ -229,8 +263,27 @@ class _DesktopOperacaoEditarRecursoWidgetState extends State<DesktopOperacaoEdit
                           return;
                         }
 
-                        if (novoRecurso.value != widget.recursoController.recurso) {
-                          widget.recursoController.recurso = novoRecurso.value;
+                        if (novoRecursoController.recurso != widget.recursoController.recurso) {
+                          widget.recursoController.recurso = novoRecursoController.recurso;
+                          final gruposRecursos = widget.operacaoController.operacao.gruposDeRecurso.map(
+                            (grupo) {
+                              if (grupo.grupo.id == widget.grupoRecursoId) {
+                                return grupo.copyWith(
+                                    recursos: grupo.recursos.map(
+                                  (recurso) {
+                                    if (recurso.id == novoRecursoController.recurso.id) {
+                                      return novoRecursoController.recurso;
+                                    }
+
+                                    return recurso;
+                                  },
+                                ).toList());
+                              }
+                              return grupo;
+                            },
+                          ).toList();
+
+                          widget.operacaoController.operacao = widget.operacaoController.operacao.copyWith(gruposDeRecurso: gruposRecursos);
                         }
 
                         widget.isEdit.value = false;

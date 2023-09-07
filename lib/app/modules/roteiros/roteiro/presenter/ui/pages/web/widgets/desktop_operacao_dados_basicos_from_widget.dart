@@ -22,6 +22,7 @@ class DesktopOperacaoDadosBasicosFormWidget extends StatelessWidget {
   final GetUnidadeStore getUnidadeStore;
   final GetCentroDeTrabalhoStore getCentroDeTrabalhoStore;
   final GetProdutoStore getProdutoStore;
+  final GlobalKey<FormState> formKey;
 
   const DesktopOperacaoDadosBasicosFormWidget({
     Key? key,
@@ -29,6 +30,7 @@ class DesktopOperacaoDadosBasicosFormWidget extends StatelessWidget {
     required this.getUnidadeStore,
     required this.getCentroDeTrabalhoStore,
     required this.getProdutoStore,
+    required this.formKey,
   }) : super(key: key);
 
   @override
@@ -51,183 +53,197 @@ class DesktopOperacaoDadosBasicosFormWidget extends StatelessWidget {
           ),
           borderRadius: BorderRadius.circular(16),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              translation.titles.dadosBasicos,
-              style: themeData.textTheme.titleLarge?.copyWith(
-                fontSize: 20,
-                fontWeight: FontWeight.w400,
+        child: Form(
+          key: formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                translation.titles.dadosBasicos,
+                style: themeData.textTheme.titleLarge?.copyWith(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w400,
+                ),
               ),
-            ),
-            const SizedBox(height: 12),
-            TextFormFieldWidget(
-              label: translation.fields.nome,
-              initialValue: operacao.nome.value,
-              validator: (_) => operacao.nome.errorMessage,
-              onChanged: (value) {
-                operacaoController.operacao = operacao.copyWith(nome: TextVO(value));
-              },
-            ),
-            const SizedBox(height: 16),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Flexible(
-                  child: AutocompleteTextFormField<UnidadeEntity>(
-                    key: ValueKey(operacao.unidade),
-                    initialValue:
-                        operacao.unidade != UnidadeEntity.empty() ? '${operacao.unidade.codigo} - ${operacao.unidade.descricao}' : null,
-                    textFieldConfiguration: TextFieldConfiguration(
-                      decoration: InputDecoration(
-                        labelText: translation.fields.unidadeDeMedida,
-                      ),
-                    ),
-                    suggestionsCallback: (pattern) async {
-                      return await getUnidadeStore.getListUnidade(search: pattern);
-                    },
-                    itemBuilder: (context, unidade) {
-                      return ListTile(
-                        title: Text('${unidade.codigo} - ${unidade.descricao}'),
-                      );
-                    },
-                    errorBuilder: (context, error) {
-                      return Text(error.toString());
-                    },
-                    onSelected: (unidade) {
-                      operacaoController.operacao = operacao.copyWith(unidade: unidade);
-                    },
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Flexible(
-                  child: DoubleTextFormFieldWidget(
-                    label: translation.fields.razaoDeConversao,
-                    initialValue: operacao.razaoConversao.valueOrNull,
-                    validator: (_) => operacao.razaoConversao.errorMessage,
-                    onValueOrNull: (value) {
-                      operacaoController.operacao = operacao.copyWith(razaoConversao: DoubleVO(value));
-                    },
-                  ),
-                )
-              ],
-            ),
-            const SizedBox(height: 16),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Flexible(
-                  child: DropdownButtonWidget<MedicaoTempoEnum>(
-                    label: translation.fields.medicaoDeTempo,
-                    value: operacao.medicaoTempo,
-                    isRequiredField: true,
-                    errorMessage: translation.messages.errorCampoObrigatorio,
-                    isEnabled: true,
-                    items:
-                        MedicaoTempoEnum.values.map((medicaoTempo) => DropdownItem(value: medicaoTempo, label: medicaoTempo.name)).toList(),
-                    onSelected: (value) {
-                      operacaoController.operacao = operacao.copyWith(medicaoTempo: value);
-                    },
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Flexible(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Flexible(
-                        child: TimeTextFormFieldWidget(
-                          label: translation.fields.preparacao,
-                          initTime: operacao.preparacao.getTime(),
-                          validator: (_) => operacao.preparacao.errorMessage,
-                          onChanged: (value) {
-                            if (value != null) {
-                              operacaoController.operacao = operacao.copyWith(preparacao: TimeVO.time(value));
-                            }
-                          },
+              const SizedBox(height: 12),
+              TextFormFieldWidget(
+                label: translation.fields.nome,
+                initialValue: operacao.nome.value,
+                validator: (_) => operacao.nome.errorMessage,
+                onChanged: (value) {
+                  operacaoController.operacao = operacao.copyWith(nome: TextVO(value));
+                },
+              ),
+              const SizedBox(height: 16),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Flexible(
+                    child: AutocompleteTextFormField<UnidadeEntity>(
+                      key: ValueKey(operacao.unidade),
+                      initialValue:
+                          operacao.unidade != UnidadeEntity.empty() ? '${operacao.unidade.codigo} - ${operacao.unidade.descricao}' : null,
+                      textFieldConfiguration: TextFieldConfiguration(
+                        decoration: InputDecoration(
+                          labelText: translation.fields.unidadeDeMedida,
                         ),
                       ),
-                      const SizedBox(width: 16),
-                      Flexible(
-                        child: TimeTextFormFieldWidget(
-                          label: translation.fields.execucao,
-                          initTime: operacao.preparacao.getTime(),
-                          validator: (_) => operacao.preparacao.errorMessage,
-                          onChanged: (value) {
-                            if (value != null) {
-                              operacaoController.operacao = operacao.copyWith(execucao: TimeVO.time(value));
-                            }
-                          },
+                      suggestionsCallback: (pattern) async {
+                        return await getUnidadeStore.getListUnidade(search: pattern);
+                      },
+                      itemBuilder: (context, unidade) {
+                        return ListTile(
+                          title: Text('${unidade.codigo} - ${unidade.descricao}'),
+                        );
+                      },
+                      errorBuilder: (context, error) {
+                        return Text(error.toString());
+                      },
+                      validator: (value) {
+                        if (operacao.unidade == UnidadeEntity.empty()) {
+                          return translation.messages.errorCampoObrigatorio;
+                        }
+                      },
+                      onSelected: (unidade) {
+                        operacaoController.operacao = operacao.copyWith(unidade: unidade);
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Flexible(
+                    child: DoubleTextFormFieldWidget(
+                      label: translation.fields.razaoDeConversao,
+                      initialValue: operacao.razaoConversao.valueOrNull,
+                      validator: (_) => operacao.razaoConversao.errorMessage,
+                      onValueOrNull: (value) {
+                        operacaoController.operacao = operacao.copyWith(razaoConversao: DoubleVO(value));
+                      },
+                    ),
+                  )
+                ],
+              ),
+              const SizedBox(height: 16),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Flexible(
+                    child: DropdownButtonWidget<MedicaoTempoEnum>(
+                      label: translation.fields.medicaoDeTempo,
+                      value: operacao.medicaoTempo,
+                      isRequiredField: true,
+                      errorMessage: translation.messages.errorCampoObrigatorio,
+                      isEnabled: true,
+                      items: MedicaoTempoEnum.values
+                          .map((medicaoTempo) => DropdownItem(value: medicaoTempo, label: medicaoTempo.name))
+                          .toList(),
+                      onSelected: (value) {
+                        operacaoController.operacao = operacao.copyWith(medicaoTempo: value);
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Flexible(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Flexible(
+                          child: TimeTextFormFieldWidget(
+                            label: translation.fields.preparacao,
+                            initTime: operacao.preparacao.getTime(),
+                            validator: (_) => operacao.preparacao.errorMessage,
+                            onChanged: (value) {
+                              if (value != null) {
+                                operacaoController.operacao = operacao.copyWith(preparacao: TimeVO.time(value));
+                              }
+                            },
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Flexible(
+                          child: TimeTextFormFieldWidget(
+                            label: translation.fields.execucao,
+                            initTime: operacao.execucao.getTime(),
+                            validator: (_) => operacao.execucao.errorMessage,
+                            onChanged: (value) {
+                              if (value != null) {
+                                operacaoController.operacao = operacao.copyWith(execucao: TimeVO.time(value));
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+              const SizedBox(height: 16),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Flexible(
+                    child: AutocompleteTextFormField<CentroDeTrabalhoEntity>(
+                      key: ValueKey(operacao.centroDeTrabalho),
+                      initialValue: operacao.centroDeTrabalho != CentroDeTrabalhoEntity.empty()
+                          ? '${operacao.centroDeTrabalho.codigo} - ${operacao.centroDeTrabalho.nome}'
+                          : null,
+                      textFieldConfiguration: TextFieldConfiguration(
+                        decoration: InputDecoration(
+                          labelText: translation.fields.centroDeTrabalho,
                         ),
                       ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-            const SizedBox(height: 16),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Flexible(
-                  child: AutocompleteTextFormField<CentroDeTrabalhoEntity>(
-                    key: ValueKey(operacao.centroDeTrabalho),
-                    initialValue: operacao.centroDeTrabalho != CentroDeTrabalhoEntity.empty()
-                        ? '${operacao.centroDeTrabalho.codigo} - ${operacao.centroDeTrabalho.nome}'
-                        : null,
-                    textFieldConfiguration: TextFieldConfiguration(
-                      decoration: InputDecoration(
-                        labelText: translation.fields.centroDeTrabalho,
-                      ),
+                      suggestionsCallback: (pattern) async {
+                        return await getCentroDeTrabalhoStore.getListCentroDeTrabalho(search: pattern);
+                      },
+                      itemBuilder: (context, centroDeTrabalho) {
+                        return ListTile(
+                          title: Text('${centroDeTrabalho.codigo} - ${centroDeTrabalho.nome}'),
+                        );
+                      },
+                      errorBuilder: (context, error) {
+                        return Text(error.toString());
+                      },
+                      validator: (value) {
+                        if (operacao.centroDeTrabalho == CentroDeTrabalhoEntity.empty()) {
+                          return translation.messages.errorCampoObrigatorio;
+                        }
+                      },
+                      onSelected: (centroDeTrabalho) {
+                        operacaoController.operacao = operacao.copyWith(centroDeTrabalho: centroDeTrabalho);
+                      },
                     ),
-                    suggestionsCallback: (pattern) async {
-                      return await getCentroDeTrabalhoStore.getListCentroDeTrabalho(search: pattern);
-                    },
-                    itemBuilder: (context, centroDeTrabalho) {
-                      return ListTile(
-                        title: Text('${centroDeTrabalho.codigo} - ${centroDeTrabalho.nome}'),
-                      );
-                    },
-                    errorBuilder: (context, error) {
-                      return Text(error.toString());
-                    },
-                    onSelected: (centroDeTrabalho) {
-                      operacaoController.operacao = operacao.copyWith(centroDeTrabalho: centroDeTrabalho);
-                    },
                   ),
-                ),
-                const SizedBox(width: 16),
-                Flexible(
-                  child: AutocompleteTextFormField<ProdutoEntity>(
-                    key: ValueKey(operacao.produtoResultante),
-                    initialValue: operacao.produtoResultante?.nome,
-                    textFieldConfiguration: TextFieldConfiguration(
-                      decoration: InputDecoration(
-                        labelText: translation.fields.produtoResultante,
-                        helperText: translation.fields.opcional,
+                  const SizedBox(width: 16),
+                  Flexible(
+                    child: AutocompleteTextFormField<ProdutoEntity>(
+                      key: ValueKey(operacao.produtoResultante),
+                      initialValue: operacao.produtoResultante?.nome,
+                      textFieldConfiguration: TextFieldConfiguration(
+                        decoration: InputDecoration(
+                          labelText: translation.fields.produtoResultante,
+                          helperText: translation.fields.opcional,
+                        ),
                       ),
+                      suggestionsCallback: (pattern) async {
+                        return await getProdutoStore.getListProdutos(search: pattern);
+                      },
+                      itemBuilder: (context, produtoResultante) {
+                        return ListTile(
+                          title: Text('${produtoResultante.codigo} - ${produtoResultante.nome}'),
+                        );
+                      },
+                      errorBuilder: (context, error) {
+                        return Text(error.toString());
+                      },
+                      onSelected: (produtoResultante) {
+                        operacaoController.operacao = operacao.copyWith(produtoResultante: produtoResultante);
+                      },
                     ),
-                    suggestionsCallback: (pattern) async {
-                      return await getProdutoStore.getListProdutos(search: pattern);
-                    },
-                    itemBuilder: (context, produtoResultante) {
-                      return ListTile(
-                        title: Text('${produtoResultante.codigo} - ${produtoResultante.nome}'),
-                      );
-                    },
-                    errorBuilder: (context, error) {
-                      return Text(error.toString());
-                    },
-                    onSelected: (produtoResultante) {
-                      operacaoController.operacao = operacao.copyWith(produtoResultante: produtoResultante);
-                    },
-                  ),
-                )
-              ],
-            ),
-          ],
+                  )
+                ],
+              ),
+            ],
+          ),
         ),
       );
     });

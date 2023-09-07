@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:pcp_flutter/app/core/modules/domain/value_object/double_vo.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/produto_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/unidade_entity.dart';
 
@@ -7,8 +8,8 @@ class MaterialEntity {
   final String fichaTecnicaId;
   final ProdutoEntity produto;
   final UnidadeEntity unidade;
-  final double disponivel;
-  final double quantidade;
+  final DoubleVO disponivel;
+  final DoubleVO quantidade;
 
   const MaterialEntity({
     this.id = '',
@@ -24,8 +25,8 @@ class MaterialEntity {
     String? fichaTecnicaId,
     ProdutoEntity? produto,
     UnidadeEntity? unidade,
-    double? disponivel,
-    double? quantidade,
+    DoubleVO? disponivel,
+    DoubleVO? quantidade,
   }) {
     return MaterialEntity(
       id: id ?? this.id,

@@ -121,6 +121,8 @@ class OperacaoAggregate {
         gruposDeRecurso.hashCode;
   }
 
+  int get codigo => ordem * 10;
+
   bool get isValid =>
       nome.isValid &&
       unidade.id.isNotEmpty &&

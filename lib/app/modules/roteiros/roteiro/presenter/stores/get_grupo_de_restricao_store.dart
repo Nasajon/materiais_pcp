@@ -15,7 +15,7 @@ class GetGrupoDeRestricaoStore extends NasajonNotifierStore<List<GrupoDeRestrica
     }, delay: delay);
   }
 
-  Future<List<GrupoDeRestricaoEntity>> getListGrupoDeRestricao({required search, Duration delay = const Duration(milliseconds: 500)}) {
+  Future<List<GrupoDeRestricaoEntity>> getListGrupoDeRestricao({required search}) {
     return _getGrupoDeRestricaoUsecase(search);
   }
 }

@@ -2,18 +2,17 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
-
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/controllers/grupo_de_restricao_controller.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/controllers/restricao_controller.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/controllers/recurso_controller.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/web/widgets/desktop_operacao_restricao_widget.dart';
 
 class DesktopOperacaoGrupoDeRescricaoWidget extends StatelessWidget {
-  final List<GrupoDeRestricaoController> gruposDeRestricoesControllers;
+  final RecursoController recursoController;
 
   const DesktopOperacaoGrupoDeRescricaoWidget({
     Key? key,
-    required this.gruposDeRestricoesControllers,
+    required this.recursoController,
   }) : super(key: key);
 
   @override
@@ -35,9 +34,10 @@ class DesktopOperacaoGrupoDeRescricaoWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
-            if (gruposDeRestricoesControllers.isNotEmpty)
-              ...gruposDeRestricoesControllers
+            if (recursoController.listGrupoDeRestricaoController.isNotEmpty)
+              ...recursoController.listGrupoDeRestricaoController
                   .map((controller) => ExpansionGrupoDeRescricaoWidget(
+                        recursoController: recursoController,
                         grupoDeRestricaoController: controller,
                       ))
                   .toList()
@@ -67,10 +67,12 @@ class DesktopOperacaoGrupoDeRescricaoWidget extends StatelessWidget {
 }
 
 class ExpansionGrupoDeRescricaoWidget extends StatelessWidget {
+  final RecursoController recursoController;
   final GrupoDeRestricaoController grupoDeRestricaoController;
 
   const ExpansionGrupoDeRescricaoWidget({
     Key? key,
+    required this.recursoController,
     required this.grupoDeRestricaoController,
   }) : super(key: key);
 
@@ -88,9 +90,9 @@ class ExpansionGrupoDeRescricaoWidget extends StatelessWidget {
     // Usar
     textoDaTag += '${translation.fields.usar} ';
     // 250
-    textoDaTag += grupoDeRestricao.capacidade.usar.formatDoubleToString(decimalDigits: grupoDeRestricao.unidade.decimal);
+    textoDaTag += grupoDeRestricao.capacidade.usar.formatDoubleToString(decimalDigits: grupoDeRestricao.capacidade.unidade.decimal);
     // w,
-    textoDaTag += '${grupoDeRestricao.unidade.codigo.toLowerCase()}, ';
+    textoDaTag += '${grupoDeRestricao.capacidade.unidade.codigo.toLowerCase()}, ';
     // 10 minutos
     textoDaTag += '${grupoDeRestricao.capacidade.tempo.formatDuration()} ';
     // durante a operação
@@ -129,10 +131,14 @@ class ExpansionGrupoDeRescricaoWidget extends StatelessWidget {
       children: [
         Divider(color: colorTheme?.border, height: 1),
         ...grupoDeRestricaoController.listRestricaoController
-            .map((restricaoController) => DesktopOperacaoRestricaoWidget(
-                  restricaoController: restricaoController,
-                  unidade: grupoDeRestricao.unidade,
-                ))
+            .map(
+              (restricaoController) => DesktopOperacaoRestricaoWidget(
+                grupoRestricaoId: grupoDeRestricaoController.grupoDeRestricao.grupo.id,
+                recursoController: recursoController,
+                restricaoController: restricaoController,
+                unidade: grupoDeRestricao.capacidade.unidade,
+              ),
+            )
             .toList(),
       ],
     );

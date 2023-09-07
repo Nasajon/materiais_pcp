@@ -3,7 +3,7 @@ import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/grupo_d
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/external/mappers/remotes/remote_grupo_de_recurso_mapper.dart';
 
 void main() {
-  testWidgets('Deve converter um Map em GrupoDeRecursoEntity', (tester) async {
+  test('Deve converter um Map em GrupoDeRecursoEntity', () async {
     final response = RemoteGrupoDeRecursoMapper.fromMapToGrupoDeRecursoEntity(map);
     expect(response, isA<GrupoDeRecursoEntity>());
     expect(response.id, '74dcd3fa-036d-4b62-b757-fe4888d354ed');

@@ -59,10 +59,20 @@ class RecursoCapacidadeDTO {
     return preparacao.hashCode ^ execucao.hashCode ^ capacidadeTotal.hashCode ^ minima.hashCode ^ maxima.hashCode;
   }
 
+  bool get _minimaIsValid =>
+      minima.isValid && //
+      minima.value < capacidadeTotal.value &&
+      minima.value < maxima.value;
+
+  bool get _maximaIsValid =>
+      maxima.isValid && //
+      maxima.value < capacidadeTotal.value &&
+      maxima.value > minima.value;
+
   bool get isValid =>
       preparacao.isValid && //
       execucao.isValid &&
       capacidadeTotal.isValid &&
-      minima.isValid &&
-      maxima.isValid;
+      _minimaIsValid &&
+      _maximaIsValid;
 }

@@ -5,9 +5,9 @@ class RemoteProdutoMapper {
 
   static ProdutoEntity fromMapToProdutoEntity(Map<String, dynamic> map) {
     return ProdutoEntity(
-      id: map['id'],
+      id: map['produto'],
       codigo: map['codigo'],
-      nome: map['especificacao'],
+      nome: map['nome'],
     );
   }
 }

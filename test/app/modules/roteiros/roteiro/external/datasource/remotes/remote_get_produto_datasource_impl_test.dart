@@ -31,7 +31,7 @@ void main() {
           final response = await remoteGetProdutoDatasource('');
 
           expect(response, isA<List<ProdutoEntity>>());
-          expect(response.length, 1);
+          expect(response.length, 10);
         });
       });
 
@@ -48,16 +48,65 @@ void main() {
   });
 }
 
-const jsonMock = {
-  'next': null,
-  'prev': null,
-  'result': [
-    {
-      'id': '358c2657-00e1-48dc-8beb-5175d691bc30',
-      'codigo': '003',
-      'especificacao': 'Doritos Queijo Nacho',
-      'unidade_padrao': 'fbf7ab8a-11d5-4170-99c6-ade99311b4ed',
-      'ncm': '19059090'
-    }
-  ]
-};
+const jsonMock = [
+  {
+    'produto': '0683765b-847e-4a72-8109-f49bcd792518',
+    'codigo': '01',
+    'nome': 'Bolo',
+    'unidade_padrao': '482cb303-0a84-46a6-a8e6-5345fd655c70'
+  },
+  {
+    'produto': '21d0d1fb-40f1-4c91-9581-7a40644bad9b',
+    'codigo': '02',
+    'nome': 'Ovo',
+    'unidade_padrao': '482cb303-0a84-46a6-a8e6-5345fd655c70'
+  },
+  {
+    'produto': 'e6aafbcd-2ab7-4c2d-a2c6-0a2899318382',
+    'codigo': '03',
+    'nome': 'Leite',
+    'unidade_padrao': '482cb303-0a84-46a6-a8e6-5345fd655c70'
+  },
+  {
+    'produto': 'a2579099-1caf-4ba9-ba99-c8747c162dc9',
+    'codigo': '04',
+    'nome': 'Manteiga',
+    'unidade_padrao': '482cb303-0a84-46a6-a8e6-5345fd655c70'
+  },
+  {
+    'produto': '59331cb7-cd94-4ff6-ae12-d69db0265802',
+    'codigo': '05',
+    'nome': 'Açúcar',
+    'unidade_padrao': '482cb303-0a84-46a6-a8e6-5345fd655c70'
+  },
+  {
+    'produto': 'a33bd64d-d9a6-4134-86ab-049e69d099f6',
+    'codigo': '06',
+    'nome': 'Farinha',
+    'unidade_padrao': '482cb303-0a84-46a6-a8e6-5345fd655c70'
+  },
+  {
+    'produto': '484aef35-8560-41cc-b70f-a585cdae3b69',
+    'codigo': '07',
+    'nome': 'Óleo',
+    'unidade_padrao': '482cb303-0a84-46a6-a8e6-5345fd655c70'
+  },
+  {
+    'produto': '6b10e6e1-802d-4c02-9ed6-692907fb33a8',
+    'codigo': '08',
+    'nome': 'Fermento',
+    'unidade_padrao': '482cb303-0a84-46a6-a8e6-5345fd655c70'
+  },
+  {
+    'produto': '2231e1ed-e27e-41e9-9354-2a713bbe926c',
+    'codigo': '09',
+    'nome': 'Recheio Chocolate',
+    'unidade_padrao': '482cb303-0a84-46a6-a8e6-5345fd655c70'
+  },
+  {
+    'produto': 'c981653c-cea5-4bdc-819c-ba1774600037',
+    'codigo': '10',
+    'nome': 'Massa',
+    'unidade_padrao': '482cb303-0a84-46a6-a8e6-5345fd655c70'
+  }
+];

@@ -3,6 +3,7 @@ abstract class Titles {
   String get adicionarGrupoDeRestricoes;
   String get adicionarHorario;
   String get adicionarIndisponibilidade;
+  String get adicionarMateriais;
   String get adicionarOperacao;
   String get adicioneUmaDisponibilidade;
   String get adicioneUmaIndisponibilidade;
@@ -13,6 +14,7 @@ abstract class Titles {
   String get criarGrupoDeRecursos;
   String get criarGrupoDeRestricoes;
   String get criarRecurso;
+  String get editarOperacao;
   String get criarRestricaoSecundaria;
   String get criarTurnoDeTrabalho;
   String get dadosBasicos;
@@ -42,4 +44,5 @@ abstract class Titles {
   String criarEntidade(String entidade);
   String editarEntidade(String entidade);
   String excluirEntidade(String entidade);
+  String removerEntidade(String entidade);
 }

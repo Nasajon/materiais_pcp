@@ -1,22 +1,80 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:flutter_global_dependencies/flutter_global_dependencies.dart' hide showDialog;
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
+import 'package:pcp_flutter/app/core/modules/domain/value_object/double_vo.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/operacao_aggregate.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/material_entity.dart';
-
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/controllers/operacao_controller.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_material_store.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_produto_store.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/web/widgets/desktop_operacao_selecionar_materiais_widget.dart';
 
-class DesktopOperacaoMaterialFormWidget extends StatelessWidget {
+class DesktopOperacaoMaterialFormWidget extends StatefulWidget {
   final OperacaoController operacaoController;
   final GetMaterialStore getMaterialStore;
+  final GetProdutoStore getProdutoStore;
 
   const DesktopOperacaoMaterialFormWidget({
     Key? key,
     required this.operacaoController,
     required this.getMaterialStore,
+    required this.getProdutoStore,
   }) : super(key: key);
+
+  @override
+  State<DesktopOperacaoMaterialFormWidget> createState() => _DesktopOperacaoMaterialFormWidgetState();
+}
+
+class _DesktopOperacaoMaterialFormWidgetState extends State<DesktopOperacaoMaterialFormWidget> {
+  Disposer? disposer;
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      disposer = widget.getMaterialStore.observer(
+        onLoading: (loading) {
+          setState(() {});
+        },
+        onState: (state) {
+          final listMateriais = state;
+
+          for (var material in widget.operacaoController.materiais) {
+            final index = listMateriais.indexWhere((element) => element.produto.id == material.produto.id);
+
+            var novoMaterial = listMateriais[index];
+
+            novoMaterial = novoMaterial.copyWith(disponivel: DoubleVO(novoMaterial.disponivel.value - material.disponivel.value));
+
+            listMateriais.setAll(index, [novoMaterial]);
+          }
+
+          for (var material in widget.operacaoController.operacao.materiais) {
+            final index = listMateriais.indexWhere((element) => element.produto.id == material.produto.id);
+
+            if (widget.operacaoController.operacao != OperacaoAggregate.empty()) {
+              listMateriais[index] = listMateriais[index].copyWith(quantidade: material.quantidade);
+
+              listMateriais.setAll(index, [listMateriais[index]]);
+            }
+          }
+
+          final operacao = widget.operacaoController.operacao.copyWith(materiais: listMateriais);
+          widget.operacaoController.operacao = widget.operacaoController.operacao.copyWith(materiais: listMateriais);
+          setState(() {});
+        },
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    disposer?.call();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,17 +106,20 @@ class DesktopOperacaoMaterialFormWidget extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 12),
-              ScopedBuilder<GetMaterialStore, List<MaterialEntity>>(
-                store: getMaterialStore,
-                onLoading: (context) => const Center(child: CircularProgressIndicator()),
-                onState: (context, state) {
-                  final listMateriais = state;
-
-                  return Column(
-                    children: listMateriais.map((material) => _CardMaterialWidget()).toList(),
-                  );
-                },
-              ),
+              widget.getMaterialStore.triple.isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : Column(
+                      children: widget.operacaoController.operacao.materiais
+                          .where((element) => element.disponivel.value > 0)
+                          .toList()
+                          .map(
+                            (material) => _CardMaterialWidget(
+                              material: material,
+                              operacaoController: widget.operacaoController,
+                            ),
+                          )
+                          .toList(),
+                    ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,7 +131,17 @@ class DesktopOperacaoMaterialFormWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   Center(
-                    child: CustomOutlinedButton(title: translation.fields.adicionarMateriais, onPressed: () {}),
+                    child: CustomOutlinedButton(
+                      title: translation.fields.adicionarMateriais,
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => DesktopOperacaoSelecionarMateriaisWidget(
+                            getProdutoStore: widget.getProdutoStore,
+                          ),
+                        );
+                      },
+                    ),
                   )
                 ],
               )
@@ -83,7 +154,14 @@ class DesktopOperacaoMaterialFormWidget extends StatelessWidget {
 }
 
 class _CardMaterialWidget extends StatelessWidget {
-  const _CardMaterialWidget({super.key});
+  final OperacaoController operacaoController;
+  final MaterialEntity material;
+
+  const _CardMaterialWidget({
+    Key? key,
+    required this.operacaoController,
+    required this.material,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +203,7 @@ class _CardMaterialWidget extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            'Leite',
+                            material.produto.nome,
                             style: themeData.textTheme.labelLarge?.copyWith(
                               fontWeight: FontWeight.w700,
                             ),
@@ -145,7 +223,7 @@ class _CardMaterialWidget extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            'Unidade - UN',
+                            '${material.unidade.descricao} - ${material.unidade.codigo}',
                             style: themeData.textTheme.labelLarge?.copyWith(
                               fontWeight: FontWeight.w700,
                             ),
@@ -165,7 +243,7 @@ class _CardMaterialWidget extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            '5',
+                            material.disponivel.formatDoubleToString(decimalDigits: material.unidade.decimal),
                             style: themeData.textTheme.labelLarge?.copyWith(
                               fontWeight: FontWeight.w700,
                             ),
@@ -178,9 +256,19 @@ class _CardMaterialWidget extends StatelessWidget {
               ),
               const SizedBox(width: 20),
               Flexible(
-                child: MoneyTextFormFieldWidget(
+                child: DoubleTextFormFieldWidget(
                   label: translation.fields.utilizar,
-                  showSymbol: false,
+                  initialValue: material.quantidade.valueOrNull != null && material.quantidade.valueOrNull == 0
+                      ? null
+                      : material.quantidade.valueOrNull,
+                  decimalDigits: material.unidade.decimal,
+                  onChanged: (value) {
+                    final novoMaterial = material.copyWith(quantidade: DoubleVO(value));
+                    final index = operacaoController.operacao.materiais.indexWhere((element) => element.produto.id == material.produto.id);
+                    final materiais = operacaoController.operacao.materiais;
+                    materiais.setAll(index, [novoMaterial]);
+                    operacaoController.operacao = operacaoController.operacao.copyWith(materiais: materiais);
+                  },
                 ),
               ),
             ],

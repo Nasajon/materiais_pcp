@@ -1,6 +1,5 @@
+import 'package:pcp_flutter/app/core/modules/domain/value_object/double_vo.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/material_entity.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/produto_entity.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/unidade_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/external/mappers/remotes/remote_produto_mapper.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/external/mappers/remotes/remote_unidade_mapper.dart';
 
@@ -10,10 +9,10 @@ class RemoteMaterialMapper {
   static MaterialEntity fromMapToMaterialEntity(Map<String, dynamic> map) {
     return MaterialEntity(
       fichaTecnicaId: map['ficha_tecnica_produto'],
-      produto: ProdutoEntity.id(map['produto']),
-      unidade: UnidadeEntity.id(map['unidade']),
-      disponivel: map['quantidade'],
-      quantidade: 0,
+      produto: RemoteProdutoMapper.fromMapToProdutoEntity(map['produto']),
+      unidade: RemoteUnidadeMapper.fromMapToUnidadeEntity(map['unidade']),
+      disponivel: DoubleVO(map['quantidade']),
+      quantidade: DoubleVO(0),
     );
   }
 
@@ -29,13 +28,20 @@ class RemoteMaterialMapper {
   }
 
   static Map<String, dynamic> fromMaterialToMap(MaterialEntity material) {
-    return {
-      'produto_operacao': material.id,
+    final map = {
       'ficha_tecnica_produto': material.fichaTecnicaId,
       'produto': material.produto.id,
       'unidade': material.unidade.id,
-      'disponivel': material.disponivel,
-      'quantidade': material.quantidade,
+      'disponivel': material.disponivel.value,
+      'quantidade': material.quantidade.value,
+      'tipo_produto': 'insumo', // TODO: Mudar na nova versão do roteiro
+      'tipo_produto_operacao': 'material_ficha_tecnica', // TODO: Mudar na nova versão do roteiro
     };
+
+    if (material.id.isNotEmpty) {
+      map['produto_operacao'] = material.id;
+    }
+
+    return map;
   }
 }

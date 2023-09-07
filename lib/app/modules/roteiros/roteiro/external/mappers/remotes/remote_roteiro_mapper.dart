@@ -5,6 +5,7 @@ import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/roteiro
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/unidade_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/external/mappers/remotes/remote_ficha_tecnica_mappers.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/external/mappers/remotes/remote_operacao_mapper.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/external/mappers/remotes/remote_produto_mapper.dart';
 
 class RemoteRoteiroMapper {
   const RemoteRoteiroMapper._();
@@ -14,7 +15,7 @@ class RemoteRoteiroMapper {
       id: map['roteiro'],
       codigo: map['codigo'],
       descricao: map['descricao'],
-      produto: ProdutoEntity.id(map['produto_resultante']),
+      produto: RemoteProdutoMapper.fromMapToProdutoEntity(map['produto_resultante']),
     );
   }
 
@@ -33,10 +34,9 @@ class RemoteRoteiroMapper {
   }
 
   static Map<String, dynamic> fromRoteiroToMap(RoteiroAggregate roteiro) {
-    return {
-      'roteiro': roteiro.id,
-      'codigo': roteiro.codigo,
-      'descricao': roteiro.descricao,
+    final map = {
+      'codigo': roteiro.codigo.toText,
+      'descricao': roteiro.descricao.value,
       'inicio': roteiro.inicio.dateFormat(format: 'yyyy-MM-dd'),
       'fim': roteiro.fim.dateFormat(format: 'yyyy-MM-dd'),
       'produto_resultante': roteiro.produto.id,
@@ -44,5 +44,11 @@ class RemoteRoteiroMapper {
       'unidade': roteiro.unidade.id,
       'operacoes': roteiro.operacoes.map((operacao) => RemoteOperacaoMapper.fromOperacaoToMap(operacao)).toList(),
     };
+
+    if (roteiro.id.isNotEmpty && roteiro != RoteiroAggregate.empty()) {
+      map['roteiro'] = roteiro.id;
+    }
+
+    return map;
   }
 }

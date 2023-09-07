@@ -3,7 +3,7 @@ import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/restr
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/external/mappers/remotes/remote_restricao_mapper.dart';
 
 void main() {
-  testWidgets('Deve converter um Map em RestricaoAggregate', (tester) async {
+  test('Deve converter um Map em RestricaoAggregate', () async {
     final response = RemoteRestricaoMapper.fromMapToRestricao(map);
     expect(response, isA<RestricaoAggregate>());
     expect(response.id, '7526cb27-31ec-42a0-8d32-df92a8d5bbaa');

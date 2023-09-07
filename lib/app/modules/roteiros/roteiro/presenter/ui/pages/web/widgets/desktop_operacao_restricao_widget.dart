@@ -2,18 +2,25 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart' hide showDialog;
-
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/grupo_de_restricao_aggregate.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/unidade_entity.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/controllers/grupo_de_restricao_controller.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/controllers/recurso_controller.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/controllers/restricao_controller.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/web/widgets/desktop_operacao_editar_restricao_widget.dart';
 
 class DesktopOperacaoRestricaoWidget extends StatefulWidget {
+  final String grupoRestricaoId;
+  final RecursoController recursoController;
+
   final RestricaoController restricaoController;
   final UnidadeEntity unidade;
 
   const DesktopOperacaoRestricaoWidget({
     Key? key,
+    required this.grupoRestricaoId,
+    required this.recursoController,
     required this.restricaoController,
     required this.unidade,
   }) : super(key: key);
@@ -34,9 +41,9 @@ class _DesktopOperacaoRestricaoWidgetState extends State<DesktopOperacaoRestrica
 
     // Capacidade: 200 w
     var textoDaTag = '${translation.fields.capacidade} ';
-    textoDaTag += restricao.capacidade.usar.formatDoubleToString(decimalDigits: widget.unidade.decimal);
+    textoDaTag += restricao.capacidade.capacidade.formatDoubleToString(decimalDigits: widget.unidade.decimal);
     // w,
-    textoDaTag += '${widget.unidade.codigo.toLowerCase()}';
+    textoDaTag += widget.unidade.codigo.toLowerCase();
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -73,7 +80,22 @@ class _DesktopOperacaoRestricaoWidgetState extends State<DesktopOperacaoRestrica
                       );
 
                       if (responseModal != null && responseModal is RestricaoController) {
-                        widget.restricaoController.restricao = responseModal.restricao;
+                        var gruposRestricoes = widget.recursoController.recurso.grupoDeRestricoes.map((grupo) {
+                          if (grupo.grupo.id == widget.grupoRestricaoId) {
+                            return grupo.copyWith(
+                              restricoes: grupo.restricoes.map((restricao) {
+                                if (restricao.id == responseModal.restricao.id) {
+                                  return responseModal.restricao;
+                                }
+                                return restricao;
+                              }).toList(),
+                            );
+                          }
+                          return grupo;
+                        }).toList();
+
+                        widget.recursoController.recurso = widget.recursoController.recurso.copyWith(grupoDeRestricoes: gruposRestricoes);
+
                         setState(() {});
                       }
                     },

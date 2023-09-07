@@ -2,7 +2,7 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
-
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/controllers/operacao_controller.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/controllers/roteiro_controller.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_centro_de_trabalho_store.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_ficha_tecnica_store.dart';
@@ -25,9 +25,10 @@ class RoteiroFormPage extends StatefulWidget {
   final GetProdutoStore getProdutoStore;
   final GetUnidadeStore getUnidadeStore;
   final GetMaterialStore getMaterialStore;
+  final RoteiroController roteiroController;
+  final OperacaoController operacaoController;
   final CustomScaffoldController scaffoldController;
   final InternetConnectionStore connectionStore;
-  final RoteiroController roteiroController;
 
   const RoteiroFormPage({
     Key? key,
@@ -40,9 +41,10 @@ class RoteiroFormPage extends StatefulWidget {
     required this.getProdutoStore,
     required this.getUnidadeStore,
     required this.getMaterialStore,
+    required this.roteiroController,
+    required this.operacaoController,
     required this.scaffoldController,
     required this.connectionStore,
-    required this.roteiroController,
   }) : super(key: key);
 
   @override
@@ -72,6 +74,7 @@ class _RoteiroFormPageState extends State<RoteiroFormPage> {
       scaffoldController: widget.scaffoldController,
       connectionStore: widget.connectionStore,
       roteiroController: widget.roteiroController,
+      operacaoController: widget.operacaoController,
       dadosBasicosformKey: dadosBasicosformKey,
       operacaoformKey: operacaoformKey,
       getMaterialStore: widget.getMaterialStore,

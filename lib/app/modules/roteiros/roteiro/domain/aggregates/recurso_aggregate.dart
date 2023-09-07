@@ -17,6 +17,16 @@ class RecursoAggregate {
     required this.grupoDeRestricoes,
   });
 
+  factory RecursoAggregate.empty() {
+    return RecursoAggregate(
+      id: '',
+      codigo: '',
+      nome: '',
+      capacidade: RecursoCapacidadeDTO.empty(),
+      grupoDeRestricoes: [],
+    );
+  }
+
   RecursoAggregate copyWith({
     String? id,
     String? codigo,
@@ -29,7 +39,7 @@ class RecursoAggregate {
       codigo: codigo ?? this.codigo,
       nome: nome ?? this.nome,
       capacidade: capacidade ?? this.capacidade,
-      grupoDeRestricoes: grupoDeRestricoes ?? this.grupoDeRestricoes,
+      grupoDeRestricoes: grupoDeRestricoes ?? List.from(this.grupoDeRestricoes),
     );
   }
 

@@ -1,3 +1,4 @@
+import 'package:pcp_flutter/app/core/localization/enums/artigo_enum.dart';
 import 'package:pcp_flutter/app/core/localization/messages.dart';
 
 class MessagesPt extends Messages {
@@ -24,6 +25,15 @@ class MessagesPt extends Messages {
   String get mensagemAdicioneAsAperacoes => 'Adicione as operações e defina os materiais e recursos utilizados em cada uma delas.';
 
   @override
+  String get mensagemAdicioneUmaOperacao => 'Adicione, no mínimo, uma operação.';
+
+  @override
+  String get mensagemAdicioneUmaOuMaisRestricoes => 'Adicione uma ou mais restrições e, então, elas aparecerão aqui.';
+
+  @override
+  String get mensagemAdicioneUmRecurso => 'Adicione, no mínimo, um recurso.';
+
+  @override
   String get mensagemComoCriarRoteiro =>
       'Nos próximos passos você criará um novo roteiro.\nPrimeiramente, insira alguns dados básicos sobre este novo roteiro.';
 
@@ -33,6 +43,9 @@ class MessagesPt extends Messages {
   @override
   String get mensagemSelecionePeriodoVigencia =>
       'Selecione o período de vigência durante o qual o roteiro de produção estará disponível para utilização';
+
+  @override
+  String get mensagemSelecioneUmaUnidadeDeMedida => 'Selecione uma unidade de medida para continuar.';
 
   @override
   String get naoHaResultadosParaPesquisa => 'Não há resultados para pesquisa.';
@@ -89,11 +102,29 @@ class MessagesPt extends Messages {
   String excluiuUmEntidadeComSucesso(String entidade) => 'Você excluiu um ${entidade.toLowerCase()} com sucesso.';
 
   @override
+  String mensagemRemoverEntidade(String entidade, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino}) {
+    return 'Você está prestes a remover ${artigo == ArtigoEnum.artigoMasculino ? 'um' : 'uma'} ${entidade.toLowerCase()}. Esta ação não poderá ser desfeita.\n\nDeseja remover?';
+  }
+
+  @override
   String nenhumaEntidadeEncontrada(String entidade) => 'Nenhuma ${entidade.toLowerCase()} encontrada.';
 
   @override
   String nenhumEntidadeEncontrado(String entidade) => 'Nenhum ${entidade.toLowerCase()} encontrado.';
 
   @override
-  String get mensagemAdicioneUmaOuMaisRestricoes => 'Adicione uma ou mais restrições e, então, elas aparecerão aqui.';
+  String get mensagemConfirmacaoDoRoteiro =>
+      'Todos os dados necessários foram preenchidos. Verifique abaixo se todas as informações estão corretas e, caso estejam, confirme em Criar roteiro.';
+
+  @override
+  String get erroCapacidadeMaximaMaiorTotal => 'A capacidade máxima não pode ser maior que a total.';
+
+  @override
+  String get erroCapacidadeMaximaMenorMinima => 'A capacidade máxima precisa ser maior que a mínima.';
+
+  @override
+  String get erroCapacidadeMinimaMaiorMaxima => 'A capacidade mínima não pode ser maior que a máxima.';
+
+  @override
+  String get erroCapacidadeMinimaMaiorTotal => 'A capacidade mínima não pode ser maior que a total.';
 }

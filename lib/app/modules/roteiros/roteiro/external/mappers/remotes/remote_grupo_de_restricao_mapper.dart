@@ -19,7 +19,6 @@ class RemoteGrupoDeRestricaoMapper {
   static GrupoDeRestricaoAggregate fromMapToGrupoDeRestricaoAggregate(Map<String, dynamic> map) {
     return GrupoDeRestricaoAggregate(
       grupo: fromMapToGrupoDeRestricao(map['grupos_restricoes']),
-      unidade: RemoteUnidadeMapper.fromMapToUnidadeEntity(map['unidade']),
       quando: QuandoEnum.selectByValue(map['quantidade_necessaria']),
       capacidade: RemoteRestricaoCapacidadeMapper.fromMapToRestricaoCapacidadeDTO(map),
       restricoes: List.from(map['restricoes']).map((map) => RemoteRestricaoMapper.fromMapToRestricaoAggregate(map)).toList(),

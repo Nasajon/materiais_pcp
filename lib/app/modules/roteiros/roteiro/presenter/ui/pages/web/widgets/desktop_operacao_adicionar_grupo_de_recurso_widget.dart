@@ -71,9 +71,11 @@ class DesktopOperacaoAdicionarGrupoDeRecursoWidget extends StatelessWidget {
                   ),
                 ),
                 suggestionsCallback: (pattern) async {
-                  final grupos = await getGrupoDeRecursoStore.getListGrupoDeRecurso(search: pattern);
-
-                  return grupos.where((grupo) => listaDeIdsDosGruposParaDeletar.where((idDeletar) => grupo.id == idDeletar).isEmpty);
+                  return getGrupoDeRecursoStore.getListGrupoDeRecurso(search: pattern).then(
+                        (value) => value.where(
+                          (grupo) => listaDeIdsDosGruposParaDeletar.where((idDeletar) => grupo.id == idDeletar).isEmpty,
+                        ),
+                      );
                 },
                 itemBuilder: (context, grupoDeRecurso) {
                   return ListTile(
@@ -152,7 +154,17 @@ class DesktopOperacaoAdicionarGrupoDeRecursoWidget extends StatelessWidget {
                       initialValue: grupoDeRecurso.capacidade.minima.valueOrNull,
                       suffixSymbol: unidade.codigo,
                       decimalDigits: unidade.decimal,
-                      validator: (_) => grupoDeRecurso.capacidade.minima.errorMessage,
+                      validator: (_) {
+                        if (grupoDeRecurso.capacidade.minima.isNotValid) {
+                          return grupoDeRecurso.capacidade.minima.errorMessage;
+                        } else if (grupoDeRecurso.capacidade.minima.value > grupoDeRecurso.capacidade.capacidadeTotal.value) {
+                          return translation.messages.erroCapacidadeMinimaMaiorTotal;
+                        } else if (grupoDeRecurso.capacidade.minima.value > grupoDeRecurso.capacidade.maxima.value) {
+                          return translation.messages.erroCapacidadeMinimaMaiorMaxima;
+                        }
+
+                        return null;
+                      },
                       onValueOrNull: (value) {
                         final capacidade = grupoDeRecurso.capacidade.copyWith(minima: DoubleVO(value));
                         grupoDeRecursoController.grupoDeRecurso = grupoDeRecurso.copyWith(capacidade: capacidade);
@@ -166,7 +178,17 @@ class DesktopOperacaoAdicionarGrupoDeRecursoWidget extends StatelessWidget {
                       initialValue: grupoDeRecurso.capacidade.maxima.valueOrNull,
                       suffixSymbol: unidade.codigo,
                       decimalDigits: unidade.decimal,
-                      validator: (_) => grupoDeRecurso.capacidade.maxima.errorMessage,
+                      validator: (_) {
+                        if (grupoDeRecurso.capacidade.maxima.isNotValid) {
+                          return grupoDeRecurso.capacidade.maxima.errorMessage;
+                        } else if (grupoDeRecurso.capacidade.maxima.value > grupoDeRecurso.capacidade.capacidadeTotal.value) {
+                          return translation.messages.erroCapacidadeMaximaMaiorTotal;
+                        } else if (grupoDeRecurso.capacidade.maxima.value < grupoDeRecurso.capacidade.minima.value) {
+                          return translation.messages.erroCapacidadeMaximaMenorMinima;
+                        }
+
+                        return null;
+                      },
                       onValueOrNull: (value) {
                         final capacidade = grupoDeRecurso.capacidade.copyWith(maxima: DoubleVO(value));
                         grupoDeRecursoController.grupoDeRecurso = grupoDeRecurso.copyWith(capacidade: capacidade);

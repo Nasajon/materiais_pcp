@@ -1,3 +1,4 @@
+import 'package:pcp_flutter/app/core/localization/enums/artigo_enum.dart';
 import 'package:pcp_flutter/app/core/localization/titles.dart';
 
 class TitlesPt extends Titles {
@@ -129,4 +130,15 @@ class TitlesPt extends Titles {
 
   @override
   String get adicionarGrupoDeRestricoes => 'Adicionar grupo de restrições';
+
+  @override
+  String removerEntidade(String entidade) {
+    return 'Remover ${entidade.toLowerCase()}';
+  }
+
+  @override
+  String get editarOperacao => 'Editar operação';
+
+  @override
+  String get adicionarMateriais => 'Adicionar material';
 }

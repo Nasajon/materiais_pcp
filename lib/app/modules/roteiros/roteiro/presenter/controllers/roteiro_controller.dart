@@ -1,4 +1,5 @@
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/modules/domain/value_object/double_vo.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/operacao_aggregate.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/roteiro_aggregate.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/material_entity.dart';
@@ -10,7 +11,7 @@ class RoteiroController {
   final GetRecursoPorGrupoUsecase _getRecursoPorGrupoUsecase;
   final GetRestricaoPorGrupoUsecase _getRestricaoPorGrupoUsecase;
 
-  List<OperacaoController> listOpercaoController = [];
+  // List<OperacaoController> listOpercaoController = [];
   List<MaterialEntity> materiais = [];
 
   RoteiroController(
@@ -21,31 +22,12 @@ class RoteiroController {
   // Controle da entidade do roteiro
   final _roteiroNotifier = RxNotifier(RoteiroAggregate.empty());
   RoteiroAggregate get roteiro {
-    final operacoes = listOpercaoController.map((controller) => controller.operacao).toList();
-    return _roteiroNotifier.value.copyWith(operacoes: operacoes);
+    // final operacoes = listOpercaoController.map((controller) => controller.operacao).toList();
+    return _roteiroNotifier.value;
   }
 
   set roteiro(RoteiroAggregate roteiro) {
     _roteiroNotifier.value = roteiro;
-
-    listOpercaoController = roteiro.operacoes
-        .map((operacao) => OperacaoController(
-              fichaTecnicaId: roteiro.fichaTecnica.id,
-              operacao: operacao,
-              getRecursoPorGrupoUsecase: _getRecursoPorGrupoUsecase,
-              getRestricaoPorGrupoUsecase: _getRestricaoPorGrupoUsecase,
-            ))
-        .toList();
-  }
-
-  // Operação
-  OperacaoController get newOperacaoController {
-    return OperacaoController(
-      fichaTecnicaId: roteiro.fichaTecnica.id,
-      operacao: OperacaoAggregate.empty(),
-      getRecursoPorGrupoUsecase: _getRecursoPorGrupoUsecase,
-      getRestricaoPorGrupoUsecase: _getRestricaoPorGrupoUsecase,
-    );
   }
 
   // Controle do PageView, Steps, TabsButton
@@ -64,5 +46,48 @@ class RoteiroController {
     }
 
     return roteiro.isValid;
+  }
+
+// Operações
+  void setaOrdemOperacao({required int oldIndex, required int newIndex}) {
+    final operacao = roteiro.operacoes[oldIndex];
+    final operacoes = roteiro.operacoes;
+    operacoes.removeAt(oldIndex);
+    if (newIndex >= operacoes.length) {
+      operacoes.add(operacao);
+    } else {
+      operacoes.insert(newIndex, operacao);
+    }
+
+    for (var i = 0; i < operacoes.length; i++) {
+      operacoes[i] = operacoes[i].copyWith(ordem: i + 1);
+    }
+
+    roteiro = roteiro.copyWith(operacoes: operacoes);
+  }
+
+  // Materiais
+  List<MaterialEntity> getMateriais([int? ordemOperacao]) {
+    List<MaterialEntity> materiais = [];
+
+    for (var operacao in roteiro.operacoes) {
+      if (operacao.ordem != ordemOperacao) {
+        for (var material in operacao.materiais) {
+          if (materiais.where((element) => element.produto.id == material.produto.id).isEmpty) {
+            materiais.add(material.copyWith(disponivel: DoubleVO(0), quantidade: null));
+          }
+
+          final index = materiais.indexWhere((element) => element.produto.id == material.produto.id);
+
+          var novoMaterial = materiais[index];
+
+          novoMaterial = novoMaterial.copyWith(disponivel: DoubleVO(novoMaterial.disponivel.value + material.quantidade.value));
+
+          materiais.setAll(index, [novoMaterial]);
+        }
+      }
+    }
+
+    return materiais;
   }
 }

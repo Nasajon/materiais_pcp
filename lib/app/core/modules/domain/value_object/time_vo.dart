@@ -37,7 +37,7 @@ class TimeVO extends TextVO {
     }
   }
 
-  String timeFormatToStringWithoutSeconds({String format = ':', bool shouldAddSeconds = false}) {
+  String timeFormatToStringWithoutSeconds() {
     final time = getTime();
 
     if (time == null) {

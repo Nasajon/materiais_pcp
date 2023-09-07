@@ -2,28 +2,36 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
+import 'package:pcp_flutter/app/core/widgets/notification_snack_bar.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/grupo_de_recurso_aggregate.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/unidade_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/controllers/grupo_de_recurso_controller.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/controllers/operacao_controller.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_grupo_de_recurso_store.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_grupo_de_restricao_store.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_unidade_store.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/web/widgets/desktop_operacao_adicionar_grupo_de_recurso_widget.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/web/widgets/desktop_operacao_recurso_widget.dart';
 
-class DesktopOperacaoGrupoDeRecursoWidget extends StatelessWidget {
-  final UnidadeEntity unidade;
-  final List<GrupoDeRecursoController> gruposDeRecursosController;
+class DesktopOperacaoGrupoDeRecursoWidget extends StatefulWidget {
+  final OperacaoController operacaoController;
+  final GetGrupoDeRecursoStore getGrupoDeRecursoStore;
   final GetGrupoDeRestricaoStore getGrupoDeRestricaoStore;
   final GetUnidadeStore getUnidadeStore;
-  final VoidCallback adicionarGrupoDeRecurso;
 
   const DesktopOperacaoGrupoDeRecursoWidget({
     Key? key,
-    required this.unidade,
-    required this.gruposDeRecursosController,
+    required this.operacaoController,
+    required this.getGrupoDeRecursoStore,
     required this.getGrupoDeRestricaoStore,
     required this.getUnidadeStore,
-    required this.adicionarGrupoDeRecurso,
   }) : super(key: key);
 
+  @override
+  State<DesktopOperacaoGrupoDeRecursoWidget> createState() => _DesktopOperacaoGrupoDeRecursoWidgetState();
+}
+
+class _DesktopOperacaoGrupoDeRecursoWidgetState extends State<DesktopOperacaoGrupoDeRecursoWidget> {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
@@ -54,19 +62,67 @@ class DesktopOperacaoGrupoDeRecursoWidget extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 12),
-              ...gruposDeRecursosController.map(
+              ...widget.operacaoController.listGrupoRecursoController.map(
                 (grupoDeRecursoController) => ExpansionGrupoDeRecursoWidget(
+                  operacaoController: widget.operacaoController,
                   grupoDeRecursoController: grupoDeRecursoController,
-                  getGrupoDeRestricaoStore: getGrupoDeRestricaoStore,
-                  getUnidadeStore: getUnidadeStore,
-                  unidade: unidade,
+                  getGrupoDeRestricaoStore: widget.getGrupoDeRestricaoStore,
+                  getUnidadeStore: widget.getUnidadeStore,
+                  unidade: widget.operacaoController.operacao.unidade,
+                  deletarGrupo: () async {
+                    await showDialog(
+                        context: context,
+                        builder: (context) {
+                          return ConfirmationModalWidget(
+                            title: translation.titles.removerEntidade(translation.fields.grupoDeRecursos),
+                            messages: translation.messages.mensagemRemoverEntidade(translation.fields.grupoDeRecursos),
+                            titleCancel: translation.fields.descartar,
+                            titleSuccess: translation.fields.continuar,
+                            onCancel: () {
+                              widget.operacaoController.removerGrupoDeRecurso(grupoDeRecursoController.grupoDeRecurso.grupo.id);
+                              setState(() {});
+                            },
+                          );
+                        });
+                  },
                 ),
               ),
               const SizedBox(height: 20),
               Center(
                 child: CustomOutlinedButton(
                   title: translation.fields.adicionarGrupoDeRecursos,
-                  onPressed: adicionarGrupoDeRecurso,
+                  onPressed: () async {
+                    if (widget.operacaoController.operacao.unidade == UnidadeEntity.empty()) {
+                      NotificationSnackBar.showSnackBar(
+                        translation.messages.mensagemSelecioneUmaUnidadeDeMedida,
+                        themeData: themeData,
+                      );
+
+                      return;
+                    }
+
+                    final responseModal = await showDialog(
+                      context: context,
+                      builder: (context) {
+                        return DesktopOperacaoAdicionarGrupoDeRecursoWidget(
+                          grupoDeRecursoController: widget.operacaoController.novoGrupoDeRecursoController,
+                          getGrupoDeRecursoStore: widget.getGrupoDeRecursoStore,
+                          getUnidadeStore: widget.getUnidadeStore,
+                          unidade: widget.operacaoController.operacao.unidade,
+                          listaDeIdsDosGruposParaDeletar: widget.operacaoController.listGrupoRecursoController
+                              .map((controller) => controller.grupoDeRecurso.grupo.id)
+                              .toList(),
+                        );
+                      },
+                    );
+
+                    if (responseModal != null &&
+                        responseModal is GrupoDeRecursoController &&
+                        responseModal.grupoDeRecurso != GrupoDeRecursoAggregate.empty()) {
+                      widget.operacaoController.adicionarGrupoDeRecursoController = responseModal;
+                      setState(() {});
+                    }
+                  },
                 ),
               ),
             ],
@@ -78,17 +134,21 @@ class DesktopOperacaoGrupoDeRecursoWidget extends StatelessWidget {
 }
 
 class ExpansionGrupoDeRecursoWidget extends StatelessWidget {
+  final OperacaoController operacaoController;
   final GrupoDeRecursoController grupoDeRecursoController;
   final GetGrupoDeRestricaoStore getGrupoDeRestricaoStore;
   final GetUnidadeStore getUnidadeStore;
   final UnidadeEntity unidade;
+  final VoidCallback deletarGrupo;
 
   const ExpansionGrupoDeRecursoWidget({
     Key? key,
+    required this.operacaoController,
     required this.grupoDeRecursoController,
     required this.getGrupoDeRestricaoStore,
     required this.getUnidadeStore,
     required this.unidade,
+    required this.deletarGrupo,
   }) : super(key: key);
 
   @override
@@ -108,10 +168,10 @@ class ExpansionGrupoDeRecursoWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('Batedeiras industriais'),
-          Spacer(),
+          Text(grupoDeRecursoController.grupoDeRecurso.grupo.nome),
+          const Spacer(),
           IconButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: deletarGrupo,
             icon: Icon(
               size: 18,
               FontAwesomeIcons.trash,
@@ -127,6 +187,8 @@ class ExpansionGrupoDeRecursoWidget extends StatelessWidget {
             .map(
               (recursoController) => DesktopOperacaoRecursoWidget(
                 unidade: unidade,
+                grupoRecursoId: grupoDeRecursoController.grupoDeRecurso.grupo.id,
+                operacaoController: operacaoController,
                 recursoController: recursoController,
                 getGrupoDeRestricaoStore: getGrupoDeRestricaoStore,
                 getUnidadeStore: getUnidadeStore,

@@ -255,4 +255,19 @@ class FieldsPt extends Fields {
 
   @override
   String criarEntity(String entity) => 'Criar ${entity.toLowerCase()}';
+
+  @override
+  String get grupoDeRecursos => 'Grupo de recursos';
+
+  @override
+  String get materiais => 'Materiais';
+
+  @override
+  String get recursoApto => 'Recurso apto';
+
+  @override
+  String get recursosAptos => 'Recursos aptos';
+
+  @override
+  String get criarRoteiro => 'Criar roteiro';
 }

@@ -11,19 +11,7 @@ import 'package:pcp_flutter/app/modules/roteiros/roteiro/infra/datasources/remot
 
 class ClientServiceErrorMock extends Mock implements IClientService {}
 
-class ClientServiceMock extends Mock implements IClientService {
-  @override
-  Future<ClientResponse> request(ClientRequestParams params) async {
-    if (params.endPoint == '/1234/fichastecnicas?fields=produtos,unidades') {
-      return const ClientResponse(data: jsonMock, statusCode: 200);
-    } else if (params.endPoint == '/4311/produtos?id=358c2657-00e1-48dc-8beb-5175d691bc30') {
-      return const ClientResponse(data: jsonProdutoMock, statusCode: 200);
-    } else if (params.endPoint == '/4311/unidades?id=fbf7ab8a-11d5-4170-99c6-ade99311b4ed') {
-      return const ClientResponse(data: jsonUnidadeMock, statusCode: 200);
-    }
-    throw ClientError(message: 'error', statusCode: 500);
-  }
-}
+class ClientServiceMock extends Mock implements IClientService {}
 
 class ClientRequestParamsMock extends Mock implements ClientRequestParams {}
 
@@ -43,6 +31,10 @@ void main() {
         });
 
         test('Deve retornar uma lista dos Materiais quando informar o codigo da ficha tecnica ao backend.', () async {
+          when(() => clientService.request(any())).thenAnswer(
+            (_) async => const ClientResponse(data: jsonMock, statusCode: 200),
+          );
+
           final response = await remoteGetMaterialDatasource('');
 
           expect(response, isA<List<MaterialEntity>>());
@@ -69,37 +61,28 @@ void main() {
   });
 }
 
-const jsonMock = [
-  {
-    'ficha_tecnica_produto': '97e14588-64cb-4594-96bf-dfe5d53cdaba',
-    'produto': '358c2657-00e1-48dc-8beb-5175d691bc30',
-    'unidade': 'fbf7ab8a-11d5-4170-99c6-ade99311b4ed',
-    'quantidade': 3.0,
-  },
-];
-
-const jsonUnidadeMock = <String, dynamic>{
-  'next': null,
-  'prev': null,
-  'result': [
+const jsonMock = {
+  'ficha_tecnica': '21f44ff6-bdcc-44dc-9c81-e9ebe7134dc6',
+  'codigo': '01',
+  'descricao': 'teste',
+  'quantidade': 1.0,
+  'produtos': [
     {
-      'id': 'fbf7ab8a-11d5-4170-99c6-ade99311b4ed',
-      'codigo': 'UN',
-      'descricao': 'UNIDADE',
-    }
-  ]
-};
-
-const jsonProdutoMock = <String, dynamic>{
-  'next': null,
-  'prev': null,
-  'result': [
-    {
-      'id': '358c2657-00e1-48dc-8beb-5175d691bc30',
-      'codigo': '003',
-      'especificacao': 'Doritos Queijo Nacho',
-      'unidade_padrao': 'fbf7ab8a-11d5-4170-99c6-ade99311b4ed',
-      'ncm': '19059090'
+      'ficha_tecnica_produto': 'aace47ba-c40e-49ae-9fa5-ccef6d5e0f6f',
+      'quantidade': 10.0,
+      'ficha_tecnica': '21f44ff6-bdcc-44dc-9c81-e9ebe7134dc6',
+      'produto': {
+        'produto': 'e6aafbcd-2ab7-4c2d-a2c6-0a2899318382',
+        'codigo': '03',
+        'nome': 'Leite',
+        'unidade_padrao': '482cb303-0a84-46a6-a8e6-5345fd655c70'
+      },
+      'unidade': {
+        'unidade': 'fca69f81-ddd6-47ff-ade7-c516488e90ad',
+        'codigo': 'LT',
+        'nome': 'Litro',
+        'decimais': 2,
+      }
     }
   ]
 };

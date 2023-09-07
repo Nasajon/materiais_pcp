@@ -8,14 +8,12 @@ import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/enums/operacao_e
 
 class GrupoDeRestricaoAggregate {
   final GrupoDeRestricaoEntity grupo;
-  final UnidadeEntity unidade;
   final RestricaoCapacidadeDTO capacidade;
   final QuandoEnum? quando;
   final List<RestricaoAggregate> restricoes;
 
   const GrupoDeRestricaoAggregate({
     required this.grupo,
-    required this.unidade,
     required this.capacidade,
     required this.quando,
     required this.restricoes,
@@ -24,7 +22,6 @@ class GrupoDeRestricaoAggregate {
   factory GrupoDeRestricaoAggregate.empty() {
     return GrupoDeRestricaoAggregate(
       grupo: GrupoDeRestricaoEntity.empty(),
-      unidade: UnidadeEntity.empty(),
       capacidade: RestricaoCapacidadeDTO.empty(),
       quando: null,
       restricoes: [],
@@ -40,7 +37,6 @@ class GrupoDeRestricaoAggregate {
   }) {
     return GrupoDeRestricaoAggregate(
       grupo: grupo ?? this.grupo,
-      unidade: unidade ?? this.unidade,
       capacidade: capacidade ?? this.capacidade,
       quando: quando ?? this.quando,
       restricoes: restricoes ?? List.from(this.restricoes),
@@ -51,16 +47,12 @@ class GrupoDeRestricaoAggregate {
   bool operator ==(covariant GrupoDeRestricaoAggregate other) {
     if (identical(this, other)) return true;
 
-    return other.grupo == grupo &&
-        other.unidade == unidade &&
-        other.capacidade == capacidade &&
-        other.quando == quando &&
-        listEquals(other.restricoes, restricoes);
+    return other.grupo == grupo && other.capacidade == capacidade && other.quando == quando && listEquals(other.restricoes, restricoes);
   }
 
   @override
   int get hashCode {
-    return grupo.hashCode ^ unidade.hashCode ^ capacidade.hashCode ^ quando.hashCode ^ restricoes.hashCode;
+    return grupo.hashCode ^ capacidade.hashCode ^ quando.hashCode ^ restricoes.hashCode;
   }
 
   bool get isValid => grupo.id.isNotEmpty && capacidade.isValid;

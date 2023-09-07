@@ -8,7 +8,7 @@ import 'package:pcp_flutter/app/core/modules/domain/value_object/double_vo.dart'
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/unidade_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/controllers/restricao_controller.dart';
 
-class DesktopOperacaoEditarRestricaoWidget extends StatelessWidget {
+class DesktopOperacaoEditarRestricaoWidget extends StatefulWidget {
   final RestricaoController restricaoController;
   final UnidadeEntity unidade;
 
@@ -18,16 +18,29 @@ class DesktopOperacaoEditarRestricaoWidget extends StatelessWidget {
     required this.unidade,
   }) : super(key: key);
 
+  @override
+  State<DesktopOperacaoEditarRestricaoWidget> createState() => _DesktopOperacaoEditarRestricaoWidgetState();
+}
+
+class _DesktopOperacaoEditarRestricaoWidgetState extends State<DesktopOperacaoEditarRestricaoWidget> {
+  late final novoRestricaoController;
   final formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    novoRestricaoController = widget.restricaoController.copyWith();
+  }
 
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     final colorTheme = themeData.extension<AnaColorTheme>();
 
-    context.select(() => [restricaoController.restricao]);
+    context.select(() => [novoRestricaoController.restricao]);
 
-    final restricao = restricaoController.restricao;
+    final restricao = novoRestricaoController.restricao;
 
     return Container(
       width: 350,
@@ -51,14 +64,14 @@ class DesktopOperacaoEditarRestricaoWidget extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             DoubleTextFormFieldWidget(
-              label: translation.fields.usar,
-              initialValue: restricao.capacidade.usar.valueOrNull,
-              suffixSymbol: unidade.codigo,
-              decimalDigits: unidade.decimal,
-              validator: (_) => restricao.capacidade.usar.errorMessage,
+              label: translation.fields.capacidade,
+              initialValue: restricao.capacidade.capacidade.valueOrNull,
+              suffixSymbol: widget.unidade.codigo,
+              decimalDigits: widget.unidade.decimal,
+              validator: (_) => restricao.capacidade.capacidade.errorMessage,
               onChanged: (value) {
-                final usar = restricao.capacidade.copyWith(usar: DoubleVO(value));
-                restricaoController.restricao = restricao.copyWith(capacidade: usar);
+                final capacidade = restricao.capacidade.copyWith(capacidade: DoubleVO(value));
+                novoRestricaoController.restricao = restricao.copyWith(capacidade: capacidade);
               },
             ),
             const SizedBox(height: 16),
@@ -68,6 +81,8 @@ class DesktopOperacaoEditarRestricaoWidget extends StatelessWidget {
                 CustomTextButton(
                   title: translation.fields.cancelar,
                   onPressed: () {
+                    if (novoRestricaoController != widget.restricaoController) {}
+
                     Navigator.of(context).pop(null);
                   },
                 ),
@@ -76,7 +91,7 @@ class DesktopOperacaoEditarRestricaoWidget extends StatelessWidget {
                   title: translation.fields.adicionar,
                   onPressed: () async {
                     if (formKey.currentState!.validate()) {
-                      Navigator.of(context).pop(restricaoController);
+                      Navigator.of(context).pop(novoRestricaoController);
                     }
                   },
                 ),

@@ -29,7 +29,7 @@ class _DesktopRoteiroListPageState extends State<DesktopRoteiroListPage> with Di
   @override
   void initState() {
     super.initState();
-    // widget.roteiroListStore.getRoteiros(delay: Duration.zero);
+    widget.roteiroListStore.getRoteiros(delay: Duration.zero);
   }
 
   @override

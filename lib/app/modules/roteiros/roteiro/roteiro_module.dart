@@ -36,6 +36,7 @@ import 'package:pcp_flutter/app/modules/roteiros/roteiro/infra/repositories/get_
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/infra/repositories/get_restricao_por_grupo_repository_impl.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/infra/repositories/get_tipo_unidade_repository_impl.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/infra/repositories/roteiro_repository_impl.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/controllers/operacao_controller.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/controllers/roteiro_controller.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_centro_de_trabalho_store.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_ficha_tecnica_store.dart';
@@ -46,6 +47,7 @@ import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_pr
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/inserir_editar_roteiro_store.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/roteiro_list_store.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_unidade_store.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/roteiro_form_operacao_page.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/roteiro_form_page.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/roteiro_list_page.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/widgets/roteiro_card.dart';
@@ -121,10 +123,11 @@ class RoteiroModule extends Module {
         Bind.lazySingleton((i) => GetUnidadeStore(i())),
         Bind.lazySingleton((i) => GetMaterialStore(i())),
         Bind.lazySingleton((i) => RoteiroListStore(i(), i(), i())),
-        Bind.lazySingleton((i) => InserirEditarRoteiroStore(i(), i(), i())),
+        Bind.factory((i) => InserirEditarRoteiroStore(i(), i(), i())),
 
         //Controllers
         Bind.factory((i) => RoteiroController(i(), i())),
+        Bind.lazySingleton((i) => OperacaoController(i(), i())),
       ];
 
   @override
@@ -148,11 +151,24 @@ class RoteiroModule extends Module {
             getGrupoDeRestricaoStore: context.read(),
             getProdutoStore: context.read(),
             getUnidadeStore: context.read(),
+            roteiroController: context.read(),
+            operacaoController: context.read(),
             scaffoldController: context.read(),
             connectionStore: context.read(),
-            roteiroController: context.read(),
             getMaterialStore: context.read(),
           ),
         ),
+        ChildRoute(
+          '/operacao',
+          child: (context, args) => RoteiroFormOperacaoPage(
+            operacaoController: context.read(),
+            getUnidadeStore: context.read(),
+            getCentroDeTrabalhoStore: context.read(),
+            getProdutoStore: context.read(),
+            getMaterialStore: context.read(),
+            getGrupoDeRecursoStore: context.read(),
+            getGrupoDeRestricaoStore: context.read(),
+          ),
+        )
       ];
 }
