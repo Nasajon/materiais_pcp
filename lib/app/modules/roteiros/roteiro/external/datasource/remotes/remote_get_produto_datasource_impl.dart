@@ -17,7 +17,7 @@ class RemoteGetProdutoDatasourceImpl implements RemoteGetProdutoDatasource {
   @override
   Future<List<ProdutoEntity>> call(String search) async {
     try {
-      Map<String, dynamic> queryParams = {};
+      Map<String, dynamic> queryParams = {'fields': 'unidade_padrao'};
 
       if (search.isNotEmpty) {
         queryParams['search'] = search;

@@ -70,12 +70,15 @@ class RemoteRoteiroDatasourceImpl implements RemoteRoteiroDatasource {
   @override
   Future<RoteiroAggregate> getRoteiroPeloId(String roteiroId) async {
     try {
-      Map<String, dynamic> queryParams = {'fields': 'operacoes'};
+      Map<String, dynamic> queryParams = {
+        'fields':
+            'inicio,fim,ficha_tecnica,produto_resultante,unidade,operacoes.produto_resultante,operacoes.unidade,operacoes.produtos,operacoes.centro_de_trabalho,operacoes.produtos.produto,operacoes.produtos.unidade,operacoes.grupos_recursos.grupo_de_recurso,operacoes.grupos_recursos.recursos.recurso, operacoes.grupos_recursos.recursos.grupos_restricoes.grupo_de_restricao,operacoes.grupos_recursos.recursos.grupos_restricoes.unidade,operacoes.grupos_recursos.recursos.grupos_restricoes.restricoes.restricao,operacoes.grupos_recursos.recursos.grupos_restricoes.restricoes.unidade'
+      };
 
       final response = await _clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/roteiros',
+          endPoint: '/1234/roteiros/$roteiroId',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
           queryParams: queryParams,
@@ -113,7 +116,7 @@ class RemoteRoteiroDatasourceImpl implements RemoteRoteiroDatasource {
       await _clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/roteiros',
+          endPoint: '/1234/roteiros/${roteiro.id}',
           method: ClientRequestMethods.PUT,
           interceptors: interceptors,
           body: RemoteRoteiroMapper.fromRoteiroToMap(roteiro),

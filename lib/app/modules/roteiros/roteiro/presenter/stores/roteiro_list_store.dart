@@ -73,6 +73,21 @@ class RoteiroListStore extends NasajonNotifierStore<List<RoteiroState>> {
     update(state, force: true);
   }
 
+  void editarRoteiro(RoteiroAggregate roteiro) {
+    if (state.where((state) => state.roteiro.id == roteiro.id).isEmpty) return;
+
+    final index = state.indexWhere((state) => state.roteiro.id == roteiro.id);
+
+    state.setAll(index, [
+      RoteiroState(
+        roteiro: RoteiroEntity(id: roteiro.id, codigo: roteiro.codigo.toText, descricao: roteiro.descricao.value, produto: roteiro.produto),
+        deletarRoteiroStore: DeletarRoteiroStore(_deletarRoteiroUsecase),
+      ),
+    ]);
+
+    update(state, force: true);
+  }
+
   Future<void> deletarRoteiro(String id) async {
     state.removeWhere((roteiro) => roteiro.roteiro.id == id);
 

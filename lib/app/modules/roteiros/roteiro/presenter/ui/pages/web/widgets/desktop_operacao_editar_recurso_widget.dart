@@ -6,7 +6,6 @@ import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/double_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/time_vo.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/grupo_de_restricao_aggregate.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/recurso_aggregate.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/unidade_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/controllers/grupo_de_restricao_controller.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/controllers/operacao_controller.dart';
@@ -201,6 +200,8 @@ class _DesktopOperacaoEditarRecursoWidgetState extends State<DesktopOperacaoEdit
                 const SizedBox(height: 20),
                 DesktopOperacaoGrupoDeRescricaoWidget(
                   recursoController: novoRecursoController,
+                  getGrupoDeRestricaoStore: widget.getGrupoDeRestricaoStore,
+                  getUnidadeStore: widget.getUnidadeStore,
                 ),
                 const SizedBox(height: 20),
                 Center(

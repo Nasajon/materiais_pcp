@@ -18,8 +18,8 @@ class RemoteGrupoDeRestricaoMapper {
 
   static GrupoDeRestricaoAggregate fromMapToGrupoDeRestricaoAggregate(Map<String, dynamic> map) {
     return GrupoDeRestricaoAggregate(
-      grupo: fromMapToGrupoDeRestricao(map['grupos_restricoes']),
-      quando: QuandoEnum.selectByValue(map['quantidade_necessaria']),
+      grupo: fromMapToGrupoDeRestricao(map['grupo_de_restricao']),
+      quando: QuandoEnum.selectByValue(map['momento_necessidade']),
       capacidade: RemoteRestricaoCapacidadeMapper.fromMapToRestricaoCapacidadeDTO(map),
       restricoes: List.from(map['restricoes']).map((map) => RemoteRestricaoMapper.fromMapToRestricaoAggregate(map)).toList(),
     );
@@ -28,6 +28,7 @@ class RemoteGrupoDeRestricaoMapper {
   static Map<String, dynamic> fromGrupoDeRestricaoAggregateToMap(GrupoDeRestricaoAggregate grupoDeRestricao) {
     return {
       'grupo_de_restricao': grupoDeRestricao.grupo.id,
+      'momento_necessidade': grupoDeRestricao.quando?.value,
       ...RemoteRestricaoCapacidadeMapper.fromRestricaoCapacidadeToMap(grupoDeRestricao.capacidade),
       'restricoes': grupoDeRestricao.restricoes.map((restricao) => RemoteRestricaoMapper.fromRestricaoAggregateToMap(restricao)).toList(),
     };

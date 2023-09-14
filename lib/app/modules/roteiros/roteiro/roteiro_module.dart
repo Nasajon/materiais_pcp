@@ -44,12 +44,14 @@ import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_gr
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_grupo_de_restricao_store.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_material_store.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_produto_store.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_roteiro_store.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/inserir_editar_roteiro_store.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/roteiro_list_store.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_unidade_store.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/roteiro_form_operacao_page.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/roteiro_form_page.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/roteiro_list_page.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/roteiro_visualizar_page.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/widgets/roteiro_card.dart';
 
 class RoteiroModule extends Module {
@@ -122,6 +124,7 @@ class RoteiroModule extends Module {
         Bind.lazySingleton((i) => GetProdutoStore(i())),
         Bind.lazySingleton((i) => GetUnidadeStore(i())),
         Bind.lazySingleton((i) => GetMaterialStore(i())),
+        Bind.lazySingleton((i) => GetRoteiroStore(i())),
         Bind.lazySingleton((i) => RoteiroListStore(i(), i(), i())),
         Bind.factory((i) => InserirEditarRoteiroStore(i(), i(), i())),
 
@@ -143,6 +146,26 @@ class RoteiroModule extends Module {
         ChildRoute(
           '/new',
           child: (context, args) => RoteiroFormPage(
+            roteiroListStore: context.read(),
+            inserirEditarRoteiroStore: context.read(),
+            getCentroDeTrabalhoStore: context.read(),
+            getFichaTecnicaStore: context.read(),
+            getGrupoDeRecursoStore: context.read(),
+            getGrupoDeRestricaoStore: context.read(),
+            getProdutoStore: context.read(),
+            getUnidadeStore: context.read(),
+            roteiroController: context.read(),
+            operacaoController: context.read(),
+            scaffoldController: context.read(),
+            connectionStore: context.read(),
+            getMaterialStore: context.read(),
+          ),
+        ),
+        ChildRoute(
+          '/:id',
+          child: (context, args) => RoteiroVisualizarPage(
+            roteiroId: args.params['id'],
+            getRoteiroStore: context.read(),
             roteiroListStore: context.read(),
             inserirEditarRoteiroStore: context.read(),
             getCentroDeTrabalhoStore: context.read(),

@@ -22,8 +22,8 @@ class RemoteMaterialMapper {
       fichaTecnicaId: map['ficha_tecnica_produto'],
       produto: RemoteProdutoMapper.fromMapToProdutoEntity(map['produto']),
       unidade: RemoteUnidadeMapper.fromMapToUnidadeEntity(map['unidade']),
-      disponivel: map['disponivel'],
-      quantidade: map['quantidade'],
+      disponivel: DoubleVO(map['disponivel']),
+      quantidade: DoubleVO(map['quantidade']),
     );
   }
 
@@ -38,8 +38,8 @@ class RemoteMaterialMapper {
       'tipo_produto_operacao': 'material_ficha_tecnica', // TODO: Mudar na nova versão do roteiro
     };
 
-    if (material.id.isNotEmpty) {
-      map['produto_operacao'] = material.id;
+    if (material.id != null && material.id!.isNotEmpty) {
+      map['produto_operacao'] = material.id ?? '';
     }
 
     return map;

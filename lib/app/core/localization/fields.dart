@@ -34,12 +34,14 @@ abstract class Fields {
   String get disponivel;
   String get editar;
   String get excluir;
+  String get remover;
   String get execucao;
   String get fichaTecnica;
   String get fim;
   String get grupoDeRecurso;
   String get grupoDeRecursos;
   String get grupoDeRestricao;
+  String get grupoDeRestricoes;
   String get hora;
   String get horario;
   String get horarioFinal;

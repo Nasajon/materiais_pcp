@@ -7,10 +7,14 @@ import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/produto
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_produto_store.dart';
 
 class DesktopOperacaoSelecionarMateriaisWidget extends StatefulWidget {
+  final List<ProdutoEntity> produtos;
+  final List<ProdutoEntity> produtosFichaTecnica;
   final GetProdutoStore getProdutoStore;
 
   const DesktopOperacaoSelecionarMateriaisWidget({
     Key? key,
+    required this.produtos,
+    required this.produtosFichaTecnica,
     required this.getProdutoStore,
   }) : super(key: key);
 
@@ -19,13 +23,12 @@ class DesktopOperacaoSelecionarMateriaisWidget extends StatefulWidget {
 }
 
 class _DesktopOperacaoSelecionarMateriaisWidgetState extends State<DesktopOperacaoSelecionarMateriaisWidget> {
+  List<ProdutoEntity> get produtos => widget.produtos;
+
   @override
   void initState() {
     super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      widget.getProdutoStore.getList(search: '');
-    });
+    widget.getProdutoStore.getList(search: '');
   }
 
   @override
@@ -61,21 +64,46 @@ class _DesktopOperacaoSelecionarMateriaisWidgetState extends State<DesktopOperac
                 store: widget.getProdutoStore,
                 onLoading: (context) => const Center(child: CircularProgressIndicator()),
                 onState: (context, state) {
+                  final listProduto = state.where((produto) => !widget.produtosFichaTecnica.contains(produto)).toList();
                   return ListView.builder(
-                    itemCount: state.length,
+                    itemCount: listProduto.length,
                     itemBuilder: (context, index) {
-                      final produto = state[index];
+                      final produto = listProduto[index];
                       return CheckboxListTile(
-                        value: false,
+                        value: produtos.contains(produto),
                         controlAffinity: ListTileControlAffinity.leading,
                         title: Text(produto.nome),
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          if (value != null && value) {
+                            produtos.add(produto);
+                          } else {
+                            if (produtos.contains(produto)) {
+                              produtos.remove(produto);
+                            }
+                          }
+                          setState(() {});
+                        },
                       );
                     },
                   );
                 },
               ),
-            )
+            ),
+            const SizedBox(height: 14),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                CustomTextButton(
+                  title: translation.fields.cancelar,
+                  onPressed: () => Navigator.of(context).pop(null),
+                ),
+                const SizedBox(width: 12),
+                CustomPrimaryButton(
+                  title: translation.fields.adicionar,
+                  onPressed: () => Navigator.of(context).pop(produtos),
+                )
+              ],
+            ),
           ],
         ),
       ),

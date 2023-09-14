@@ -81,9 +81,8 @@ class DesktopOperacaoDadosBasicosFormWidget extends StatelessWidget {
                 children: [
                   Flexible(
                     child: AutocompleteTextFormField<UnidadeEntity>(
-                      key: ValueKey(operacao.unidade),
-                      initialValue:
-                          operacao.unidade != UnidadeEntity.empty() ? '${operacao.unidade.codigo} - ${operacao.unidade.descricao}' : null,
+                      initialSelectedValue: operacao.unidade != UnidadeEntity.empty() ? operacao.unidade : null,
+                      itemTextValue: (value) => '${value.descricao} - ${value.codigo}',
                       textFieldConfiguration: TextFieldConfiguration(
                         decoration: InputDecoration(
                           labelText: translation.fields.unidadeDeMedida,
@@ -104,9 +103,10 @@ class DesktopOperacaoDadosBasicosFormWidget extends StatelessWidget {
                         if (operacao.unidade == UnidadeEntity.empty()) {
                           return translation.messages.errorCampoObrigatorio;
                         }
+                        return null;
                       },
                       onSelected: (unidade) {
-                        operacaoController.operacao = operacao.copyWith(unidade: unidade);
+                        operacaoController.operacao = operacao.copyWith(unidade: unidade ?? UnidadeEntity.empty());
                       },
                     ),
                   ),
@@ -183,10 +183,8 @@ class DesktopOperacaoDadosBasicosFormWidget extends StatelessWidget {
                 children: [
                   Flexible(
                     child: AutocompleteTextFormField<CentroDeTrabalhoEntity>(
-                      key: ValueKey(operacao.centroDeTrabalho),
-                      initialValue: operacao.centroDeTrabalho != CentroDeTrabalhoEntity.empty()
-                          ? '${operacao.centroDeTrabalho.codigo} - ${operacao.centroDeTrabalho.nome}'
-                          : null,
+                      initialSelectedValue: operacao.centroDeTrabalho != CentroDeTrabalhoEntity.empty() ? operacao.centroDeTrabalho : null,
+                      itemTextValue: (value) => value.nome,
                       textFieldConfiguration: TextFieldConfiguration(
                         decoration: InputDecoration(
                           labelText: translation.fields.centroDeTrabalho,
@@ -207,17 +205,19 @@ class DesktopOperacaoDadosBasicosFormWidget extends StatelessWidget {
                         if (operacao.centroDeTrabalho == CentroDeTrabalhoEntity.empty()) {
                           return translation.messages.errorCampoObrigatorio;
                         }
+                        return null;
                       },
                       onSelected: (centroDeTrabalho) {
-                        operacaoController.operacao = operacao.copyWith(centroDeTrabalho: centroDeTrabalho);
+                        operacaoController.operacao =
+                            operacao.copyWith(centroDeTrabalho: centroDeTrabalho ?? CentroDeTrabalhoEntity.empty());
                       },
                     ),
                   ),
                   const SizedBox(width: 16),
                   Flexible(
                     child: AutocompleteTextFormField<ProdutoEntity>(
-                      key: ValueKey(operacao.produtoResultante),
-                      initialValue: operacao.produtoResultante?.nome,
+                      initialSelectedValue: operacao.produtoResultante,
+                      itemTextValue: (value) => value.nome,
                       textFieldConfiguration: TextFieldConfiguration(
                         decoration: InputDecoration(
                           labelText: translation.fields.produtoResultante,
@@ -236,7 +236,7 @@ class DesktopOperacaoDadosBasicosFormWidget extends StatelessWidget {
                         return Text(error.toString());
                       },
                       onSelected: (produtoResultante) {
-                        operacaoController.operacao = operacao.copyWith(produtoResultante: produtoResultante);
+                        operacaoController.operacao = operacao.copyWith(produtoResultante: produtoResultante ?? ProdutoEntity.empty());
                       },
                     ),
                   )

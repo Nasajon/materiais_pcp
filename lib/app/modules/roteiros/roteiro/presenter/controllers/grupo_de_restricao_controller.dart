@@ -1,7 +1,6 @@
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/grupo_de_restricao_aggregate.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/restricao_aggregate.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/errors/roteiro_failure.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/usecases/get_restricao_por_grupo_usecase.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/controllers/restricao_controller.dart';
 
@@ -29,7 +28,10 @@ class GrupoDeRestricaoController {
     return _grupoDeRestricaoNotifier.value;
   }
 
-  set grupoDeRestricao(GrupoDeRestricaoAggregate value) => _grupoDeRestricaoNotifier.value = value;
+  set grupoDeRestricao(GrupoDeRestricaoAggregate value) {
+    _grupoDeRestricaoNotifier.value = value;
+    _grupoDeRestricaoNotifier.call();
+  }
 
   // Restrições
   // Future<void> adicionarRestricoes() async {

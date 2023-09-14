@@ -9,7 +9,6 @@ import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/external/d
 import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/external/datasources/remote/grupo_de_restricao_datasource_impl.dart';
 import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/infra/repositories/grupo_de_restricao_repository_impl.dart';
 import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/presenter/controllers/grupo_de_restricao_controller.dart';
-import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/presenter/stores/deletar_grupo_de_restricao_store.dart';
 import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/presenter/stores/grupo_de_restricao_form_store.dart';
 import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/presenter/stores/grupo_de_restricao_list_store.dart';
 import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/presenter/ui/pages/grupo_de_restricao_form_page.dart';

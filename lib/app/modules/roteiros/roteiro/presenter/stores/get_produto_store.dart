@@ -9,6 +9,7 @@ class GetProdutoStore extends NasajonNotifierStore<List<ProdutoEntity>> {
   GetProdutoStore(this._getProdutoUsecase) : super(initialState: []);
 
   void getList({required search, Duration delay = const Duration(milliseconds: 500)}) {
+    setLoading(true);
     execute(() async {
       final response = await _getProdutoUsecase(search);
 

@@ -4,20 +4,22 @@ import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/produto
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/unidade_entity.dart';
 
 class MaterialEntity {
-  final String id;
-  final String fichaTecnicaId;
+  final String? id;
+  final String? fichaTecnicaId;
   final ProdutoEntity produto;
   final UnidadeEntity unidade;
   final DoubleVO disponivel;
   final DoubleVO quantidade;
+  final bool produtoAdicional;
 
   const MaterialEntity({
-    this.id = '',
+    this.id,
     required this.fichaTecnicaId,
     required this.produto,
     required this.unidade,
     required this.disponivel,
     required this.quantidade,
+    this.produtoAdicional = false,
   });
 
   MaterialEntity copyWith({
@@ -27,6 +29,7 @@ class MaterialEntity {
     UnidadeEntity? unidade,
     DoubleVO? disponivel,
     DoubleVO? quantidade,
+    bool? produtoAdicional,
   }) {
     return MaterialEntity(
       id: id ?? this.id,
@@ -35,6 +38,7 @@ class MaterialEntity {
       unidade: unidade ?? this.unidade,
       disponivel: disponivel ?? this.disponivel,
       quantidade: quantidade ?? this.quantidade,
+      produtoAdicional: produtoAdicional ?? this.produtoAdicional,
     );
   }
 
@@ -47,11 +51,18 @@ class MaterialEntity {
         other.produto == produto &&
         other.unidade == unidade &&
         other.disponivel == disponivel &&
-        other.quantidade == quantidade;
+        other.quantidade == quantidade &&
+        other.produtoAdicional == produtoAdicional;
   }
 
   @override
   int get hashCode {
-    return id.hashCode ^ fichaTecnicaId.hashCode ^ produto.hashCode ^ unidade.hashCode ^ disponivel.hashCode ^ quantidade.hashCode;
+    return id.hashCode ^
+        fichaTecnicaId.hashCode ^
+        produto.hashCode ^
+        unidade.hashCode ^
+        disponivel.hashCode ^
+        quantidade.hashCode ^
+        produtoAdicional.hashCode;
   }
 }

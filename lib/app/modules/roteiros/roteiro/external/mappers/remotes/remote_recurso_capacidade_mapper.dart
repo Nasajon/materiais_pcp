@@ -7,7 +7,7 @@ class RemoteRecursoCapacidadeMapper {
 
   static RecursoCapacidadeDTO fromMapToRecursoCapacidadeDTO(Map<String, dynamic> map) {
     return RecursoCapacidadeDTO(
-      preparacao: TimeVO('tempo_de_preparacao'),
+      preparacao: TimeVO(map['tempo_de_preparacao']),
       execucao: TimeVO(map['tempo_de_processamento']),
       capacidadeTotal: DoubleVO(map['quantidade_total']),
       minima: DoubleVO(map['quantidade_minima']),

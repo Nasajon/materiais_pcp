@@ -1,11 +1,12 @@
+import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/date_vo.dart';
+import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/roteiro_aggregate.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/produto_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/roteiro_entity.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/unidade_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/external/mappers/remotes/remote_ficha_tecnica_mappers.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/external/mappers/remotes/remote_operacao_mapper.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/external/mappers/remotes/remote_produto_mapper.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/external/mappers/remotes/remote_unidade_mapper.dart';
 
 class RemoteRoteiroMapper {
   const RemoteRoteiroMapper._();
@@ -22,13 +23,13 @@ class RemoteRoteiroMapper {
   static RoteiroAggregate fromMapToRoteiroAggregate(Map<String, dynamic> map) {
     return RoteiroAggregate(
       id: map['roteiro'],
-      codigo: map['codigo'],
-      descricao: map['descricao'],
-      inicio: DateVO(map['inicio']),
-      fim: DateVO(map['fim']),
-      produto: ProdutoEntity.id(map['produto_resultante']),
+      codigo: CodigoVO.text(map['codigo']),
+      descricao: TextVO(map['descricao']),
+      inicio: DateVO.date(DateTime.parse(map['inicio'])),
+      fim: DateVO.date(DateTime.parse(map['fim'])),
+      produto: RemoteProdutoMapper.fromMapToProdutoEntity(map['produto_resultante']),
       fichaTecnica: RemoteFichaTecnicaMapper.fromMapToFichaTecnicaEntity(map['ficha_tecnica']),
-      unidade: UnidadeEntity.id(map['unidade']),
+      unidade: RemoteUnidadeMapper.fromMapToUnidadeEntity(map['unidade']),
       operacoes: List.from(map['operacoes']).map((map) => RemoteOperacaoMapper.fromMapToOperacaoEntity(map)).toList(),
     );
   }

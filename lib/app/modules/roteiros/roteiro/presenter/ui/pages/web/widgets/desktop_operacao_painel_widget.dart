@@ -12,7 +12,6 @@ import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_gr
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_material_store.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_produto_store.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_unidade_store.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/web/widgets/desktop_operacao_form_widget.dart';
 
 class DesktopOperacaoPanelWidget extends StatefulWidget {
   final RoteiroController roteiroController;
@@ -44,7 +43,6 @@ class _DesktopOperacaoPanelWidgetState extends State<DesktopOperacaoPanelWidget>
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    final colorTheme = themeData.extension<AnaColorTheme>();
 
     return SingleChildScrollView(
       padding: const EdgeInsets.only(right: 12),
@@ -193,7 +191,7 @@ class _CardOperacaoWidget extends StatelessWidget {
                         CustomTextButton(
                           title: translation.fields.excluir,
                           textColor: colorTheme?.danger,
-                          onPressed: () {},
+                          onPressed: () => roteiroController.removerOperacao(operacao.ordem),
                         ),
                         CustomTextButton(
                           title: translation.fields.editar,
@@ -201,6 +199,7 @@ class _CardOperacaoWidget extends StatelessWidget {
                           onPressed: () async {
                             // operacaoController.fichaTecnicaId = roteiroController.roteiro.fichaTecnica.id;
                             operacaoController.operacao = operacao;
+                            operacaoController.fichaTecnicaId = roteiroController.roteiro.fichaTecnica.id;
                             operacaoController.materiais = roteiroController.getMateriais(operacao.ordem);
 
                             final response = await Modular.to.pushNamed('./operacao');

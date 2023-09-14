@@ -36,7 +36,7 @@ class RecursoController {
   Future<List<RestricaoAggregate>> _getRestricaoPorGrupo(String grupoDeRestricaoId) async {
     try {
       return await _getRestricaoPorGrupoUsecase(grupoDeRestricaoId);
-    } on RoteiroFailure catch (error) {
+    } on RoteiroFailure {
       // TODO: Verificar uma forma de validar
     }
 
@@ -61,6 +61,33 @@ class RecursoController {
     );
 
     _recursoNotifier.value = recurso.copyWith(grupoDeRestricoes: gruposDeRestricoes);
+  }
+
+  void editarGrupoDeRestricao(GrupoDeRestricaoAggregate grupoDeRestricao) {
+    final gruposDeRestricoes = recurso.grupoDeRestricoes;
+
+    final grupoDeRestricaoOld = gruposDeRestricoes.firstWhere((grupo) => grupo.grupo.id == grupoDeRestricao.grupo.id);
+
+    final restricoes = grupoDeRestricaoOld.restricoes.map((restricao) {
+      if (restricao.capacidade == grupoDeRestricaoOld.capacidade) {
+        return restricao.copyWith(capacidade: grupoDeRestricao.capacidade);
+      }
+
+      return restricao;
+    }).toList();
+
+    final index = gruposDeRestricoes.indexWhere((grupo) => grupo.grupo.id == grupoDeRestricao.grupo.id);
+
+    gruposDeRestricoes.setAll(index, [grupoDeRestricao.copyWith(restricoes: restricoes)]);
+
+    recurso = recurso.copyWith(grupoDeRestricoes: gruposDeRestricoes);
+  }
+
+  void deletarGrupoDeRestricao(String grupoId) {
+    final gruposDeRestricoes = recurso.grupoDeRestricoes;
+    gruposDeRestricoes.removeWhere((grupo) => grupo.grupo.id == grupoId);
+
+    recurso = recurso.copyWith(grupoDeRestricoes: gruposDeRestricoes);
   }
 
   List<GrupoDeRestricaoController> get listGrupoDeRestricaoController => recurso.grupoDeRestricoes

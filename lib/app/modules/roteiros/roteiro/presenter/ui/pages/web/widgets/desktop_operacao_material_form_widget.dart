@@ -6,6 +6,8 @@ import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/double_vo.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/operacao_aggregate.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/material_entity.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/produto_entity.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/unidade_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/controllers/operacao_controller.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_material_store.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_produto_store.dart';
@@ -43,13 +45,22 @@ class _DesktopOperacaoMaterialFormWidgetState extends State<DesktopOperacaoMater
           final listMateriais = state;
 
           for (var material in widget.operacaoController.materiais) {
-            final index = listMateriais.indexWhere((element) => element.produto.id == material.produto.id);
+            if (listMateriais.map((material) => material.produto).toList().contains(material.produto)) {
+              final index = listMateriais.indexWhere((element) => element.produto.id == material.produto.id);
 
-            var novoMaterial = listMateriais[index];
+              var novoMaterial = listMateriais[index];
 
-            novoMaterial = novoMaterial.copyWith(disponivel: DoubleVO(novoMaterial.disponivel.value - material.disponivel.value));
+              novoMaterial = novoMaterial.copyWith(
+                disponivel: DoubleVO(novoMaterial.disponivel.value - material.disponivel.value),
+                produtoAdicional: false,
+              );
 
-            listMateriais.setAll(index, [novoMaterial]);
+              listMateriais.setAll(index, [novoMaterial]);
+            } else {
+              final index = widget.operacaoController.materiais.indexWhere((element) => element.produto.id == material.produto.id);
+              widget.operacaoController.materiais.setAll(index, [material.copyWith(produtoAdicional: true)]);
+              listMateriais.add(material.copyWith(produtoAdicional: true));
+            }
           }
 
           for (var material in widget.operacaoController.operacao.materiais) {
@@ -62,7 +73,7 @@ class _DesktopOperacaoMaterialFormWidgetState extends State<DesktopOperacaoMater
             }
           }
 
-          final operacao = widget.operacaoController.operacao.copyWith(materiais: listMateriais);
+          // final operacao = widget.operacaoController.operacao.copyWith(materiais: listMateriais);
           widget.operacaoController.operacao = widget.operacaoController.operacao.copyWith(materiais: listMateriais);
           setState(() {});
         },
@@ -110,7 +121,7 @@ class _DesktopOperacaoMaterialFormWidgetState extends State<DesktopOperacaoMater
                   ? const Center(child: CircularProgressIndicator())
                   : Column(
                       children: widget.operacaoController.operacao.materiais
-                          .where((element) => element.disponivel.value > 0)
+                          .where((element) => element.disponivel.value > 0 || element.produtoAdicional)
                           .toList()
                           .map(
                             (material) => _CardMaterialWidget(
@@ -133,13 +144,52 @@ class _DesktopOperacaoMaterialFormWidgetState extends State<DesktopOperacaoMater
                   Center(
                     child: CustomOutlinedButton(
                       title: translation.fields.adicionarMateriais,
-                      onPressed: () {
-                        showDialog(
+                      onPressed: () async {
+                        final responseModal = await showDialog(
                           context: context,
                           builder: (context) => DesktopOperacaoSelecionarMateriaisWidget(
+                            produtosFichaTecnica: widget.operacaoController.operacao.materiais
+                                .where((element) => !element.produtoAdicional)
+                                .map((material) => material.produto)
+                                .toList(),
+                            produtos: widget.operacaoController.operacao.materiais
+                                .where((element) => element.produtoAdicional)
+                                .map((material) => material.produto)
+                                .toList(),
                             getProdutoStore: widget.getProdutoStore,
                           ),
                         );
+
+                        if (responseModal != null && responseModal is List<ProdutoEntity>) {
+                          final materiais =
+                              widget.operacaoController.operacao.materiais.where((material) => !material.produtoAdicional).toList();
+                          final materiaisAdicionais =
+                              widget.operacaoController.operacao.materiais.where((material) => material.produtoAdicional).toList();
+
+                          materiaisAdicionais.removeWhere((adicional) => !responseModal.contains(adicional.produto));
+                          responseModal.removeWhere(
+                            (adicional) => materiaisAdicionais.map((material) => material.produto).toList().contains(adicional),
+                          );
+
+                          materiais
+                            ..addAll(materiaisAdicionais)
+                            ..addAll(
+                              responseModal.map(
+                                (produto) => MaterialEntity(
+                                  fichaTecnicaId: null,
+                                  produto: produto,
+                                  unidade: produto.unidade ?? const UnidadeEntity(id: '', codigo: '', descricao: '', decimal: 0),
+                                  disponivel: DoubleVO(null),
+                                  quantidade: DoubleVO(null),
+                                  produtoAdicional: true,
+                                ),
+                              ),
+                            );
+
+                          widget.operacaoController.operacao = widget.operacaoController.operacao.copyWith(materiais: materiais);
+
+                          setState(() {});
+                        }
                       },
                     ),
                   )
@@ -232,23 +282,26 @@ class _CardMaterialWidget extends StatelessWidget {
                       ),
                     ),
                     Flexible(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            translation.fields.disponibilidade,
-                            style: themeData.textTheme.labelLarge?.copyWith(
-                              fontWeight: FontWeight.w400,
+                      child: Opacity(
+                        opacity: !material.produtoAdicional ? 1 : 0,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              translation.fields.disponibilidade,
+                              style: themeData.textTheme.labelLarge?.copyWith(
+                                fontWeight: FontWeight.w400,
+                              ),
                             ),
-                          ),
-                          Text(
-                            material.disponivel.formatDoubleToString(decimalDigits: material.unidade.decimal),
-                            style: themeData.textTheme.labelLarge?.copyWith(
-                              fontWeight: FontWeight.w700,
+                            Text(
+                              material.disponivel.formatDoubleToString(decimalDigits: material.unidade.decimal),
+                              style: themeData.textTheme.labelLarge?.copyWith(
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ],

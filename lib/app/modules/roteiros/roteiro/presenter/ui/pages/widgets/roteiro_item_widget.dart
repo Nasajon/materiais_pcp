@@ -5,7 +5,6 @@ import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/widgets/list_tile_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/notification_snack_bar.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/roteiro_aggregate.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/roteiro_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/deletar_roteiro_store.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/roteiro_list_store.dart';
@@ -58,9 +57,9 @@ class RoteiroItemWidget extends StatelessWidget {
                       color: colorTheme?.icons,
                     ),
                     onSelected: (value) {
-                      if (value == 1) {
+                      if (value == translation.fields.visualizar) {
                         Modular.to.pushNamed('./${roteiro.id}');
-                      } else if (value == 2) {
+                      } else if (value == translation.fields.excluir) {
                         Asuka.showDialog(
                           barrierColor: Colors.black38,
                           builder: (context) {
@@ -77,12 +76,12 @@ class RoteiroItemWidget extends StatelessWidget {
                     },
                     itemBuilder: (context) {
                       return [
-                        PopupMenuItem<int>(
-                          value: 1,
+                        PopupMenuItem<String>(
+                          value: translation.fields.visualizar,
                           child: Text(translation.fields.visualizar),
                         ),
-                        PopupMenuItem<int>(
-                          value: 2,
+                        PopupMenuItem<String>(
+                          value: translation.fields.excluir,
                           child: Text(translation.fields.excluir),
                         ),
                       ];

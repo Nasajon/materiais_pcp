@@ -270,4 +270,10 @@ class FieldsPt extends Fields {
 
   @override
   String get criarRoteiro => 'Criar roteiro';
+
+  @override
+  String get remover => 'Remover';
+
+  @override
+  String get grupoDeRestricoes => 'Grupo de restrições';
 }

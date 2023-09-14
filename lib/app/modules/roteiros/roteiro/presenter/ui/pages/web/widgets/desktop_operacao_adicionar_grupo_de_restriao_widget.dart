@@ -7,6 +7,7 @@ import 'package:pcp_flutter/app/core/modules/domain/value_object/double_vo.dart'
 import 'package:pcp_flutter/app/core/modules/domain/value_object/time_vo.dart';
 import 'package:pcp_flutter/app/core/utils/event_timer.dart';
 import 'package:pcp_flutter/app/core/widgets/dropdown_widget.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/grupo_de_restricao_aggregate.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/grupo_de_restricao_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/unidade_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/enums/operacao_enum.dart';
@@ -19,6 +20,7 @@ class DesktopOperacaoAdicionarGrupoDeRestricaoWidget extends StatelessWidget {
   final GetGrupoDeRestricaoStore getGrupoDeRestricaoStore;
   final GetUnidadeStore getUnidadeStore;
   final List<String> listaDeIdsDosGruposParaDeletar;
+  final VoidCallback? removerGrupoDeRestricao;
 
   DesktopOperacaoAdicionarGrupoDeRestricaoWidget({
     Key? key,
@@ -26,6 +28,7 @@ class DesktopOperacaoAdicionarGrupoDeRestricaoWidget extends StatelessWidget {
     required this.getGrupoDeRestricaoStore,
     required this.getUnidadeStore,
     required this.listaDeIdsDosGruposParaDeletar,
+    this.removerGrupoDeRestricao,
   }) : super(key: key);
 
   final formKey = GlobalKey<FormState>();
@@ -63,11 +66,10 @@ class DesktopOperacaoAdicionarGrupoDeRestricaoWidget extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               AutocompleteTextFormField<GrupoDeRestricaoEntity>(
-                key: ValueKey(grupoDeRestricao.grupo),
-                initialValue: grupoDeRestricao.grupo != GrupoDeRestricaoEntity.empty()
-                    ? '${grupoDeRestricao.grupo.codigo} - ${grupoDeRestricao.grupo.nome}'
-                    : null,
+                initialSelectedValue: grupoDeRestricao.grupo != GrupoDeRestricaoEntity.empty() ? grupoDeRestricao.grupo : null,
+                itemTextValue: (value) => value.nome,
                 textFieldConfiguration: TextFieldConfiguration(
+                  enabled: grupoDeRestricao == GrupoDeRestricaoAggregate.empty(),
                   decoration: InputDecoration(
                     labelText: translation.fields.grupoDeRestricao,
                   ),
@@ -90,17 +92,17 @@ class DesktopOperacaoAdicionarGrupoDeRestricaoWidget extends StatelessWidget {
                   if (grupoDeRestricao.grupo == GrupoDeRestricaoEntity.empty()) {
                     return translation.messages.errorCampoObrigatorio;
                   }
+                  return null;
                 },
                 onSelected: (value) {
-                  grupoDeRestricaoController.grupoDeRestricao = grupoDeRestricao.copyWith(grupo: value);
+                  grupoDeRestricaoController.grupoDeRestricao = grupoDeRestricao.copyWith(grupo: value ?? GrupoDeRestricaoEntity.empty());
                 },
               ),
               const SizedBox(height: 16),
               AutocompleteTextFormField<UnidadeEntity>(
-                key: ValueKey(grupoDeRestricao.capacidade.unidade),
-                initialValue: grupoDeRestricao.capacidade.unidade != UnidadeEntity.empty()
-                    ? '${grupoDeRestricao.capacidade.unidade.codigo} - ${grupoDeRestricao.capacidade.unidade.descricao}'
-                    : null,
+                initialSelectedValue:
+                    grupoDeRestricao.capacidade.unidade != UnidadeEntity.empty() ? grupoDeRestricao.capacidade.unidade : null,
+                itemTextValue: (value) => value.descricao,
                 textFieldConfiguration: TextFieldConfiguration(
                   decoration: InputDecoration(
                     labelText: translation.fields.unidadeDeMedida,
@@ -121,9 +123,10 @@ class DesktopOperacaoAdicionarGrupoDeRestricaoWidget extends StatelessWidget {
                   if (grupoDeRestricao.capacidade.unidade == UnidadeEntity.empty()) {
                     return translation.messages.errorCampoObrigatorio;
                   }
+                  return null;
                 },
                 onSelected: (unidade) {
-                  final capacidade = grupoDeRestricao.capacidade.copyWith(unidade: unidade);
+                  final capacidade = grupoDeRestricao.capacidade.copyWith(unidade: unidade ?? UnidadeEntity.empty());
                   grupoDeRestricaoController.grupoDeRestricao = grupoDeRestricao.copyWith(capacidade: capacidade);
                 },
               ),
@@ -189,6 +192,14 @@ class DesktopOperacaoAdicionarGrupoDeRestricaoWidget extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
+                  if (removerGrupoDeRestricao != null) ...[
+                    CustomTextButton(
+                      title: translation.fields.excluir,
+                      textColor: colorTheme?.danger,
+                      onPressed: removerGrupoDeRestricao,
+                    ),
+                    const Spacer(),
+                  ],
                   CustomTextButton(
                     title: translation.fields.cancelar,
                     onPressed: () {

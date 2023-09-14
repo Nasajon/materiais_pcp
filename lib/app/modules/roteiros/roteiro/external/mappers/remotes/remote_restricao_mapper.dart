@@ -17,9 +17,9 @@ class RemoteRestricaoMapper {
 
   static RestricaoAggregate fromMapToRestricaoAggregate(Map<String, dynamic> map) {
     return RestricaoAggregate(
-      id: map['restricao'],
-      codigo: map['codigo'],
-      nome: map['nome'],
+      id: map['restricao']['restricao'],
+      codigo: map['restricao']['codigo'],
+      nome: map['restricao']['nome'],
       capacidade: RemoteRestricaoCapacidadeMapper.fromMapToRestricaoCapacidadeDTO(map),
     );
   }

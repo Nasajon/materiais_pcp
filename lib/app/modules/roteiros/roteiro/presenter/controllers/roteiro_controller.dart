@@ -1,11 +1,9 @@
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/double_vo.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/operacao_aggregate.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/roteiro_aggregate.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/material_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/usecases/get_recurso_por_grupo_usecase.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/usecases/get_restricao_por_grupo_usecase.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/controllers/operacao_controller.dart';
 
 class RoteiroController {
   final GetRecursoPorGrupoUsecase _getRecursoPorGrupoUsecase;
@@ -73,6 +71,8 @@ class RoteiroController {
     for (var operacao in roteiro.operacoes) {
       if (operacao.ordem != ordemOperacao) {
         for (var material in operacao.materiais) {
+          if (material.produtoAdicional || material.fichaTecnicaId == null) continue;
+
           if (materiais.where((element) => element.produto.id == material.produto.id).isEmpty) {
             materiais.add(material.copyWith(disponivel: DoubleVO(0), quantidade: null));
           }
@@ -88,6 +88,28 @@ class RoteiroController {
       }
     }
 
+    if (ordemOperacao != null) {
+      for (var operacao in roteiro.operacoes.where((operacao) => operacao.ordem == ordemOperacao)) {
+        for (var material in operacao.materiais.where((material) => material.fichaTecnicaId == null || material.produtoAdicional)) {
+          if (materiais.where((element) => element.produto.id == material.produto.id).isEmpty) {
+            materiais.add(material);
+          }
+        }
+      }
+    }
+
     return materiais;
+  }
+
+  void removerOperacao(int ordemOperacao) {
+    final operacoes = roteiro.operacoes;
+
+    operacoes.removeWhere((operacao) => operacao.ordem == ordemOperacao);
+
+    for (var i = 0; i < operacoes.length; i++) {
+      operacoes[i] = operacoes[i].copyWith(ordem: i + 1);
+    }
+
+    roteiro = roteiro.copyWith(operacoes: operacoes);
   }
 }

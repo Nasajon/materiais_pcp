@@ -1,24 +1,31 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:flutter_global_dependencies/flutter_global_dependencies.dart' hide showDialog;
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/grupo_de_restricao_aggregate.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/controllers/grupo_de_restricao_controller.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/controllers/recurso_controller.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_grupo_de_restricao_store.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_unidade_store.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/web/widgets/desktop_operacao_adicionar_grupo_de_restriao_widget.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/web/widgets/desktop_operacao_restricao_widget.dart';
 
 class DesktopOperacaoGrupoDeRescricaoWidget extends StatelessWidget {
   final RecursoController recursoController;
+  final GetGrupoDeRestricaoStore getGrupoDeRestricaoStore;
+  final GetUnidadeStore getUnidadeStore;
 
   const DesktopOperacaoGrupoDeRescricaoWidget({
     Key? key,
     required this.recursoController,
+    required this.getGrupoDeRestricaoStore,
+    required this.getUnidadeStore,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    final colorTheme = themeData.extension<AnaColorTheme>();
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -36,10 +43,14 @@ class DesktopOperacaoGrupoDeRescricaoWidget extends StatelessWidget {
             const SizedBox(height: 12),
             if (recursoController.listGrupoDeRestricaoController.isNotEmpty)
               ...recursoController.listGrupoDeRestricaoController
-                  .map((controller) => ExpansionGrupoDeRescricaoWidget(
-                        recursoController: recursoController,
-                        grupoDeRestricaoController: controller,
-                      ))
+                  .map(
+                    (controller) => ExpansionGrupoDeRescricaoWidget(
+                      recursoController: recursoController,
+                      grupoDeRestricaoController: controller,
+                      getGrupoDeRestricaoStore: getGrupoDeRestricaoStore,
+                      getUnidadeStore: getUnidadeStore,
+                    ),
+                  )
                   .toList()
             else
               Center(
@@ -66,24 +77,57 @@ class DesktopOperacaoGrupoDeRescricaoWidget extends StatelessWidget {
   }
 }
 
-class ExpansionGrupoDeRescricaoWidget extends StatelessWidget {
+class ExpansionGrupoDeRescricaoWidget extends StatefulWidget {
   final RecursoController recursoController;
   final GrupoDeRestricaoController grupoDeRestricaoController;
+  final GetGrupoDeRestricaoStore getGrupoDeRestricaoStore;
+  final GetUnidadeStore getUnidadeStore;
 
   const ExpansionGrupoDeRescricaoWidget({
     Key? key,
     required this.recursoController,
     required this.grupoDeRestricaoController,
+    required this.getGrupoDeRestricaoStore,
+    required this.getUnidadeStore,
   }) : super(key: key);
+
+  @override
+  State<ExpansionGrupoDeRescricaoWidget> createState() => _ExpansionGrupoDeRescricaoWidgetState();
+}
+
+class _ExpansionGrupoDeRescricaoWidgetState extends State<ExpansionGrupoDeRescricaoWidget> {
+  Future<bool> deletarGrupoDeRestricao(String grupoId) async {
+    final response = await showDialog(
+      context: context,
+      builder: (context) {
+        return ConfirmationModalWidget(
+          title: translation.titles.removerEntidade(translation.fields.grupoDeRestricoes),
+          titleCancel: translation.fields.remover,
+          titleSuccess: translation.fields.cancelar,
+          messages: translation.messages.mensagemRemoverEntidade(translation.fields.grupoDeRestricoes),
+          onCancel: () {
+            widget.recursoController.deletarGrupoDeRestricao(grupoId);
+            setState(() {});
+          },
+        );
+      },
+    );
+
+    if (response is bool) {
+      return response;
+    }
+
+    return false;
+  }
 
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     final colorTheme = themeData.extension<AnaColorTheme>();
 
-    context.select(() => [grupoDeRestricaoController.grupoDeRestricao]);
+    context.select(() => [widget.grupoDeRestricaoController.grupoDeRestricao]);
 
-    final grupoDeRestricao = grupoDeRestricaoController.grupoDeRestricao;
+    final grupoDeRestricao = widget.grupoDeRestricaoController.grupoDeRestricao;
 
     // Usar 250w, 10 minutos durante a operação
     var textoDaTag = '';
@@ -117,24 +161,65 @@ class ExpansionGrupoDeRescricaoWidget extends StatelessWidget {
             titleColor: colorTheme?.text,
             borderColor: colorTheme?.text,
           ),
-          IconButton(
-            onPressed: () => Navigator.pop(context),
+          PopupMenuButton(
+            splashRadius: 20,
             icon: Icon(
               FontAwesomeIcons.ellipsisVertical,
               size: 18,
               color: colorTheme?.icons ?? Colors.transparent,
             ),
-            splashRadius: 20,
+            itemBuilder: (context) {
+              return [
+                PopupMenuItem<String>(
+                  value: translation.fields.editar,
+                  child: Text(translation.fields.editar),
+                ),
+                PopupMenuItem<String>(
+                  value: translation.fields.remover,
+                  child: Text(translation.fields.remover),
+                ),
+              ];
+            },
+            onSelected: (value) async {
+              if (value == translation.fields.editar) {
+                final responseModal = await showDialog(
+                  context: context,
+                  builder: (context) {
+                    return DesktopOperacaoAdicionarGrupoDeRestricaoWidget(
+                      grupoDeRestricaoController: widget.grupoDeRestricaoController,
+                      getGrupoDeRestricaoStore: widget.getGrupoDeRestricaoStore,
+                      getUnidadeStore: widget.getUnidadeStore,
+                      listaDeIdsDosGruposParaDeletar: [],
+                      removerGrupoDeRestricao: () async {
+                        final response = await deletarGrupoDeRestricao(grupoDeRestricao.grupo.id);
+                        if (!response) {
+                          Navigator.of(context).pop(null);
+                        }
+                      },
+                    );
+                  },
+                );
+
+                if (responseModal != null &&
+                    responseModal is GrupoDeRestricaoController &&
+                    responseModal.grupoDeRestricao != GrupoDeRestricaoAggregate.empty()) {
+                  widget.recursoController.editarGrupoDeRestricao(responseModal.grupoDeRestricao);
+                  setState(() {});
+                }
+              } else if (value == translation.fields.remover) {
+                await deletarGrupoDeRestricao(grupoDeRestricao.grupo.id);
+              }
+            },
           ),
         ],
       ),
       children: [
         Divider(color: colorTheme?.border, height: 1),
-        ...grupoDeRestricaoController.listRestricaoController
+        ...widget.grupoDeRestricaoController.listRestricaoController
             .map(
               (restricaoController) => DesktopOperacaoRestricaoWidget(
-                grupoRestricaoId: grupoDeRestricaoController.grupoDeRestricao.grupo.id,
-                recursoController: recursoController,
+                grupoRestricaoId: widget.grupoDeRestricaoController.grupoDeRestricao.grupo.id,
+                recursoController: widget.recursoController,
                 restricaoController: restricaoController,
                 unidade: grupoDeRestricao.capacidade.unidade,
               ),

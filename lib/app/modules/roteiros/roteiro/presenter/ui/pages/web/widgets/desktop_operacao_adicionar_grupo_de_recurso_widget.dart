@@ -61,10 +61,8 @@ class DesktopOperacaoAdicionarGrupoDeRecursoWidget extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               AutocompleteTextFormField<GrupoDeRecursoEntity>(
-                key: ValueKey(grupoDeRecurso.grupo),
-                initialValue: grupoDeRecurso.grupo != GrupoDeRecursoEntity.empty()
-                    ? '${grupoDeRecurso.grupo.codigo} - ${grupoDeRecurso.grupo.nome}'
-                    : null,
+                initialSelectedValue: grupoDeRecurso.grupo != GrupoDeRecursoEntity.empty() ? grupoDeRecurso.grupo : null,
+                itemTextValue: (value) => value.nome,
                 textFieldConfiguration: TextFieldConfiguration(
                   decoration: InputDecoration(
                     labelText: translation.fields.grupoDeRecurso,
@@ -90,9 +88,10 @@ class DesktopOperacaoAdicionarGrupoDeRecursoWidget extends StatelessWidget {
                   if (grupoDeRecurso.grupo == GrupoDeRecursoEntity.empty()) {
                     return translation.messages.errorCampoObrigatorio;
                   }
+                  return null;
                 },
                 onSelected: (value) {
-                  grupoDeRecursoController.grupoDeRecurso = grupoDeRecurso.copyWith(grupo: value);
+                  grupoDeRecursoController.grupoDeRecurso = grupoDeRecurso.copyWith(grupo: value ?? GrupoDeRecursoEntity.empty());
                 },
               ),
               const SizedBox(height: 16),

@@ -1,4 +1,6 @@
+import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/time_vo.dart';
+import 'package:pcp_flutter/app/core/modules/domain/value_object/double_vo.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/operacao_aggregate.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/unidade_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/enums/medicao_tempo_enum.dart';
@@ -6,6 +8,7 @@ import 'package:pcp_flutter/app/modules/roteiros/roteiro/external/mappers/remote
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/external/mappers/remotes/remote_grupo_de_recurso_mapper.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/external/mappers/remotes/remote_material_mapper.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/external/mappers/remotes/remote_produto_mapper.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/external/mappers/remotes/remote_unidade_mapper.dart';
 
 class RemoteOperacaoMapper {
   const RemoteOperacaoMapper._();
@@ -14,13 +17,13 @@ class RemoteOperacaoMapper {
     return OperacaoAggregate(
       id: map['operacao'],
       ordem: map['ordem'],
-      nome: map['nome'],
-      razaoConversao: map['razao_conversao'],
+      nome: TextVO(map['nome']),
+      razaoConversao: DoubleVO(map['razao_conversao']),
       preparacao: TimeVO(map['preparacao']),
       execucao: TimeVO(map['execucao']),
-      produtoResultante: RemoteProdutoMapper.fromMapToProdutoEntity(map['produto_resultante']),
+      produtoResultante: map['produto_resultante'] != null ? RemoteProdutoMapper.fromMapToProdutoEntity(map['produto_resultante']) : null,
       medicaoTempo: MedicaoTempoEnum.selectByValue(map['medicao_tempo']),
-      unidade: UnidadeEntity.id(map['unidade']),
+      unidade: RemoteUnidadeMapper.fromMapToUnidadeEntity(map['unidade']),
       centroDeTrabalho: RemoteCentroDeTrabalhoMapper.fromMapToCentroDeTrabalho(map['centro_de_trabalho']),
       materiais: List.from(map['produtos']).map((map) => RemoteMaterialMapper.fromMapToMaterial(map)).toList(),
       gruposDeRecurso:

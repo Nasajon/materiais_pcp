@@ -77,11 +77,6 @@ class DesktopRoteiroFormPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return RxBuilder(
       builder: (context) {
-        // context.select(() => [
-        //       roteiroController.roteiro,
-        //       roteiroController.pageIndex,
-        //     ]);
-
         final pageIndex = roteiroController.pageIndex;
 
         return CustomScaffold.titleString(
@@ -132,7 +127,7 @@ class DesktopRoteiroFormPage extends StatelessWidget {
                       DesktopConfirmacaoWidget(roteiroController: roteiroController),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -155,7 +150,7 @@ class DesktopRoteiroFormPage extends StatelessWidget {
                 Asuka.showSnackBar(
                   SnackBar(
                     content: Text(
-                      translation.messages.criouUmEntidadeComSucesso(translation.fields.recurso),
+                      translation.messages.criouUmEntidadeComSucesso(translation.fields.roteiro),
                       style: AnaTextStyles.grey14Px.copyWith(fontSize: 15, color: Colors.white, letterSpacing: 0.25),
                     ),
                     backgroundColor: const Color.fromRGBO(0, 0, 0, 0.87),
