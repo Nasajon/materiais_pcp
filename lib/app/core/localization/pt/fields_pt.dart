@@ -14,6 +14,9 @@ class FieldsPt extends Fields {
   String get adicionarIndisponibilidade => 'Adicionar indisponibilidade';
 
   @override
+  String get adicionarMaterial => 'Adicionar material';
+
+  @override
   String get cancelar => 'Cancelar';
 
   @override
@@ -24,6 +27,9 @@ class FieldsPt extends Fields {
 
   @override
   String get centroDeTrabalho => 'Centro de trabalho';
+
+  @override
+  String get criarFichaTecnica => 'Criar ficha técnica';
 
   @override
   String get cnpj => 'CNPJ';
@@ -60,6 +66,9 @@ class FieldsPt extends Fields {
 
   @override
   String get descartar => 'Descartar';
+
+  @override
+  String get descricao => 'Descrição';
 
   @override
   String get diaInteiro => 'Dia inteiro';
@@ -113,6 +122,12 @@ class FieldsPt extends Fields {
   String get limitarCapacidadeDeProducao => 'Limitar capacidade de produção';
 
   @override
+  String get material => 'Material';
+
+  @override
+  String get materiais => 'Materiais';
+
+  @override
   String get motivo => 'Motivo';
 
   @override
@@ -120,6 +135,15 @@ class FieldsPt extends Fields {
 
   @override
   String get periodo => 'Período';
+
+  @override
+  String get produto => 'Produto';
+
+  @override
+  String get quantidade => 'Quantidade';
+
+  @override
+  String get quantidadeDeProducao => 'Quantidade de produção';
 
   @override
   String get recurso => 'Recurso';

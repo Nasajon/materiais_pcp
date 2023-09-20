@@ -8,6 +8,9 @@ class TitlesPt extends Titles {
   String get adicionarHorario => 'Adicionar horário';
 
   @override
+  String get adicionarMaterial => 'Adicionar material';
+
+  @override
   String get adicionarIndisponibilidade => 'Adicionar indisponibilidade';
 
   @override
@@ -16,6 +19,8 @@ class TitlesPt extends Titles {
   @override
   String get adicioneUmaIndisponibilidade => 'Adicione uma indisponibilidade';
 
+  @override
+  String get adicioneUmMaterial => 'Adicione um material';
   @override
   String get adicioneUmHorario => 'Adicione um horário';
 
@@ -27,6 +32,9 @@ class TitlesPt extends Titles {
 
   @override
   String get criarCentroDeTrabalho => 'Criar centro de trabalho';
+
+  @override
+  String get criarFichaTecnica => 'Criar ficha técnica';
 
   @override
   String get criarGrupoDeRecursos => 'Criar grupo de recursos';
@@ -56,13 +64,25 @@ class TitlesPt extends Titles {
   String get editarHorario => 'Editar horário';
 
   @override
+  String get editarMaterial => 'Editar material';
+
+  @override
   String get editarIndisponibilidade => 'Editar indisponibilidade';
+
+  @override
+  String get fichaTecnica => 'Ficha técnica';
+
+  @override
+  String get fichasTecnicas => 'Fichas técnicas';
 
   @override
   String get gruposDeRecursos => 'Grupos de recursos';
 
   @override
   String get gruposDeRestricao => 'Grupos de restrição';
+
+  @override
+  String get materiais => 'Materiais';
 
   @override
   String get restricoesSecundarias => 'Restrições secundárias';
@@ -75,6 +95,9 @@ class TitlesPt extends Titles {
 
   @override
   String get turnosDeTrabalho => 'Turnos de trabalho';
+
+  @override
+  String get ultimasFichasTecnicasAcessadas => 'Ultimas fichas técnicas acessadas';
 
   @override
   String get ultimasRestricoesAcessadas => 'Últimas restrições acessadas';

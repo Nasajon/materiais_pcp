@@ -1,3 +1,4 @@
+import 'package:pcp_flutter/app/core/localization/enums/artigo.dart';
 import 'package:pcp_flutter/app/core/localization/messages.dart';
 
 class MessagesPt extends Messages {
@@ -41,16 +42,32 @@ class MessagesPt extends Messages {
   String get pesquisarNomeOuPalavraChave => 'Pesquisar por nome ou palavra-chave.';
 
   @override
-  String criouUmaEntidadeComSucesso(String entidade) => 'Você criou uma ${entidade.toLowerCase()} com sucesso.';
+  String criouUmaEntidadeComSucesso(String entidade, ArtigoEnum artigo) {
+    return artigo == ArtigoEnum.artigoFeminino
+        ? 'Você criou uma ${entidade.toLowerCase()} com sucesso.'
+        : 'Você criou um ${entidade.toLowerCase()} com sucesso.';
+  }
 
   @override
-  String criouUmEntidadeComSucesso(String entidade) => 'Você criou um ${entidade.toLowerCase()} com sucesso.';
+  String criouAEntidadeComSucesso(String entidade, ArtigoEnum artigo) {
+    return artigo == ArtigoEnum.artigoFeminino
+        ? 'Você criou a ${entidade.toLowerCase()} com sucesso.'
+        : 'Você criou o ${entidade.toLowerCase()} com sucesso.';
+  }
 
   @override
-  String editouUmaEntidadeComSucesso(String entidade) => 'Você editou uma ${entidade.toLowerCase()} com sucesso.';
+  String editouUmaEntidadeComSucesso(String entidade, ArtigoEnum artigo) {
+    return artigo == ArtigoEnum.artigoFeminino
+        ? 'Você editou uma ${entidade.toLowerCase()} com sucesso.'
+        : 'Você editou um ${entidade.toLowerCase()} com sucesso.';
+  }
 
   @override
-  String editouUmEntidadeComSucesso(String entidade) => 'Você editou um ${entidade.toLowerCase()} com sucesso.';
+  String editouAEntidadeComSucesso(String entidade, ArtigoEnum artigo) {
+    return artigo == ArtigoEnum.artigoFeminino
+        ? 'Você editou a ${entidade.toLowerCase()} com sucesso.'
+        : 'Você editou o ${entidade.toLowerCase()} com sucesso.';
+  }
 
   @override
   String erroDadosIncompletoOuAusenteDaEntidade(String entidade) =>
@@ -61,22 +78,62 @@ class MessagesPt extends Messages {
       'Os dados do ${entidade.toLowerCase()} estão incompletos ou não foram informados.';
 
   @override
-  String excluirUmaEntidade(String entidade) =>
-      'Você está prestes a excluir uma ${entidade.toLowerCase()}. Esta ação não poderá ser desfeita.';
+  String excluirUmaEntidade(String entidade, ArtigoEnum artigo) {
+    return artigo == ArtigoEnum.artigoFeminino
+        ? 'Você está prestes a excluir uma ${entidade.toLowerCase()}. Esta ação não poderá ser desfeita.'
+        : 'Você está prestes a excluir um ${entidade.toLowerCase()}. Esta ação não poderá ser desfeita.';
+  }
 
   @override
-  String excluirUmEntidade(String entidade) =>
-      'Você está prestes a excluir um ${entidade.toLowerCase()}. Esta ação não poderá ser desfeita.';
+  String excluirAEntidade(String entidade, ArtigoEnum artigo) {
+    return artigo == ArtigoEnum.artigoFeminino
+        ? 'Você está prestes a excluir a ${entidade.toLowerCase()}. Esta ação não poderá ser desfeita.'
+        : 'Você está prestes a excluir o ${entidade.toLowerCase()}. Esta ação não poderá ser desfeita.';
+  }
 
   @override
-  String excluiuUmaEntidadeComSucesso(String entidade) => 'Você excluiu uma ${entidade.toLowerCase()} com sucesso.';
+  String excluiuUmaEntidadeComSucesso(String entidade, ArtigoEnum artigo) {
+    return artigo == ArtigoEnum.artigoFeminino
+        ? 'Você excluiu uma ${entidade.toLowerCase()} com sucesso.'
+        : 'Você excluiu um ${entidade.toLowerCase()} com sucesso.';
+  }
 
   @override
-  String excluiuUmEntidadeComSucesso(String entidade) => 'Você excluiu um ${entidade.toLowerCase()} com sucesso.';
+  String excluiuAEntidadeComSucesso(String entidade, ArtigoEnum artigo) {
+    return artigo == ArtigoEnum.artigoFeminino
+        ? 'Você excluiu a ${entidade.toLowerCase()} com sucesso.'
+        : 'Você excluiu o ${entidade.toLowerCase()} com sucesso.';
+  }
 
   @override
   String nenhumaEntidadeEncontrada(String entidade) => 'Nenhuma ${entidade.toLowerCase()} encontrada.';
 
   @override
   String nenhumEntidadeEncontrado(String entidade) => 'Nenhum ${entidade.toLowerCase()} encontrado.';
+
+  @override
+  String selecioneUm(String campo, ArtigoEnum artigo) {
+    return artigo == ArtigoEnum.artigoMasculino ? 'Selecione um ${campo.toLowerCase()}' : 'Selecione uma ${campo.toLowerCase()}';
+  }
+
+  @override
+  String insiraUm(String campo, ArtigoEnum artigo) {
+    return artigo == ArtigoEnum.artigoMasculino ? 'Insira um ${campo.toLowerCase()}' : 'Insira uma ${campo.toLowerCase()}';
+  }
+
+  @override
+  String selecioneO(String campo, ArtigoEnum artigo) {
+    return artigo == ArtigoEnum.artigoMasculino ? 'Selecione o ${campo.toLowerCase()}' : 'Selecione a ${campo.toLowerCase()}';
+  }
+
+  @override
+  String insiraO(String campo, ArtigoEnum artigo) {
+    return artigo == ArtigoEnum.artigoMasculino ? 'Insira o ${campo.toLowerCase()}' : 'Insira a ${campo.toLowerCase()}';
+  }
+
+  @override
+  String get nenhumMaterialFoiAdicionado => 'Nenhum material foi adicionado\nAdicione um material clicando no botão abaixo.';
+
+  @override
+  String get nenhumaFichaTecnicaEncontrada => 'Nenhuma ficha técnica foi encontrada';
 }

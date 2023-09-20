@@ -2,12 +2,16 @@ abstract class Titles {
   String get adicionarDisponibilidade;
   String get adicionarHorario;
   String get adicionarIndisponibilidade;
+  String get adicionarMaterial;
+  String get editarMaterial;
   String get adicioneUmaDisponibilidade;
   String get adicioneUmaIndisponibilidade;
   String get adicioneUmHorario;
+  String get adicioneUmMaterial;
   String get centroDeTrabalho;
   String get centrosDeTrabalho;
   String get criarCentroDeTrabalho;
+  String get criarFichaTecnica;
   String get criarGrupoDeRecursos;
   String get criarGrupoDeRestricoes;
   String get criarRecurso;
@@ -18,6 +22,9 @@ abstract class Titles {
   String get editarDisponibilidade;
   String get editarHorario;
   String get editarIndisponibilidade;
+  String get fichaTecnica;
+  String get fichasTecnicas;
+  String get materiais;
   String get gruposDeRecursos;
   String get gruposDeRestricao;
   String get restricoesSecundarias;
@@ -30,5 +37,6 @@ abstract class Titles {
   String get ultimosGruposAcessados;
   String get ultimosRecursosAcessados;
   String get ultimosTurnosAcessados;
+  String get ultimasFichasTecnicasAcessadas;
   String excluirEntidade(String entidade);
 }
