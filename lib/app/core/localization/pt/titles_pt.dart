@@ -1,4 +1,3 @@
-import 'package:pcp_flutter/app/core/localization/enums/artigo_enum.dart';
 import 'package:pcp_flutter/app/core/localization/titles.dart';
 
 class TitlesPt extends Titles {
@@ -141,4 +140,7 @@ class TitlesPt extends Titles {
 
   @override
   String get adicionarMateriais => 'Adicionar material';
+
+  @override
+  String get adicionarGrupoDeRecurso => 'Adicionar grupo de recursos';
 }

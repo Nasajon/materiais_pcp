@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/modules/presenter/widgets/card_widget.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/domain/usecases/delete_recurso_usecase.dart';

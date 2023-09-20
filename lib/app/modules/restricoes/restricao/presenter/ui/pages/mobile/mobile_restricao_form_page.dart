@@ -124,7 +124,6 @@ class _MobileRestricaoFormStatePage extends State<MobileRestricaoFormPage> {
                 valueListenable: page,
                 builder: (context, value, child) {
                   return HorizontalStepperWidget(
-                    scrollController: ScrollController(),
                     pageController: pageController,
                     isStepperClickable: true,
                     steppers: [

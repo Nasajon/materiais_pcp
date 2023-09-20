@@ -1,6 +1,7 @@
 abstract class Titles {
   String get adicionarDisponibilidade;
   String get adicionarGrupoDeRestricoes;
+  String get adicionarGrupoDeRecurso;
   String get adicionarHorario;
   String get adicionarIndisponibilidade;
   String get adicionarMateriais;

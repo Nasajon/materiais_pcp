@@ -8,9 +8,9 @@ import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/controllers/o
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/controllers/recurso_controller.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_grupo_de_restricao_store.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_unidade_store.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/web/widgets/desktop_operacao_editar_recurso_widget.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/mobile/widgets/mobile_operacao_editar_recurso_widget.dart';
 
-class DesktopOperacaoRecursoWidget extends StatefulWidget {
+class MobileOperacaoRecursoWidget extends StatefulWidget {
   final UnidadeEntity unidade;
   final RecursoController recursoController;
   final String grupoRecursoId;
@@ -18,7 +18,7 @@ class DesktopOperacaoRecursoWidget extends StatefulWidget {
   final GetGrupoDeRestricaoStore getGrupoDeRestricaoStore;
   final GetUnidadeStore getUnidadeStore;
 
-  const DesktopOperacaoRecursoWidget({
+  const MobileOperacaoRecursoWidget({
     Key? key,
     required this.unidade,
     required this.recursoController,
@@ -29,10 +29,10 @@ class DesktopOperacaoRecursoWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<DesktopOperacaoRecursoWidget> createState() => _DesktopOperacaoRecursoWidgetState();
+  State<MobileOperacaoRecursoWidget> createState() => _MobileOperacaoRecursoWidgetState();
 }
 
-class _DesktopOperacaoRecursoWidgetState extends State<DesktopOperacaoRecursoWidget> {
+class _MobileOperacaoRecursoWidgetState extends State<MobileOperacaoRecursoWidget> {
   final isEdit = ValueNotifier(false);
 
   @override
@@ -62,7 +62,7 @@ class _DesktopOperacaoRecursoWidgetState extends State<DesktopOperacaoRecursoWid
                     return AnimatedContainer(
                       duration: const Duration(milliseconds: 300),
                       child: value
-                          ? DesktopOperacaoEditarRecursoWidget(
+                          ? MobileOperacaoEditarRecursoWidget(
                               isEdit: isEdit,
                               grupoRecursoId: widget.grupoRecursoId,
                               operacaoController: widget.operacaoController,
@@ -75,42 +75,55 @@ class _DesktopOperacaoRecursoWidgetState extends State<DesktopOperacaoRecursoWid
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(top: 14, left: 30, right: 14, bottom: 14),
-                                  child: Row(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         recurso.nome,
                                         style: themeData.textTheme.bodyLarge,
                                       ),
-                                      const Spacer(),
-                                      // TODO: Formatar os textos corretos
-                                      TagWidget(title: '${translation.fields.preparacao}: ${recurso.capacidade.preparacao.timeFormat()}'),
-                                      const SizedBox(width: 10),
-                                      TagWidget(title: '${translation.fields.execucao}: ${recurso.capacidade.execucao.timeFormat()}'),
-                                      const SizedBox(width: 10),
-                                      TagWidget(
-                                        title:
-                                            '${recurso.capacidade.capacidadeTotal.formatDoubleToString(decimalDigits: widget.unidade.decimal)}${widget.unidade.codigo.toLowerCase()}',
+                                      const SizedBox(height: 10),
+                                      Row(
+                                        children: [
+                                          TagWidget(
+                                              title: '${translation.fields.preparacao}: ${recurso.capacidade.preparacao.timeFormat()}'),
+                                          const SizedBox(width: 10),
+                                          TagWidget(title: '${translation.fields.execucao}: ${recurso.capacidade.execucao.timeFormat()}'),
+                                          const SizedBox(width: 10),
+                                        ],
                                       ),
-                                      const SizedBox(width: 10),
-                                      Visibility(
-                                        visible: quantidadeRestricoes > 0,
-                                        child: TagWidget(
-                                          title:
-                                              '$quantidadeRestricoes ${quantidadeRestricoes > 1 ? translation.fields.restricao : translation.fields.restricoes}',
-                                          titleColor: colorTheme?.text,
-                                          borderColor: colorTheme?.text,
-                                        ),
+                                      const SizedBox(height: 10),
+                                      Row(
+                                        children: [
+                                          TagWidget(
+                                            title:
+                                                '${recurso.capacidade.capacidadeTotal.formatDoubleToString(decimalDigits: widget.unidade.decimal)}${widget.unidade.codigo.toLowerCase()}',
+                                          ),
+                                          const SizedBox(width: 10),
+                                          Visibility(
+                                            visible: quantidadeRestricoes > 0,
+                                            child: TagWidget(
+                                              title:
+                                                  '$quantidadeRestricoes ${quantidadeRestricoes > 1 ? translation.fields.restricao : translation.fields.restricoes}',
+                                              titleColor: colorTheme?.text,
+                                              borderColor: colorTheme?.text,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      const SizedBox(width: 10),
-                                      CustomTextButton(
-                                        title: translation.fields.editar,
-                                        style: themeData.textTheme.labelLarge?.copyWith(
-                                          color: colorTheme?.primary,
-                                          fontWeight: FontWeight.bold,
+                                      const SizedBox(height: 10),
+                                      Align(
+                                        alignment: Alignment.centerRight,
+                                        child: CustomTextButton(
+                                          title: translation.fields.editar,
+                                          style: themeData.textTheme.labelLarge?.copyWith(
+                                            color: colorTheme?.primary,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          onPressed: () {
+                                            isEdit.value = true;
+                                          },
                                         ),
-                                        onPressed: () {
-                                          isEdit.value = true;
-                                        },
                                       )
                                     ],
                                   ),

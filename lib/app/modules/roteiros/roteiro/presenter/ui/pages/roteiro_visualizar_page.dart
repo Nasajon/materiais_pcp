@@ -16,6 +16,7 @@ import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_ro
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_unidade_store.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/inserir_editar_roteiro_store.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/roteiro_list_store.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/mobile/mobile_roteiro_visualizar_page.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/web/desktop_roteiro_visualizar_page.dart';
 
 class RoteiroVisualizarPage extends StatefulWidget {
@@ -112,8 +113,25 @@ class _RoteiroVisualizarPageState extends State<RoteiroVisualizarPage> {
           dadosBasicosformKey: dadosBasicosformKey,
         );
 
+        final mobileRoteiroVisualizar = MobileRoteiroVisualizarPage(
+          roteiroListStore: roteiroListStore,
+          inserirEditarRoteiroStore: inserirEditarRoteiroStore,
+          getCentroDeTrabalhoStore: getCentroDeTrabalhoStore,
+          getFichaTecnicaStore: getFichaTecnicaStore,
+          getGrupoDeRecursoStore: getGrupoDeRecursoStore,
+          getGrupoDeRestricaoStore: getGrupoDeRestricaoStore,
+          getProdutoStore: getProdutoStore,
+          getUnidadeStore: getUnidadeStore,
+          getMaterialStore: getMaterialStore,
+          roteiroController: roteiroController,
+          operacaoController: operacaoController,
+          scaffoldController: scaffoldController,
+          connectionStore: connectionStore,
+          dadosBasicosformKey: dadosBasicosformKey,
+        );
+
         return AdaptiveRedirectorPage(
-          mobilePage: desktopRoteiroVisualizar,
+          mobilePage: mobileRoteiroVisualizar,
           tabletPage: desktopRoteiroVisualizar,
           desktopPage: desktopRoteiroVisualizar,
         );

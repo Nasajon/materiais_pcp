@@ -1,4 +1,4 @@
-import 'package:design_system/design_system.dart';
+import 'package:design_system/design_system.dart' hide CardWidget;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
@@ -20,9 +20,6 @@ class PcpModule extends Module {
       ...RoteiroModule.getCards(context),
     ];
   }
-
-  @override
-  List<CardWidget> get cads => [];
 
   @override
   List<Module> get imports => const [];

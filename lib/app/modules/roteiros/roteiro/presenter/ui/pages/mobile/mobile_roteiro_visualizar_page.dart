@@ -19,12 +19,12 @@ import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_pr
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_unidade_store.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/inserir_editar_roteiro_store.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/roteiro_list_store.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/web/widgets/desktop_confirmacao_widget.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/web/widgets/desktop_dados_basicos_form_widget.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/web/widgets/desktop_operacao_painel_widget.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/web/widgets/desktop_periodo_form_widget.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/mobile/widgets/mobile_confirmacao_widget.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/mobile/widgets/mobile_dados_basicos_form_widget.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/mobile/widgets/mobile_operacao_painel_widget.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/mobile/widgets/mobile_periodo_form_widget.dart';
 
-class DesktopRoteiroVisualizarPage extends StatefulWidget {
+class MobileRoteiroVisualizarPage extends StatefulWidget {
   final RoteiroListStore roteiroListStore;
   final InserirEditarRoteiroStore inserirEditarRoteiroStore;
   final GetCentroDeTrabalhoStore getCentroDeTrabalhoStore;
@@ -40,7 +40,7 @@ class DesktopRoteiroVisualizarPage extends StatefulWidget {
   final InternetConnectionStore connectionStore;
   final GlobalKey<FormState> dadosBasicosformKey;
 
-  const DesktopRoteiroVisualizarPage({
+  const MobileRoteiroVisualizarPage({
     Key? key,
     required this.roteiroListStore,
     required this.inserirEditarRoteiroStore,
@@ -59,10 +59,10 @@ class DesktopRoteiroVisualizarPage extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<DesktopRoteiroVisualizarPage> createState() => _DesktopRoteiroVisualizarPageState();
+  State<MobileRoteiroVisualizarPage> createState() => _MobileRoteiroVisualizarPageState();
 }
 
-class _DesktopRoteiroVisualizarPageState extends State<DesktopRoteiroVisualizarPage> {
+class _MobileRoteiroVisualizarPageState extends State<MobileRoteiroVisualizarPage> {
   RoteiroListStore get roteiroListStore => widget.roteiroListStore;
   InserirEditarRoteiroStore get inserirEditarRoteiroStore => widget.inserirEditarRoteiroStore;
   GetCentroDeTrabalhoStore get getCentroDeTrabalhoStore => widget.getCentroDeTrabalhoStore;
@@ -117,37 +117,31 @@ class _DesktopRoteiroVisualizarPageState extends State<DesktopRoteiroVisualizarP
               onTap: () => roteiroController.pageIndex = 3,
             ),
           ],
-          body: Padding(
-            padding: const EdgeInsets.only(top: 60),
-            child: Container(
-              constraints: const BoxConstraints(maxWidth: 670),
-              child: PageView(
-                key: ValueKey(roteiroController.pageIndex),
-                controller: PageController(initialPage: roteiroController.pageIndex),
-                physics: const NeverScrollableScrollPhysics(),
-                children: [
-                  DesktopDadosBasicosFormWidget(
-                    roteiroController: roteiroController,
-                    getProdutoStore: getProdutoStore,
-                    getFichaTecnicaStore: getFichaTecnicaStore,
-                    getUnidadeStore: getUnidadeStore,
-                    formKey: dadosBasicosformKey,
-                  ),
-                  DesktopPeriodoFormWidget(roteiroController: roteiroController),
-                  DesktopOperacaoPanelWidget(
-                    roteiroController: roteiroController,
-                    operacaoController: operacaoController,
-                    getUnidadeStore: getUnidadeStore,
-                    getCentroDeTrabalhoStore: getCentroDeTrabalhoStore,
-                    getProdutoStore: getProdutoStore,
-                    getMaterialStore: getMaterialStore,
-                    getGrupoDeRecursoStore: getGrupoDeRecursoStore,
-                    getGrupoDeRestricaoStore: getGrupoDeRestricaoStore,
-                  ),
-                  DesktopConfirmacaoWidget(roteiroController: roteiroController),
-                ],
+          body: PageView(
+            key: ValueKey(roteiroController.pageIndex),
+            controller: PageController(initialPage: roteiroController.pageIndex),
+            physics: const NeverScrollableScrollPhysics(),
+            children: [
+              MobileDadosBasicosFormWidget(
+                roteiroController: roteiroController,
+                getProdutoStore: getProdutoStore,
+                getFichaTecnicaStore: getFichaTecnicaStore,
+                getUnidadeStore: getUnidadeStore,
+                formKey: dadosBasicosformKey,
               ),
-            ),
+              MobilePeriodoFormWidget(roteiroController: roteiroController),
+              MobileOperacaoPanelWidget(
+                roteiroController: roteiroController,
+                operacaoController: operacaoController,
+                getUnidadeStore: getUnidadeStore,
+                getCentroDeTrabalhoStore: getCentroDeTrabalhoStore,
+                getProdutoStore: getProdutoStore,
+                getMaterialStore: getMaterialStore,
+                getGrupoDeRecursoStore: getGrupoDeRecursoStore,
+                getGrupoDeRestricaoStore: getGrupoDeRestricaoStore,
+              ),
+              MobileConfirmacaoWidget(roteiroController: roteiroController),
+            ],
           ),
           bottomNavigationBar: Visibility(
             visible: roteiroOld != roteiroController.roteiro,

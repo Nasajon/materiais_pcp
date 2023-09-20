@@ -215,6 +215,9 @@ class FieldsPt extends Fields {
   String get restricao => 'Restrição';
 
   @override
+  String get restricoes => 'Restrições';
+
+  @override
   String get roteiro => 'Roteiro';
 
   @override

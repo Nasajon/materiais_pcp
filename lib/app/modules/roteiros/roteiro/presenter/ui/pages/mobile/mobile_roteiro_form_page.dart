@@ -17,12 +17,12 @@ import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_pr
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_unidade_store.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/inserir_editar_roteiro_store.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/roteiro_list_store.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/web/widgets/desktop_dados_basicos_form_widget.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/web/widgets/desktop_operacao_painel_widget.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/web/widgets/desktop_periodo_form_widget.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/web/widgets/desktop_confirmacao_widget.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/mobile/widgets/mobile_confirmacao_widget.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/mobile/widgets/mobile_dados_basicos_form_widget.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/mobile/widgets/mobile_periodo_form_widget.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/mobile/widgets/mobile_operacao_painel_widget.dart';
 
-class DesktopRoteiroFormPage extends StatelessWidget {
+class MobileRoteiroFormPage extends StatelessWidget {
   final RoteiroListStore roteiroListStore;
   final InserirEditarRoteiroStore inserirEditarRoteiroStore;
   final GetCentroDeTrabalhoStore getCentroDeTrabalhoStore;
@@ -39,7 +39,7 @@ class DesktopRoteiroFormPage extends StatelessWidget {
   final GlobalKey<FormState> dadosBasicosformKey;
   final GlobalKey<FormState> operacaoformKey;
 
-  const DesktopRoteiroFormPage({
+  const MobileRoteiroFormPage({
     Key? key,
     required this.roteiroListStore,
     required this.inserirEditarRoteiroStore,
@@ -84,38 +84,39 @@ class DesktopRoteiroFormPage extends StatelessWidget {
           controller: scaffoldController,
           alignment: Alignment.centerLeft,
           body: Padding(
-            padding: const EdgeInsets.only(top: 60),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            padding: const EdgeInsets.only(top: 30),
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                VerticalStepperWidget(
-                  key: ValueKey(pageIndex),
-                  initialValue: pageIndex,
-                  steppers: [
-                    StepperComponent(textInfo: translation.fields.dadosBasicos),
-                    StepperComponent(textInfo: translation.fields.periodoDeVigencia),
-                    StepperComponent(textInfo: translation.fields.operacoes),
-                    StepperComponent(textInfo: translation.fields.confirmacao),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: HorizontalStepperWidget(
+                    key: ValueKey(pageIndex),
+                    initialValue: pageIndex,
+                    steppers: [
+                      StepperComponent(textInfo: translation.fields.dadosBasicos),
+                      StepperComponent(textInfo: translation.fields.periodoDeVigencia),
+                      StepperComponent(textInfo: translation.fields.operacoes),
+                      StepperComponent(textInfo: translation.fields.confirmacao),
+                    ],
+                  ),
                 ),
-                const SizedBox(width: 60),
-                Container(
-                  constraints: const BoxConstraints(maxWidth: 670),
+                const SizedBox(height: 32),
+                Flexible(
                   child: PageView(
                     key: ValueKey(pageIndex),
                     controller: PageController(initialPage: pageIndex),
                     physics: const NeverScrollableScrollPhysics(),
                     children: [
-                      DesktopDadosBasicosFormWidget(
+                      MobileDadosBasicosFormWidget(
                         roteiroController: roteiroController,
                         getProdutoStore: getProdutoStore,
                         getFichaTecnicaStore: getFichaTecnicaStore,
                         getUnidadeStore: getUnidadeStore,
                         formKey: dadosBasicosformKey,
                       ),
-                      DesktopPeriodoFormWidget(roteiroController: roteiroController),
-                      DesktopOperacaoPanelWidget(
+                      MobilePeriodoFormWidget(roteiroController: roteiroController),
+                      MobileOperacaoPanelWidget(
                         roteiroController: roteiroController,
                         operacaoController: operacaoController,
                         getUnidadeStore: getUnidadeStore,
@@ -125,7 +126,7 @@ class DesktopRoteiroFormPage extends StatelessWidget {
                         getGrupoDeRecursoStore: getGrupoDeRecursoStore,
                         getGrupoDeRestricaoStore: getGrupoDeRestricaoStore,
                       ),
-                      DesktopConfirmacaoWidget(roteiroController: roteiroController),
+                      MobileConfirmacaoWidget(roteiroController: roteiroController),
                     ],
                   ),
                 ),

@@ -77,6 +77,7 @@ abstract class Fields {
   String get recursoApto;
   String get recursosAptos;
   String get restricao;
+  String get restricoes;
   String get roteiro;
   String get roteiros;
   String get salvar;

@@ -1,5 +1,5 @@
 import 'package:ana_l10n/ana_l10n.dart';
-import 'package:design_system/design_system.dart';
+import 'package:design_system/design_system.dart' hide CardWidget;
 import 'package:flutter/material.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/modules/presenter/widgets/card_widget.dart';

@@ -53,7 +53,7 @@ class DesktopOperacaoAdicionarGrupoDeRecursoWidget extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                translation.titles.adicionarGrupoDeRestricoes,
+                translation.titles.adicionarGrupoDeRecurso,
                 style: themeData.textTheme.titleLarge?.copyWith(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,

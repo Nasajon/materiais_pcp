@@ -128,7 +128,7 @@ class _MobileRoteiroListPageState extends State<MobileRoteiroListPage> with Dial
           children: [
             CustomTextButton(title: translation.fields.voltar, onPressed: () => Modular.to.pop()),
             const SizedBox(width: 12),
-            CustomPrimaryButton(title: translation.fields.criarCentro, onPressed: () => Modular.to.pushNamed('./new'))
+            CustomPrimaryButton(title: translation.fields.criarRoteiro, onPressed: () => Modular.to.pushNamed('./new'))
           ],
         ),
       ),

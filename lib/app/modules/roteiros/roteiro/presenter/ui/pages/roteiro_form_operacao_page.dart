@@ -7,6 +7,7 @@ import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_gr
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_material_store.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_produto_store.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_unidade_store.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/mobile/widgets/mobile_operacao_form_widget.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/web/widgets/desktop_operacao_form_widget.dart';
 
 class RoteiroFormOperacaoPage extends StatelessWidget {
@@ -41,8 +42,18 @@ class RoteiroFormOperacaoPage extends StatelessWidget {
       getGrupoDeRestricaoStore: getGrupoDeRestricaoStore,
     );
 
+    final mobileOperacaoFormWidget = MobileOperacaoFormWidget(
+      operacaoController: operacaoController,
+      getUnidadeStore: getUnidadeStore,
+      getCentroDeTrabalhoStore: getCentroDeTrabalhoStore,
+      getProdutoStore: getProdutoStore,
+      getMaterialStore: getMaterialStore,
+      getGrupoDeRecursoStore: getGrupoDeRecursoStore,
+      getGrupoDeRestricaoStore: getGrupoDeRestricaoStore,
+    );
+
     return AdaptiveRedirectorPage(
-      mobilePage: desktopOperacaoFormWidget,
+      mobilePage: mobileOperacaoFormWidget,
       tabletPage: desktopOperacaoFormWidget,
       desktopPage: desktopOperacaoFormWidget,
     );

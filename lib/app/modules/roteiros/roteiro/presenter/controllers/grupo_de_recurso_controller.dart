@@ -4,7 +4,6 @@ import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/grupo
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/recurso_aggregate.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/errors/roteiro_failure.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/usecases/get_recurso_por_grupo_usecase.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/usecases/get_recurso_por_grupo_usecase.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/usecases/get_restricao_por_grupo_usecase.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/controllers/recurso_controller.dart';
 
@@ -31,7 +30,7 @@ class GrupoDeRecursoController {
     try {
       final recursos = await _getRecursoPorGrupoUsecase(grupoDeRecursoId);
       _addListRecursoController(recursos);
-    } on RoteiroFailure catch (error) {
+    } on RoteiroFailure {
       // TODO: Verificar uma forma de validar
     }
   }
@@ -69,6 +68,6 @@ class GrupoDeRecursoController {
             )
             .toList();
       }
-    } on RoteiroFailure catch (error) {}
+    } on RoteiroFailure {}
   }
 }

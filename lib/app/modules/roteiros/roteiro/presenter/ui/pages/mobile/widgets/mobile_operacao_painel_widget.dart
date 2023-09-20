@@ -13,7 +13,7 @@ import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_ma
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_produto_store.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_unidade_store.dart';
 
-class DesktopOperacaoPanelWidget extends StatefulWidget {
+class MobileOperacaoPanelWidget extends StatefulWidget {
   final RoteiroController roteiroController;
   final GetUnidadeStore getUnidadeStore;
   final GetCentroDeTrabalhoStore getCentroDeTrabalhoStore;
@@ -23,7 +23,7 @@ class DesktopOperacaoPanelWidget extends StatefulWidget {
   final GetGrupoDeRestricaoStore getGrupoDeRestricaoStore;
   final OperacaoController operacaoController;
 
-  const DesktopOperacaoPanelWidget({
+  const MobileOperacaoPanelWidget({
     Key? key,
     required this.roteiroController,
     required this.getUnidadeStore,
@@ -36,16 +36,16 @@ class DesktopOperacaoPanelWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<DesktopOperacaoPanelWidget> createState() => _DesktopOperacaoPanelWidgetState();
+  State<MobileOperacaoPanelWidget> createState() => _MobileOperacaoPanelWidgetState();
 }
 
-class _DesktopOperacaoPanelWidgetState extends State<DesktopOperacaoPanelWidget> {
+class _MobileOperacaoPanelWidgetState extends State<MobileOperacaoPanelWidget> {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.only(right: 12),
+      padding: const EdgeInsets.all(16),
       child: RxBuilder(
         builder: (context) {
           return Column(
@@ -160,32 +160,40 @@ class _CardOperacaoWidget extends StatelessWidget {
                       style: themeData.textTheme.titleSmall,
                     ),
                     const SizedBox(height: 14),
-                    Row(
+                    Column(
                       children: [
-                        TagWidget(
-                          title: operacao.centroDeTrabalho.nome,
-                          sizeBorder: 1,
+                        Row(
+                          children: [
+                            TagWidget(
+                              title: operacao.centroDeTrabalho.nome,
+                              sizeBorder: 1,
+                            ),
+                            const SizedBox(width: 10),
+                            TagWidget(
+                              title: '${operacao.execucao.timeFormatToStringWithoutSeconds()} ${operacao.medicaoTempo?.name ?? ''}',
+                              sizeBorder: 1,
+                            ),
+                          ],
                         ),
-                        const SizedBox(width: 10),
-                        TagWidget(
-                          title: '${operacao.execucao.timeFormatToStringWithoutSeconds()} ${operacao.medicaoTempo?.name ?? ''}',
-                          sizeBorder: 1,
-                        ),
-                        const SizedBox(width: 10),
-                        TagWidget(
-                          title:
-                              '${operacao.materiais.length} ${operacao.materiais.length == 1 ? translation.fields.material.toLowerCase() : translation.fields.materiais.toLowerCase()}',
-                          sizeBorder: 1,
-                          titleColor: colorTheme?.text,
-                          borderColor: colorTheme?.text,
-                        ),
-                        const SizedBox(width: 10),
-                        TagWidget(
-                          title:
-                              '$quantidadeRecursos ${quantidadeRecursos == 1 ? translation.fields.recursoApto.toLowerCase() : translation.fields.recursosAptos.toLowerCase()}',
-                          sizeBorder: 1,
-                          titleColor: colorTheme?.text,
-                          borderColor: colorTheme?.text,
+                        const SizedBox(height: 10),
+                        Row(
+                          children: [
+                            TagWidget(
+                              title:
+                                  '${operacao.materiais.length} ${operacao.materiais.length == 1 ? translation.fields.material.toLowerCase() : translation.fields.materiais.toLowerCase()}',
+                              sizeBorder: 1,
+                              titleColor: colorTheme?.text,
+                              borderColor: colorTheme?.text,
+                            ),
+                            const SizedBox(width: 10),
+                            TagWidget(
+                              title:
+                                  '$quantidadeRecursos ${quantidadeRecursos == 1 ? translation.fields.recursoApto.toLowerCase() : translation.fields.recursosAptos.toLowerCase()}',
+                              sizeBorder: 1,
+                              titleColor: colorTheme?.text,
+                              borderColor: colorTheme?.text,
+                            ),
+                          ],
                         ),
                       ],
                     )

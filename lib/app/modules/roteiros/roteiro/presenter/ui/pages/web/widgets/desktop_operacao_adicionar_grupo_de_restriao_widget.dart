@@ -15,7 +15,7 @@ import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/controllers/g
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_grupo_de_restricao_store.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_unidade_store.dart';
 
-class DesktopOperacaoAdicionarGrupoDeRestricaoWidget extends StatelessWidget {
+class DesktopOperacaoAdicionarGrupoDeRestricaoWidget extends StatefulWidget {
   final GrupoDeRestricaoController grupoDeRestricaoController;
   final GetGrupoDeRestricaoStore getGrupoDeRestricaoStore;
   final GetUnidadeStore getUnidadeStore;
@@ -31,17 +31,31 @@ class DesktopOperacaoAdicionarGrupoDeRestricaoWidget extends StatelessWidget {
     this.removerGrupoDeRestricao,
   }) : super(key: key);
 
+  @override
+  State<DesktopOperacaoAdicionarGrupoDeRestricaoWidget> createState() => _DesktopOperacaoAdicionarGrupoDeRestricaoWidgetState();
+}
+
+class _DesktopOperacaoAdicionarGrupoDeRestricaoWidgetState extends State<DesktopOperacaoAdicionarGrupoDeRestricaoWidget> {
+  late final editarGrupoDeRestricao;
   final formKey = GlobalKey<FormState>();
+
   final eventTimer = EventTimer<List<GrupoDeRestricaoEntity>>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    editarGrupoDeRestricao = widget.grupoDeRestricaoController.grupoDeRestricao != GrupoDeRestricaoAggregate.empty();
+  }
 
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     final colorTheme = themeData.extension<AnaColorTheme>();
 
-    context.select(() => [grupoDeRestricaoController.grupoDeRestricao]);
+    context.select(() => [widget.grupoDeRestricaoController.grupoDeRestricao]);
 
-    final grupoDeRestricao = grupoDeRestricaoController.grupoDeRestricao;
+    final grupoDeRestricao = widget.grupoDeRestricaoController.grupoDeRestricao;
 
     return Dialog(
       child: Container(
@@ -69,15 +83,15 @@ class DesktopOperacaoAdicionarGrupoDeRestricaoWidget extends StatelessWidget {
                 initialSelectedValue: grupoDeRestricao.grupo != GrupoDeRestricaoEntity.empty() ? grupoDeRestricao.grupo : null,
                 itemTextValue: (value) => value.nome,
                 textFieldConfiguration: TextFieldConfiguration(
-                  enabled: grupoDeRestricao == GrupoDeRestricaoAggregate.empty(),
+                  enabled: !editarGrupoDeRestricao,
                   decoration: InputDecoration(
                     labelText: translation.fields.grupoDeRestricao,
                   ),
                 ),
                 suggestionsCallback: (pattern) async {
-                  return getGrupoDeRestricaoStore.getListGrupoDeRestricao(search: pattern).then(
-                        (value) =>
-                            value.where((grupo) => listaDeIdsDosGruposParaDeletar.where((idDeletar) => grupo.id == idDeletar).isEmpty),
+                  return widget.getGrupoDeRestricaoStore.getListGrupoDeRestricao(search: pattern).then(
+                        (value) => value
+                            .where((grupo) => widget.listaDeIdsDosGruposParaDeletar.where((idDeletar) => grupo.id == idDeletar).isEmpty),
                       );
                 },
                 itemBuilder: (context, grupoDeRestricao) {
@@ -95,7 +109,8 @@ class DesktopOperacaoAdicionarGrupoDeRestricaoWidget extends StatelessWidget {
                   return null;
                 },
                 onSelected: (value) {
-                  grupoDeRestricaoController.grupoDeRestricao = grupoDeRestricao.copyWith(grupo: value ?? GrupoDeRestricaoEntity.empty());
+                  widget.grupoDeRestricaoController.grupoDeRestricao =
+                      grupoDeRestricao.copyWith(grupo: value ?? GrupoDeRestricaoEntity.empty());
                 },
               ),
               const SizedBox(height: 16),
@@ -109,7 +124,7 @@ class DesktopOperacaoAdicionarGrupoDeRestricaoWidget extends StatelessWidget {
                   ),
                 ),
                 suggestionsCallback: (pattern) async {
-                  return await getUnidadeStore.getListUnidade(search: pattern);
+                  return await widget.getUnidadeStore.getListUnidade(search: pattern);
                 },
                 itemBuilder: (context, unidade) {
                   return ListTile(
@@ -127,7 +142,7 @@ class DesktopOperacaoAdicionarGrupoDeRestricaoWidget extends StatelessWidget {
                 },
                 onSelected: (unidade) {
                   final capacidade = grupoDeRestricao.capacidade.copyWith(unidade: unidade ?? UnidadeEntity.empty());
-                  grupoDeRestricaoController.grupoDeRestricao = grupoDeRestricao.copyWith(capacidade: capacidade);
+                  widget.grupoDeRestricaoController.grupoDeRestricao = grupoDeRestricao.copyWith(capacidade: capacidade);
                 },
               ),
               const SizedBox(height: 16),
@@ -144,7 +159,7 @@ class DesktopOperacaoAdicionarGrupoDeRestricaoWidget extends StatelessWidget {
                       validator: (_) => grupoDeRestricao.capacidade.capacidade.errorMessage,
                       onChanged: (value) {
                         final capacidade = grupoDeRestricao.capacidade.copyWith(capacidade: DoubleVO(value));
-                        grupoDeRestricaoController.grupoDeRestricao = grupoDeRestricao.copyWith(capacidade: capacidade);
+                        widget.grupoDeRestricaoController.grupoDeRestricao = grupoDeRestricao.copyWith(capacidade: capacidade);
                       },
                     ),
                   ),
@@ -158,7 +173,7 @@ class DesktopOperacaoAdicionarGrupoDeRestricaoWidget extends StatelessWidget {
                       validator: (_) => grupoDeRestricao.capacidade.usar.errorMessage,
                       onChanged: (value) {
                         final usar = grupoDeRestricao.capacidade.copyWith(usar: DoubleVO(value));
-                        grupoDeRestricaoController.grupoDeRestricao = grupoDeRestricao.copyWith(capacidade: usar);
+                        widget.grupoDeRestricaoController.grupoDeRestricao = grupoDeRestricao.copyWith(capacidade: usar);
                       },
                     ),
                   ),
@@ -173,7 +188,7 @@ class DesktopOperacaoAdicionarGrupoDeRestricaoWidget extends StatelessWidget {
                 isEnabled: true,
                 items: QuandoEnum.values.map((quando) => DropdownItem(value: quando, label: quando.name)).toList(),
                 onSelected: (value) {
-                  grupoDeRestricaoController.grupoDeRestricao = grupoDeRestricao.copyWith(quando: value);
+                  widget.grupoDeRestricaoController.grupoDeRestricao = grupoDeRestricao.copyWith(quando: value);
                 },
               ),
               const SizedBox(height: 16),
@@ -184,7 +199,7 @@ class DesktopOperacaoAdicionarGrupoDeRestricaoWidget extends StatelessWidget {
                 onChanged: (value) {
                   if (value != null) {
                     final capacidade = grupoDeRestricao.capacidade.copyWith(tempo: TimeVO.time(value));
-                    grupoDeRestricaoController.grupoDeRestricao = grupoDeRestricao.copyWith(capacidade: capacidade);
+                    widget.grupoDeRestricaoController.grupoDeRestricao = grupoDeRestricao.copyWith(capacidade: capacidade);
                   }
                 },
               ),
@@ -192,11 +207,11 @@ class DesktopOperacaoAdicionarGrupoDeRestricaoWidget extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  if (removerGrupoDeRestricao != null) ...[
+                  if (widget.removerGrupoDeRestricao != null) ...[
                     CustomTextButton(
                       title: translation.fields.excluir,
                       textColor: colorTheme?.danger,
-                      onPressed: removerGrupoDeRestricao,
+                      onPressed: widget.removerGrupoDeRestricao,
                     ),
                     const Spacer(),
                   ],
@@ -211,7 +226,7 @@ class DesktopOperacaoAdicionarGrupoDeRestricaoWidget extends StatelessWidget {
                     title: translation.fields.adicionar,
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
-                        Navigator.of(context).pop(grupoDeRestricaoController);
+                        Navigator.of(context).pop(widget.grupoDeRestricaoController);
                       }
                     },
                   ),

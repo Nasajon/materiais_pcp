@@ -12,10 +12,10 @@ import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/controllers/o
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/controllers/recurso_controller.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_grupo_de_restricao_store.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_unidade_store.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/web/widgets/desktop_operacao_adicionar_grupo_de_restriao_widget.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/web/widgets/desktop_operacao_grupo_de_restricao.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/mobile/widgets/mobile_operacao_adicionar_grupo_de_restriao_widget.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/mobile/widgets/mobile_operacao_grupo_de_restricao.dart';
 
-class DesktopOperacaoEditarRecursoWidget extends StatefulWidget {
+class MobileOperacaoEditarRecursoWidget extends StatefulWidget {
   final ValueNotifier isEdit;
   final UnidadeEntity unidade;
   final String grupoRecursoId;
@@ -24,7 +24,7 @@ class DesktopOperacaoEditarRecursoWidget extends StatefulWidget {
   final GetGrupoDeRestricaoStore getGrupoDeRestricaoStore;
   final GetUnidadeStore getUnidadeStore;
 
-  const DesktopOperacaoEditarRecursoWidget({
+  const MobileOperacaoEditarRecursoWidget({
     Key? key,
     required this.isEdit,
     required this.unidade,
@@ -36,10 +36,10 @@ class DesktopOperacaoEditarRecursoWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<DesktopOperacaoEditarRecursoWidget> createState() => _DesktopOperacaoEditarRecursoWidgetState();
+  State<MobileOperacaoEditarRecursoWidget> createState() => _MobileOperacaoEditarRecursoWidgetState();
 }
 
-class _DesktopOperacaoEditarRecursoWidgetState extends State<DesktopOperacaoEditarRecursoWidget> {
+class _MobileOperacaoEditarRecursoWidgetState extends State<MobileOperacaoEditarRecursoWidget> {
   late final RecursoController novoRecursoController;
   final formKey = GlobalKey<FormState>();
 
@@ -101,6 +101,7 @@ class _DesktopOperacaoEditarRecursoWidgetState extends State<DesktopOperacaoEdit
                 ),
                 const SizedBox(height: 12),
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Flexible(
                       child: TimeTextFormFieldWidget(
@@ -132,22 +133,21 @@ class _DesktopOperacaoEditarRecursoWidgetState extends State<DesktopOperacaoEdit
                   ],
                 ),
                 const SizedBox(height: 16),
+                DoubleTextFormFieldWidget(
+                  label: translation.fields.capacidadeTotal,
+                  initialValue: recurso.capacidade.capacidadeTotal.valueOrNull,
+                  suffixSymbol: widget.unidade.codigo,
+                  decimalDigits: widget.unidade.decimal,
+                  validator: (_) => recurso.capacidade.capacidadeTotal.errorMessage,
+                  onValueOrNull: (value) {
+                    final capacidade = recurso.capacidade.copyWith(capacidadeTotal: DoubleVO(value));
+                    novoRecursoController.recurso = recurso.copyWith(capacidade: capacidade);
+                  },
+                ),
+                const SizedBox(height: 16),
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Flexible(
-                      child: DoubleTextFormFieldWidget(
-                        label: translation.fields.capacidadeTotal,
-                        initialValue: recurso.capacidade.capacidadeTotal.valueOrNull,
-                        suffixSymbol: widget.unidade.codigo,
-                        decimalDigits: widget.unidade.decimal,
-                        validator: (_) => recurso.capacidade.capacidadeTotal.errorMessage,
-                        onValueOrNull: (value) {
-                          final capacidade = recurso.capacidade.copyWith(capacidadeTotal: DoubleVO(value));
-                          novoRecursoController.recurso = recurso.copyWith(capacidade: capacidade);
-                        },
-                      ),
-                    ),
-                    const SizedBox(width: 16),
                     Flexible(
                       child: DoubleTextFormFieldWidget(
                         label: translation.fields.minimaParaUso,
@@ -198,7 +198,7 @@ class _DesktopOperacaoEditarRecursoWidgetState extends State<DesktopOperacaoEdit
                   ],
                 ),
                 const SizedBox(height: 20),
-                DesktopOperacaoGrupoDeRescricaoWidget(
+                MobileOperacaoGrupoDeRescricaoWidget(
                   recursoController: novoRecursoController,
                   getGrupoDeRestricaoStore: widget.getGrupoDeRestricaoStore,
                   getUnidadeStore: widget.getUnidadeStore,
@@ -211,7 +211,7 @@ class _DesktopOperacaoEditarRecursoWidgetState extends State<DesktopOperacaoEdit
                       final responseModal = await showDialog(
                         context: context,
                         builder: (context) {
-                          return DesktopOperacaoAdicionarGrupoDeRestricaoWidget(
+                          return MobileOperacaoAdicionarGrupoDeRestricaoWidget(
                             grupoDeRestricaoController: novoRecursoController.novoGrupoDeRestricaoController,
                             getGrupoDeRestricaoStore: widget.getGrupoDeRestricaoStore,
                             getUnidadeStore: widget.getUnidadeStore,
@@ -290,9 +290,9 @@ class _DesktopOperacaoEditarRecursoWidgetState extends State<DesktopOperacaoEdit
 
                         widget.isEdit.value = false;
                       },
-                    )
+                    ),
                   ],
-                )
+                ),
               ],
             ),
           ),
