@@ -58,6 +58,7 @@ class _MobileOperacaoSelecionarMateriaisWidgetState extends State<MobileOperacao
                 FontAwesomeIcons.magnifyingGlass,
                 color: colorTheme?.icons,
               ),
+              onChanged: (value) => widget.getProdutoStore.getList(search: value),
             ),
             Expanded(
               child: ScopedBuilder<GetProdutoStore, List<ProdutoEntity>>(
@@ -67,6 +68,7 @@ class _MobileOperacaoSelecionarMateriaisWidgetState extends State<MobileOperacao
                   final listProduto = state.where((produto) => !widget.produtosFichaTecnica.contains(produto)).toList();
                   return ListView.builder(
                     itemCount: listProduto.length,
+                    padding: const EdgeInsets.symmetric(vertical: 12),
                     itemBuilder: (context, index) {
                       final produto = listProduto[index];
                       return CheckboxListTile(
