@@ -1,7 +1,7 @@
 import 'package:pcp_flutter/app/core/modules/domain/value_object/moeda_vo.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/aggreagates/ficha_tecnica_produto_aggregate.dart';
-import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/entities/produto.dart';
-import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/entities/unidade.dart';
+import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/external/mappers/remotes/remote_produto_mapper.dart';
+import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/external/mappers/remotes/remote_unidade_mapper.dart';
 
 class RemoteFichaTecnicaProdutosMapper {
   const RemoteFichaTecnicaProdutosMapper._();
@@ -10,9 +10,9 @@ class RemoteFichaTecnicaProdutosMapper {
     return FichaTecnicaMaterialAggregate(
       id: map['ficha_tecnica_produto'],
       codigo: index == null ? 0 : index + 1,
-      produto: ProdutoEntity(id: map['produto']),
+      produto: RemoteProdutoMapper.fromMapToProduto(map['produto']),
       quantidade: MoedaVO(map['quantidade']),
-      unidade: UnidadeEntity(id: map['unidade']),
+      unidade: RemoteUnidadeMapper.fromMapToUnidade(map['unidade']),
     );
   }
 

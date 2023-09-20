@@ -2,9 +2,9 @@ import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart'
 import 'package:pcp_flutter/app/core/modules/domain/value_object/moeda_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/aggreagates/ficha_tecnica_aggregate.dart';
-import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/entities/produto.dart';
-import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/entities/unidade.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/external/mappers/remotes/remote_ficha_tecnica_produtos_mapper.dart';
+import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/external/mappers/remotes/remote_produto_mapper.dart';
+import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/external/mappers/remotes/remote_unidade_mapper.dart';
 
 class RemoteFichaTecnicaMapper {
   const RemoteFichaTecnicaMapper._();
@@ -14,9 +14,9 @@ class RemoteFichaTecnicaMapper {
       id: map['ficha_tecnica'],
       quantidade: MoedaVO(map['quantidade']),
       descricao: TextVO(map['descricao']),
-      produto: ProdutoEntity(id: map['produto']),
+      produto: RemoteProdutoMapper.fromMapToProduto(map['produto']),
       codigo: TextVO(map['codigo']),
-      unidade: UnidadeEntity(id: map['unidade']),
+      unidade: RemoteUnidadeMapper.fromMapToUnidade(map['unidade']),
       materiais: map.containsKey('produtos')
           ? List.from(map['produtos'])
               .asMap()

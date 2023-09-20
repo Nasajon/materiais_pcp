@@ -64,47 +64,12 @@ class RemoteFichaTecnicaDatasourceImpl implements RemoteFichaTecnicaDatasource {
       final response = await clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/fichastecnicas/$id?fields=produtos',
+          endPoint: '/1234/fichastecnicas/$id?fields=produtos.unidade, produtos.produto, produto, unidade',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
         ),
       );
       var data = RemoteFichaTecnicaMapper.fromMapToFichaTecnica(response.data);
-      var setIdProduto = <String>{};
-      var setIdUnidade = <String>{};
-
-      if (data.produto != null) {
-        setIdProduto.add(data.produto!.id);
-      }
-      if (data.unidade != null) {
-        setIdUnidade.add(data.unidade!.id);
-      }
-
-      for (var material in data.materiais) {
-        if (material.produto != null && !setIdProduto.contains(material.produto!.id)) {
-          setIdProduto.add(material.produto!.id);
-        }
-        if (material.unidade != null && !setIdUnidade.contains(material.unidade!.id)) {
-          setIdUnidade.add(material.unidade!.id);
-        }
-      }
-
-      var produtos = await remoteProdutoDatasource.getTodosProdutosPorIds(setIdProduto.toList());
-      var unidades = await remoteUnidadeDatasource.getTodasUnidadesPorIds(setIdUnidade.toList());
-
-      data = data.copyWith(
-          unidade: (data.unidade != null && unidades.containsKey(data.unidade!.id)) ? unidades[data.unidade!.id] : data.unidade,
-          produto: (data.produto != null && produtos.containsKey(data.produto!.id)) ? produtos[data.produto!.id] : data.produto,
-          materiais: data.materiais
-              .map((material) => material.copyWith(
-                    unidade: (material.unidade != null && unidades.containsKey(material.unidade!.id))
-                        ? unidades[material.unidade!.id]
-                        : material.unidade,
-                    produto: (material.produto != null && produtos.containsKey(material.produto!.id))
-                        ? produtos[material.produto!.id]
-                        : material.produto,
-                  ))
-              .toList());
       return data;
     } on ClientError catch (e) {
       throw DatasourceFichaTecnicaFailure(errorMessage: e.message, stackTrace: e.stackTrace, exception: e.exception);
@@ -117,14 +82,14 @@ class RemoteFichaTecnicaDatasourceImpl implements RemoteFichaTecnicaDatasource {
       final response = await clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/fichastecnicas',
+          endPoint: '/1234/fichastecnicas?fields=produto, unidade',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
         ),
       );
 
       var data = List.from(response.data).map((map) => RemoteFichaTecnicaMapper.fromMapToFichaTecnica(map)).toList();
-      data = await preencherProdutosEUnidades(data);
+      // data = await preencherProdutosEUnidades(data);
       return data;
     } on ClientError catch (e) {
       throw DatasourceFichaTecnicaFailure(errorMessage: e.message, stackTrace: e.stackTrace, exception: e.exception);

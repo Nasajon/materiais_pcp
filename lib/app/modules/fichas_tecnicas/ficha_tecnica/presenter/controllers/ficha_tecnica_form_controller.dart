@@ -32,7 +32,7 @@ class FichaTecnicaFormController {
   }
 
   updateOld() {
-    fichaTecnicaOld ??= fichaTecnica.copyWith();
+    fichaTecnicaOld = fichaTecnica.copyWith();
   }
 
   resetOld() {
