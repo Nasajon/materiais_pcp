@@ -69,8 +69,9 @@ class DesktopCardCriarEditarMaterialWidget extends StatelessWidget {
                   flex: 3,
                   child: AutocompleteTextFormField<ProdutoEntity>(
                     key: key,
-                    label: l10n.fields.produto,
-                    initialValue: isProdutoSelected ? "${material?.produto?.codigo} - ${material?.produto?.nome}" : '',
+                    textFieldConfiguration: TextFieldConfiguration(decoration: InputDecoration(label: Text(l10n.fields.produto))),
+                    initialSelectedValue: material?.produto,
+                    itemTextValue: (value) => "${material?.produto?.codigo} - ${material?.produto?.nome}",
                     validator: (_) =>
                         material!.produto!.isValid ? null : l10n.messages.selecioneUm(l10n.fields.produto, ArtigoEnum.artigoMasculino),
                     onSelected: (value) {
@@ -96,10 +97,11 @@ class DesktopCardCriarEditarMaterialWidget extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Flexible(
-                  child: DecimalTextFormFieldWidget(
+                  child: DoubleTextFormFieldWidget(
                       key: key,
                       label: l10n.fields.quantidade,
                       showSymbol: false,
+                      decimalDigits: material?.unidade?.decimais ?? 0,
                       initialValue: material?.quantidade?.value,
                       validator: (_) => material!.quantidade != null && material.quantidade!.isNotValid
                           ? l10n.messages.insiraUm(l10n.fields.quantidade, ArtigoEnum.artigoFeminino)
@@ -112,8 +114,9 @@ class DesktopCardCriarEditarMaterialWidget extends StatelessWidget {
                 Flexible(
                   child: AutocompleteTextFormField<UnidadeEntity>(
                     key: key,
-                    label: l10n.fields.tipoDeUnidade,
-                    initialValue: isUnidadeSelected ? "${material?.unidade?.nome} - ${material?.unidade?.codigo}" : '',
+                    textFieldConfiguration: TextFieldConfiguration(decoration: InputDecoration(label: Text(l10n.fields.tipoDeUnidade))),
+                    initialSelectedValue: material?.unidade,
+                    itemTextValue: (value) => "${value.nome} - ${value.codigo}",
                     onSelected: (value) {
                       fichaTecnicaFormController.material = material?.copyWith(unidade: value);
                     },

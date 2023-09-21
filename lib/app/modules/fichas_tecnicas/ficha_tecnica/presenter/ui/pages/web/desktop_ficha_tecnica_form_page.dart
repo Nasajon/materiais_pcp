@@ -130,7 +130,7 @@ class _DesktopFichaTecnicaFormStatePage extends State<DesktopFichaTecnicaFormPag
     return CustomScaffold.titleString(
       l10n.titles.criarFichaTecnica,
       controller: scaffoldController,
-      onBackPressed: showDialogCancel,
+      onClosePressed: showDialogCancel,
       alignment: Alignment.centerLeft,
       actions: [
         InternetButtonIconWidget(connectionStore: connectionStore),
@@ -144,7 +144,6 @@ class _DesktopFichaTecnicaFormStatePage extends State<DesktopFichaTecnicaFormPag
                 valueListenable: page,
                 builder: (_, __, ___) {
                   return VerticalStepperWidget(
-                    scrollController: ScrollController(),
                     pageController: pageController,
                     isStepperClickable: true,
                     steppers: [

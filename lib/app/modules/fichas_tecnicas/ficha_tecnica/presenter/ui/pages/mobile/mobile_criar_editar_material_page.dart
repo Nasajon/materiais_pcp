@@ -73,7 +73,7 @@ class _MobileCriarEditarMaterialPageState extends State<MobileCriarEditarMateria
           : translations.titles.editarMaterial,
       controller: CustomScaffoldController(),
       alignment: Alignment.centerLeft,
-      backIcon: Icons.close,
+      closeIcon: const Icon(Icons.close),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Form(
@@ -85,10 +85,9 @@ class _MobileCriarEditarMaterialPageState extends State<MobileCriarEditarMateria
               const SizedBox(height: 24),
               RxBuilder(builder: (context) {
                 return AutocompleteTextFormField<ProdutoEntity>(
-                  label: translations.fields.produto,
-                  initialValue: isProdutoSelected
-                      ? "${widget.fichaTecnicaFormController.material?.produto?.codigo} - ${widget.fichaTecnicaFormController.material?.produto?.nome}"
-                      : '',
+                  textFieldConfiguration: TextFieldConfiguration(decoration: InputDecoration(label: Text(translations.fields.produto))),
+                  initialSelectedValue: widget.fichaTecnicaFormController.material?.produto,
+                  itemTextValue: (value) => "${value.codigo} - ${value.nome}",
                   onSelected: (value) {
                     widget.fichaTecnicaFormController.material = widget.fichaTecnicaFormController.material?.copyWith(produto: value);
                   },
@@ -107,9 +106,10 @@ class _MobileCriarEditarMaterialPageState extends State<MobileCriarEditarMateria
                 );
               }),
               const SizedBox(height: 20),
-              DecimalTextFormFieldWidget(
+              DoubleTextFormFieldWidget(
                 label: translations.fields.quantidade,
                 initialValue: widget.fichaTecnicaFormController.material?.quantidade?.value,
+                decimalDigits: widget.fichaTecnicaFormController.material?.unidade?.decimais ?? 0,
                 validator: (_) => widget.fichaTecnicaFormController.material!.quantidade != null &&
                         widget.fichaTecnicaFormController.material!.quantidade!.isNotValid
                     ? translations.messages.insiraUm(translations.fields.quantidade, ArtigoEnum.artigoFeminino)
@@ -122,10 +122,10 @@ class _MobileCriarEditarMaterialPageState extends State<MobileCriarEditarMateria
               const SizedBox(height: 16),
               RxBuilder(builder: (context) {
                 return AutocompleteTextFormField<UnidadeEntity>(
-                  label: translations.fields.tipoDeUnidade,
-                  initialValue: isUnidadeSelected
-                      ? "${widget.fichaTecnicaFormController.material?.unidade?.codigo} - ${widget.fichaTecnicaFormController.material?.unidade?.nome}"
-                      : '',
+                  textFieldConfiguration:
+                      TextFieldConfiguration(decoration: InputDecoration(label: Text(translations.fields.tipoDeUnidade))),
+                  initialSelectedValue: widget.fichaTecnicaFormController.material?.unidade,
+                  itemTextValue: (value) => "${value.codigo} - ${value.nome}",
                   onSelected: (value) {
                     widget.fichaTecnicaFormController.material = widget.fichaTecnicaFormController.material?.copyWith(unidade: value);
                   },

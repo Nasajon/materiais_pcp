@@ -27,8 +27,8 @@ class DesktopFichaTecnicaVisualizarPage extends StatefulWidget {
   final InternetConnectionStore connectionStore;
   final GlobalKey<FormState> dadosGeraisFormKey;
   final GlobalKey<FormState> materiaisFormKey;
-  late FichaTecnicaAggregate oldFichaTecnica;
-  DesktopFichaTecnicaVisualizarPage({
+
+  const DesktopFichaTecnicaVisualizarPage({
     Key? key,
     required this.pageNotifier,
     required this.scaffoldController,
@@ -107,7 +107,7 @@ class _DesktopFichaTecnicaVisualizarPageState extends State<DesktopFichaTecnicaV
             actions: [
               InternetButtonIconWidget(connectionStore: widget.connectionStore),
             ],
-            onBackPressed: () =>
+            onClosePressed: () =>
                 (widget.fichaTecnicaFormController.fichaTecnica != oldFichaTecnica) ? showDialogCancel() : Modular.to.pop(),
             tabStatusButtons: [
               TabStatusButton(

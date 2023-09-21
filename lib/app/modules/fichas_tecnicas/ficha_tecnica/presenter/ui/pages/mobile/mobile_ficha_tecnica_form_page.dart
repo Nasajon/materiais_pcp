@@ -132,7 +132,7 @@ class _MobileFichaTecnicaFormStatePage extends State<MobileFichaTecnicaFormPage>
     return CustomScaffold.titleString(
       l10n.titles.criarFichaTecnica,
       controller: scaffoldController,
-      onBackPressed: showDialogCancel,
+      onClosePressed: showDialogCancel,
       alignment: Alignment.centerLeft,
       actions: [
         InternetButtonIconWidget(connectionStore: connectionStore),
@@ -148,7 +148,6 @@ class _MobileFichaTecnicaFormStatePage extends State<MobileFichaTecnicaFormPage>
                   valueListenable: page,
                   builder: (_, __, ___) {
                     return HorizontalStepperWidget(
-                      scrollController: ScrollController(),
                       pageController: pageController,
                       isStepperClickable: true,
                       steppers: [
