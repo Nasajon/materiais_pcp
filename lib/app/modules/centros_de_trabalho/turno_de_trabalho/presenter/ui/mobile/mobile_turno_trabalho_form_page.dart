@@ -119,7 +119,6 @@ class _MobileTurnoTrabalhoFormStatePage extends State<MobileTurnoTrabalhoFormPag
                   valueListenable: page,
                   builder: (_, __, ___) {
                     return HorizontalStepperWidget(
-                      scrollController: ScrollController(),
                       pageController: pageController,
                       isStepperClickable: true,
                       steppers: [

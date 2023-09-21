@@ -61,10 +61,9 @@ class DesktopFichaTecnicaDadosGeraisFormWidget extends StatelessWidget {
                     Flexible(
                         flex: 3,
                         child: AutocompleteTextFormField<ProdutoEntity>(
-                          label: l10n.fields.produto,
-                          initialValue: fichaTecnicaFormController.fichaTecnica.produto != null
-                              ? "${fichaTecnicaFormController.fichaTecnica.produto?.codigo} - ${fichaTecnicaFormController.fichaTecnica.produto?.nome}"
-                              : '',
+                          textFieldConfiguration: TextFieldConfiguration(decoration: InputDecoration(label: Text(l10n.fields.produto))),
+                          initialSelectedValue: fichaTecnicaFormController.fichaTecnica.produto,
+                          itemTextValue: (value) => "${value.nome} - ${value.codigo}",
                           onSelected: (value) {
                             fichaTecnicaFormController.fichaTecnica = fichaTecnicaFormController.fichaTecnica.copyWith(produto: value);
                           },
@@ -108,7 +107,7 @@ class DesktopFichaTecnicaDadosGeraisFormWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Flexible(
-                        child: DecimalTextFormFieldWidget(
+                        child: DoubleTextFormFieldWidget(
                             label: l10n.fields.quantidadeDeProducao,
                             showSymbol: false,
                             initialValue: fichaTecnicaFormController.fichaTecnica.quantidade.value,
@@ -122,10 +121,9 @@ class DesktopFichaTecnicaDadosGeraisFormWidget extends StatelessWidget {
                     const SizedBox(width: 16),
                     Flexible(
                       child: AutocompleteTextFormField<UnidadeEntity>(
-                        label: l10n.fields.tipoDeUnidade,
-                        initialValue: fichaTecnicaFormController.fichaTecnica.unidade != null
-                            ? "${fichaTecnicaFormController.fichaTecnica.unidade?.nome} - ${fichaTecnicaFormController.fichaTecnica.unidade?.codigo}"
-                            : '',
+                        textFieldConfiguration: TextFieldConfiguration(decoration: InputDecoration(label: Text(l10n.fields.tipoDeUnidade))),
+                        initialSelectedValue: fichaTecnicaFormController.fichaTecnica.unidade,
+                        itemTextValue: (value) => "${value.nome} - ${value.codigo}",
                         onSelected: (value) {
                           fichaTecnicaFormController.fichaTecnica = fichaTecnicaFormController.fichaTecnica.copyWith(unidade: value);
                         },

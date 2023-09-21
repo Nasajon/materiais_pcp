@@ -110,7 +110,7 @@ class _MobileFichaTecnicaVisualizarPageState extends State<MobileFichaTecnicaVis
           actions: [
             InternetButtonIconWidget(connectionStore: widget.connectionStore),
           ],
-          onBackPressed: () => (widget.fichaTecnicaFormController.fichaTecnica != oldFichaTecnica) ? showDialogCancel() : Modular.to.pop(),
+          onClosePressed: () => (widget.fichaTecnicaFormController.fichaTecnica != oldFichaTecnica) ? showDialogCancel() : Modular.to.pop(),
           tabStatusButtons: [
             TabStatusButton(
               title: l10n.fields.dadosGerais,

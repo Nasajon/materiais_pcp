@@ -1,5 +1,5 @@
 import 'package:ana_l10n/ana_localization.dart';
-import 'package:design_system/design_system.dart';
+import 'package:design_system/design_system.dart' hide CardWidget;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
