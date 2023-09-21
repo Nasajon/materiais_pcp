@@ -101,6 +101,7 @@ class DesktopCardCriarEditarMaterialWidget extends StatelessWidget {
                       key: key,
                       label: l10n.fields.quantidade,
                       showSymbol: false,
+                      decimalDigits: material?.unidade?.decimais ?? 0,
                       initialValue: material?.quantidade?.value,
                       validator: (_) => material!.quantidade != null && material.quantidade!.isNotValid
                           ? l10n.messages.insiraUm(l10n.fields.quantidade, ArtigoEnum.artigoFeminino)

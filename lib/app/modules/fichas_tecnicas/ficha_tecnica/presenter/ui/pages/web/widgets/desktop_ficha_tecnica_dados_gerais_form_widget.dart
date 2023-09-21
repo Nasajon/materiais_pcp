@@ -111,6 +111,7 @@ class DesktopFichaTecnicaDadosGeraisFormWidget extends StatelessWidget {
                             label: l10n.fields.quantidadeDeProducao,
                             showSymbol: false,
                             initialValue: fichaTecnicaFormController.fichaTecnica.quantidade.value,
+                            decimalDigits: fichaTecnicaFormController.fichaTecnica.unidade?.decimais ?? 0,
                             isRequiredField: false,
                             isEnabled: true,
                             validator: (_) => fichaTecnicaFormController.fichaTecnica.quantidade.errorMessage,

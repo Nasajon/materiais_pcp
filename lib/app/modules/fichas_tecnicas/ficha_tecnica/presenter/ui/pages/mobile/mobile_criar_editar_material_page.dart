@@ -109,6 +109,7 @@ class _MobileCriarEditarMaterialPageState extends State<MobileCriarEditarMateria
               DoubleTextFormFieldWidget(
                 label: translations.fields.quantidade,
                 initialValue: widget.fichaTecnicaFormController.material?.quantidade?.value,
+                decimalDigits: widget.fichaTecnicaFormController.material?.unidade?.decimais ?? 0,
                 validator: (_) => widget.fichaTecnicaFormController.material!.quantidade != null &&
                         widget.fichaTecnicaFormController.material!.quantidade!.isNotValid
                     ? translations.messages.insiraUm(translations.fields.quantidade, ArtigoEnum.artigoFeminino)

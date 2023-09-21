@@ -8,6 +8,7 @@ class RemoteUnidadeMapper {
       id: map['unidade'],
       codigo: map['codigo'],
       nome: map['nome'],
+      decimais: map.containsKey('decimais') ? map['decimais'] ?? 0 : 0,
     );
   }
 
@@ -16,6 +17,7 @@ class RemoteUnidadeMapper {
       'unidade': unidade.id,
       'codigo': unidade.codigo,
       'nome': unidade.nome,
+      'decimais': unidade.decimais,
     };
   }
 }

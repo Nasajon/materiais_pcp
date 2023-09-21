@@ -85,6 +85,7 @@ class MobileFichaTecnicaDadosGeraisFormWidget extends StatelessWidget {
               DoubleTextFormFieldWidget(
                 label: l10n.fields.quantidadeDeProducao,
                 initialValue: fichaTecnicaFormController.fichaTecnica.quantidade.value,
+                decimalDigits: fichaTecnicaFormController.fichaTecnica.unidade?.decimais ?? 0,
                 isRequiredField: true,
                 isEnabled: true,
                 showSymbol: false,
