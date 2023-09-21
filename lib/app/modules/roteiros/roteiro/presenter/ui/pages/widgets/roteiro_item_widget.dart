@@ -32,7 +32,7 @@ class RoteiroItemWidget extends StatelessWidget {
           if (triple.state && !triple.isLoading) {
             roteiroListStore.deletarRoteiro(roteiro.id);
             NotificationSnackBar.showSnackBar(
-              translation.messages.excluiuUmEntidadeComSucesso(translation.titles.centroDeTrabalho),
+              translation.messages.excluirUmaEntidade(translation.titles.centroDeTrabalho),
               themeData: themeData,
             );
           }
@@ -65,7 +65,7 @@ class RoteiroItemWidget extends StatelessWidget {
                           builder: (context) {
                             return ConfirmationModalWidget(
                               title: translation.titles.excluirEntidade(translation.titles.centroDeTrabalho),
-                              messages: translation.messages.excluirUmEntidade(translation.titles.centroDeTrabalho),
+                              messages: translation.messages.excluirUmaEntidade(translation.titles.centroDeTrabalho),
                               titleCancel: translation.fields.excluir,
                               titleSuccess: translation.fields.cancelar,
                               onCancel: () => deletarRoteiroStore.deletarRoteiroPorId(roteiro.id),

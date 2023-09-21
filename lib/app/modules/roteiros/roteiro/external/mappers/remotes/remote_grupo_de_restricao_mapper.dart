@@ -3,7 +3,6 @@ import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/grupo_d
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/enums/operacao_enum.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/external/mappers/remotes/remote_restricao_capacidade_mapper.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/external/mappers/remotes/remote_restricao_mapper.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/external/mappers/remotes/remote_unidade_mapper.dart';
 
 class RemoteGrupoDeRestricaoMapper {
   const RemoteGrupoDeRestricaoMapper._();

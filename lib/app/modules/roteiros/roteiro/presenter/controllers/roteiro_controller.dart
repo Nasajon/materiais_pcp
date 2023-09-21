@@ -2,20 +2,11 @@ import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/double_vo.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/roteiro_aggregate.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/material_entity.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/usecases/get_recurso_por_grupo_usecase.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/usecases/get_restricao_por_grupo_usecase.dart';
 
 class RoteiroController {
-  final GetRecursoPorGrupoUsecase _getRecursoPorGrupoUsecase;
-  final GetRestricaoPorGrupoUsecase _getRestricaoPorGrupoUsecase;
-
-  // List<OperacaoController> listOpercaoController = [];
   List<MaterialEntity> materiais = [];
 
-  RoteiroController(
-    this._getRecursoPorGrupoUsecase,
-    this._getRestricaoPorGrupoUsecase,
-  );
+  RoteiroController();
 
   // Controle da entidade do roteiro
   final _roteiroNotifier = RxNotifier(RoteiroAggregate.empty());

@@ -1,6 +1,5 @@
-import 'package:pcp_flutter/app/core/modules/domain/value_object/double_vo.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/dtos/restricao_capacidade_dto.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/restricao_aggregate.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/dtos/restricao_capacidade_dto.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/external/mappers/remotes/remote_restricao_capacidade_mapper.dart';
 
 class RemoteRestricaoMapper {

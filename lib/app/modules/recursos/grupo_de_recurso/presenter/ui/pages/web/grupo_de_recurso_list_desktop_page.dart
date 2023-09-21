@@ -29,9 +29,6 @@ class _GrupoDeRecursoListDesktopPageState extends State<GrupoDeRecursoListDeskto
     with DialogErrorMixin<GrupoDeRecursoListDesktopPage, GrupoDeRecursoListStore> {
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
-    final colorTheme = themeData.extension<AnaColorTheme>();
-
     return CustomScaffold.titleString(
       translation.titles.gruposDeRecursos,
       controller: widget.scaffoldController,

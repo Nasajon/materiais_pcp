@@ -32,7 +32,8 @@ class GrupoDeRestricaoDatasourceImpl implements GrupoDeRestricaoDatasource {
       ));
 
       return (response.data as List).map((e) => GrupoDeRestricaoMapper.fromMapToGrupoDeRestricaoEntity(e)).toList();
-    } on Failure catch (e) {
+    } on Failure {
+      // TODO: Verificar essa falha
       rethrow;
     } on Exception catch (exception, stacktrace) {
       return Future.error(UnknownError(exception: exception, stackTrace: stacktrace, label: 'GrupoDeRestricaoDatasourceImpl-getList'));
@@ -111,7 +112,7 @@ class GrupoDeRestricaoDatasourceImpl implements GrupoDeRestricaoDatasource {
   @override
   Future<bool> deletarItem(String id) async {
     try {
-      final response = await clientService.request(ClientRequestParams(
+      await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
         endPoint: '/1234/gruposderestricoes/$id',
         method: ClientRequestMethods.DELETE,

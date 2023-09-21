@@ -1,9 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/localization/enums/artigo_enum.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
@@ -147,7 +147,7 @@ class _DesktopRestricaoVisualizarPageState extends State<DesktopRestricaoVisuali
                   widget.restricaoFormController.restricaoNotifyListeners();
 
                   NotificationSnackBar.showSnackBar(
-                    l10n.messages.editouUmEntidadeComSucesso(l10n.fields.restricao),
+                    l10n.messages.editouAEntidadeComSucesso(l10n.fields.restricao, artigo: ArtigoEnum.artigoFeminino),
                     themeData: themeData,
                   );
                 }

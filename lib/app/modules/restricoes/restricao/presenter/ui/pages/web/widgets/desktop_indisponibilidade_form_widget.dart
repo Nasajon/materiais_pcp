@@ -24,7 +24,6 @@ class DesktopIndisponibilidadeFormWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    final colorTheme = themeData.extension<AnaColorTheme>();
 
     return RxBuilder(
       builder: (_) {

@@ -5,38 +5,52 @@ abstract class Messages {
   String get avisoSemConexaoInternet;
   String get descatarAlteracoesCriacaoEntidade;
   String get descatarAlteracoesEdicaoEntidade;
-  String get erroIdNaoInformado;
-  String get erroCapacidadeMinimaMaiorTotal;
-  String get erroCapacidadeMinimaMaiorMaxima;
   String get erroCapacidadeMaximaMaiorTotal;
   String get erroCapacidadeMaximaMenorMinima;
+  String get erroCapacidadeMinimaMaiorMaxima;
+  String get erroCapacidadeMinimaMaiorTotal;
+  String get erroIdNaoInformado;
   String get errorCampoObrigatorio;
   String get mensagemAdicioneAsAperacoes;
   String get mensagemAdicioneUmaOperacao;
   String get mensagemAdicioneUmaOuMaisRestricoes;
   String get mensagemAdicioneUmRecurso;
-  String get mensagemConfirmacaoDoRoteiro;
   String get mensagemComoCriarRoteiro;
+  String get mensagemConfirmacaoDoRoteiro;
   String get mensagemNaoEncontrouMaterial;
   String get mensagemSelecionePeriodoVigencia;
   String get mensagemSelecioneUmaUnidadeDeMedida;
   String get naoHaResultadosParaPesquisa;
   String get nenhumaDisponibilidadeFoiAdicionada;
+  String get nenhumaFichaTecnicaEncontrada;
   String get nenhumaIndisponibilidadeFoiAdicionada;
   String get nenhumHorarioFoiAdicionada;
+  String get nenhumMaterialFoiAdicionado;
   String get nenhumTurnoTrabalhoEncontrado;
   String get pesquisarNomeOuPalavraChave;
-  String criouUmaEntidadeComSucesso(String entidade);
-  String criouUmEntidadeComSucesso(String entidade);
-  String editouUmaEntidadeComSucesso(String entidade);
-  String editouUmEntidadeComSucesso(String entidade);
+  String criouAEntidadeComSucesso(String entidade, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino});
+  String criouUmaEntidadeComSucesso(String entidade, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino});
+
+  String editouAEntidadeComSucesso(String entidade, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino});
+  String editouUmaEntidadeComSucesso(String entidade, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino});
+
   String erroDadosIncompletoOuAusenteDaEntidade(String entidade);
   String erroDadosIncompletoOuAusenteDoEntidade(String entidade);
-  String excluirUmaEntidade(String entidade);
-  String excluirUmEntidade(String entidade);
-  String excluiuUmaEntidadeComSucesso(String entidade);
-  String excluiuUmEntidadeComSucesso(String entidade);
+
+  String excluirAEntidade(String entidade, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino});
+
+  String excluirUmaEntidade(String entidade, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino});
+  String excluiuAEntidadeComSucesso(String entidade, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino});
+
+  String excluiuUmaEntidadeComSucesso(String entidade, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino});
+  String insiraO(String campo, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino});
+
+  String insiraUm(String campo, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino});
   String mensagemRemoverEntidade(String entidade, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino});
+
   String nenhumaEntidadeEncontrada(String entidade);
   String nenhumEntidadeEncontrado(String entidade);
+
+  String selecioneO(String campo, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino});
+  String selecioneUm(String campo, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino});
 }

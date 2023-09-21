@@ -135,8 +135,8 @@ class _GrupoDeRecursoFormDesktopPageState extends State<GrupoDeRecursoFormDeskto
                       SnackBar(
                         content: Text(
                           id == null
-                              ? translation.messages.criouUmEntidadeComSucesso(translation.fields.grupoDeRecurso)
-                              : translation.messages.editouUmEntidadeComSucesso(translation.fields.grupoDeRecurso),
+                              ? translation.messages.criouAEntidadeComSucesso(translation.fields.grupoDeRecurso)
+                              : translation.messages.editouAEntidadeComSucesso(translation.fields.grupoDeRecurso),
                           style: AnaTextStyles.grey14Px.copyWith(fontSize: 15, color: Colors.white, letterSpacing: 0.25),
                         ),
                         backgroundColor: const Color.fromRGBO(0, 0, 0, 0.87),

@@ -32,7 +32,7 @@ class GrupoDeRestricaoItemWidget extends StatelessWidget {
           if (triple.state && !triple.isLoading) {
             grupoDeRestricaoListStore.deleteGrupoDeRestricao(grupoDeRestricao.id ?? '');
             NotificationSnackBar.showSnackBar(
-              translation.messages.excluiuUmEntidadeComSucesso(translation.titles.gruposDeRestricao),
+              translation.messages.excluiuAEntidadeComSucesso(translation.titles.gruposDeRestricao),
               themeData: themeData,
             );
           }
@@ -66,7 +66,7 @@ class GrupoDeRestricaoItemWidget extends StatelessWidget {
                           builder: (context) {
                             return ConfirmationModalWidget(
                               title: translation.titles.excluirEntidade(translation.titles.gruposDeRestricao),
-                              messages: translation.messages.excluirUmEntidade(translation.titles.gruposDeRestricao),
+                              messages: translation.messages.excluirAEntidade(translation.titles.gruposDeRestricao),
                               titleCancel: translation.fields.excluir,
                               titleSuccess: translation.fields.cancelar,
                               onCancel: () => deletarGrupoDeRestricaoStore.deletar(grupoDeRestricao.id ?? ''),

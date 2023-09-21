@@ -170,7 +170,7 @@ class _DesktopRoteiroVisualizarPageState extends State<DesktopRoteiroVisualizarP
                   Asuka.showSnackBar(
                     SnackBar(
                       content: Text(
-                        translation.messages.editouUmEntidadeComSucesso(translation.fields.roteiro),
+                        translation.messages.editouUmaEntidadeComSucesso(translation.fields.roteiro),
                         style: AnaTextStyles.grey14Px.copyWith(fontSize: 15, color: Colors.white, letterSpacing: 0.25),
                       ),
                       backgroundColor: const Color.fromRGBO(0, 0, 0, 0.87),

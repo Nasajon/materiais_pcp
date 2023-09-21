@@ -157,8 +157,8 @@ class _GrupoDeRestricaoFormDesktopPageState extends State<GrupoDeRestricaoFormDe
                   SnackBar(
                     content: Text(
                       widget.id == null
-                          ? translation.messages.criouUmEntidadeComSucesso(translation.fields.grupoDeRestricao)
-                          : translation.messages.editouUmEntidadeComSucesso(translation.fields.grupoDeRestricao),
+                          ? translation.messages.criouAEntidadeComSucesso(translation.fields.grupoDeRestricao)
+                          : translation.messages.editouAEntidadeComSucesso(translation.fields.grupoDeRestricao),
                       style: AnaTextStyles.grey14Px.copyWith(fontSize: 15, color: Colors.white, letterSpacing: 0.25),
                     ),
                     backgroundColor: const Color.fromRGBO(0, 0, 0, 0.87),

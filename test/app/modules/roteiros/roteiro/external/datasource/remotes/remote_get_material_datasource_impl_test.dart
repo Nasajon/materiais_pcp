@@ -1,9 +1,6 @@
 import 'package:flutter_core/ana_core.dart';
-import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:pcp_flutter/app/core/client/interceptors/api_key_interceptor.dart';
-import 'package:pcp_flutter/app/core/client/interceptors/entidades_empresariais_interceptor.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/material_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/errors/roteiro_failure.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/external/datasource/remotes/remote_get_material_datasource_impl.dart';
@@ -18,8 +15,6 @@ class ClientRequestParamsMock extends Mock implements ClientRequestParams {}
 void main() {
   late IClientService clientService;
   late RemoteGetMaterialDatasource remoteGetMaterialDatasource;
-
-  List<Interceptor> interceptors = [ApiKeyInterceptor(), EntidadesEmpresariaisInterceptor()];
 
   group('RemoteGetMaterialDatasourceImpl -', () {
     group('remotes -', () {

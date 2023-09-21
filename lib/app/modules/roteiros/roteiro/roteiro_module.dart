@@ -129,7 +129,7 @@ class RoteiroModule extends Module {
         Bind.factory((i) => InserirEditarRoteiroStore(i(), i(), i())),
 
         //Controllers
-        Bind.factory((i) => RoteiroController(i(), i())),
+        Bind.factory((i) => RoteiroController()),
         Bind.lazySingleton((i) => OperacaoController(i(), i())),
       ];
 

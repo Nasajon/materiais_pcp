@@ -32,7 +32,7 @@ class RecursoItemWidget extends StatelessWidget {
           if (triple.state && !triple.isLoading) {
             recursoListStore.deleteRecurso(recurso.id ?? '');
             NotificationSnackBar.showSnackBar(
-              translation.messages.excluiuUmEntidadeComSucesso(translation.fields.recurso),
+              translation.messages.excluiuAEntidadeComSucesso(translation.fields.recurso),
               themeData: themeData,
             );
           }
@@ -68,7 +68,7 @@ class RecursoItemWidget extends StatelessWidget {
                           builder: (context) {
                             return ConfirmationModalWidget(
                               title: translation.titles.excluirEntidade(translation.fields.recurso),
-                              messages: translation.messages.excluirUmEntidade(translation.fields.recurso),
+                              messages: translation.messages.excluirAEntidade(translation.fields.recurso),
                               titleCancel: translation.fields.excluir,
                               titleSuccess: translation.fields.cancelar,
                               onCancel: () => deletarRecursoStore.deletar(recurso.id ?? ''),

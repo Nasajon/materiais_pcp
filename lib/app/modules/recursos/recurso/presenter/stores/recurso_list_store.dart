@@ -1,11 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/domain/usecases/delete_recurso_usecase.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/presenter/stores/deletar_recurso_store.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/presenter/stores/states/recurso_state.dart';
 
-import '../../domain/entities/recurso.dart';
 import '../../domain/usecases/get_recurso_usecase_list.dart';
 
 class RecursoListStore extends NasajonNotifierStore<List<RecursoState>> {

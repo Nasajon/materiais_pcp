@@ -151,7 +151,7 @@ class DesktopRoteiroFormPage extends StatelessWidget {
                 Asuka.showSnackBar(
                   SnackBar(
                     content: Text(
-                      translation.messages.criouUmEntidadeComSucesso(translation.fields.roteiro),
+                      translation.messages.criouUmaEntidadeComSucesso(translation.fields.roteiro),
                       style: AnaTextStyles.grey14Px.copyWith(fontSize: 15, color: Colors.white, letterSpacing: 0.25),
                     ),
                     backgroundColor: const Color.fromRGBO(0, 0, 0, 0.87),

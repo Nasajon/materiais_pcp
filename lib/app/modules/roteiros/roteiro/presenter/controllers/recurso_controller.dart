@@ -30,7 +30,6 @@ class RecursoController {
   // Grupo de Restrição
   GrupoDeRestricaoController get novoGrupoDeRestricaoController => GrupoDeRestricaoController(
         grupoDeRestricao: GrupoDeRestricaoAggregate.empty(),
-        getRestricaoPorGrupoUsecase: _getRestricaoPorGrupoUsecase,
       );
 
   Future<List<RestricaoAggregate>> _getRestricaoPorGrupo(String grupoDeRestricaoId) async {
@@ -93,7 +92,6 @@ class RecursoController {
   List<GrupoDeRestricaoController> get listGrupoDeRestricaoController => recurso.grupoDeRestricoes
       .map((grupoDeRestricao) => GrupoDeRestricaoController(
             grupoDeRestricao: grupoDeRestricao,
-            getRestricaoPorGrupoUsecase: _getRestricaoPorGrupoUsecase,
           ))
       .toList();
 

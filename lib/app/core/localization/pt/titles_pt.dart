@@ -5,14 +5,25 @@ class TitlesPt extends Titles {
   String get adicionarDisponibilidade => 'Adicionar disponibilidade';
 
   @override
+  String get adicionarGrupoDeRecurso => 'Adicionar grupo de recursos';
+
+  @override
+  String get adicionarGrupoDeRestricoes => 'Adicionar grupo de restrições';
+
+  @override
   String get adicionarHorario => 'Adicionar horário';
 
   @override
   String get adicionarIndisponibilidade => 'Adicionar indisponibilidade';
 
   @override
-  String get adicionarOperacao => 'Adicionar operação';
+  String get adicionarMateriais => 'Adicionar material';
 
+  @override
+  String get adicionarMaterial => 'Adicionar material';
+
+  @override
+  String get adicionarOperacao => 'Adicionar operação';
   @override
   String get adicioneUmaDisponibilidade => 'Adicione uma disponibilidade';
 
@@ -23,6 +34,9 @@ class TitlesPt extends Titles {
   String get adicioneUmHorario => 'Adicione um horário';
 
   @override
+  String get adicioneUmMaterial => 'Adicione um material';
+
+  @override
   String get centroDeTrabalho => 'Centro de trabalho';
 
   @override
@@ -30,6 +44,9 @@ class TitlesPt extends Titles {
 
   @override
   String get criarCentroDeTrabalho => 'Criar centro de trabalho';
+
+  @override
+  String get criarFichaTecnica => 'Criar ficha técnica';
 
   @override
   String get criarGrupoDeRecursos => 'Criar grupo de recursos';
@@ -47,6 +64,9 @@ class TitlesPt extends Titles {
   String get criarTurnoDeTrabalho => 'Criar turno de trabalho';
 
   @override
+  String get dadosBasicos => 'Dados básicos';
+
+  @override
   String get descartarAlteracoes => 'Descartar as informações?';
 
   @override
@@ -62,16 +82,40 @@ class TitlesPt extends Titles {
   String get editarIndisponibilidade => 'Editar indisponibilidade';
 
   @override
+  String get editarMaterial => 'Editar material';
+
+  @override
+  String get editarOperacao => 'Editar operação';
+
+  @override
+  String get fichasTecnicas => 'Fichas técnicas';
+
+  @override
+  String get fichaTecnica => 'Ficha técnica';
+
+  @override
+  String get grupoDeRestricoes => 'Grupos de restrições';
+
+  @override
   String get gruposDeRecursos => 'Grupos de recursos';
 
   @override
   String get gruposDeRestricao => 'Grupos de restrição';
 
   @override
+  String get materiais => 'Materiais';
+
+  @override
+  String get restricoes => 'Restrições';
+
+  @override
   String get restricoesSecundarias => 'Restrições secundárias';
 
   @override
   String get roteiroDeProducao => 'Roteiros de produção';
+
+  @override
+  String get semRestricoes => 'Sem restrições';
 
   @override
   String get tituloRecursos => 'Recursos';
@@ -81,6 +125,9 @@ class TitlesPt extends Titles {
 
   @override
   String get turnosDeTrabalho => 'Turnos de trabalho';
+
+  @override
+  String get ultimasFichasTecnicasAcessadas => 'Ultimas fichas técnicas acessadas';
 
   @override
   String get ultimasRestricoesAcessadas => 'Últimas restrições acessadas';
@@ -107,40 +154,13 @@ class TitlesPt extends Titles {
   String criarEntidade(String entidade) => 'Criar ${entidade.toLowerCase()}';
 
   @override
-  String excluirEntidade(String entidade) => 'Excluir ${entidade.toLowerCase()}?';
-
-  @override
-  String get dadosBasicos => 'Dados básicos';
-
-  @override
-  String get materiais => 'Materiais';
-
-  @override
   String editarEntidade(String entidade) => 'Editar $entidade';
 
   @override
-  String get restricoes => 'Restrições';
-
-  @override
-  String get semRestricoes => 'Sem restrições';
-
-  @override
-  String get grupoDeRestricoes => 'Grupos de restrições';
-
-  @override
-  String get adicionarGrupoDeRestricoes => 'Adicionar grupo de restrições';
+  String excluirEntidade(String entidade) => 'Excluir ${entidade.toLowerCase()}?';
 
   @override
   String removerEntidade(String entidade) {
     return 'Remover ${entidade.toLowerCase()}';
   }
-
-  @override
-  String get editarOperacao => 'Editar operação';
-
-  @override
-  String get adicionarMateriais => 'Adicionar material';
-
-  @override
-  String get adicionarGrupoDeRecurso => 'Adicionar grupo de recursos';
 }

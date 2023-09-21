@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_use_of_visible_for_testing_member
+
 import 'package:flutter_core/ana_core.dart';
 import 'package:pcp_flutter/app/modules/restricoes/common/domain/entities/grupo_de_restricao_entity.dart';
 import 'package:pcp_flutter/app/modules/restricoes/common/external/mapper/local/local_grupo_de_restricao_mapper.dart';
@@ -28,7 +30,7 @@ class GrupoDeRestricaoLocalDatasourceImpl implements GrupoDeRestricaoLocalDataso
           .where((grupo) =>
               grupo.codigo?.value == search ||
               grupo.descricao.value.toLowerCase().contains(search.toLowerCase()) ||
-              (grupo.tipo != null && grupo.tipo.name.toLowerCase().contains(search.toLowerCase())))
+              (grupo.tipo.name.toLowerCase().contains(search.toLowerCase())))
           .toList();
     }
 

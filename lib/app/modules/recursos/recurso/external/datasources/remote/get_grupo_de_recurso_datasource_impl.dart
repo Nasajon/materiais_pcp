@@ -27,7 +27,8 @@ class GetGrupoDeRecursoDatasourceImpl implements GetGrupoDeRecursoDatasource {
       ));
 
       return (response.data as List).map((e) => GrupoDeRecursoMapper.fromMap(e)).toList();
-    } on Failure catch (e) {
+    } on Failure {
+      // TODO: Verificar essa falha
       rethrow;
     } on Exception catch (exception, stacktrace) {
       return Future.error(UnknownError(exception: exception, stackTrace: stacktrace, label: 'GrupoDeRecursoDatasourceImpl-getList'));

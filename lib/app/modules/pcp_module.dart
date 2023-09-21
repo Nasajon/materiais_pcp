@@ -5,6 +5,7 @@ import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/core/constants/local_db_key.dart';
 import 'package:pcp_flutter/app/core/stores/reducers/internet_connection_reducer.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/centros_de_trabalho_module.dart';
+import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/ficha_tecnica_module.dart';
 import 'package:pcp_flutter/app/modules/recursos/recursos_module.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricoes_module.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/roteiro_module.dart';
@@ -18,6 +19,7 @@ class PcpModule extends Module {
       ...RestricoesModule.getCards(context),
       ...CentrosDeTrabalhoModule.getCards(context),
       ...RoteiroModule.getCards(context),
+      ...FichaTecnicaModule.getCards(context)
     ];
   }
 
@@ -37,5 +39,6 @@ class PcpModule extends Module {
         ModuleRoute('/restricoes', module: RestricoesModule()),
         ModuleRoute('/centro-de-trabalho', module: CentrosDeTrabalhoModule()),
         ModuleRoute('/roteiro', module: RoteiroModule()),
+        ModuleRoute('/ficha-tecnica', module: FichaTecnicaModule()),
       ];
 }

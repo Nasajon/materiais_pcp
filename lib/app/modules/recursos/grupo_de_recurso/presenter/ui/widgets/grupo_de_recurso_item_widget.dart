@@ -32,7 +32,7 @@ class GrupoDeRecursoItemWidget extends StatelessWidget {
           if (triple.state && !triple.isLoading) {
             grupoDeRecursoListStore.deleteGrupoDeRecurso(grupoDeRecurso.id ?? '');
             NotificationSnackBar.showSnackBar(
-              translation.messages.excluiuUmEntidadeComSucesso(translation.fields.grupoDeRecurso),
+              translation.messages.excluiuAEntidadeComSucesso(translation.fields.grupoDeRecurso),
               themeData: themeData,
             );
           }
@@ -67,7 +67,7 @@ class GrupoDeRecursoItemWidget extends StatelessWidget {
                           builder: (context) {
                             return ConfirmationModalWidget(
                               title: translation.titles.excluirEntidade(translation.fields.grupoDeRecurso),
-                              messages: translation.messages.excluirUmEntidade(translation.fields.grupoDeRecurso),
+                              messages: translation.messages.excluirAEntidade(translation.fields.grupoDeRecurso),
                               titleCancel: translation.fields.excluir,
                               titleSuccess: translation.fields.cancelar,
                               onCancel: () => deletarGrupoDeRecursoStore.deletar(grupoDeRecurso.id ?? ''),

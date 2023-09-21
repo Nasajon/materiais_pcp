@@ -22,6 +22,7 @@ class FieldsPt extends Fields {
   @override
   String get adicionarMateriais => 'Adicionar materiais';
 
+  String get adicionarMaterial => 'Adicionar material';
   @override
   String get adicionarOperacao => 'Adicionar operação';
 
@@ -62,10 +63,16 @@ class FieldsPt extends Fields {
   String get criarCentro => 'Criar centro';
 
   @override
+  String get criarFichaTecnica => 'Criar ficha técnica';
+
+  @override
   String get criarGrupo => 'Criar grupo';
 
   @override
   String get criarRestricao => 'Criar restrição';
+
+  @override
+  String get criarRoteiro => 'Criar roteiro';
 
   @override
   String get criarTurno => 'Criar turno';
@@ -116,7 +123,13 @@ class FieldsPt extends Fields {
   String get grupoDeRecurso => 'Grupo de recurso';
 
   @override
+  String get grupoDeRecursos => 'Grupo de recursos';
+
+  @override
   String get grupoDeRestricao => 'Grupo de restrição';
+
+  @override
+  String get grupoDeRestricoes => 'Grupo de restrições';
 
   @override
   String get hora => 'Hora';
@@ -157,12 +170,13 @@ class FieldsPt extends Fields {
   @override
   String get limitarCapacidadeDeProducao => 'Limitar capacidade de produção';
 
+  String get materiais => 'Materiais';
+
   @override
   String get material => 'Material';
 
   @override
   String get maximaRecomendada => 'Máxima recomendada';
-
   @override
   String get medicaoDeTempo => 'Medição de tempo';
 
@@ -206,10 +220,26 @@ class FieldsPt extends Fields {
   String get produtoResultante => 'Produto resultante';
 
   @override
+  String get quantidade => 'Quantidade';
+
+  @override
+  String get quantidadeDeProducao => 'Quantidade de produção';
+
+  @override
   String get razaoDeConversao => 'Razão de conversão';
 
   @override
   String get recurso => 'Recurso';
+
+  @override
+  @override
+  String get recursoApto => 'Recurso apto';
+
+  @override
+  String get recursosAptos => 'Recursos aptos';
+
+  @override
+  String get remover => 'Remover';
 
   @override
   String get restricao => 'Restrição';
@@ -258,25 +288,4 @@ class FieldsPt extends Fields {
 
   @override
   String criarEntity(String entity) => 'Criar ${entity.toLowerCase()}';
-
-  @override
-  String get grupoDeRecursos => 'Grupo de recursos';
-
-  @override
-  String get materiais => 'Materiais';
-
-  @override
-  String get recursoApto => 'Recurso apto';
-
-  @override
-  String get recursosAptos => 'Recursos aptos';
-
-  @override
-  String get criarRoteiro => 'Criar roteiro';
-
-  @override
-  String get remover => 'Remover';
-
-  @override
-  String get grupoDeRestricoes => 'Grupo de restrições';
 }

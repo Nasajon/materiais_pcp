@@ -1,4 +1,3 @@
-import 'package:ana_l10n/ana_localization.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 
 enum TipoDeRecursoEnum {

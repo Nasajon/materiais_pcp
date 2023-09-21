@@ -2,6 +2,7 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/localization/enums/artigo_enum.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
@@ -167,7 +168,7 @@ class _DesktopTurnoTrabalhoFormStatePage extends State<DesktopTurnoTrabalhoFormP
             turnoTrabalhoListStore.addTurnoTrabalho(turnoTrabalho);
             Modular.to.pop();
             NotificationSnackBar.showSnackBar(
-              translation.messages.criouUmEntidadeComSucesso(translation.titles.turnosDeTrabalho),
+              translation.messages.criouAEntidadeComSucesso(translation.titles.turnosDeTrabalho),
               themeData: themeData,
             );
           }

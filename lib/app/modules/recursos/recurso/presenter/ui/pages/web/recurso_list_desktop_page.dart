@@ -29,9 +29,6 @@ class RecursoListDesktopPage extends StatefulWidget {
 class _RecursoListDesktopPageState extends State<RecursoListDesktopPage> with DialogErrorMixin<RecursoListDesktopPage, RecursoListStore> {
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
-    final colorTheme = themeData.extension<AnaColorTheme>();
-
     return CustomScaffold.titleString(
       translation.titles.tituloRecursos,
       controller: widget.scaffoldController,

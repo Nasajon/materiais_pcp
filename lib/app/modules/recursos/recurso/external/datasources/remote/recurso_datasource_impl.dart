@@ -142,7 +142,7 @@ class RecursoDatasourceImpl implements RecursoDatasource {
   @override
   Future<bool> deleteItem(String id) async {
     try {
-      final response = await clientService.request(ClientRequestParams(
+      await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
         endPoint: '/1234/recursos/$id',
         method: ClientRequestMethods.DELETE,
