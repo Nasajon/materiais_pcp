@@ -132,7 +132,7 @@ class _MobileFichaTecnicaFormStatePage extends State<MobileFichaTecnicaFormPage>
     return CustomScaffold.titleString(
       l10n.titles.criarFichaTecnica,
       controller: scaffoldController,
-      onBackPressed: showDialogCancel,
+      onClosePressed: showDialogCancel,
       alignment: Alignment.centerLeft,
       actions: [
         InternetButtonIconWidget(connectionStore: connectionStore),
@@ -148,7 +148,6 @@ class _MobileFichaTecnicaFormStatePage extends State<MobileFichaTecnicaFormPage>
                   valueListenable: page,
                   builder: (_, __, ___) {
                     return HorizontalStepperWidget(
-                      scrollController: ScrollController(),
                       pageController: pageController,
                       isStepperClickable: true,
                       steppers: [
@@ -217,42 +216,43 @@ class _MobileFichaTecnicaFormStatePage extends State<MobileFichaTecnicaFormPage>
 
               return ContainerNavigationBarWidget(
                 child: ValueListenableBuilder(
-                    valueListenable: page,
-                    builder: (context, page, child) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          CustomTextButton(
-                            title: descartarEdicao ? l10n.fields.descartar : l10n.fields.cancelar,
-                            onPressed: showDialogCancel,
-                          ),
-                          const SizedBox(width: 10),
-                          Visibility(
-                            visible: page > 0,
-                            child: CustomOutlinedButton(
-                              title: l10n.fields.voltar,
-                              isEnabled: !triple.isLoading,
-                              onPressed: () {
-                                pageController.previousPage(duration: const Duration(microseconds: 1), curve: Curves.ease);
-                              },
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          CustomPrimaryButton(
-                            title: page + 1 < 2 ? l10n.fields.continuar : l10n.fields.criar,
+                  valueListenable: page,
+                  builder: (context, page, child) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        CustomTextButton(
+                          title: descartarEdicao ? l10n.fields.descartar : l10n.fields.cancelar,
+                          onPressed: showDialogCancel,
+                        ),
+                        const SizedBox(width: 10),
+                        Visibility(
+                          visible: page > 0,
+                          child: CustomOutlinedButton(
+                            title: l10n.fields.voltar,
                             isEnabled: !triple.isLoading,
-                            isLoading: triple.isLoading,
-                            onPressed: () async {
-                              if (page + 1 < 2 && _fichaTecnicaIsValid()) {
-                                pageController.nextPage(duration: const Duration(microseconds: 1), curve: Curves.ease);
-                              } else if (_fichaTecnicaIsValid() && fichaTecnicaFormController.fichaTecnica.isValid) {
-                                inserirEditarFichaTecnicaStore.adicionarFichaTecnica(fichaTecnicaFormController.fichaTecnica);
-                              }
+                            onPressed: () {
+                              pageController.previousPage(duration: const Duration(microseconds: 1), curve: Curves.ease);
                             },
-                          )
-                        ],
-                      );
-                    }),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        CustomPrimaryButton(
+                          title: page + 1 < 2 ? l10n.fields.continuar : l10n.fields.criar,
+                          isEnabled: !triple.isLoading,
+                          isLoading: triple.isLoading,
+                          onPressed: () async {
+                            if (page + 1 < 2 && _fichaTecnicaIsValid()) {
+                              pageController.nextPage(duration: const Duration(microseconds: 1), curve: Curves.ease);
+                            } else if (_fichaTecnicaIsValid() && fichaTecnicaFormController.fichaTecnica.isValid) {
+                              inserirEditarFichaTecnicaStore.adicionarFichaTecnica(fichaTecnicaFormController.fichaTecnica);
+                            }
+                          },
+                        )
+                      ],
+                    );
+                  },
+                ),
               );
             },
           );

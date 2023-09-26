@@ -9,7 +9,7 @@ class IntegerVO extends ValueObject<int?> {
   factory IntegerVO.text(String value) {
     try {
       return IntegerVO(int.parse(value));
-    } on FormatException catch (e) {
+    } on FormatException {
       return IntegerVO(0);
     }
   }

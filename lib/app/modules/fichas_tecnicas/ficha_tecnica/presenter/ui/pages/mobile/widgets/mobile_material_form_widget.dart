@@ -70,12 +70,13 @@ class _MobileMaterialFormWidgetState extends State<MobileMaterialFormWidget> {
             child: RxBuilder(
               builder: (_) {
                 Widget addButton = CustomOutlinedButton(
-                    title: l10n.fields.adicionarMaterial,
-                    onPressed: () async {
-                      widget.fichaTecnicaFormController.material = FichaTecnicaMaterialAggregate.empty();
+                  title: l10n.fields.adicionarMaterial,
+                  onPressed: () async {
+                    widget.fichaTecnicaFormController.material = FichaTecnicaMaterialAggregate.empty();
 
-                      showModalCriarEditarFichaTecnicaMaterial();
-                    });
+                    showModalCriarEditarFichaTecnicaMaterial();
+                  },
+                );
 
                 if (widget.fichaTecnicaFormController.fichaTecnica.materiais.isEmpty) {
                   return Column(

@@ -167,10 +167,11 @@ class _GrupoDeRestricaoFormDesktopPageState extends State<GrupoDeRestricaoFormDe
                   ),
                 );
 
+                oldGrupoRestricao = grupoDeRestricaoController.grupoDeRestricao.copyWith();
+
                 if (widget.id == null) {
                   Modular.to.pop();
                 } else {
-                  oldGrupoRestricao = grupoDeRestricaoController.grupoDeRestricao.copyWith();
                   grupoDeRestricaoController.grupoDeRestricaoNotifyListeners();
                 }
               }

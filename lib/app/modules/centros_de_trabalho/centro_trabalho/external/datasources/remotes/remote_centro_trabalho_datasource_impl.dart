@@ -64,7 +64,7 @@ class RemoteCentroTrabalhoDatasourceImpl implements RemoteCentroTrabalhoDatasour
       final response = await clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/centrosdetrabalhos/$id?fields=turnos',
+          endPoint: '/1234/centrosdetrabalhos/$id?fields=turnos.turno',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
         ),
@@ -74,7 +74,7 @@ class RemoteCentroTrabalhoDatasourceImpl implements RemoteCentroTrabalhoDatasour
 
       return data;
     } on ClientError catch (e) {
-      throw DatasourceTurnoTrabalhoFailure(errorMessage: e.message, stackTrace: e.stackTrace, exception: e.exception);
+      throw DatasourceTurnoTrabalhoFailure(errorMessage: e.message, stackTrace: e.stackTrace);
     }
   }
 
@@ -128,7 +128,7 @@ class RemoteCentroTrabalhoDatasourceImpl implements RemoteCentroTrabalhoDatasour
   @override
   Future<bool> atualizarCentroTrabalho(CentroTrabalhoAggregate centroTrabalho) async {
     try {
-      final response = await clientService.request(
+      await clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
           endPoint: '/1234/centrosdetrabalhos/${centroTrabalho.id}',
@@ -147,7 +147,7 @@ class RemoteCentroTrabalhoDatasourceImpl implements RemoteCentroTrabalhoDatasour
   @override
   Future<bool> deletarCentroTrabalho(String id) async {
     try {
-      final response = await clientService.request(
+      await clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
           endPoint: '/1234/centrosdetrabalhos/$id',

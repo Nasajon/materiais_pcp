@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:design_system/design_system.dart';
-import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:flutter/material.dart';
 
 class PesquisaFormFieldWidget extends StatelessWidget {
   final String label;

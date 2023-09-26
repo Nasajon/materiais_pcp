@@ -3,9 +3,11 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/localization/enums/artigo_enum.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
+import 'package:pcp_flutter/app/core/widgets/notification_snack_bar.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/domain/aggregates/restricao_aggregate.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/controllers/restricao_form_controller.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/stores/get_grupo_de_restricao_store.dart';
@@ -97,7 +99,9 @@ class _DesktopRestricaoFormStatePage extends State<DesktopRestricaoFormPage> {
 
   @override
   Widget build(BuildContext context) {
-    context.select(() => [restricaoFormController.restricao, restricaoFormController.indisponibilidade]);
+    final themeData = Theme.of(context);
+
+    // context.select(() => [restricaoFormController.restricao, restricaoFormController.indisponibilidade]);
 
     return CustomScaffold.titleString(
       translation.titles.criarRestricaoSecundaria,
@@ -165,78 +169,72 @@ class _DesktopRestricaoFormStatePage extends State<DesktopRestricaoFormPage> {
             );
           }
 
-          final turnoTrabalho = triple.state;
-          if (triple.isLoading == false && turnoTrabalho != null) {
-            // turnoTrabalhoListStore.addTurnoTrabalho(turnoTrabalho);
+          final restricao = triple.state;
+          if (!triple.isLoading && restricao != null && restricao != RestricaoAggregate.empty()) {
             Modular.to.pop();
-            // NotificationSnackBar.showSnackBar(
-            //   translation.messages.criouUmEntidadeComSucesso(translation.titles.turnosDeTrabalho),
-            //   themeData: themeData,
-            // );
+            NotificationSnackBar.showSnackBar(
+              themeData: themeData,
+              translation.messages.criouUmaEntidadeComSucesso(translation.fields.restricao, artigo: ArtigoEnum.artigoFeminino),
+            );
           }
 
-          return RxBuilder(
-            builder: (context) {
-              final descartarEdicao = restricaoFormController.restricao != RestricaoAggregate.empty();
-
-              return ContainerNavigationBarWidget(
-                child: ValueListenableBuilder(
-                    valueListenable: page,
-                    builder: (context, page, child) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          CustomTextButton(
-                            title: translation.fields.cancelar,
-                            isEnabled: !triple.isLoading,
-                            onPressed: () {
-                              if (descartarEdicao) {
-                                Asuka.showDialog(
-                                  barrierColor: Colors.black38,
-                                  builder: (context) {
-                                    return ConfirmationModalWidget(
-                                      title: translation.titles.descartarAlteracoes,
-                                      messages: translation.messages.descatarAlteracoesCriacaoEntidade,
-                                      titleCancel: translation.fields.descartar,
-                                      titleSuccess: translation.fields.continuar,
-                                      onCancel: () => Modular.to.pop(),
-                                    );
-                                  },
-                                );
-                              } else {
-                                Modular.to.pop();
-                              }
+          return ContainerNavigationBarWidget(
+            child: ValueListenableBuilder(
+              valueListenable: page,
+              builder: (context, page, child) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    CustomTextButton(
+                      title: translation.fields.cancelar,
+                      isEnabled: !triple.isLoading,
+                      onPressed: () {
+                        if (restricaoFormController.restricao != RestricaoAggregate.empty()) {
+                          Asuka.showDialog(
+                            barrierColor: Colors.black38,
+                            builder: (context) {
+                              return ConfirmationModalWidget(
+                                title: translation.titles.descartarAlteracoes,
+                                messages: translation.messages.descatarAlteracoesCriacaoEntidade,
+                                titleCancel: translation.fields.descartar,
+                                titleSuccess: translation.fields.continuar,
+                                onCancel: () => Modular.to.pop(),
+                              );
                             },
-                          ),
-                          const SizedBox(width: 10),
-                          Visibility(
-                            visible: page > 0,
-                            child: CustomOutlinedButton(
-                              title: translation.fields.voltar,
-                              isEnabled: !triple.isLoading,
-                              onPressed: () {
-                                pageController.previousPage(duration: const Duration(microseconds: 1), curve: Curves.ease);
-                              },
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          CustomPrimaryButton(
-                            title: page + 1 < 2 ? translation.fields.continuar : translation.fields.criar,
-                            isEnabled: !triple.isLoading,
-                            isLoading: triple.isLoading,
-                            onPressed: () async {
-                              if (page + 1 < 2 && _restricaoIsValid()) {
-                                pageController.nextPage(duration: const Duration(microseconds: 1), curve: Curves.ease);
-                              } else if (_restricaoIsValid() && restricaoFormController.restricao.isValid) {
-                                inserirEditarRestricaoStore.adicionarRestricao(restricaoFormController.restricao);
-                              }
-                            },
-                          ),
-                        ],
-                      );
-                    }),
-              );
-            },
+                          );
+                        } else {
+                          Modular.to.pop();
+                        }
+                      },
+                    ),
+                    const SizedBox(width: 10),
+                    Visibility(
+                      visible: page > 0,
+                      child: CustomOutlinedButton(
+                        title: translation.fields.voltar,
+                        isEnabled: !triple.isLoading,
+                        onPressed: () {
+                          pageController.previousPage(duration: const Duration(microseconds: 1), curve: Curves.ease);
+                        },
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    CustomPrimaryButton(
+                      title: page + 1 < 2 ? translation.fields.continuar : translation.fields.criar,
+                      isEnabled: !triple.isLoading,
+                      isLoading: triple.isLoading,
+                      onPressed: () async {
+                        if (page + 1 < 2 && _restricaoIsValid()) {
+                          pageController.nextPage(duration: const Duration(microseconds: 1), curve: Curves.ease);
+                        } else if (_restricaoIsValid() && restricaoFormController.restricao.isValid) {
+                          inserirEditarRestricaoStore.adicionarRestricao(restricaoFormController.restricao);
+                        }
+                      },
+                    ),
+                  ],
+                );
+              },
+            ),
           );
         },
       ),

@@ -29,9 +29,6 @@ class _DesktopCentroTrabalhoListPageState extends State<DesktopCentroTrabalhoLis
     with DialogErrorMixin<DesktopCentroTrabalhoListPage, CentroTrabalhoListStore> {
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
-    final colorTheme = themeData.extension<AnaColorTheme>();
-
     return CustomScaffold.titleString(
       translation.titles.centrosDeTrabalho,
       controller: widget.scaffoldController,

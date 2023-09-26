@@ -29,8 +29,6 @@ class _DesktopTurnoTrabalhoListPageState extends State<DesktopTurnoTrabalhoListP
     with DialogErrorMixin<DesktopTurnoTrabalhoListPage, TurnoTrabalhoListStore> {
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
-
     return CustomScaffold.titleString(
       translation.titles.turnosDeTrabalho,
       controller: widget.scaffoldController,

@@ -24,8 +24,6 @@ class MobileTurnoTrabalhoListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
-
     const horizontalPadding = 16.0;
 
     return CustomScaffold.titleString(

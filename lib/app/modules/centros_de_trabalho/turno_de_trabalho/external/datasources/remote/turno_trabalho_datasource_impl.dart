@@ -83,7 +83,7 @@ class TurnoTrabalhoDatasourceImpl implements TurnoTrabalhoDatasource {
   @override
   Future<bool> editar(TurnoTrabalhoAggregate turno) async {
     try {
-      final response = await clientService.request(
+      await clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
           endPoint: '/1234/turnos/${turno.id}',
@@ -102,7 +102,7 @@ class TurnoTrabalhoDatasourceImpl implements TurnoTrabalhoDatasource {
   @override
   Future<bool> deletar(String id) async {
     try {
-      final response = await clientService.request(
+      await clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
           endPoint: '/1234/turnos/$id',

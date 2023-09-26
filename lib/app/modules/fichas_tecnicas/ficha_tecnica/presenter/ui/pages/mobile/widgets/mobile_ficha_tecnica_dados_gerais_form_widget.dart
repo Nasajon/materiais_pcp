@@ -3,7 +3,7 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
-import 'package:pcp_flutter/app/core/modules/domain/value_object/moeda_vo.dart';
+import 'package:pcp_flutter/app/core/modules/domain/value_object/double_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/entities/produto.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/entities/unidade.dart';
@@ -30,6 +30,8 @@ class MobileFichaTecnicaDadosGeraisFormWidget extends StatelessWidget {
     final l10n = translation;
 
     return RxBuilder(builder: (context) {
+      final fichaTecnica = fichaTecnicaFormController.fichaTecnica;
+
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
         child: Form(
@@ -40,75 +42,72 @@ class MobileFichaTecnicaDadosGeraisFormWidget extends StatelessWidget {
             children: [
               TextFormFieldWidget(
                 label: l10n.fields.codigo,
-                initialValue: fichaTecnicaFormController.fichaTecnica.codigo.value,
+                initialValue: fichaTecnica.codigo.value,
                 isRequiredField: true,
                 isEnabled: true,
-                validator: (_) => fichaTecnicaFormController.fichaTecnica.codigo.errorMessage,
+                validator: (_) => fichaTecnica.codigo.errorMessage,
                 onChanged: (value) {
-                  fichaTecnicaFormController.fichaTecnica =
-                      fichaTecnicaFormController.fichaTecnica.copyWith(codigo: value.isNotEmpty ? TextVO(value) : TextVO(''));
+                  fichaTecnicaFormController.fichaTecnica = fichaTecnica.copyWith(codigo: value.isNotEmpty ? TextVO(value) : TextVO(''));
                 },
               ),
               const SizedBox(height: 16),
               AutocompleteTextFormField<ProdutoEntity>(
-                label: l10n.fields.produto,
-                initialValue: fichaTecnicaFormController.fichaTecnica.produto != null
-                    ? "${fichaTecnicaFormController.fichaTecnica.produto?.codigo} - ${fichaTecnicaFormController.fichaTecnica.produto?.nome}"
-                    : '',
-                onSelected: (value) {
-                  fichaTecnicaFormController.fichaTecnica = fichaTecnicaFormController.fichaTecnica.copyWith(produto: value);
-                },
+                textFieldConfiguration: TextFieldConfiguration(decoration: InputDecoration(label: Text(l10n.fields.produto))),
+                initialSelectedValue: fichaTecnica.produto != ProdutoEntity.empty() ? fichaTecnica.produto : null,
+                itemTextValue: (value) => "${value.codigo} - ${value.nome}",
                 itemBuilder: (context, produto) {
                   return ListTile(
-                    title: Text("${produto.codigo!} - ${produto.nome!}"),
+                    title: Text("${produto.codigo} - ${produto.nome}"),
                   );
                 },
                 suggestionsCallback: (pattern) async {
                   await produtoListStore.getListProduto(search: pattern);
                   return produtoListStore.state;
                 },
+                onSelected: (value) {
+                  fichaTecnicaFormController.fichaTecnica = fichaTecnica.copyWith(produto: value);
+                },
               ),
               const SizedBox(height: 16),
               TextFormFieldWidget(
                 label: l10n.fields.descricao,
-                initialValue: fichaTecnicaFormController.fichaTecnica.descricao.value,
+                initialValue: fichaTecnica.descricao.value,
                 isRequiredField: true,
                 isEnabled: true,
-                validator: (_) => fichaTecnicaFormController.fichaTecnica.descricao.errorMessage,
+                validator: (_) => fichaTecnica.descricao.errorMessage,
                 onChanged: (value) {
-                  fichaTecnicaFormController.fichaTecnica =
-                      fichaTecnicaFormController.fichaTecnica.copyWith(descricao: value.isNotEmpty ? TextVO(value) : TextVO(''));
+                  fichaTecnicaFormController.fichaTecnica = fichaTecnica.copyWith(descricao: value.isNotEmpty ? TextVO(value) : TextVO(''));
                 },
               ),
               const SizedBox(height: 16),
-              DecimalTextFormFieldWidget(
+              DoubleTextFormFieldWidget(
                 label: l10n.fields.quantidadeDeProducao,
-                initialValue: fichaTecnicaFormController.fichaTecnica.quantidade.value,
+                initialValue: fichaTecnica.quantidade.valueOrNull,
+                decimalDigits: fichaTecnica.unidade.decimais,
                 isRequiredField: true,
                 isEnabled: true,
                 showSymbol: false,
-                validator: (_) => fichaTecnicaFormController.fichaTecnica.quantidade.errorMessage,
+                validator: (_) => fichaTecnica.quantidade.errorMessage,
                 onChanged: (value) {
-                  fichaTecnicaFormController.fichaTecnica = fichaTecnicaFormController.fichaTecnica.copyWith(quantidade: MoedaVO(value));
+                  fichaTecnicaFormController.fichaTecnica = fichaTecnica.copyWith(quantidade: DoubleVO(value));
                 },
               ),
               const SizedBox(height: 16),
               AutocompleteTextFormField<UnidadeEntity>(
-                label: l10n.fields.tipoDeUnidade,
-                initialValue: fichaTecnicaFormController.fichaTecnica.unidade != null
-                    ? "${fichaTecnicaFormController.fichaTecnica.unidade?.nome} - ${fichaTecnicaFormController.fichaTecnica.unidade?.codigo}"
-                    : '',
-                onSelected: (value) {
-                  fichaTecnicaFormController.fichaTecnica = fichaTecnicaFormController.fichaTecnica.copyWith(unidade: value);
-                },
+                textFieldConfiguration: TextFieldConfiguration(decoration: InputDecoration(label: Text(l10n.fields.tipoDeUnidade))),
+                initialSelectedValue: fichaTecnica.unidade != UnidadeEntity.empty() ? fichaTecnica.unidade : null,
+                itemTextValue: (value) => "${value.nome} - ${value.codigo}",
                 itemBuilder: (context, unidade) {
                   return ListTile(
-                    title: Text("${unidade.nome!} - ${unidade.codigo!}"),
+                    title: Text("${unidade.nome} - ${unidade.codigo}"),
                   );
                 },
                 suggestionsCallback: (pattern) async {
                   await unidadeListStore.getListUnidade(search: pattern);
                   return unidadeListStore.state;
+                },
+                onSelected: (value) {
+                  fichaTecnicaFormController.fichaTecnica = fichaTecnica.copyWith(unidade: value);
                 },
               ),
             ],

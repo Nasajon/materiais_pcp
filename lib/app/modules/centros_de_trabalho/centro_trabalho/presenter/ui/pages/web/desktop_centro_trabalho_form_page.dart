@@ -3,7 +3,6 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
-import 'package:pcp_flutter/app/core/localization/enums/artigo_enum.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
@@ -104,6 +103,7 @@ class _CentroTrabalhoFormDesktopPageState extends State<CentroTrabalhoFormDeskto
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  const SizedBox(height: 40),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -228,6 +228,7 @@ class _CentroTrabalhoFormDesktopPageState extends State<CentroTrabalhoFormDeskto
                     );
 
                     if (widget.id == null) {
+                      oldCentroTrabalho = centroDeTrabalho;
                       widget.centroTrabalhoListStore.addCentroTrabalho(centroDeTrabalho);
                       Modular.to.pop();
                     } else {

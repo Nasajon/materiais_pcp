@@ -14,7 +14,7 @@ class MoedaVO extends ValueObject<double?> {
     }
   }
 
-  void _validade() {
+  void _validate() {
     if (value == null || value! <= 0) {
       errorMessage = translation.messages.errorCampoObrigatorio;
     }

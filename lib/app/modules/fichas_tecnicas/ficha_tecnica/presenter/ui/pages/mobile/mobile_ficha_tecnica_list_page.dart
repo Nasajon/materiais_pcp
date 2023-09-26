@@ -26,8 +26,6 @@ class MobileFichaTecnicaListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = translation;
-    final themeData = Theme.of(context);
-    final colorTheme = themeData.extension<AnaColorTheme>();
 
     const horizontalPadding = 16.0;
 

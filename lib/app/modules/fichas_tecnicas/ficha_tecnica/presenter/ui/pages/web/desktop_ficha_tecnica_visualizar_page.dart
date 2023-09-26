@@ -2,7 +2,7 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
-import 'package:pcp_flutter/app/core/localization/enums/artigo.dart';
+import 'package:pcp_flutter/app/core/localization/enums/artigo_enum.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
@@ -27,8 +27,8 @@ class DesktopFichaTecnicaVisualizarPage extends StatefulWidget {
   final InternetConnectionStore connectionStore;
   final GlobalKey<FormState> dadosGeraisFormKey;
   final GlobalKey<FormState> materiaisFormKey;
-  late FichaTecnicaAggregate oldFichaTecnica;
-  DesktopFichaTecnicaVisualizarPage({
+
+  const DesktopFichaTecnicaVisualizarPage({
     Key? key,
     required this.pageNotifier,
     required this.scaffoldController,
@@ -107,7 +107,7 @@ class _DesktopFichaTecnicaVisualizarPageState extends State<DesktopFichaTecnicaV
             actions: [
               InternetButtonIconWidget(connectionStore: widget.connectionStore),
             ],
-            onBackPressed: () =>
+            onClosePressed: () =>
                 (widget.fichaTecnicaFormController.fichaTecnica != oldFichaTecnica) ? showDialogCancel() : Modular.to.pop(),
             tabStatusButtons: [
               TabStatusButton(
@@ -172,7 +172,7 @@ class _DesktopFichaTecnicaVisualizarPageState extends State<DesktopFichaTecnicaV
                     widget.fichaTecnicaFormController.fichaTecnicaNotifyListeners();
 
                     NotificationSnackBar.showSnackBar(
-                      l10n.messages.editouAEntidadeComSucesso(l10n.titles.fichaTecnica, ArtigoEnum.artigoFeminino),
+                      l10n.messages.editouAEntidadeComSucesso(l10n.titles.fichaTecnica, artigo: ArtigoEnum.artigoFeminino),
                       themeData: themeData,
                     );
                   }

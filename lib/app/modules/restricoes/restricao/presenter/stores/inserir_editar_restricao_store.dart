@@ -23,7 +23,7 @@ class InserirEditarRestricaoStore extends NasajonStreamStore<RestricaoAggregate?
       setError(e, force: true);
     }
 
-    setLoading(false, force: true);
+    setLoading(false);
   }
 
   Future<void> editarRestricao(RestricaoAggregate restricao) async {

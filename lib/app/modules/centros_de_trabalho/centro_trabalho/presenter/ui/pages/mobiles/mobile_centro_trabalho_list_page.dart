@@ -24,9 +24,6 @@ class MobileCentroTrabalhoListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
-    final colorTheme = themeData.extension<AnaColorTheme>();
-
     const horizontalPadding = 16.0;
 
     return CustomScaffold.titleString(

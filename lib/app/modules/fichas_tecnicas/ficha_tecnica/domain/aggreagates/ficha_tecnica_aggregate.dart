@@ -1,8 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
-import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart';
-import 'package:pcp_flutter/app/core/modules/domain/value_object/moeda_vo.dart';
+import 'package:pcp_flutter/app/core/modules/domain/value_object/double_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/aggreagates/ficha_tecnica_produto_aggregate.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/entities/produto.dart';
@@ -10,11 +8,11 @@ import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/ent
 
 class FichaTecnicaAggregate {
   final String id;
-  final ProdutoEntity? produto;
-  final MoedaVO quantidade;
+  final ProdutoEntity produto;
+  final DoubleVO quantidade;
   final TextVO descricao;
   final TextVO codigo;
-  final UnidadeEntity? unidade;
+  final UnidadeEntity unidade;
 
   final List<FichaTecnicaMaterialAggregate> materiais;
 
@@ -24,8 +22,8 @@ class FichaTecnicaAggregate {
     required this.quantidade,
     required this.materiais,
     required this.descricao,
-    this.produto,
-    this.unidade,
+    required this.produto,
+    required this.unidade,
   });
 
   FichaTecnicaAggregate copyWith({
@@ -33,7 +31,7 @@ class FichaTecnicaAggregate {
     ProdutoEntity? produto,
     TextVO? descricao,
     TextVO? codigo,
-    MoedaVO? quantidade,
+    DoubleVO? quantidade,
     UnidadeEntity? unidade,
     List<FichaTecnicaMaterialAggregate>? materiais,
   }) {
@@ -51,9 +49,11 @@ class FichaTecnicaAggregate {
   factory FichaTecnicaAggregate.empty() {
     return FichaTecnicaAggregate(
       id: '',
-      quantidade: MoedaVO(null),
+      quantidade: DoubleVO(null),
       codigo: TextVO(''),
       descricao: TextVO(''),
+      produto: ProdutoEntity.empty(),
+      unidade: UnidadeEntity.empty(),
       materiais: [],
     );
   }
@@ -76,7 +76,7 @@ class FichaTecnicaAggregate {
     return id.hashCode ^ produto.hashCode ^ unidade.hashCode ^ materiais.hashCode ^ codigo.hashCode;
   }
 
-  bool get isValid => quantidade.isValid && produto != null && unidade != null && codigo.isValid;
-
   bool get isMateriaisValid => materiais.isNotEmpty;
+
+  bool get isValid => quantidade.isValid && produto != ProdutoEntity.empty() && unidade != UnidadeEntity.empty() && codigo.isValid;
 }

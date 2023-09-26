@@ -9,7 +9,7 @@ class CodigoVO extends ValueObject<int?> {
   factory CodigoVO.text(String value) {
     try {
       return CodigoVO(int.parse(value));
-    } on FormatException catch (e) {
+    } on FormatException {
       return CodigoVO(0);
     }
   }

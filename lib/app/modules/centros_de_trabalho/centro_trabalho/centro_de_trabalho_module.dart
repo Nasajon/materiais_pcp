@@ -53,7 +53,7 @@ class CentroDeTrabalhoModule extends Module {
         Bind.singleton((i) => GetTurnoTrabalhoReducer(i(), i())),
 
         //Stores
-        TripleBind.lazySingleton((i) => CentroTrabalhoListStore(i(), i(), i())),
+        TripleBind.lazySingleton((i) => CentroTrabalhoListStore(i(), i())),
         TripleBind.factory((i) => InserirEditarCentroTrabalhoStore(i(), i(), i(), i())),
       ];
 

@@ -3,6 +3,8 @@ import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/core/client/interceptors/api_key_interceptor.dart';
 import 'package:pcp_flutter/app/core/client/interceptors/entidades_empresariais_interceptor.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/aggreagates/ficha_tecnica_aggregate.dart';
+import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/entities/produto.dart';
+import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/entities/unidade.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/errors/ficha_tecnica_failure.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/external/mappers/remotes/remote_ficha_tecnica_mapper.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/infra/datasources/remotes/remote_ficha_tecnica_datasource.dart';
@@ -26,7 +28,7 @@ class RemoteFichaTecnicaDatasourceImpl implements RemoteFichaTecnicaDatasource {
   @override
   Future<bool> atualizarFichaTecnica(FichaTecnicaAggregate fichaTecnica) async {
     try {
-      final response = await clientService.request(
+      await clientService.request(
         ClientRequestParams(
             selectedApi: APIEnum.pcp,
             endPoint: '/1234/fichastecnicas/${fichaTecnica.id}',
@@ -44,7 +46,7 @@ class RemoteFichaTecnicaDatasourceImpl implements RemoteFichaTecnicaDatasource {
   @override
   Future<bool> deletarFichaTecnica(String id) async {
     try {
-      final response = await clientService.request(
+      await clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
           endPoint: '/1234/fichastecnicas/$id',
@@ -137,6 +139,7 @@ class RemoteFichaTecnicaDatasourceImpl implements RemoteFichaTecnicaDatasource {
     }
   }
 
+  // TODO: Verificar essa parte
   Future<List<FichaTecnicaAggregate>> preencherProdutosEUnidades(List<FichaTecnicaAggregate> fichasTecnicas) async {
     var setIdProduto = <String>{};
     var setIdUnidade = <String>{};
@@ -144,19 +147,19 @@ class RemoteFichaTecnicaDatasourceImpl implements RemoteFichaTecnicaDatasource {
       return fichasTecnicas;
     }
     for (var ficha in fichasTecnicas) {
-      if (ficha.produto != null) {
-        setIdProduto.add(ficha.produto!.id);
+      if (ficha.produto != ProdutoEntity.empty()) {
+        setIdProduto.add(ficha.produto.id);
       }
-      if (ficha.unidade != null) {
-        setIdUnidade.add(ficha.unidade!.id);
+      if (ficha.unidade != UnidadeEntity.empty()) {
+        setIdUnidade.add(ficha.unidade.id);
       }
 
       for (var material in ficha.materiais) {
-        if (material.produto != null && !setIdProduto.contains(material.produto!.id)) {
-          setIdProduto.add(material.produto!.id);
+        if (material.produto != ProdutoEntity.empty() && !setIdProduto.contains(material.produto.id)) {
+          setIdProduto.add(material.produto.id);
         }
-        if (material.unidade != null && !setIdUnidade.contains(material.unidade!.id)) {
-          setIdUnidade.add(material.unidade!.id);
+        if (material.unidade != UnidadeEntity.empty() && !setIdUnidade.contains(material.unidade.id)) {
+          setIdUnidade.add(material.unidade.id);
         }
       }
     }
@@ -164,15 +167,15 @@ class RemoteFichaTecnicaDatasourceImpl implements RemoteFichaTecnicaDatasource {
     var unidades = await remoteUnidadeDatasource.getTodasUnidadesPorIds(setIdUnidade.toList());
     return fichasTecnicas.map((ficha) {
       return ficha.copyWith(
-        produto: (ficha.produto != null && produtos.containsKey(ficha.produto!.id)) ? produtos[ficha.produto!.id] : ficha.produto,
-        unidade: (ficha.unidade != null && unidades.containsKey(ficha.unidade!.id)) ? unidades[ficha.unidade!.id] : ficha.unidade,
+        produto: (produtos.containsKey(ficha.produto.id)) ? produtos[ficha.produto.id] : ficha.produto,
+        unidade: (unidades.containsKey(ficha.unidade.id)) ? unidades[ficha.unidade.id] : ficha.unidade,
         materiais: ficha.materiais.map((material) {
           return material.copyWith(
-            produto: (material.produto != null && produtos.containsKey(material.produto!.id))
-                ? produtos[material.produto!.id]
+            produto: (material.produto != ProdutoEntity.empty() && produtos.containsKey(material.produto.id))
+                ? produtos[material.produto.id]
                 : material.produto,
-            unidade: (material.unidade != null && unidades.containsKey(material.unidade!.id))
-                ? unidades[material.unidade!.id]
+            unidade: (material.unidade != UnidadeEntity.empty() && unidades.containsKey(material.unidade.id))
+                ? unidades[material.unidade.id]
                 : material.unidade,
           );
         }).toList(),

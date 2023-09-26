@@ -12,7 +12,7 @@ class RemoteCentroTrabalhoMapper {
       codigo: CodigoVO.text(map['codigo']),
       nome: TextVO(map['nome']),
       turnos: map.containsKey('turnos')
-          ? List.from(map['turnos']).map((e) => RemoteTurnoTrabalhoMapper.fromMapToTurnoTrabalhoEntity(e)).toList()
+          ? List.from(map['turnos']).map((map) => RemoteTurnoTrabalhoMapper.fromMapToTurnoTrabalhoEntity(map['turno'])).toList()
           : [],
     );
   }

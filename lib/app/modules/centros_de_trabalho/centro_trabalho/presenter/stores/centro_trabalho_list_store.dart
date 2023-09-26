@@ -2,18 +2,15 @@ import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/domain/aggreagates/centro_trabalho_aggregate.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/domain/usecases/deletar_centro_trabalho_usecase.dart';
-import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/domain/usecases/get_centro_trabalho_recente_usecase.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/domain/usecases/get_todos_centro_trabalho_usecase.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/presenter/stores/deletar_centro_trabalho_store.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/presenter/stores/states/centro_trabalho_state.dart';
 
 class CentroTrabalhoListStore extends NasajonStreamStore<List<CentroTrabalhoState>> {
-  final GetCentroTrabalhoRecenteUsecase _getCentroTrabalhoRecenteUsecase;
   final GetTodosCentroTrabalhoUsecase _getTodosCentroTrabalhoUsecase;
   final DeletarCentroTrabalhoUsecase _deletarCentroTrabalhoUsecase;
 
   CentroTrabalhoListStore(
-    this._getCentroTrabalhoRecenteUsecase,
     this._getTodosCentroTrabalhoUsecase,
     this._deletarCentroTrabalhoUsecase,
   ) : super(initialState: []);

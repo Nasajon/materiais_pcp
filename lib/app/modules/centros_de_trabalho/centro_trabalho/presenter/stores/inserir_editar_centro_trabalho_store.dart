@@ -71,7 +71,8 @@ class InserirEditarCentroTrabalhoStore extends NasajonStreamStore<CentroTrabalho
       final turnos = await _getTurnoCentroTrabalhoUsecase(id, response.turnos.map((e) => e.id).toList());
 
       return response.copyWith(turnos: turnos);
-    } on Failure catch (e) {
+    } on Failure {
+      // TODO: verificar essa falha
       return null;
     }
   }
