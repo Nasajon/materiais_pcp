@@ -25,7 +25,7 @@ class GrupoDeRestricaoDatasourceImpl implements GrupoDeRestricaoDatasource {
 
       final response = await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
-        endPoint: '/1234/gruposderestricoes',
+        endPoint: '/gruposderestricoes',
         method: ClientRequestMethods.GET,
         queryParams: queryParams,
         interceptors: interceptors,
@@ -47,7 +47,7 @@ class GrupoDeRestricaoDatasourceImpl implements GrupoDeRestricaoDatasource {
 
       final response = await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
-        endPoint: '/1234/gruposderestricoes/$id',
+        endPoint: '/gruposderestricoes/$id',
         method: ClientRequestMethods.GET,
         queryParams: queryParams,
         interceptors: interceptors,
@@ -72,7 +72,7 @@ class GrupoDeRestricaoDatasourceImpl implements GrupoDeRestricaoDatasource {
     try {
       final response = await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
-        endPoint: '/1234/gruposderestricoes',
+        endPoint: '/gruposderestricoes',
         method: ClientRequestMethods.POST,
         body: GrupoDeRestricaoMapper.fromGrupoDeRestricaoEntityToMap(grupoDeRestricao),
         interceptors: interceptors,
@@ -91,7 +91,7 @@ class GrupoDeRestricaoDatasourceImpl implements GrupoDeRestricaoDatasource {
     try {
       final response = await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
-        endPoint: '/1234/gruposderestricoes/${grupoDeRestricao.id!}',
+        endPoint: '/gruposderestricoes/${grupoDeRestricao.id!}',
         method: ClientRequestMethods.PUT,
         body: GrupoDeRestricaoMapper.fromGrupoDeRestricaoEntityToMap(grupoDeRestricao),
         interceptors: interceptors,
@@ -114,7 +114,7 @@ class GrupoDeRestricaoDatasourceImpl implements GrupoDeRestricaoDatasource {
     try {
       await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
-        endPoint: '/1234/gruposderestricoes/$id',
+        endPoint: '/gruposderestricoes/$id',
         method: ClientRequestMethods.DELETE,
         interceptors: interceptors,
       ));

@@ -20,7 +20,7 @@ class GetGrupoDeRecursoDatasourceImpl implements GetGrupoDeRecursoDatasource {
 
       final response = await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
-        endPoint: '/1234/gruposderecursos',
+        endPoint: '/gruposderecursos',
         method: ClientRequestMethods.GET,
         queryParams: queryParams,
         interceptors: interceptors,

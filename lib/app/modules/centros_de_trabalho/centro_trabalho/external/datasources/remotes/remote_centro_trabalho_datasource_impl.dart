@@ -22,7 +22,7 @@ class RemoteCentroTrabalhoDatasourceImpl implements RemoteCentroTrabalhoDatasour
       final response = await clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/centrosdetrabalhos/recents',
+          endPoint: '/centrosdetrabalhos/recents',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
           body: <String, dynamic>{},
@@ -43,7 +43,7 @@ class RemoteCentroTrabalhoDatasourceImpl implements RemoteCentroTrabalhoDatasour
       final response = await clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/centrosdetrabalhos',
+          endPoint: '/centrosdetrabalhos',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
           body: <String, dynamic>{},
@@ -64,7 +64,7 @@ class RemoteCentroTrabalhoDatasourceImpl implements RemoteCentroTrabalhoDatasour
       final response = await clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/centrosdetrabalhos/$id?fields=turnos.turno',
+          endPoint: '/centrosdetrabalhos/$id?fields=turnos.turno',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
         ),
@@ -90,7 +90,7 @@ class RemoteCentroTrabalhoDatasourceImpl implements RemoteCentroTrabalhoDatasour
       final response = await clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/turnos?turno=$turnosParams',
+          endPoint: '/turnos?turno=$turnosParams',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
         ),
@@ -110,7 +110,7 @@ class RemoteCentroTrabalhoDatasourceImpl implements RemoteCentroTrabalhoDatasour
       final response = await clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/centrosdetrabalhos',
+          endPoint: '/centrosdetrabalhos',
           method: ClientRequestMethods.POST,
           interceptors: interceptors,
           body: RemoteCentroTrabalhoMapper.fromCentroTrabalhoToMap(centroTrabalho),
@@ -131,7 +131,7 @@ class RemoteCentroTrabalhoDatasourceImpl implements RemoteCentroTrabalhoDatasour
       await clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/centrosdetrabalhos/${centroTrabalho.id}',
+          endPoint: '/centrosdetrabalhos/${centroTrabalho.id}',
           method: ClientRequestMethods.PUT,
           interceptors: interceptors,
           body: RemoteCentroTrabalhoMapper.fromCentroTrabalhoToMap(centroTrabalho),
@@ -150,7 +150,7 @@ class RemoteCentroTrabalhoDatasourceImpl implements RemoteCentroTrabalhoDatasour
       await clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/centrosdetrabalhos/$id',
+          endPoint: '/centrosdetrabalhos/$id',
           method: ClientRequestMethods.DELETE,
           interceptors: interceptors,
         ),

@@ -31,7 +31,7 @@ class RemoteFichaTecnicaDatasourceImpl implements RemoteFichaTecnicaDatasource {
       await clientService.request(
         ClientRequestParams(
             selectedApi: APIEnum.pcp,
-            endPoint: '/1234/fichastecnicas/${fichaTecnica.id}',
+            endPoint: '/fichastecnicas/${fichaTecnica.id}',
             method: ClientRequestMethods.PUT,
             interceptors: interceptors,
             body: RemoteFichaTecnicaMapper.fromFichaTecnicaToMap(fichaTecnica)),
@@ -49,7 +49,7 @@ class RemoteFichaTecnicaDatasourceImpl implements RemoteFichaTecnicaDatasource {
       await clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/fichastecnicas/$id',
+          endPoint: '/fichastecnicas/$id',
           method: ClientRequestMethods.DELETE,
           interceptors: interceptors,
         ),
@@ -66,7 +66,7 @@ class RemoteFichaTecnicaDatasourceImpl implements RemoteFichaTecnicaDatasource {
       final response = await clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/fichastecnicas/$id?fields=produtos.unidade, produtos.produto, produto, unidade',
+          endPoint: '/fichastecnicas/$id?fields=produtos.unidade, produtos.produto, produto, unidade',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
         ),
@@ -84,7 +84,7 @@ class RemoteFichaTecnicaDatasourceImpl implements RemoteFichaTecnicaDatasource {
       final response = await clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/fichastecnicas?fields=produto, unidade',
+          endPoint: '/fichastecnicas?fields=produto, unidade',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
         ),
@@ -104,7 +104,7 @@ class RemoteFichaTecnicaDatasourceImpl implements RemoteFichaTecnicaDatasource {
       final response = await clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/fichastecnicas${search.trim() == '' ? '' : '?search=$search'}',
+          endPoint: '/fichastecnicas${search.trim() == '' ? '' : '?search=$search'}',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
         ),
@@ -124,7 +124,7 @@ class RemoteFichaTecnicaDatasourceImpl implements RemoteFichaTecnicaDatasource {
       final response = await clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/fichastecnicas',
+          endPoint: '/fichastecnicas',
           method: ClientRequestMethods.POST,
           interceptors: interceptors,
           body: RemoteFichaTecnicaMapper.fromFichaTecnicaToMap(fichaTecnica),

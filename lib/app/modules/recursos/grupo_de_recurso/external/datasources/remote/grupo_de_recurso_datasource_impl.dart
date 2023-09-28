@@ -26,7 +26,7 @@ class GrupoDeRecursoDatasourceImpl implements GrupoDeRecursoDatasource {
 
       final response = await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
-        endPoint: '/1234/gruposderecursos',
+        endPoint: '/gruposderecursos',
         method: ClientRequestMethods.GET,
         queryParams: queryParams,
         interceptors: interceptors,
@@ -48,7 +48,7 @@ class GrupoDeRecursoDatasourceImpl implements GrupoDeRecursoDatasource {
 
       final response = await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
-        endPoint: '/1234/gruposderecursos/$id',
+        endPoint: '/gruposderecursos/$id',
         method: ClientRequestMethods.GET,
         queryParams: queryParams,
         interceptors: interceptors,
@@ -73,7 +73,7 @@ class GrupoDeRecursoDatasourceImpl implements GrupoDeRecursoDatasource {
     try {
       final response = await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
-        endPoint: '/1234/gruposderecursos',
+        endPoint: '/gruposderecursos',
         method: ClientRequestMethods.POST,
         body: GrupoDeRecursoMapper.toMap(grupoDeRecurso),
         interceptors: interceptors,
@@ -92,7 +92,7 @@ class GrupoDeRecursoDatasourceImpl implements GrupoDeRecursoDatasource {
     try {
       final response = await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
-        endPoint: '/1234/gruposderecursos/${grupoDeRecurso.id!}',
+        endPoint: '/gruposderecursos/${grupoDeRecurso.id!}',
         method: ClientRequestMethods.PUT,
         body: GrupoDeRecursoMapper.toMap(grupoDeRecurso),
         interceptors: interceptors,
@@ -115,7 +115,7 @@ class GrupoDeRecursoDatasourceImpl implements GrupoDeRecursoDatasource {
     try {
       final response = await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
-        endPoint: '/1234/gruposderecursos/$id',
+        endPoint: '/gruposderecursos/$id',
         method: ClientRequestMethods.DELETE,
         interceptors: interceptors,
       ));

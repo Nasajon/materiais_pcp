@@ -21,7 +21,7 @@ class TurnoTrabalhoDatasourceImpl implements TurnoTrabalhoDatasource {
       final response = await clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/turnos',
+          endPoint: '/turnos',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
           body: <String, dynamic>{},
@@ -44,7 +44,7 @@ class TurnoTrabalhoDatasourceImpl implements TurnoTrabalhoDatasource {
       final response = await clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/turnos/$id',
+          endPoint: '/turnos/$id',
           method: ClientRequestMethods.GET,
           queryParams: queryParams,
           interceptors: interceptors,
@@ -65,7 +65,7 @@ class TurnoTrabalhoDatasourceImpl implements TurnoTrabalhoDatasource {
       final response = await clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/turnos',
+          endPoint: '/turnos',
           method: ClientRequestMethods.POST,
           interceptors: interceptors,
           body: RemoteTurnoTrabalhoMapper.fromTurnoTrabalhoToMap(turno),
@@ -86,7 +86,7 @@ class TurnoTrabalhoDatasourceImpl implements TurnoTrabalhoDatasource {
       await clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/turnos/${turno.id}',
+          endPoint: '/turnos/${turno.id}',
           method: ClientRequestMethods.PUT,
           interceptors: interceptors,
           body: RemoteTurnoTrabalhoMapper.fromTurnoTrabalhoToMap(turno),
@@ -105,7 +105,7 @@ class TurnoTrabalhoDatasourceImpl implements TurnoTrabalhoDatasource {
       await clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/turnos/$id',
+          endPoint: '/turnos/$id',
           method: ClientRequestMethods.DELETE,
           interceptors: interceptors,
         ),

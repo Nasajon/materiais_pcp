@@ -27,7 +27,7 @@ class RecursoDatasourceImpl implements RecursoDatasource {
 
       final response = await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
-        endPoint: '/1234/recursos',
+        endPoint: '/recursos',
         method: ClientRequestMethods.GET,
         queryParams: queryParams,
         interceptors: interceptors,
@@ -46,7 +46,7 @@ class RecursoDatasourceImpl implements RecursoDatasource {
     try {
       final response = await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
-        endPoint: '/1234/recursos/$id',
+        endPoint: '/recursos/$id',
         method: ClientRequestMethods.GET,
         queryParams: queryParams,
         interceptors: interceptors,
@@ -75,7 +75,7 @@ class RecursoDatasourceImpl implements RecursoDatasource {
     try {
       final response = await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
-        endPoint: '/1234/recursos',
+        endPoint: '/recursos',
         method: ClientRequestMethods.POST,
         body: RecursoMapper.toMap(recurso),
         queryParams: queryParams,
@@ -95,7 +95,7 @@ class RecursoDatasourceImpl implements RecursoDatasource {
     try {
       final response = await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
-        endPoint: '/1234/recursos/${recurso.id!}',
+        endPoint: '/recursos/${recurso.id!}',
         method: ClientRequestMethods.PUT,
         body: RecursoMapper.toMap(recurso),
         queryParams: queryParams,
@@ -120,7 +120,7 @@ class RecursoDatasourceImpl implements RecursoDatasource {
 
       final response = await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
-        endPoint: '/1234/gruposderecursos/$id',
+        endPoint: '/gruposderecursos/$id',
         method: ClientRequestMethods.GET,
         queryParams: queryParams,
         interceptors: interceptors,
@@ -144,7 +144,7 @@ class RecursoDatasourceImpl implements RecursoDatasource {
     try {
       await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
-        endPoint: '/1234/recursos/$id',
+        endPoint: '/recursos/$id',
         method: ClientRequestMethods.DELETE,
         interceptors: interceptors,
       ));
