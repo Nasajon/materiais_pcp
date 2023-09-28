@@ -20,7 +20,7 @@ class RemoteProdutoDatasourceImpl implements RemoteProdutoDatasource {
       final response = await clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/produtos/$id',
+          endPoint: '/produtos/$id',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
         ),
@@ -37,7 +37,7 @@ class RemoteProdutoDatasourceImpl implements RemoteProdutoDatasource {
       final response = await clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/produtos${search.trim() == '' ? '' : '?search=$search'}',
+          endPoint: '/produtos${search.trim() == '' ? '' : '?search=$search'}',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
         ),
@@ -60,7 +60,7 @@ class RemoteProdutoDatasourceImpl implements RemoteProdutoDatasource {
       final response = await clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/produtos?produto=${ids.join(',')}',
+          endPoint: '/produtos?produto=${ids.join(',')}',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
         ),

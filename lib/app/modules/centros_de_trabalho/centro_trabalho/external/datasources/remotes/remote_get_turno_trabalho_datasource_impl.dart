@@ -20,7 +20,7 @@ class RemoteGetTurnoTrabalhoDatasourceImpl implements RemoteGetTurnoTrabalhoData
       final response = await _clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/turnos',
+          endPoint: '/turnos',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
           body: <String, dynamic>{},

@@ -20,7 +20,7 @@ class RemoteUnidadeDatasourceImpl implements RemoteUnidadeDatasource {
       final response = await clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/unidades/$id',
+          endPoint: '/unidades/$id',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
         ),
@@ -37,7 +37,7 @@ class RemoteUnidadeDatasourceImpl implements RemoteUnidadeDatasource {
       final response = await clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/unidades${search.trim() == '' ? '' : '?search=$search'}',
+          endPoint: '/unidades${search.trim() == '' ? '' : '?search=$search'}',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
         ),
@@ -59,7 +59,7 @@ class RemoteUnidadeDatasourceImpl implements RemoteUnidadeDatasource {
       final response = await clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/unidades?unidade=${ids.join(',')}',
+          endPoint: '/unidades?unidade=${ids.join(',')}',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
         ),
