@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:design_system/design_system.dart';
+import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
-import 'package:pcp_flutter/app/modules/presenter/widgets/card_widget.dart';
+import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/usecases/deletar_roteiro_usecase.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/usecases/editar_roteiro_usecase.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/usecases/get_centro_de_trabalho_usecase.dart';
@@ -45,18 +46,31 @@ import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_gr
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_material_store.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_produto_store.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_roteiro_store.dart';
+import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_unidade_store.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/inserir_editar_roteiro_store.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/roteiro_list_store.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_unidade_store.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/roteiro_form_operacao_page.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/roteiro_form_page.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/roteiro_list_page.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/roteiro_visualizar_page.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/ui/pages/widgets/roteiro_card.dart';
 
-class RoteiroModule extends Module {
-  static List<CardWidget> getCards(BuildContext context) {
-    return [RoteiroCard(context: context)];
+class RoteiroModule extends NasajonModule {
+  @override
+  void addCards(CardManager manager) {
+    manager.add(
+      SimpleCardWidget(
+        title: translation.titles.roteiroDeProducao,
+        section: 'PCP',
+        code: 'materiais_pcp_roteiro',
+        descriptions: [],
+        functions: [],
+        permissions: [],
+        showDemoMode: true,
+        applicationID: 1,
+        info: '',
+        onPressed: () => Modular.to.pushNamed('/pcp/roteiro/'),
+      ),
+    );
   }
 
   @override

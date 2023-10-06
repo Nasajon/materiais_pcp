@@ -186,55 +186,66 @@ class _OperacaoWidget extends StatelessWidget {
           ),
         ),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+      child: Column(
         children: [
-          Container(
-            width: 24,
-            height: 24,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(color: colorTheme?.primary ?? Colors.transparent),
-            ),
-            child: Center(
-              child: Text(
-                '${operacao.ordem}',
-                style: themeData.textTheme.labelSmall?.copyWith(
-                  color: colorTheme?.primary,
-                  fontSize: 11,
-                  fontWeight: FontWeight.w700,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                width: 24,
+                height: 24,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: colorTheme?.primary ?? Colors.transparent),
+                ),
+                child: Center(
+                  child: Text(
+                    '${operacao.ordem}',
+                    style: themeData.textTheme.labelSmall?.copyWith(
+                      color: colorTheme?.primary,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
                 ),
               ),
+              const SizedBox(width: 14),
+              Text(
+                operacao.nome.value,
+                style: themeData.textTheme.bodyMedium,
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                TagWidget(
+                  title: operacao.centroDeTrabalho.nome,
+                  sizeBorder: 1,
+                ),
+                const SizedBox(width: 10),
+                TagWidget(
+                  title: operacao.materiais.length == 1
+                      ? '${operacao.materiais.length} ${translation.fields.material.toLowerCase()}'
+                      : '${operacao.materiais.length} ${translation.fields.materiais.toLowerCase()}',
+                  sizeBorder: 1,
+                  borderColor: colorTheme?.text,
+                  titleColor: colorTheme?.text,
+                ),
+                const SizedBox(width: 10),
+                TagWidget(
+                  title: quantidadeRecursos == 1
+                      ? '$quantidadeRecursos  ${translation.fields.recursoApto.toLowerCase()}'
+                      : '$quantidadeRecursos  ${translation.fields.recursosAptos.toLowerCase()}',
+                  sizeBorder: 1,
+                  borderColor: colorTheme?.text,
+                  titleColor: colorTheme?.text,
+                ),
+              ],
             ),
-          ),
-          const SizedBox(width: 14),
-          Text(
-            operacao.nome.value,
-            style: themeData.textTheme.bodyMedium,
-          ),
-          const Spacer(),
-          TagWidget(
-            title: operacao.centroDeTrabalho.nome,
-            sizeBorder: 1,
-          ),
-          const SizedBox(width: 10),
-          TagWidget(
-            title: operacao.materiais.length == 1
-                ? '${operacao.materiais.length} ${translation.fields.material.toLowerCase()}'
-                : '${operacao.materiais.length} ${translation.fields.materiais.toLowerCase()}',
-            sizeBorder: 1,
-            borderColor: colorTheme?.text,
-            titleColor: colorTheme?.text,
-          ),
-          const SizedBox(width: 10),
-          TagWidget(
-            title: quantidadeRecursos == 1
-                ? '$quantidadeRecursos  ${translation.fields.recursoApto.toLowerCase()}'
-                : '$quantidadeRecursos  ${translation.fields.recursosAptos.toLowerCase()}',
-            sizeBorder: 1,
-            borderColor: colorTheme?.text,
-            titleColor: colorTheme?.text,
-          ),
+          )
         ],
       ),
     );

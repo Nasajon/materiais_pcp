@@ -163,7 +163,7 @@ class _DesktopTurnoTrabalhoFormStatePage extends State<DesktopTurnoTrabalhoFormP
           }
 
           final turnoTrabalho = triple.state;
-          if (triple.isLoading == false && turnoTrabalho != null) {
+          if (!triple.isLoading && turnoTrabalho != null) {
             turnoTrabalhoListStore.addTurnoTrabalho(turnoTrabalho);
             Modular.to.pop();
             NotificationSnackBar.showSnackBar(

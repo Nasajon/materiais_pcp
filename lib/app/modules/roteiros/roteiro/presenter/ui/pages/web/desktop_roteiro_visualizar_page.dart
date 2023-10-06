@@ -119,33 +119,35 @@ class _DesktopRoteiroVisualizarPageState extends State<DesktopRoteiroVisualizarP
           ],
           body: Padding(
             padding: const EdgeInsets.only(top: 60),
-            child: Container(
-              constraints: const BoxConstraints(maxWidth: 670),
-              child: PageView(
-                key: ValueKey(roteiroController.pageIndex),
-                controller: PageController(initialPage: roteiroController.pageIndex),
-                physics: const NeverScrollableScrollPhysics(),
-                children: [
-                  DesktopDadosBasicosFormWidget(
-                    roteiroController: roteiroController,
-                    getProdutoStore: getProdutoStore,
-                    getFichaTecnicaStore: getFichaTecnicaStore,
-                    getUnidadeStore: getUnidadeStore,
-                    formKey: dadosBasicosformKey,
-                  ),
-                  DesktopPeriodoFormWidget(roteiroController: roteiroController),
-                  DesktopOperacaoPanelWidget(
-                    roteiroController: roteiroController,
-                    operacaoController: operacaoController,
-                    getUnidadeStore: getUnidadeStore,
-                    getCentroDeTrabalhoStore: getCentroDeTrabalhoStore,
-                    getProdutoStore: getProdutoStore,
-                    getMaterialStore: getMaterialStore,
-                    getGrupoDeRecursoStore: getGrupoDeRecursoStore,
-                    getGrupoDeRestricaoStore: getGrupoDeRestricaoStore,
-                  ),
-                  DesktopConfirmacaoWidget(roteiroController: roteiroController),
-                ],
+            child: Center(
+              child: Container(
+                constraints: const BoxConstraints(maxWidth: 670),
+                child: PageView(
+                  key: ValueKey(roteiroController.pageIndex),
+                  controller: PageController(initialPage: roteiroController.pageIndex),
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: [
+                    DesktopDadosBasicosFormWidget(
+                      roteiroController: roteiroController,
+                      getProdutoStore: getProdutoStore,
+                      getFichaTecnicaStore: getFichaTecnicaStore,
+                      getUnidadeStore: getUnidadeStore,
+                      formKey: dadosBasicosformKey,
+                    ),
+                    DesktopPeriodoFormWidget(roteiroController: roteiroController),
+                    DesktopOperacaoPanelWidget(
+                      roteiroController: roteiroController,
+                      operacaoController: operacaoController,
+                      getUnidadeStore: getUnidadeStore,
+                      getCentroDeTrabalhoStore: getCentroDeTrabalhoStore,
+                      getProdutoStore: getProdutoStore,
+                      getMaterialStore: getMaterialStore,
+                      getGrupoDeRecursoStore: getGrupoDeRecursoStore,
+                      getGrupoDeRestricaoStore: getGrupoDeRestricaoStore,
+                    ),
+                    DesktopConfirmacaoWidget(roteiroController: roteiroController),
+                  ],
+                ),
               ),
             ),
           ),

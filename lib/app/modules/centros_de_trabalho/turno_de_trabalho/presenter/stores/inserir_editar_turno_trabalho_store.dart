@@ -23,7 +23,7 @@ class InserirEditarTurnoTrabalhoStore extends NasajonStreamStore<TurnoTrabalhoAg
       setError(e, force: true);
     }
 
-    setLoading(false, force: true);
+    setLoading(false);
   }
 
   Future<void> editarTurnoTrabalho(TurnoTrabalhoAggregate turnoTrabalho) async {

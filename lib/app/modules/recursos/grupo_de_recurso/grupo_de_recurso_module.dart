@@ -1,6 +1,7 @@
-import 'package:flutter/cupertino.dart';
+import 'package:design_system/design_system.dart';
+import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
-import 'package:pcp_flutter/app/modules/presenter/widgets/card_widget.dart';
+import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/modules/recursos/grupo_de_recurso/domain/usecases/delete_grupo_de_recurso.dart';
 import 'package:pcp_flutter/app/modules/recursos/grupo_de_recurso/external/datasources/local/grupo_de_recurso_local_datasource_impl.dart';
 import 'package:pcp_flutter/app/modules/recursos/grupo_de_recurso/presenter/controllers/grupo_de_recurso_controller.dart';
@@ -14,11 +15,24 @@ import 'external/datasources/remote/grupo_de_recurso_datasource_impl.dart';
 import 'infra/repositories/grupo_de_recurso_repository_impl.dart';
 import 'presenter/stores/grupo_de_recurso_form_store.dart';
 import 'presenter/stores/grupo_de_recurso_list_store.dart';
-import 'presenter/ui/widgets/grupo_de_recurso_card.dart';
 
-class GrupoDeRecursoModule extends Module {
-  static List<CardWidget> getCards(BuildContext context) {
-    return [GrupoDeRecursoCard(context: context)];
+class GrupoDeRecursoModule extends NasajonModule {
+  @override
+  void addCards(CardManager manager) {
+    manager.add(
+      SimpleCardWidget(
+        title: translation.titles.gruposDeRecursos,
+        section: 'PCP',
+        code: 'materiais_pcp_grupo_de_recursos',
+        descriptions: [],
+        functions: [],
+        permissions: [],
+        showDemoMode: true,
+        applicationID: 1,
+        info: '',
+        onPressed: () => Modular.to.pushNamed('/pcp/recursos/grupo-de-recursos/'),
+      ),
+    );
   }
 
   @override

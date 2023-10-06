@@ -1,5 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:design_system/design_system.dart';
+import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/usecases/atualizar_ficha_tecnica_usecase.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/usecases/deletar_ficha_tecnica_usecase.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/usecases/get_ficha_tecnica_por_id_usecase.dart';
@@ -25,12 +27,24 @@ import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/presenter/
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/presenter/ui/pages/ficha_tecnica_form_page.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/presenter/ui/pages/ficha_tecnica_list_page.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/presenter/ui/pages/ficha_tecnica_visualizar_page.dart';
-import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/presenter/ui/widgets/ficha_tecnica_card.dart';
-import 'package:pcp_flutter/app/modules/presenter/presenter.dart';
 
-class FichaTecnicaModule extends Module {
-  static List<CardWidget> getCards(BuildContext context) {
-    return [FichaTecnicaCard(context: context)];
+class FichaTecnicaModule extends NasajonModule {
+  @override
+  void addCards(CardManager manager) {
+    manager.add(
+      SimpleCardWidget(
+        title: translation.titles.fichasTecnicas,
+        section: 'PCP',
+        code: 'materiais_pcp_ficha_tecnica',
+        descriptions: [],
+        functions: [],
+        permissions: [],
+        showDemoMode: true,
+        applicationID: 1,
+        info: '',
+        onPressed: () => Modular.to.pushNamed('/pcp/ficha-tecnica'),
+      ),
+    );
   }
 
   @override

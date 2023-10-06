@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:design_system/design_system.dart';
+import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
-import 'package:pcp_flutter/app/modules/presenter/presenter.dart';
+import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/domain/usecases/delete_restricao_usecase.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/domain/usecases/get_grupo_de_restricao_usecase.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/domain/usecases/get_list_restricao_usecase.dart';
@@ -20,11 +21,23 @@ import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/restricao_list_page.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/restricao_visualizar_page.dart';
 
-import 'presenter/ui/widgets/restricao_card.dart';
-
-class RestricaoModule extends Module {
-  static List<CardWidget> getCards(BuildContext context) {
-    return [RestricaoCard(context: context)];
+class RestricaoModule extends NasajonModule {
+  @override
+  void addCards(CardManager manager) {
+    manager.add(
+      SimpleCardWidget(
+        title: translation.titles.restricoes,
+        section: 'PCP',
+        code: 'materiais_pcp_restricao',
+        descriptions: [],
+        functions: [],
+        permissions: [],
+        showDemoMode: true,
+        applicationID: 1,
+        info: '',
+        onPressed: () => Modular.to.pushNamed('/pcp/restricoes/'),
+      ),
+    );
   }
 
   @override

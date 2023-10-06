@@ -56,6 +56,7 @@ class DesktopRestricaoListPage extends StatelessWidget {
               const SizedBox(height: 40),
               Expanded(
                 child: ScopedBuilder<RestricaoListStore, List<RestricaoState>>(
+                  store: restricaoListStore,
                   onLoading: (_) => const Center(child: CircularProgressIndicator(color: AnaColors.darkBlue)),
                   onError: (context, error) => Container(),
                   onState: (context, state) {

@@ -1,5 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:design_system/design_system.dart';
+import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/domain/usecases/deletar_turno_trabalho_usecase.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/domain/usecases/editar_turno_trabalho_usecase.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/domain/usecases/get_turno_trabalho_por_id_usecase.dart';
@@ -14,12 +16,24 @@ import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/pr
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/presenter/ui/turno_trabalho_form_page.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/presenter/ui/turno_trabalho_list_page.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/presenter/ui/turno_trabalho_visualizar_page.dart';
-import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/presenter/ui/widgets/turno_de_trabalho_card.dart';
-import 'package:pcp_flutter/app/modules/presenter/presenter.dart';
 
-class TurnoDeTrabalhoModule extends Module {
-  static List<CardWidget> getCards(BuildContext context) {
-    return [TurnoDeTranalhoCard(context: context)];
+class TurnoDeTrabalhoModule extends NasajonModule {
+  @override
+  void addCards(CardManager manager) {
+    manager.add(
+      SimpleCardWidget(
+        title: translation.titles.turnosDeTrabalho,
+        section: 'PCP',
+        code: 'materiais_pcp_turno_de_trabalho',
+        descriptions: [],
+        functions: [],
+        permissions: [],
+        showDemoMode: true,
+        applicationID: 1,
+        info: '',
+        onPressed: () => Modular.to.pushNamed('/pcp/centro-de-trabalho/turnos/'),
+      ),
+    );
   }
 
   @override

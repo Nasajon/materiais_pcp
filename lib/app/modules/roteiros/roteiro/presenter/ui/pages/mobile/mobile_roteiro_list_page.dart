@@ -55,71 +55,65 @@ class _MobileRoteiroListPageState extends State<MobileRoteiroListPage> with Dial
       ],
       body: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 635),
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.only(bottom: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              ScopedBuilder<RoteiroListStore, List<RoteiroState>>(
-                onLoading: (_) => const Center(child: CircularProgressIndicator(color: AnaColors.darkBlue)),
-                onError: (context, error) => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ...pesquisaFieldWidget,
-                      Text(
-                        'Erro',
-                        style: AnaTextStyles.grey20Px,
-                      ),
-                    ],
-                  ),
+        child: ScopedBuilder<RoteiroListStore, List<RoteiroState>>(
+          onLoading: (_) => const Center(child: CircularProgressIndicator(color: AnaColors.darkBlue)),
+          onError: (context, error) => Padding(
+            padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ...pesquisaFieldWidget,
+                Text(
+                  'Erro',
+                  style: AnaTextStyles.grey20Px,
                 ),
-                onState: (context, state) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ...pesquisaFieldWidget,
-                        if (state.isEmpty) ...{
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 20, left: 16, right: 16),
-                            child: Text(
-                              widget.roteiroListStore.search.isEmpty
-                                  ? translation.messages.nenhumEntidadeEncontrado(translation.fields.roteiro)
-                                  : translation.messages.naoHaResultadosParaPesquisa,
-                              style: AnaTextStyles.grey20Px,
-                            ),
-                          ),
-                        } else if (widget.roteiroListStore.search.isEmpty) ...{
-                          Text(
-                            translation.titles.ultimosRoteirosAcessados,
-                            style: AnaTextStyles.boldDarkGrey16Px.copyWith(fontSize: 18),
-                          ),
-                          const SizedBox(height: 32),
-                        },
-                        Column(
-                          children: state.map(
-                            (value) {
-                              return RoteiroItemWidget(
-                                key: ValueKey(value),
-                                roteiro: value.roteiro,
-                                deletarRoteiroStore: value.deletarRoteiroStore,
-                                roteiroListStore: widget.roteiroListStore,
-                              );
-                            },
-                          ).toList(),
-                        )
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ],
+              ],
+            ),
           ),
+          onState: (context, state) {
+            return SingleChildScrollView(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ...pesquisaFieldWidget,
+                    if (state.isEmpty) ...{
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 20, left: 16, right: 16),
+                        child: Text(
+                          widget.roteiroListStore.search.isEmpty
+                              ? translation.messages.nenhumEntidadeEncontrado(translation.fields.roteiro)
+                              : translation.messages.naoHaResultadosParaPesquisa,
+                          style: AnaTextStyles.grey20Px,
+                        ),
+                      ),
+                    } else if (widget.roteiroListStore.search.isEmpty) ...{
+                      Text(
+                        translation.titles.ultimosRoteirosAcessados,
+                        style: AnaTextStyles.boldDarkGrey16Px.copyWith(fontSize: 18),
+                      ),
+                      const SizedBox(height: 32),
+                    },
+                    Column(
+                      children: state.map(
+                        (value) {
+                          return RoteiroItemWidget(
+                            key: ValueKey(value),
+                            roteiro: value.roteiro,
+                            deletarRoteiroStore: value.deletarRoteiroStore,
+                            roteiroListStore: widget.roteiroListStore,
+                          );
+                        },
+                      ).toList(),
+                    )
+                  ],
+                ),
+              ),
+            );
+          },
         ),
       ),
       bottomNavigationBar: ContainerNavigationBarWidget(

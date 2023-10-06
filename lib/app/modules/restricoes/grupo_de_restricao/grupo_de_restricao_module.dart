@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:design_system/design_system.dart';
+import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
-import 'package:pcp_flutter/app/modules/presenter/widgets/card_widget.dart';
+import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/domain/usecases/deletar_grupo_restricao_usecase.dart';
 import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/domain/usecases/get_grupo_de_restricao_by_id_usecase.dart';
 import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/domain/usecases/get_grupo_de_restricao_list_usecase.dart';
@@ -13,11 +14,24 @@ import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/presenter/
 import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/presenter/stores/grupo_de_restricao_list_store.dart';
 import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/presenter/ui/pages/grupo_de_restricao_form_page.dart';
 import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/presenter/ui/pages/grupo_de_restricao_list_page.dart';
-import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/presenter/ui/widgets/grupo_de_restricao_card.dart';
 
-class GrupoDeRestricaoModule extends Module {
-  static List<CardWidget> getCards(BuildContext context) {
-    return [GrupoDeRestricaoCard(context: context)];
+class GrupoDeRestricaoModule extends NasajonModule {
+  @override
+  void addCards(CardManager manager) {
+    manager.add(
+      SimpleCardWidget(
+        title: translation.titles.grupoDeRestricoes,
+        section: 'PCP',
+        code: 'materiais_pcp_grupo_de_restricao',
+        descriptions: [],
+        functions: [],
+        permissions: [],
+        showDemoMode: true,
+        applicationID: 1,
+        info: '',
+        onPressed: () => Modular.to.pushNamed('/pcp/restricoes/grupo-de-restricao/'),
+      ),
+    );
   }
 
   @override
