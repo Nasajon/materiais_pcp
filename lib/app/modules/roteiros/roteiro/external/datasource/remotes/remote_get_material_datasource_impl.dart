@@ -24,7 +24,7 @@ class RemoteGetMaterialDatasourceImpl implements RemoteGetMaterialDatasource {
       final responseMateriais = await _clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/fichastecnicas/$fichaTecnicaId',
+          endPoint: '/fichastecnicas/$fichaTecnicaId',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
           queryParams: queryParams,

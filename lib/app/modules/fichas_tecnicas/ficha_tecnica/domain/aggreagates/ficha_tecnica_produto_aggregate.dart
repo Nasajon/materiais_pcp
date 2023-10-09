@@ -4,14 +4,14 @@ import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/ent
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/entities/unidade.dart';
 
 class FichaTecnicaMaterialAggregate {
-  final String id;
+  final String? id;
   final int codigo;
   final ProdutoEntity produto;
   final DoubleVO quantidade;
   final UnidadeEntity unidade;
 
   const FichaTecnicaMaterialAggregate({
-    this.id = '',
+    this.id,
     required this.codigo,
     required this.produto,
     required this.quantidade,
@@ -20,7 +20,7 @@ class FichaTecnicaMaterialAggregate {
 
   factory FichaTecnicaMaterialAggregate.empty() {
     return FichaTecnicaMaterialAggregate(
-      id: '',
+      id: null,
       codigo: 0,
       quantidade: DoubleVO(null),
       produto: ProdutoEntity.empty(),
@@ -48,7 +48,11 @@ class FichaTecnicaMaterialAggregate {
   bool operator ==(covariant FichaTecnicaMaterialAggregate other) {
     if (identical(this, other)) return true;
 
-    return other.id == id && other.produto == produto && other.unidade == unidade && other.codigo == codigo;
+    return other.id == id &&
+        other.produto == produto &&
+        other.unidade == unidade &&
+        other.codigo == codigo &&
+        other.quantidade == quantidade;
   }
 
   @override
