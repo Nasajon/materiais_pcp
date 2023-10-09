@@ -26,7 +26,7 @@ class RemoteGetUnidadeDatasourceImpl implements RemoteGetUnidadeDatasource {
       final response = await _clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/unidades',
+          endPoint: '/unidades',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
           queryParams: queryParams,

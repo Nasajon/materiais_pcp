@@ -26,7 +26,7 @@ class RemoteGetProdutoDatasourceImpl implements RemoteGetProdutoDatasource {
       final response = await _clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/produtos',
+          endPoint: '/produtos',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
           queryParams: queryParams,

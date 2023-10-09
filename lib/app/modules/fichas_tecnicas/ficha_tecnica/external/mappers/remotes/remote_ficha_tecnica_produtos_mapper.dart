@@ -16,11 +16,12 @@ class RemoteFichaTecnicaProdutosMapper {
     );
   }
 
-  static Map<String, dynamic> fromFichaTecnicaProdutoToMap(FichaTecnicaMaterialAggregate fichaTecnica) {
+  static Map<String, dynamic> fromFichaTecnicaProdutoToMap(FichaTecnicaMaterialAggregate fichaTecnicaProduto) {
     return {
-      'produto': fichaTecnica.produto.id,
-      'quantidade': fichaTecnica.quantidade.value.toString(),
-      'unidade': fichaTecnica.unidade.id,
+      'ficha_tecnica_produto': fichaTecnicaProduto.id,
+      'produto': fichaTecnicaProduto.produto.id,
+      'quantidade': fichaTecnicaProduto.quantidade.value.toString(),
+      'unidade': fichaTecnicaProduto.unidade.id,
     };
   }
 }

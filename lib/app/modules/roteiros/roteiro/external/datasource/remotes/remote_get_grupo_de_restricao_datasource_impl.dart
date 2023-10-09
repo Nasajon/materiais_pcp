@@ -26,7 +26,7 @@ class RemoteGetGrupoDeRestricaoDatasourceImpl implements RemoteGetGrupoDeRestric
       final response = await _clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/gruposderestricoes',
+          endPoint: '/gruposderestricoes',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
           queryParams: queryParams,

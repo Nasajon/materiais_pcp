@@ -22,7 +22,7 @@ class RemoteGetRestricaoPorGrupoDatasourceImpl implements RemoteGetRestricaoPorG
       final response = await _clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/restricoes',
+          endPoint: '/restricoes',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
           queryParams: queryParams,

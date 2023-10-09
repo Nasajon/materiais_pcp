@@ -23,7 +23,7 @@ class RemoteRoteiroDatasourceImpl implements RemoteRoteiroDatasource {
       final response = await _clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/roteiros',
+          endPoint: '/roteiros',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
           queryParams: queryParams,
@@ -50,7 +50,7 @@ class RemoteRoteiroDatasourceImpl implements RemoteRoteiroDatasource {
       final response = await _clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/roteiros',
+          endPoint: '/roteiros',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
           queryParams: queryParams,
@@ -76,7 +76,7 @@ class RemoteRoteiroDatasourceImpl implements RemoteRoteiroDatasource {
       final response = await _clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/roteiros/$roteiroId',
+          endPoint: '/roteiros/$roteiroId',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
           queryParams: queryParams,
@@ -95,7 +95,7 @@ class RemoteRoteiroDatasourceImpl implements RemoteRoteiroDatasource {
       final response = await _clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/roteiros',
+          endPoint: '/roteiros',
           method: ClientRequestMethods.POST,
           interceptors: interceptors,
           body: RemoteRoteiroMapper.fromRoteiroToMap(roteiro),
@@ -114,7 +114,7 @@ class RemoteRoteiroDatasourceImpl implements RemoteRoteiroDatasource {
       await _clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/roteiros/${roteiro.id}',
+          endPoint: '/roteiros/${roteiro.id}',
           method: ClientRequestMethods.PUT,
           interceptors: interceptors,
           body: RemoteRoteiroMapper.fromRoteiroToMap(roteiro),
@@ -133,7 +133,7 @@ class RemoteRoteiroDatasourceImpl implements RemoteRoteiroDatasource {
       await _clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/roteiros/$roteiroId',
+          endPoint: '/roteiros/$roteiroId',
           method: ClientRequestMethods.DELETE,
           interceptors: interceptors,
         ),
