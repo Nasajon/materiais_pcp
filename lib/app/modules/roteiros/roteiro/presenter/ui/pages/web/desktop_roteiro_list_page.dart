@@ -43,15 +43,6 @@ class _DesktopRoteiroListPageState extends State<DesktopRoteiroListPage> with Di
       ),
     );
 
-    final pesquisaFieldWidget = <Widget>[
-      const SizedBox(height: 40),
-      PesquisaFormFieldWidget(
-        label: translation.messages.pesquisarNomeOuPalavraChave,
-        onChanged: (value) => widget.roteiroListStore.getRoteiros(search: value),
-      ),
-      const SizedBox(height: 40),
-    ];
-
     return CustomScaffold.titleString(
       translation.titles.roteiroDeProducao,
       controller: widget.scaffoldController,
@@ -69,18 +60,45 @@ class _DesktopRoteiroListPageState extends State<DesktopRoteiroListPage> with Di
                 child: ScopedBuilder<RoteiroListStore, List<RoteiroState>>(
                   store: widget.roteiroListStore,
                   onLoading: (_) => const Center(child: CircularProgressIndicator(color: AnaColors.darkBlue)),
-                  onError: (_, error) => Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ...pesquisaFieldWidget,
-                      Text(
-                        'Erro',
-                        style: AnaTextStyles.grey20Px,
+                  onError: (_, error) {
+                    final pesquisaFieldWidget = <Widget>[
+                      const SizedBox(height: 40),
+                      PesquisaFormFieldWidget(
+                        label: translation.messages.pesquisarNomeOuPalavraChave,
+                        initialValue: widget.roteiroListStore.search,
+                        onChanged: (value) {
+                          widget.roteiroListStore.search = value;
+                          widget.roteiroListStore.getRoteiros(search: value);
+                        },
                       ),
-                      createRoteiroButton,
-                    ],
-                  ),
+                      const SizedBox(height: 40),
+                    ];
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ...pesquisaFieldWidget,
+                        Text(
+                          'Erro',
+                          style: AnaTextStyles.grey20Px,
+                        ),
+                        createRoteiroButton,
+                      ],
+                    );
+                  },
                   onState: (context, state) {
+                    final pesquisaFieldWidget = <Widget>[
+                      const SizedBox(height: 40),
+                      PesquisaFormFieldWidget(
+                        label: translation.messages.pesquisarNomeOuPalavraChave,
+                        initialValue: widget.roteiroListStore.search,
+                        onChanged: (value) {
+                          widget.roteiroListStore.search = value;
+                          widget.roteiroListStore.getRoteiros(search: value);
+                        },
+                      ),
+                      const SizedBox(height: 40),
+                    ];
+
                     if (state.isEmpty) {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

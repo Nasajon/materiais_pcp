@@ -28,6 +28,8 @@ class RoteiroListStore extends NasajonNotifierStore<List<RoteiroState>> {
       execute(
         delay: delay,
         () async {
+          setLoading(true);
+
           if (search.isEmpty) {
             final listRoteiro = await _getRoteiroRecenteUsecase();
             final roteiroState = listRoteiro
@@ -42,7 +44,6 @@ class RoteiroListStore extends NasajonNotifierStore<List<RoteiroState>> {
             return roteiroState;
           }
 
-          setLoading(true);
           final listRoteiro = await _getRoteiroUsecase(search);
           final roteiroState = listRoteiro
               .map(
