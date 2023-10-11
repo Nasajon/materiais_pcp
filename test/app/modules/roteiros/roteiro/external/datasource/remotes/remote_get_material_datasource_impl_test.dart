@@ -70,14 +70,13 @@ const jsonMock = {
         'produto': 'e6aafbcd-2ab7-4c2d-a2c6-0a2899318382',
         'codigo': '03',
         'nome': 'Leite',
-        'unidade_padrao': '482cb303-0a84-46a6-a8e6-5345fd655c70'
       },
       'unidade': {
         'unidade': 'fca69f81-ddd6-47ff-ade7-c516488e90ad',
         'codigo': 'LT',
         'nome': 'Litro',
         'decimais': 2,
-      }
+      },
     }
   ]
 };
