@@ -22,7 +22,8 @@ class RemoteCentroTrabalhoDatasourceImpl implements RemoteCentroTrabalhoDatasour
       final response = await clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/centrosdetrabalhos/recents',
+          endPoint: '/centrosdetrabalhos',
+          // endPoint: '/centrosdetrabalhos/recents',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
           body: <String, dynamic>{},
@@ -39,6 +40,12 @@ class RemoteCentroTrabalhoDatasourceImpl implements RemoteCentroTrabalhoDatasour
 
   @override
   Future<List<CentroTrabalhoAggregate>> getTodosCentroTrabalho(String search) async {
+    Map<String, dynamic> queryParams = {};
+
+    if (search.isNotEmpty) {
+      queryParams['search'] = search;
+    }
+
     try {
       final response = await clientService.request(
         ClientRequestParams(
@@ -46,6 +53,7 @@ class RemoteCentroTrabalhoDatasourceImpl implements RemoteCentroTrabalhoDatasour
           endPoint: '/centrosdetrabalhos',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
+          queryParams: queryParams,
           body: <String, dynamic>{},
         ),
       );

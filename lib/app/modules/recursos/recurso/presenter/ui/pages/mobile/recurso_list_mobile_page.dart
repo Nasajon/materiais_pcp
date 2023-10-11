@@ -55,7 +55,11 @@ class _RecursoListMobilePageState extends State<RecursoListMobilePage> with Dial
                   padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
                   child: PesquisaFormFieldWidget(
                     label: translation.messages.pesquisarNomeOuPalavraChave,
-                    onChanged: (value) => widget.recursoListStore.search = value,
+                    initialValue: widget.recursoListStore.search,
+                    onChanged: (value) {
+                      widget.recursoListStore.search = value;
+                      widget.recursoListStore.getList(search: widget.recursoListStore.search);
+                    },
                   ),
                 ),
                 const SizedBox(height: 40),

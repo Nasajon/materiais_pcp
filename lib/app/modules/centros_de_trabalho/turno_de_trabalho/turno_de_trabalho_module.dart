@@ -6,6 +6,7 @@ import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/do
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/domain/usecases/editar_turno_trabalho_usecase.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/domain/usecases/get_turno_trabalho_por_id_usecase.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/domain/usecases/get_turno_trabalho_recentes_usecase.dart';
+import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/domain/usecases/get_turnos_trabalhos_usecase.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/domain/usecases/inserir_turno_trabalho_usecase.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/external/datasources/remote/turno_trabalho_datasource_impl.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/infra/repositories/turno_trabalho_repository_impl.dart';
@@ -47,12 +48,13 @@ class TurnoDeTrabalhoModule extends NasajonModule {
         //Usecases
         Bind.lazySingleton((i) => GetTurnoTrabalhoUsecasePorIdImpl(i())),
         Bind.lazySingleton((i) => GetTurnoTrabalhoRecenteUsecaseImpl(i())),
+        Bind.lazySingleton((i) => GetTurnosTrabalhosUsecaseImpl(i())),
         Bind.lazySingleton((i) => InserirTurnoTrabalhoUsecaseImpl(i())),
         Bind.lazySingleton((i) => EditarTurnoTrabalhoUsecaseImpl(i())),
         Bind.lazySingleton((i) => DeletarTurnoTrabalhoUsecaseImpl(i())),
 
         //Stores
-        TripleBind.lazySingleton((i) => TurnoTrabalhoListStore(i(), i())),
+        TripleBind.lazySingleton((i) => TurnoTrabalhoListStore(i(), i(), i())),
         TripleBind.lazySingleton((i) => GetTurnoTrabalhoPorIdStore(i())),
         TripleBind.factory((i) => InserirEditarTurnoTrabalhoStore(i(), i())),
 

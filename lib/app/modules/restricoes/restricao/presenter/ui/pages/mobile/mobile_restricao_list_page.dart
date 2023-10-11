@@ -53,7 +53,11 @@ class MobileRestricaoListPage extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
                         child: PesquisaFormFieldWidget(
                           label: translation.messages.avisoPesquisarPorNomeOuPalavraChave,
-                          onChanged: (value) => restricaoListStore.search = value,
+                          initialValue: restricaoListStore.search,
+                          onChanged: (value) {
+                            restricaoListStore.search = value;
+                            restricaoListStore.getListRestricao();
+                          },
                         ),
                       ),
                       const SizedBox(height: 40),

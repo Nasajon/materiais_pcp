@@ -33,9 +33,17 @@ class DesktopRestricaoListPage extends StatelessWidget {
     );
 
     final pesquisaWidget = [
-      PesquisaFormFieldWidget(
-        label: translation.messages.avisoPesquisarPorNomeOuPalavraChave,
-        onChanged: (value) => restricaoListStore.search = value,
+      RxBuilder(
+        builder: (context) {
+          return PesquisaFormFieldWidget(
+            label: translation.messages.avisoPesquisarPorNomeOuPalavraChave,
+            initialValue: restricaoListStore.search,
+            onChanged: (value) {
+              restricaoListStore.search = value;
+              restricaoListStore.getListRestricao();
+            },
+          );
+        },
       ),
       const SizedBox(height: 40),
     ];

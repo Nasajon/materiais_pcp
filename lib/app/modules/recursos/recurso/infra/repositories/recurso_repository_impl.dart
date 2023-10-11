@@ -21,6 +21,17 @@ class RecursoRepositoryImpl implements RecursoRepository {
   }
 
   @override
+  Future<List<Recurso>> getRecursoRecente() {
+    try {
+      return _recursoDatasource.getRecursoRecente();
+    } on Failure {
+      rethrow;
+    } on Exception catch (exception, stacktrace) {
+      return Future.error(UnknownError(exception: exception, stackTrace: stacktrace, label: 'RecursoRepositoryImpl-getList'));
+    }
+  }
+
+  @override
   Future<Recurso> getItem(String id) {
     try {
       return _recursoDatasource.getItem(id);

@@ -37,6 +37,34 @@ class TurnoTrabalhoDatasourceImpl implements TurnoTrabalhoDatasource {
   }
 
   @override
+  Future<List<TurnoTrabalhoAggregate>> getTurnosTrabalhos({required String search}) async {
+    Map<String, dynamic> queryParams = {};
+
+    if (search.isNotEmpty) {
+      queryParams['search'] = search;
+    }
+
+    try {
+      final response = await clientService.request(
+        ClientRequestParams(
+          selectedApi: APIEnum.pcp,
+          endPoint: '/turnos',
+          method: ClientRequestMethods.GET,
+          interceptors: interceptors,
+          queryParams: queryParams,
+          body: <String, dynamic>{},
+        ),
+      );
+
+      final data = List.from(response.data).map((map) => RemoteTurnoTrabalhoMapper.fromMapToTurnoTrabalho(map)).toList();
+
+      return data;
+    } on ClientError catch (e) {
+      throw DatasourceTurnoTrabalhoFailure(errorMessage: e.message, stackTrace: e.stackTrace, exception: e.exception);
+    }
+  }
+
+  @override
   Future<TurnoTrabalhoAggregate> getTurnoTrabalhoPorId(String id) async {
     try {
       Map<String, dynamic> queryParams = {'fields': 'horarios'};

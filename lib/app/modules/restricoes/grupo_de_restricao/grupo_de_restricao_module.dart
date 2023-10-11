@@ -5,6 +5,7 @@ import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/domain/usecases/deletar_grupo_restricao_usecase.dart';
 import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/domain/usecases/get_grupo_de_restricao_by_id_usecase.dart';
 import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/domain/usecases/get_grupo_de_restricao_list_usecase.dart';
+import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/domain/usecases/get_grupo_de_restricao_recente_usecase.dart';
 import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/domain/usecases/save_grupo_de_restricao_usecase.dart';
 import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/external/datasources/local/grupo_de_restricao_local_datasource_impl.dart';
 import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/external/datasources/remote/grupo_de_restricao_datasource_impl.dart';
@@ -44,13 +45,14 @@ class GrupoDeRestricaoModule extends NasajonModule {
         Bind.lazySingleton((i) => GrupoDeRestricaoRepositoryImpl(i(), i(), i())),
 
         //UseCases
+        Bind.lazySingleton((i) => GetGrupoDeRestricaoRecenteUsecaseImpl(i())),
         Bind.lazySingleton((i) => GetGrupoDeRestricaoListUsecaseImpl(i())),
         Bind.lazySingleton((i) => GetGrupoDeRestricaoByIdUsecaseImpl(i())),
         Bind.lazySingleton((i) => SaveGrupoDeRestricaoUsecaseImpl(i())),
         Bind.lazySingleton((i) => DeletarGrupoDeRestricaoUsecaseImpl(i())),
 
         //Stores
-        TripleBind.lazySingleton((i) => GrupoDeRestricaoListStore(i(), i())),
+        TripleBind.lazySingleton((i) => GrupoDeRestricaoListStore(i(), i(), i())),
         TripleBind.factory((i) => GrupoDeRestricaoFormStore(i(), i())),
 
         //Controller

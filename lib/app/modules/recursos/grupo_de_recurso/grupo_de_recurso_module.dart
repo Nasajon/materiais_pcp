@@ -3,6 +3,7 @@ import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/modules/recursos/grupo_de_recurso/domain/usecases/delete_grupo_de_recurso.dart';
+import 'package:pcp_flutter/app/modules/recursos/grupo_de_recurso/domain/usecases/get_grupo_de_recurso_recente_usecase.dart';
 import 'package:pcp_flutter/app/modules/recursos/grupo_de_recurso/external/datasources/local/grupo_de_recurso_local_datasource_impl.dart';
 import 'package:pcp_flutter/app/modules/recursos/grupo_de_recurso/presenter/controllers/grupo_de_recurso_controller.dart';
 import 'package:pcp_flutter/app/modules/recursos/grupo_de_recurso/presenter/ui/pages/grupo_de_recurso_form_page.dart';
@@ -41,27 +42,19 @@ class GrupoDeRecursoModule extends NasajonModule {
         Bind.lazySingleton((i) => GrupoDeRecursoDatasourceImpl(i())),
         Bind.lazySingleton((i) => GrupoDeRecursoLocalDatasourceImpl(i())),
 
-        Bind.lazySingleton((i) => GrupoDeRecursoDatasourceImpl(i()), export: true),
-        Bind.lazySingleton((i) => GrupoDeRecursoLocalDatasourceImpl(i()), export: true),
-
         //Repositories
         Bind.lazySingleton((i) => GrupoDeRecursoRepositoryImpl(i(), i(), i())),
 
-        Bind.lazySingleton((i) => GrupoDeRecursoRepositoryImpl(i(), i(), i()), export: true),
-
         //UseCases
         Bind.lazySingleton((i) => GetGrupoDeRecursoListUsecaseImpl(i())),
+        Bind.lazySingleton((i) => GetGrupoDeRecursoRecenteUsecaseImpl(i())),
         Bind.lazySingleton((i) => GetGrupoDeRecursoByIdUsecaseImpl(i())),
         Bind.lazySingleton((i) => SaveGrupoDeRecursoUsecaseImpl(i())),
         Bind.lazySingleton((i) => DeleteGrupoDeRecursoUsecaseImpl(i())),
 
-        Bind.lazySingleton((i) => GetGrupoDeRecursoListUsecaseImpl(i()), export: true),
-
         //Stores
-        Bind.lazySingleton((i) => GrupoDeRecursoListStore(i(), i())),
+        Bind.lazySingleton((i) => GrupoDeRecursoListStore(i(), i(), i())),
         Bind.factory((i) => GrupoDeRecursoFormStore(i(), i())),
-
-        Bind.lazySingleton((i) => GrupoDeRecursoListStore(i(), i()), export: true),
 
         //Controller
         Bind.factory((i) => GrupoDeRecursoController())

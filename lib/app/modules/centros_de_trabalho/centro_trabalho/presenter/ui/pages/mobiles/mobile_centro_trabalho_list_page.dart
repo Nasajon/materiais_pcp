@@ -46,7 +46,10 @@ class MobileCentroTrabalhoListPage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
                 child: PesquisaFormFieldWidget(
                   label: translation.messages.pesquisarNomeOuPalavraChave,
-                  onChanged: (value) => centroTrabalhoListStore.search = value,
+                  onChanged: (value) {
+                    centroTrabalhoListStore.search = value;
+                    centroTrabalhoListStore.getListCentroTrabalho();
+                  },
                 ),
               ),
               const SizedBox(height: 40),

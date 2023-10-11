@@ -15,6 +15,28 @@ class GrupoDeRestricaoDatasourceImpl implements GrupoDeRestricaoDatasource {
   List<Interceptor> interceptors = [ApiKeyInterceptor(), EntidadesEmpresariaisInterceptor()];
 
   @override
+  Future<List<GrupoDeRestricaoEntity>> getGrupoDeRestricaoRecente() async {
+    try {
+      Map<String, dynamic> queryParams = {'fields': 'tipo'};
+
+      final response = await clientService.request(ClientRequestParams(
+        selectedApi: APIEnum.pcp,
+        endPoint: '/gruposderestricoes',
+        method: ClientRequestMethods.GET,
+        queryParams: queryParams,
+        interceptors: interceptors,
+      ));
+
+      return (response.data as List).map((e) => GrupoDeRestricaoMapper.fromMapToGrupoDeRestricaoEntity(e)).toList();
+    } on Failure {
+      // TODO: Verificar essa falha
+      rethrow;
+    } on Exception catch (exception, stacktrace) {
+      return Future.error(UnknownError(exception: exception, stackTrace: stacktrace, label: 'GrupoDeRestricaoDatasourceImpl-getList'));
+    }
+  }
+
+  @override
   Future<List<GrupoDeRestricaoEntity>> getList(String? search) async {
     try {
       Map<String, dynamic> queryParams = {'fields': 'tipo'};

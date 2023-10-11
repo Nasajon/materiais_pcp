@@ -104,7 +104,7 @@ class RemoteFichaTecnicaDatasourceImpl implements RemoteFichaTecnicaDatasource {
       final response = await clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/fichastecnicas${search.trim() == '' ? '' : '?search=$search'}',
+          endPoint: '/fichastecnicas${search.trim() == '' ? '' : '?search=$search'}&fields=produto, unidade',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
         ),

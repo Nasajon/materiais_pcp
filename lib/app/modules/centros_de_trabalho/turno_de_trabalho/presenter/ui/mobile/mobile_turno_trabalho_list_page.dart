@@ -46,7 +46,10 @@ class MobileTurnoTrabalhoListPage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
                 child: PesquisaFormFieldWidget(
                   label: translation.messages.pesquisarNomeOuPalavraChave,
-                  onChanged: (value) => turnoTrabalhoListStore.search = value,
+                  onChanged: (value) {
+                    turnoTrabalhoListStore.search = value;
+                    turnoTrabalhoListStore.getListTurnoTrabalho();
+                  },
                 ),
               ),
               const SizedBox(height: 40),

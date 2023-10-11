@@ -42,6 +42,24 @@ class RecursoDatasourceImpl implements RecursoDatasource {
   }
 
   @override
+  Future<List<Recurso>> getRecursoRecente() async {
+    try {
+      final response = await clientService.request(ClientRequestParams(
+        selectedApi: APIEnum.pcp,
+        endPoint: '/recursos',
+        method: ClientRequestMethods.GET,
+        interceptors: interceptors,
+      ));
+
+      return (response.data as List).map((e) => RecursoMapper.fromMap(e)).toList();
+    } on Failure {
+      rethrow;
+    } on Exception catch (exception, stacktrace) {
+      return Future.error(UnknownError(exception: exception, stackTrace: stacktrace, label: 'RecursoDatasourceImpl-getList'));
+    }
+  }
+
+  @override
   Future<Recurso> getItem(String id) async {
     try {
       final response = await clientService.request(ClientRequestParams(

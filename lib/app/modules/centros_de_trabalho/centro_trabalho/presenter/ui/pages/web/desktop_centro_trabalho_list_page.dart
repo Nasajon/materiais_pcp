@@ -29,6 +29,18 @@ class _DesktopCentroTrabalhoListPageState extends State<DesktopCentroTrabalhoLis
     with DialogErrorMixin<DesktopCentroTrabalhoListPage, CentroTrabalhoListStore> {
   @override
   Widget build(BuildContext context) {
+    final pesquisaFieldWidget = <Widget>[
+      PesquisaFormFieldWidget(
+        label: translation.messages.pesquisarNomeOuPalavraChave,
+        initialValue: widget.centroTrabalhoListStore.search,
+        onChanged: (value) {
+          widget.centroTrabalhoListStore.search = value;
+          widget.centroTrabalhoListStore.getListCentroTrabalho();
+        },
+      ),
+      const SizedBox(height: 40),
+    ];
+
     return CustomScaffold.titleString(
       translation.titles.centrosDeTrabalho,
       controller: widget.scaffoldController,
@@ -43,11 +55,7 @@ class _DesktopCentroTrabalhoListPageState extends State<DesktopCentroTrabalhoLis
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 40),
-              PesquisaFormFieldWidget(
-                label: translation.messages.pesquisarNomeOuPalavraChave,
-                onChanged: (value) => widget.centroTrabalhoListStore.search = value,
-              ),
-              const SizedBox(height: 40),
+              ...pesquisaFieldWidget,
               Expanded(
                 child: ScopedBuilder<CentroTrabalhoListStore, List<CentroTrabalhoState>>(
                   store: widget.centroTrabalhoListStore,

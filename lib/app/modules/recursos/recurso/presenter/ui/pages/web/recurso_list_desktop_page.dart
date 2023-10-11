@@ -61,7 +61,11 @@ class _RecursoListDesktopPageState extends State<RecursoListDesktopPage> with Di
                       const SizedBox(height: 40),
                       PesquisaFormFieldWidget(
                         label: translation.messages.pesquisarNomeOuPalavraChave,
-                        onChanged: (value) => widget.recursoListStore.search = value,
+                        initialValue: widget.recursoListStore.search,
+                        onChanged: (value) {
+                          widget.recursoListStore.search = value;
+                          widget.recursoListStore.getList(search: widget.recursoListStore.search);
+                        },
                       ),
                       const SizedBox(height: 40),
                     ];

@@ -5,6 +5,7 @@ import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/domain/usecases/delete_recurso_usecase.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/domain/usecases/get_centro_de_trabalho_usecase.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/domain/usecases/get_grupo_de_recurso_usecase.dart';
+import 'package:pcp_flutter/app/modules/recursos/recurso/domain/usecases/get_recurso_recente_usecase.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/external/datasources/local/get_grupo_de_recurso_local_datasource_impl.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/external/datasources/remote/get_centro_de_trabalho_datasource_impl.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/external/datasources/remote/get_grupo_de_recurso_datasource_impl.dart';
@@ -58,6 +59,7 @@ class RecursoModule extends NasajonModule {
 
         //UseCases
         Bind.lazySingleton((i) => GetRecursoListUsecaseImpl(i())),
+        Bind.lazySingleton((i) => GetRecursoRecenteUsecaseImpl(i())),
         Bind.lazySingleton((i) => GetRecursoByIdUsecaseImpl(i())),
         Bind.lazySingleton((i) => SaveRecursoUsecaseImpl(i())),
         Bind.lazySingleton((i) => GetGrupoDeRecursoUsecaseImpl(i())),
@@ -65,7 +67,7 @@ class RecursoModule extends NasajonModule {
         Bind.lazySingleton((i) => GetCentroDeTrabalhoUsecaseImpl(i())),
 
         //Stores
-        Bind.lazySingleton((i) => RecursoListStore(i(), i())),
+        Bind.lazySingleton((i) => RecursoListStore(i(), i(), i())),
         Bind.factory((i) => RecursoFormStore(i(), i())),
         TripleBind.lazySingleton((i) => GetGrupoDeRecursoStore(i())),
         TripleBind.lazySingleton((i) => GetCentroDeTrabalhoStore(i())),

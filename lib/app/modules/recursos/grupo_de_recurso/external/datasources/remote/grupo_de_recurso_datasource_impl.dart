@@ -42,6 +42,28 @@ class GrupoDeRecursoDatasourceImpl implements GrupoDeRecursoDatasource {
   }
 
   @override
+  Future<List<GrupoDeRecurso>> getGrupoDeRecursoRecente() async {
+    try {
+      Map<String, dynamic> queryParams = {'fields': 'tipo'};
+
+      final response = await clientService.request(ClientRequestParams(
+        selectedApi: APIEnum.pcp,
+        endPoint: '/gruposderecursos',
+        method: ClientRequestMethods.GET,
+        queryParams: queryParams,
+        interceptors: interceptors,
+      ));
+
+      return (response.data as List).map((e) => GrupoDeRecursoMapper.fromMap(e)).toList();
+    } on Failure {
+      // TODO: Verificar essa falha
+      rethrow;
+    } on Exception catch (exception, stacktrace) {
+      return Future.error(UnknownError(exception: exception, stackTrace: stacktrace, label: 'GrupoDeRecursoDatasourceImpl-getList'));
+    }
+  }
+
+  @override
   Future<GrupoDeRecurso> getItem(String id) async {
     try {
       Map<String, dynamic> queryParams = {'fields': 'tipo'};

@@ -13,6 +13,11 @@ class TurnoTrabalhoRepositoryImpl implements TurnoTrabalhoRepository {
   }
 
   @override
+  Future<List<TurnoTrabalhoAggregate>> getTurnosTrabalhos({required String search}) {
+    return _turnoTrabalhoDatasource.getTurnosTrabalhos(search: search);
+  }
+
+  @override
   Future<TurnoTrabalhoAggregate> getTurnoTrabalhoPorId(String id) {
     return _turnoTrabalhoDatasource.getTurnoTrabalhoPorId(id);
   }

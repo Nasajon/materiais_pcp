@@ -26,7 +26,7 @@ class RemoteGetCentroDeTrabalhoDatasourceImpl implements RemoteGetCentroDeTrabal
       final response = await _clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/centrosdetrabalhos',
+          endPoint: '/centrosdetrabalhos',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
           queryParams: queryParams,
