@@ -179,7 +179,15 @@ class MessagesPt extends Messages {
     return artigo == ArtigoEnum.artigoMasculino ? 'Selecione o ${campo.toLowerCase()}' : 'Selecione a ${campo.toLowerCase()}';
   }
 
+  @override
   String selecioneUm(String campo, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino}) {
     return artigo == ArtigoEnum.artigoMasculino ? 'Selecione um ${campo.toLowerCase()}' : 'Selecione uma ${campo.toLowerCase()}';
+  }
+
+  @override
+  String naoDeveSerPreenchido(String campo, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino}) {
+    return artigo == ArtigoEnum.artigoMasculino
+        ? 'O ${campo.toLowerCase()} não deve ser preenchido'
+        : 'A ${campo.toLowerCase()} não deve ser preenchida';
   }
 }

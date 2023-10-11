@@ -4,6 +4,4 @@ abstract class RemoteProdutoDatasource {
   Future<List<ProdutoEntity>> getTodosProdutos(String search);
 
   Future<Map<String, ProdutoEntity>> getTodosProdutosPorIds(List<String> ids);
-
-  Future<ProdutoEntity> getProdutoPorId(String id);
 }

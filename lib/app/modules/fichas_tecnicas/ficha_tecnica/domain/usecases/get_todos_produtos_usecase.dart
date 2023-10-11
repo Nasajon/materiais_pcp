@@ -8,7 +8,7 @@ abstract class GetTodosProdutosUsecase {
 class GetTodosProdutosUsecaseImpl implements GetTodosProdutosUsecase {
   final ProdutoRepository _produtoRepository;
 
-  const GetTodosProdutosUsecaseImpl(this._produtoRepository);
+  GetTodosProdutosUsecaseImpl(this._produtoRepository);
 
   @override
   Future<List<ProdutoEntity>> call(String search) {

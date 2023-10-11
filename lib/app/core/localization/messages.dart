@@ -53,4 +53,6 @@ abstract class Messages {
 
   String selecioneO(String campo, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino});
   String selecioneUm(String campo, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino});
+
+  String naoDeveSerPreenchido(String campo, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino});
 }

@@ -25,6 +25,18 @@ class IdNotFoundFichaTecnicaFailure extends FichaTecnicaFailure {
   });
 }
 
+class EmptyMaterialFichaTecnicaFailure extends FichaTecnicaFailure {
+  EmptyMaterialFichaTecnicaFailure({required super.errorMessage, super.stackTrace, super.exception});
+}
+
+class IdMustBeEmptyFichaTecnicaFailure extends FichaTecnicaFailure {
+  IdMustBeEmptyFichaTecnicaFailure({
+    required super.errorMessage,
+    super.stackTrace,
+    super.exception,
+  });
+}
+
 class IncompleteOrMissingDataFichaTecnicaFailure extends FichaTecnicaFailure {
   IncompleteOrMissingDataFichaTecnicaFailure({
     required super.errorMessage,

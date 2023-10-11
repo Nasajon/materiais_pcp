@@ -16,8 +16,8 @@ import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/external/d
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/external/datasources/remotes/remote_produto_datasource_impl.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/external/datasources/remotes/remote_unidade_datasource_impl.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/infra/repositories/ficha_tecnica_repository_impl.dart';
-import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/infra/repositories/produto_repository.dart';
-import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/infra/repositories/unidade_repository.dart';
+import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/infra/repositories/produto_repository_impl.dart';
+import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/infra/repositories/unidade_repository_impl.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/presenter/controllers/ficha_tecnica_form_controller.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/presenter/stores/ficha_tecnica_list_store.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/presenter/stores/get_ficha_tecnica_store.dart';
@@ -52,7 +52,7 @@ class FichaTecnicaModule extends NasajonModule {
         //Datasources
         Bind.lazySingleton((i) => RemoteUnidadeDatasourceImpl(i())),
         Bind.lazySingleton((i) => RemoteProdutoDatasourceImpl(i())),
-        Bind.lazySingleton((i) => RemoteFichaTecnicaDatasourceImpl(i(), i(), i())),
+        Bind.lazySingleton((i) => RemoteFichaTecnicaDatasourceImpl(i())),
         //Repositories
         Bind.lazySingleton((i) => FichaTecnicaRepositoryImpl(i())),
         Bind.lazySingleton((i) => UnidadeRepositoryImpl(i())),

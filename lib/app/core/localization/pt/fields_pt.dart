@@ -287,5 +287,8 @@ class FieldsPt extends Fields {
   String get voltar => 'Voltar';
 
   @override
+  String get id => 'Id';
+
+  @override
   String criarEntity(String entity) => 'Criar ${entity.toLowerCase()}';
 }
