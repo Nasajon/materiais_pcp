@@ -17,7 +17,9 @@ class AtualizarFichaTecnicaUsecaseImpl implements AtualizarFichaTecnicaUsecase {
     if (fichaTecnica.id.isEmpty) {
       throw IdNotFoundFichaTecnicaFailure(errorMessage: translation.messages.erroIdNaoInformado);
     }
-
+    if (fichaTecnica.materiais.isEmpty) {
+      throw EmptyMaterialFichaTecnicaFailure(errorMessage: translation.messages.insiraUm(translation.fields.material));
+    }
     return _fichaTecnicaRepository.atualizarFichaTecnica(fichaTecnica);
   }
 }

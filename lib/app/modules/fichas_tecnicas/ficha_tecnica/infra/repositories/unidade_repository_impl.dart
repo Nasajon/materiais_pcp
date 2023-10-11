@@ -13,11 +13,6 @@ class UnidadeRepositoryImpl implements UnidadeRepository {
   }
 
   @override
-  Future<UnidadeEntity> getUnidadePorId(String id) {
-    return remoteUnidadeDatasource.getUnidadePorId(id);
-  }
-
-  @override
   Future<Map<String, UnidadeEntity>> getTodasUnidadesPorIds(List<String> ids) {
     return remoteUnidadeDatasource.getTodasUnidadesPorIds(ids);
   }

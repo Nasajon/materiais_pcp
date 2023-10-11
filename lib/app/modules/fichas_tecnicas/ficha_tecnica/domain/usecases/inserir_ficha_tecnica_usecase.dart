@@ -13,13 +13,16 @@ class InserirFichaTecnicaUsecaseImpl implements InserirFichaTecnicaUsecase {
   const InserirFichaTecnicaUsecaseImpl(this._fichaTecnicaRepository);
 
   @override
-  Future<FichaTecnicaAggregate> call(FichaTecnicaAggregate centroTrabalho) {
-    if (!centroTrabalho.isValid) {
+  Future<FichaTecnicaAggregate> call(FichaTecnicaAggregate fichaTecnica) {
+    if (!fichaTecnica.isValid) {
       throw IncompleteOrMissingDataFichaTecnicaFailure(
         errorMessage: translation.messages.erroDadosIncompletoOuAusenteDoEntidade(translation.titles.centroDeTrabalho),
       );
     }
+    if (fichaTecnica.id.isNotEmpty) {
+      throw IdMustBeEmptyFichaTecnicaFailure(errorMessage: translation.messages.naoDeveSerPreenchido(translation.fields.id));
+    }
 
-    return _fichaTecnicaRepository.inserirFichaTecnica(centroTrabalho);
+    return _fichaTecnicaRepository.inserirFichaTecnica(fichaTecnica);
   }
 }

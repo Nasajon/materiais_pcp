@@ -95,5 +95,6 @@ abstract class Fields {
   String get utilizar;
   String get visualizar;
   String get voltar;
+  String get id;
   String criarEntity(String entity);
 }

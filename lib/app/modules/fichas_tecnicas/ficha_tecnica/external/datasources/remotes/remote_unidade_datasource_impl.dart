@@ -15,23 +15,6 @@ class RemoteUnidadeDatasourceImpl implements RemoteUnidadeDatasource {
   List<Interceptor> interceptors = [ApiKeyInterceptor(), EntidadesEmpresariaisInterceptor()];
 
   @override
-  Future<UnidadeEntity> getUnidadePorId(String id) async {
-    try {
-      final response = await clientService.request(
-        ClientRequestParams(
-          selectedApi: APIEnum.pcp,
-          endPoint: '/unidades/$id',
-          method: ClientRequestMethods.GET,
-          interceptors: interceptors,
-        ),
-      );
-      return RemoteUnidadeMapper.fromMapToUnidade(response.data);
-    } on ClientError catch (e) {
-      throw DatasourceUnidadeFailure(errorMessage: e.message, stackTrace: e.stackTrace, exception: e.exception);
-    }
-  }
-
-  @override
   Future<List<UnidadeEntity>> getTodasUnidades(String search) async {
     try {
       final response = await clientService.request(

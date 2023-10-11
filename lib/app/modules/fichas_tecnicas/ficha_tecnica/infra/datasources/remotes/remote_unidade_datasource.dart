@@ -4,6 +4,4 @@ abstract class RemoteUnidadeDatasource {
   Future<List<UnidadeEntity>> getTodasUnidades(String search);
 
   Future<Map<String, UnidadeEntity>> getTodasUnidadesPorIds(List<String> ids);
-
-  Future<UnidadeEntity> getUnidadePorId(String id);
 }
