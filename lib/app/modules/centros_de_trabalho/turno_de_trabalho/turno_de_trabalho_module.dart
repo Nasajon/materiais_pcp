@@ -8,7 +8,7 @@ import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/do
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/domain/usecases/get_turno_trabalho_recentes_usecase.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/domain/usecases/get_turnos_trabalhos_usecase.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/domain/usecases/inserir_turno_trabalho_usecase.dart';
-import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/external/datasources/remote/turno_trabalho_datasource_impl.dart';
+import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/external/datasources/remote/remote_turno_trabalho_datasource_impl.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/infra/repositories/turno_trabalho_repository_impl.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/presenter/controller/turno_trabalho_form_controller.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/presenter/stores/get_turno_trabalho_store.dart';
@@ -40,13 +40,13 @@ class TurnoDeTrabalhoModule extends NasajonModule {
   @override
   List<Bind> get binds => [
         //Datasources
-        Bind.lazySingleton((i) => TurnoTrabalhoDatasourceImpl(i())),
+        Bind.lazySingleton((i) => RemoteTurnoTrabalhoDatasourceImpl(i())),
 
         //Repositories
         Bind.lazySingleton((i) => TurnoTrabalhoRepositoryImpl(i())),
 
         //Usecases
-        Bind.lazySingleton((i) => GetTurnoTrabalhoUsecasePorIdImpl(i())),
+        Bind.lazySingleton((i) => GetTurnoTrabalhoPorIdUsecaseImpl(i())),
         Bind.lazySingleton((i) => GetTurnoTrabalhoRecenteUsecaseImpl(i())),
         Bind.lazySingleton((i) => GetTurnosTrabalhosUsecaseImpl(i())),
         Bind.lazySingleton((i) => InserirTurnoTrabalhoUsecaseImpl(i())),

@@ -16,7 +16,7 @@ void main() {
     deletarRoteiroUsecase = DeletarRoteiroUsecaseImpl(roteiroRepository);
   });
 
-  group('GetRestricaoByGrupoUsecaseImpl -', () {
+  group('DeletarRoteiroUsecaseImpl -', () {
     group('Sucesso -', () {
       test('Deve deletar um roteiro quando passar informar o id para o backend.', () async {
         when(() => roteiroRepository.deletarRoteiro('1')).thenAnswer((_) async => true);

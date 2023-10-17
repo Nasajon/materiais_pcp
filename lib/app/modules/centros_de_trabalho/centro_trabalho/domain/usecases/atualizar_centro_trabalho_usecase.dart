@@ -18,6 +18,13 @@ class AtualizarCentroTrabalhoUsecaseImpl implements AtualizarCentroTrabalhoUseca
       throw IdNotFoundCentroTrabalhoFailure(errorMessage: translation.messages.erroIdNaoInformado);
     }
 
+    if (!centroTrabalho.isValid) {
+      throw CentroTrabalhoIsNotValidFailure(
+        errorMessage: translation.messages.erroDadosIncompletoOuAusenteDoEntidade(translation.fields.centroDeTrabalho),
+        stackTrace: StackTrace.current,
+      );
+    }
+
     return _centroTrabalhoRepository.atualizarCentroTrabalho(centroTrabalho);
   }
 }

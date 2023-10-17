@@ -4,10 +4,10 @@ import 'package:pcp_flutter/app/core/client/interceptors/api_key_interceptor.dar
 import 'package:pcp_flutter/app/core/client/interceptors/entidades_empresariais_interceptor.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/domain/aggreagates/centro_trabalho_aggregate.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/domain/entities/turno_trabalho_entity.dart';
+import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/domain/errors/centro_trabalho_failure.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/external/mappers/remotes/remote_centro_trabalho_mapper.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/external/mappers/remotes/remote_turno_trabanho_mappers.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/infra/datasources/remotes/remote_centro_trabalho_datasource.dart';
-import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/domain/errors/turno_trabalho_failure.dart';
 
 class RemoteCentroTrabalhoDatasourceImpl implements RemoteCentroTrabalhoDatasource {
   final IClientService clientService;
@@ -34,7 +34,7 @@ class RemoteCentroTrabalhoDatasourceImpl implements RemoteCentroTrabalhoDatasour
 
       return data;
     } on ClientError catch (e) {
-      throw DatasourceTurnoTrabalhoFailure(errorMessage: e.message, stackTrace: e.stackTrace);
+      throw DatasourceCentroTrabalhoFailure(errorMessage: e.message, stackTrace: e.stackTrace);
     }
   }
 
@@ -62,7 +62,7 @@ class RemoteCentroTrabalhoDatasourceImpl implements RemoteCentroTrabalhoDatasour
 
       return data;
     } on ClientError catch (e) {
-      throw DatasourceTurnoTrabalhoFailure(errorMessage: e.message, stackTrace: e.stackTrace, exception: e.exception);
+      throw DatasourceCentroTrabalhoFailure(errorMessage: e.message, stackTrace: e.stackTrace, exception: e.exception);
     }
   }
 
@@ -82,7 +82,7 @@ class RemoteCentroTrabalhoDatasourceImpl implements RemoteCentroTrabalhoDatasour
 
       return data;
     } on ClientError catch (e) {
-      throw DatasourceTurnoTrabalhoFailure(errorMessage: e.message, stackTrace: e.stackTrace);
+      throw DatasourceCentroTrabalhoFailure(errorMessage: e.message, stackTrace: e.stackTrace);
     }
   }
 
@@ -108,7 +108,7 @@ class RemoteCentroTrabalhoDatasourceImpl implements RemoteCentroTrabalhoDatasour
 
       return turnos;
     } on ClientError catch (e) {
-      throw DatasourceTurnoTrabalhoFailure(errorMessage: e.message, stackTrace: e.stackTrace, exception: e.exception);
+      throw DatasourceCentroTrabalhoFailure(errorMessage: e.message, stackTrace: e.stackTrace, exception: e.exception);
     }
   }
 
@@ -129,7 +129,7 @@ class RemoteCentroTrabalhoDatasourceImpl implements RemoteCentroTrabalhoDatasour
 
       return centroTrabalho;
     } on ClientError catch (e) {
-      throw DatasourceTurnoTrabalhoFailure(errorMessage: e.message, stackTrace: e.stackTrace, exception: e.exception);
+      throw DatasourceCentroTrabalhoFailure(errorMessage: e.message, stackTrace: e.stackTrace, exception: e.exception);
     }
   }
 
@@ -148,7 +148,7 @@ class RemoteCentroTrabalhoDatasourceImpl implements RemoteCentroTrabalhoDatasour
 
       return true;
     } on ClientError catch (e) {
-      throw DatasourceTurnoTrabalhoFailure(errorMessage: e.message, stackTrace: e.stackTrace, exception: e.exception);
+      throw DatasourceCentroTrabalhoFailure(errorMessage: e.message, stackTrace: e.stackTrace, exception: e.exception);
     }
   }
 
@@ -166,7 +166,7 @@ class RemoteCentroTrabalhoDatasourceImpl implements RemoteCentroTrabalhoDatasour
 
       return true;
     } on ClientError catch (e) {
-      throw DatasourceTurnoTrabalhoFailure(errorMessage: e.message, stackTrace: e.stackTrace, exception: e.exception);
+      throw DatasourceCentroTrabalhoFailure(errorMessage: e.message, stackTrace: e.stackTrace, exception: e.exception);
     }
   }
 }

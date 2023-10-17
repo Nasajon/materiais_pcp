@@ -6,12 +6,12 @@ import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/do
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/domain/errors/turno_trabalho_failure.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/external/mappers/remote/remote_horario_mapper.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/external/mappers/remote/remote_turno_trabalho_mapper.dart';
-import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/infra/datasources/remote/turno_trabalho_datasource.dart';
+import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/infra/datasources/remote/remote_turno_trabalho_datasource.dart';
 
-class TurnoTrabalhoDatasourceImpl implements TurnoTrabalhoDatasource {
+class RemoteTurnoTrabalhoDatasourceImpl implements RemoteTurnoTrabalhoDatasource {
   final IClientService clientService;
 
-  TurnoTrabalhoDatasourceImpl(this.clientService);
+  RemoteTurnoTrabalhoDatasourceImpl(this.clientService);
 
   List<Interceptor> interceptors = [ApiKeyInterceptor(), EntidadesEmpresariaisInterceptor()];
 

@@ -9,7 +9,7 @@ class CentroTrabalhoFailure extends Failure {
   });
 }
 
-class DatasourceCentroTrabalhoFailure extends Failure {
+class DatasourceCentroTrabalhoFailure extends CentroTrabalhoFailure {
   DatasourceCentroTrabalhoFailure({
     super.errorMessage,
     super.stackTrace,
@@ -17,7 +17,15 @@ class DatasourceCentroTrabalhoFailure extends Failure {
   });
 }
 
-class IdNotFoundCentroTrabalhoFailure extends Failure {
+class CentroTrabalhoIsNotValidFailure extends CentroTrabalhoFailure {
+  CentroTrabalhoIsNotValidFailure({
+    required super.errorMessage,
+    super.stackTrace,
+    super.exception,
+  });
+}
+
+class IdNotFoundCentroTrabalhoFailure extends CentroTrabalhoFailure {
   IdNotFoundCentroTrabalhoFailure({
     required super.errorMessage,
     super.stackTrace,
@@ -25,7 +33,7 @@ class IdNotFoundCentroTrabalhoFailure extends Failure {
   });
 }
 
-class IncompleteOrMissingDataCentroTrabalhoFailure extends Failure {
+class IncompleteOrMissingDataCentroTrabalhoFailure extends CentroTrabalhoFailure {
   IncompleteOrMissingDataCentroTrabalhoFailure({
     required super.errorMessage,
     super.stackTrace,
