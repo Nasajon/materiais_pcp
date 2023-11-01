@@ -159,9 +159,11 @@ class _MobileCentroTrabalhoFormPageState extends State<MobileCentroTrabalhoFormP
                     );
 
                     if (value.isNotEmpty) {
-                      return turnos.where(
-                        (turno) => '${turno.codigo} - ${turno.nome}'.toLowerCase().contains(value.toLowerCase()),
-                      );
+                      return turnos
+                          .where(
+                            (turno) => '${turno.codigo} - ${turno.nome}'.toLowerCase().contains(value.toLowerCase()),
+                          )
+                          .toList();
                     }
 
                     return turnos;

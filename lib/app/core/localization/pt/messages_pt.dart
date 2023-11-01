@@ -90,6 +90,9 @@ class MessagesPt extends Messages {
   String get pesquisarNomeOuPalavraChave => 'Pesquisar por nome ou palavra-chave.';
 
   @override
+  String get selecioneRoteiroExibirOperacoes => 'Selecione um roteiro para exibir suas operações';
+
+  @override
   String criouAEntidadeComSucesso(String entidade, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino}) {
     return artigo == ArtigoEnum.artigoFeminino
         ? 'Você criou a ${entidade.toLowerCase()} com sucesso.'
@@ -169,6 +172,13 @@ class MessagesPt extends Messages {
   }
 
   @override
+  String naoDeveSerPreenchido(String campo, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino}) {
+    return artigo == ArtigoEnum.artigoMasculino
+        ? 'O ${campo.toLowerCase()} não deve ser preenchido'
+        : 'A ${campo.toLowerCase()} não deve ser preenchida';
+  }
+
+  @override
   String nenhumaEntidadeEncontrada(String entidade) => 'Nenhuma ${entidade.toLowerCase()} encontrada.';
 
   @override
@@ -185,9 +195,8 @@ class MessagesPt extends Messages {
   }
 
   @override
-  String naoDeveSerPreenchido(String campo, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino}) {
-    return artigo == ArtigoEnum.artigoMasculino
-        ? 'O ${campo.toLowerCase()} não deve ser preenchido'
-        : 'A ${campo.toLowerCase()} não deve ser preenchida';
-  }
+  String get erroNaoHaRoteiroParaProdutoSelecionado => 'Não há roteiros para o produto selecionado.';
+
+  @override
+  String get erroSelecioneUmProdutoAntes => 'Você precisa selecionar um produto antes.';
 }

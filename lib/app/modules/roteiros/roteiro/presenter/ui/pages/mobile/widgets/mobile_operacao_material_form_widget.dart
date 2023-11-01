@@ -92,6 +92,8 @@ class _MobileOperacaoMaterialFormWidgetState extends State<MobileOperacaoMateria
     final themeData = Theme.of(context);
     final colorTheme = themeData.extension<AnaColorTheme>();
 
+    final [materiais] = context.select(() => [widget.operacaoController.operacao.materiais]);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: LayoutBuilder(
@@ -122,7 +124,7 @@ class _MobileOperacaoMaterialFormWidgetState extends State<MobileOperacaoMateria
                 widget.getMaterialStore.triple.isLoading
                     ? const Center(child: CircularProgressIndicator())
                     : Column(
-                        children: widget.operacaoController.operacao.materiais
+                        children: materiais
                             .where((element) => element.disponivel.value > 0 || element.produtoAdicional)
                             .toList()
                             .map(

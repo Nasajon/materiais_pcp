@@ -174,9 +174,11 @@ class _CentroTrabalhoFormDesktopPageState extends State<CentroTrabalhoFormDeskto
                       );
 
                       if (value.isNotEmpty) {
-                        return turnos.where(
-                          (turno) => '${turno.codigo} - ${turno.nome}'.toLowerCase().contains(value.toLowerCase()),
-                        );
+                        return turnos
+                            .where(
+                              (turno) => '${turno.codigo} - ${turno.nome}'.toLowerCase().contains(value.toLowerCase()),
+                            )
+                            .toList();
                       }
 
                       return turnos;

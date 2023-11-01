@@ -13,6 +13,7 @@ abstract class Fields {
   String get capacidadeDeProducao;
   String get capacidadeTotal;
   String get centroDeTrabalho;
+  String get cliente;
   String get cnpj;
   String get codigo;
   String get confirmacao;
@@ -22,6 +23,7 @@ abstract class Fields {
   String get criarCentro;
   String get criarFichaTecnica;
   String get criarGrupo;
+  String get criarOrdem;
   String get criarRestricao;
   String get criarRoteiro;
   String get criarTurno;
@@ -37,8 +39,8 @@ abstract class Fields {
   String get editar;
   String get excluir;
   String get execucao;
-  String get fim;
   String get fichaTecnica;
+  String get fim;
   String get grupoDeRecurso;
   String get grupoDeRecursos;
   String get grupoDeRestricao;
@@ -49,6 +51,7 @@ abstract class Fields {
   String get horarioInicial;
   String get horarios;
   String get horas;
+  String get id;
   String get indisponibilidade;
   String get inicio;
   String get intervalo;
@@ -68,9 +71,12 @@ abstract class Fields {
   String get observacoes;
   String get opcional;
   String get operacoes;
+  String get ordemDeProducao;
   String get periodo;
+  String get periodoDeEntrega;
   String get periodoDeVigencia;
   String get preparacao;
+  String get prioridade;
   String get produto;
   String get produtoResultante;
   String get quantidade;
@@ -85,6 +91,7 @@ abstract class Fields {
   String get roteiro;
   String get roteiros;
   String get salvar;
+  String get semOperacoes;
   String get tempo;
   String get tipo;
   String get tipoDeRecurso;
@@ -95,6 +102,5 @@ abstract class Fields {
   String get utilizar;
   String get visualizar;
   String get voltar;
-  String get id;
   String criarEntity(String entity);
 }

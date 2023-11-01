@@ -106,6 +106,9 @@ class TitlesPt extends Titles {
   String get materiais => 'Materiais';
 
   @override
+  String get ordemDeProducao => 'Ordem de produção';
+
+  @override
   String get restricoes => 'Restrições';
 
   @override
@@ -140,6 +143,9 @@ class TitlesPt extends Titles {
 
   @override
   String get ultimosGruposAcessados => 'Últimos grupos acessados';
+
+  @override
+  String get ultimasOrdensDeProducaosAcessados => 'Últimas ordens de produtos acessados';
 
   @override
   String get ultimosRecursosAcessados => 'Últimos recursos acessados';

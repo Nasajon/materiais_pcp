@@ -48,7 +48,9 @@ abstract class Titles {
   String get ultimosGruposAcessados;
   String get ultimosRecursosAcessados;
   String get ultimosRoteirosAcessados;
+  String get ultimasOrdensDeProducaosAcessados;
   String get ultimosTurnosAcessados;
+  String get ordemDeProducao;
   String criarEntidade(String entidade);
   String editarEntidade(String entidade);
   String excluirEntidade(String entidade);

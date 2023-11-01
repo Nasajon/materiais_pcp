@@ -70,9 +70,11 @@ class DesktopOperacaoAdicionarGrupoDeRecursoWidget extends StatelessWidget {
                 ),
                 suggestionsCallback: (pattern) async {
                   return getGrupoDeRecursoStore.getListGrupoDeRecurso(search: pattern).then(
-                        (value) => value.where(
-                          (grupo) => listaDeIdsDosGruposParaDeletar.where((idDeletar) => grupo.id == idDeletar).isEmpty,
-                        ),
+                        (value) => value
+                            .where(
+                              (grupo) => listaDeIdsDosGruposParaDeletar.where((idDeletar) => grupo.id == idDeletar).isEmpty,
+                            )
+                            .toList(),
                       );
                 },
                 itemBuilder: (context, grupoDeRecurso) {

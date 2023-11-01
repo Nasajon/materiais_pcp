@@ -28,7 +28,12 @@ abstract class Messages {
   String get nenhumMaterialFoiAdicionado;
   String get nenhumTurnoTrabalhoEncontrado;
   String get pesquisarNomeOuPalavraChave;
+  String get selecioneRoteiroExibirOperacoes;
+  String get erroSelecioneUmProdutoAntes;
+  String get erroNaoHaRoteiroParaProdutoSelecionado;
+
   String criouAEntidadeComSucesso(String entidade, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino});
+
   String criouUmaEntidadeComSucesso(String entidade, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino});
 
   String editouAEntidadeComSucesso(String entidade, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino});

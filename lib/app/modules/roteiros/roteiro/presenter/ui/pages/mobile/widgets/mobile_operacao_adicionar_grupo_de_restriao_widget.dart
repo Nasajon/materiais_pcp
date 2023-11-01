@@ -84,7 +84,8 @@ class _MobileOperacaoAdicionarGrupoDeRestricaoWidgetState extends State<MobileOp
                   suggestionsCallback: (pattern) async {
                     return widget.getGrupoDeRestricaoStore.getListGrupoDeRestricao(search: pattern).then(
                           (value) => value
-                              .where((grupo) => widget.listaDeIdsDosGruposParaDeletar.where((idDeletar) => grupo.id == idDeletar).isEmpty),
+                              .where((grupo) => widget.listaDeIdsDosGruposParaDeletar.where((idDeletar) => grupo.id == idDeletar).isEmpty)
+                              .toList(),
                         );
                   },
                   itemBuilder: (context, grupoDeRestricao) {

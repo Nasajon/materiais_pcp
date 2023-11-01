@@ -42,6 +42,9 @@ class FieldsPt extends Fields {
   String get centroDeTrabalho => 'Centro de trabalho';
 
   @override
+  String get cliente => 'Cliente';
+
+  @override
   String get cnpj => 'CNPJ';
 
   @override
@@ -150,6 +153,9 @@ class FieldsPt extends Fields {
   String get horas => 'Horas';
 
   @override
+  String get id => 'Id';
+
+  @override
   String get indisponibilidade => 'Indisponibilidade';
 
   @override
@@ -171,12 +177,12 @@ class FieldsPt extends Fields {
   String get limitarCapacidadeDeProducao => 'Limitar capacidade de produção';
 
   String get materiais => 'Materiais';
-
   @override
   String get material => 'Material';
 
   @override
   String get maximaRecomendada => 'Máxima recomendada';
+
   @override
   String get medicaoDeTempo => 'Medição de tempo';
 
@@ -205,13 +211,22 @@ class FieldsPt extends Fields {
   String get operacoes => 'Operações';
 
   @override
+  String get ordemDeProducao => 'Ordem de produção';
+
+  @override
   String get periodo => 'Período';
+
+  @override
+  String get periodoDeEntrega => 'Previsão de entrega';
 
   @override
   String get periodoDeVigencia => 'Período de vigência';
 
   @override
   String get preparacao => 'Preparação';
+
+  @override
+  String get prioridade => 'Prioridade';
 
   @override
   String get produto => 'Produto';
@@ -287,8 +302,11 @@ class FieldsPt extends Fields {
   String get voltar => 'Voltar';
 
   @override
-  String get id => 'Id';
+  String criarEntity(String entity) => 'Criar ${entity.toLowerCase()}';
 
   @override
-  String criarEntity(String entity) => 'Criar ${entity.toLowerCase()}';
+  String get criarOrdem => 'Criar ordem';
+
+  @override
+  String get semOperacoes => 'Sem operações';
 }

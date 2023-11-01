@@ -65,7 +65,7 @@ class RoteiroModule extends NasajonModule {
         descriptions: [],
         functions: [],
         permissions: [],
-        showDemoMode: false,
+        showDemoMode: true,
         applicationID: 291,
         info: '',
         onPressed: () => Modular.to.pushNamed('/pcp/roteiro/'),

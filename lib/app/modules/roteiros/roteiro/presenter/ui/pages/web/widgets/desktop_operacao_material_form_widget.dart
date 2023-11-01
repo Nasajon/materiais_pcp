@@ -92,6 +92,8 @@ class _DesktopOperacaoMaterialFormWidgetState extends State<DesktopOperacaoMater
     final themeData = Theme.of(context);
     final colorTheme = themeData.extension<AnaColorTheme>();
 
+    final [materiais] = context.select(() => [widget.operacaoController.operacao.materiais]);
+
     return LayoutBuilder(
       builder: (context, constraints) {
         return Container(
@@ -120,7 +122,7 @@ class _DesktopOperacaoMaterialFormWidgetState extends State<DesktopOperacaoMater
               widget.getMaterialStore.triple.isLoading
                   ? const Center(child: CircularProgressIndicator())
                   : Column(
-                      children: widget.operacaoController.operacao.materiais
+                      children: materiais
                           .where((element) => element.disponivel.value > 0 || element.produtoAdicional)
                           .toList()
                           .map(
