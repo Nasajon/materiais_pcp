@@ -17,7 +17,7 @@ class TitlesPt extends Titles {
   String get adicionarIndisponibilidade => 'Adicionar indisponibilidade';
 
   @override
-  String get adicionarMateriais => 'Adicionar material';
+  String get adicionarMateriais => 'Adicionar materiais';
 
   @override
   String get adicionarMaterial => 'Adicionar material';
