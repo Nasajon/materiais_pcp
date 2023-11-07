@@ -112,7 +112,7 @@ class _DesktopOrdemDeProducaoFormPageState extends State<DesktopOrdemDeProducaoF
                               ),
                             ),
                             suggestionsCallback: (pattern) async {
-                              return await widget.getProdutoStore.getListProdutos(search: pattern);
+                              return widget.getProdutoStore.getListProdutos(search: pattern);
                             },
                             suggestionsForNextPageCallback: (pattern, lastObject) async {
                               return await widget.getProdutoStore.getListProdutosProximaPagina(search: pattern, ultimoId: lastObject.id);
