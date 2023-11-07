@@ -16,6 +16,21 @@ class RemoteRestricaoDatasourceImpl implements RemoteRestricaoDatasource {
   List<Interceptor> interceptors = [ApiKeyInterceptor(), EntidadesEmpresariaisInterceptor()];
 
   @override
+  Future<List<RestricaoAggregate>> getRestricaoRecente([String? search]) async {
+    Map<String, dynamic> queryParams = {'fields': 'grupo_de_restricao'};
+
+    final response = await _clientService.request(ClientRequestParams(
+      selectedApi: APIEnum.pcp,
+      endPoint: '/restricoes',
+      method: ClientRequestMethods.GET,
+      queryParams: queryParams,
+      interceptors: interceptors,
+    ));
+
+    return List.from(response.data).map((map) => RemoteRestricaoMapper.fromMapToRestricaoAggregate(map)).toList();
+  }
+
+  @override
   Future<List<RestricaoAggregate>> getList([String? search]) async {
     Map<String, dynamic> queryParams = {'fields': 'grupo_de_restricao'};
 
@@ -25,7 +40,7 @@ class RemoteRestricaoDatasourceImpl implements RemoteRestricaoDatasource {
 
     final response = await _clientService.request(ClientRequestParams(
       selectedApi: APIEnum.pcp,
-      endPoint: '/1234/restricoes',
+      endPoint: '/restricoes',
       method: ClientRequestMethods.GET,
       queryParams: queryParams,
       interceptors: interceptors,
@@ -40,7 +55,7 @@ class RemoteRestricaoDatasourceImpl implements RemoteRestricaoDatasource {
 
     final response = await _clientService.request(ClientRequestParams(
       selectedApi: APIEnum.pcp,
-      endPoint: '/1234/restricoes/$id',
+      endPoint: '/restricoes/$id',
       method: ClientRequestMethods.GET,
       queryParams: queryParams,
       interceptors: interceptors,
@@ -57,7 +72,7 @@ class RemoteRestricaoDatasourceImpl implements RemoteRestricaoDatasource {
     try {
       final response = await _clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
-        endPoint: '/1234/restricoes',
+        endPoint: '/restricoes',
         method: ClientRequestMethods.POST,
         interceptors: interceptors,
         body: RemoteRestricaoMapper.fromRestricaoAggregateToMap(restricao),
@@ -74,7 +89,7 @@ class RemoteRestricaoDatasourceImpl implements RemoteRestricaoDatasource {
     try {
       await _clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
-        endPoint: '/1234/restricoes/${restricao.id}',
+        endPoint: '/restricoes/${restricao.id}',
         method: ClientRequestMethods.PUT,
         interceptors: interceptors,
         body: RemoteRestricaoMapper.fromRestricaoAggregateToMap(restricao),
@@ -91,7 +106,7 @@ class RemoteRestricaoDatasourceImpl implements RemoteRestricaoDatasource {
     try {
       await _clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
-        endPoint: '/1234/restricoes/$id',
+        endPoint: '/restricoes/$id',
         method: ClientRequestMethods.DELETE,
         interceptors: interceptors,
       ));

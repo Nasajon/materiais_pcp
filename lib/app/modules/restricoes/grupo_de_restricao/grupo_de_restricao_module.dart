@@ -1,24 +1,38 @@
-import 'package:flutter/material.dart';
+import 'package:design_system/design_system.dart';
+import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
-import 'package:pcp_flutter/app/modules/presenter/widgets/card_widget.dart';
+import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/domain/usecases/deletar_grupo_restricao_usecase.dart';
 import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/domain/usecases/get_grupo_de_restricao_by_id_usecase.dart';
 import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/domain/usecases/get_grupo_de_restricao_list_usecase.dart';
+import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/domain/usecases/get_grupo_de_restricao_recente_usecase.dart';
 import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/domain/usecases/save_grupo_de_restricao_usecase.dart';
 import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/external/datasources/local/grupo_de_restricao_local_datasource_impl.dart';
 import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/external/datasources/remote/grupo_de_restricao_datasource_impl.dart';
 import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/infra/repositories/grupo_de_restricao_repository_impl.dart';
 import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/presenter/controllers/grupo_de_restricao_controller.dart';
-import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/presenter/stores/deletar_grupo_de_restricao_store.dart';
 import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/presenter/stores/grupo_de_restricao_form_store.dart';
 import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/presenter/stores/grupo_de_restricao_list_store.dart';
 import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/presenter/ui/pages/grupo_de_restricao_form_page.dart';
 import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/presenter/ui/pages/grupo_de_restricao_list_page.dart';
-import 'package:pcp_flutter/app/modules/restricoes/grupo_de_restricao/presenter/ui/widgets/grupo_de_restricao_card.dart';
 
-class GrupoDeRestricaoModule extends Module {
-  static List<CardWidget> getCards(BuildContext context) {
-    return [GrupoDeRestricaoCard(context: context)];
+class GrupoDeRestricaoModule extends NasajonModule {
+  @override
+  void addCards(CardManager manager) {
+    manager.add(
+      SimpleCardWidget(
+        title: translation.titles.grupoDeRestricoes,
+        section: 'PCP',
+        code: 'materiais_pcp_grupo_de_restricao',
+        descriptions: [],
+        functions: [],
+        permissions: [],
+        showDemoMode: true,
+        applicationID: 1,
+        info: '',
+        onPressed: () => Modular.to.pushNamed('/pcp/restricoes/grupo-de-restricao/'),
+      ),
+    );
   }
 
   @override
@@ -31,13 +45,14 @@ class GrupoDeRestricaoModule extends Module {
         Bind.lazySingleton((i) => GrupoDeRestricaoRepositoryImpl(i(), i(), i())),
 
         //UseCases
+        Bind.lazySingleton((i) => GetGrupoDeRestricaoRecenteUsecaseImpl(i())),
         Bind.lazySingleton((i) => GetGrupoDeRestricaoListUsecaseImpl(i())),
         Bind.lazySingleton((i) => GetGrupoDeRestricaoByIdUsecaseImpl(i())),
         Bind.lazySingleton((i) => SaveGrupoDeRestricaoUsecaseImpl(i())),
         Bind.lazySingleton((i) => DeletarGrupoDeRestricaoUsecaseImpl(i())),
 
         //Stores
-        TripleBind.lazySingleton((i) => GrupoDeRestricaoListStore(i(), i())),
+        TripleBind.lazySingleton((i) => GrupoDeRestricaoListStore(i(), i(), i())),
         TripleBind.factory((i) => GrupoDeRestricaoFormStore(i(), i())),
 
         //Controller

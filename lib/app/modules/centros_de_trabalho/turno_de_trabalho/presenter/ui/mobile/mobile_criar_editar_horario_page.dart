@@ -2,7 +2,6 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
-import 'package:pcp_flutter/app/core/localization/enums/artigo.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/time_vo.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
@@ -41,8 +40,6 @@ class _MobileCriarEditarHorarioState extends State<MobileCriarEditarHorario> {
   }
 
   void verificarHorarioRouter() {
-    final currentRoute = ModalRoute.of(context);
-
     if (!ScreenSizeUtil(context).isMobile && widget.adaptiveModalNotifier.value) {
       SchedulerBinding.instance.addPostFrameCallback((_) {
         Navigator.of(context).pop();
@@ -144,7 +141,7 @@ class _MobileCriarEditarHorarioState extends State<MobileCriarEditarHorario> {
                     builder: (context) {
                       return ConfirmationModalWidget(
                         title: translation.titles.excluirEntidade(translation.fields.horario),
-                        messages: translation.messages.excluirAEntidade(translation.titles.turnosDeTrabalho, ArtigoEnum.artigoMasculino),
+                        messages: translation.messages.excluirAEntidade(translation.titles.turnosDeTrabalho),
                         titleCancel: translation.fields.excluir,
                         titleSuccess: translation.fields.cancelar,
                         onCancel: () {

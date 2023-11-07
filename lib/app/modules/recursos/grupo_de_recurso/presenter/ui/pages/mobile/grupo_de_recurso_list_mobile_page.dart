@@ -31,9 +31,6 @@ class _GrupoDeRecursoListMobilePageState extends State<GrupoDeRecursoListMobileP
     with DialogErrorMixin<GrupoDeRecursoListMobilePage, GrupoDeRecursoListStore> {
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
-    final colorTheme = themeData.extension<AnaColorTheme>();
-
     const horizontalPadding = 16.0;
 
     return CustomScaffold.titleString(
@@ -64,7 +61,10 @@ class _GrupoDeRecursoListMobilePageState extends State<GrupoDeRecursoListMobileP
                         padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
                         child: PesquisaFormFieldWidget(
                           label: translation.messages.pesquisarNomeOuPalavraChave,
-                          onChanged: (value) => widget.grupoDeRecursoStore.search = value,
+                          onChanged: (value) {
+                            widget.grupoDeRecursoStore.search = value;
+                            widget.grupoDeRecursoStore.getList(search: widget.grupoDeRecursoStore.search);
+                          },
                         ),
                       ),
                       const SizedBox(height: 40),

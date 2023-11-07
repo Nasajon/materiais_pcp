@@ -29,8 +29,6 @@ class _DesktopTurnoTrabalhoListPageState extends State<DesktopTurnoTrabalhoListP
     with DialogErrorMixin<DesktopTurnoTrabalhoListPage, TurnoTrabalhoListStore> {
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
-
     return CustomScaffold.titleString(
       translation.titles.turnosDeTrabalho,
       controller: widget.scaffoldController,
@@ -47,7 +45,10 @@ class _DesktopTurnoTrabalhoListPageState extends State<DesktopTurnoTrabalhoListP
               const SizedBox(height: 40),
               PesquisaFormFieldWidget(
                 label: translation.messages.pesquisarNomeOuPalavraChave,
-                onChanged: (value) => widget.turnoTrabalhoListStore.search = value,
+                onChanged: (value) {
+                  widget.turnoTrabalhoListStore.search = value;
+                  widget.turnoTrabalhoListStore.getListTurnoTrabalho();
+                },
               ),
               const SizedBox(height: 40),
               Expanded(

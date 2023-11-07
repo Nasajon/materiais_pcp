@@ -2,7 +2,6 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
-import 'package:pcp_flutter/app/core/localization/enums/artigo.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/widgets/list_tile_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/notification_snack_bar.dart';
@@ -33,7 +32,7 @@ class GrupoDeRestricaoItemWidget extends StatelessWidget {
           if (triple.state && !triple.isLoading) {
             grupoDeRestricaoListStore.deleteGrupoDeRestricao(grupoDeRestricao.id ?? '');
             NotificationSnackBar.showSnackBar(
-              translation.messages.excluiuAEntidadeComSucesso(translation.titles.gruposDeRestricao, ArtigoEnum.artigoMasculino),
+              translation.messages.excluiuAEntidadeComSucesso(translation.titles.gruposDeRestricao),
               themeData: themeData,
             );
           }
@@ -67,8 +66,7 @@ class GrupoDeRestricaoItemWidget extends StatelessWidget {
                           builder: (context) {
                             return ConfirmationModalWidget(
                               title: translation.titles.excluirEntidade(translation.titles.gruposDeRestricao),
-                              messages:
-                                  translation.messages.excluirAEntidade(translation.titles.gruposDeRestricao, ArtigoEnum.artigoMasculino),
+                              messages: translation.messages.excluirAEntidade(translation.titles.gruposDeRestricao),
                               titleCancel: translation.fields.excluir,
                               titleSuccess: translation.fields.cancelar,
                               onCancel: () => deletarGrupoDeRestricaoStore.deletar(grupoDeRestricao.id ?? ''),

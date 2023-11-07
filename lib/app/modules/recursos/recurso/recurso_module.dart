@@ -1,9 +1,11 @@
-import 'package:flutter/cupertino.dart';
+import 'package:design_system/design_system.dart';
+import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
-import 'package:pcp_flutter/app/modules/presenter/widgets/card_widget.dart';
+import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/domain/usecases/delete_recurso_usecase.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/domain/usecases/get_centro_de_trabalho_usecase.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/domain/usecases/get_grupo_de_recurso_usecase.dart';
+import 'package:pcp_flutter/app/modules/recursos/recurso/domain/usecases/get_recurso_recente_usecase.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/external/datasources/local/get_grupo_de_recurso_local_datasource_impl.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/external/datasources/remote/get_centro_de_trabalho_datasource_impl.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/external/datasources/remote/get_grupo_de_recurso_datasource_impl.dart';
@@ -22,11 +24,24 @@ import 'external/datasources/remote/recurso_datasource_impl.dart';
 import 'infra/repositories/recurso_repository_impl.dart';
 import 'presenter/stores/recurso_form_store.dart';
 import 'presenter/stores/recurso_list_store.dart';
-import 'presenter/ui/widgets/recurso_card.dart';
 
-class RecursoModule extends Module {
-  static List<CardWidget> getCards(BuildContext context) {
-    return [RecursoCard(context: context)];
+class RecursoModule extends NasajonModule {
+  @override
+  void addCards(CardManager manager) {
+    manager.add(
+      SimpleCardWidget(
+        title: translation.titles.tituloRecursos,
+        section: 'PCP',
+        code: 'materiais_pcp_recursos',
+        descriptions: [],
+        functions: [],
+        permissions: [],
+        showDemoMode: true,
+        applicationID: 1,
+        info: '',
+        onPressed: () => Modular.to.pushNamed('/pcp/recursos/'),
+      ),
+    );
   }
 
   @override
@@ -44,6 +59,7 @@ class RecursoModule extends Module {
 
         //UseCases
         Bind.lazySingleton((i) => GetRecursoListUsecaseImpl(i())),
+        Bind.lazySingleton((i) => GetRecursoRecenteUsecaseImpl(i())),
         Bind.lazySingleton((i) => GetRecursoByIdUsecaseImpl(i())),
         Bind.lazySingleton((i) => SaveRecursoUsecaseImpl(i())),
         Bind.lazySingleton((i) => GetGrupoDeRecursoUsecaseImpl(i())),
@@ -51,7 +67,7 @@ class RecursoModule extends Module {
         Bind.lazySingleton((i) => GetCentroDeTrabalhoUsecaseImpl(i())),
 
         //Stores
-        Bind.lazySingleton((i) => RecursoListStore(i(), i())),
+        Bind.lazySingleton((i) => RecursoListStore(i(), i(), i())),
         Bind.factory((i) => RecursoFormStore(i(), i())),
         TripleBind.lazySingleton((i) => GetGrupoDeRecursoStore(i())),
         TripleBind.lazySingleton((i) => GetCentroDeTrabalhoStore(i())),

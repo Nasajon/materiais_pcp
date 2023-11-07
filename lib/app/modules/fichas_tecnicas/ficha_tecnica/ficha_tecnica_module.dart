@@ -1,5 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:design_system/design_system.dart';
+import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/usecases/atualizar_ficha_tecnica_usecase.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/usecases/deletar_ficha_tecnica_usecase.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/usecases/get_ficha_tecnica_por_id_usecase.dart';
@@ -14,8 +16,8 @@ import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/external/d
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/external/datasources/remotes/remote_produto_datasource_impl.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/external/datasources/remotes/remote_unidade_datasource_impl.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/infra/repositories/ficha_tecnica_repository_impl.dart';
-import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/infra/repositories/produto_repository.dart';
-import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/infra/repositories/unidade_repository.dart';
+import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/infra/repositories/produto_repository_impl.dart';
+import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/infra/repositories/unidade_repository_impl.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/presenter/controllers/ficha_tecnica_form_controller.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/presenter/stores/ficha_tecnica_list_store.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/presenter/stores/get_ficha_tecnica_store.dart';
@@ -25,12 +27,24 @@ import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/presenter/
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/presenter/ui/pages/ficha_tecnica_form_page.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/presenter/ui/pages/ficha_tecnica_list_page.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/presenter/ui/pages/ficha_tecnica_visualizar_page.dart';
-import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/presenter/ui/widgets/ficha_tecnica_card.dart';
-import 'package:pcp_flutter/app/modules/presenter/presenter.dart';
 
-class FichaTecnicaModule extends Module {
-  static List<CardWidget> getCards(BuildContext context) {
-    return [FichaTecnicaCard(context: context)];
+class FichaTecnicaModule extends NasajonModule {
+  @override
+  void addCards(CardManager manager) {
+    manager.add(
+      SimpleCardWidget(
+        title: translation.titles.fichasTecnicas,
+        section: 'PCP',
+        code: 'materiais_pcp_ficha_tecnica',
+        descriptions: [],
+        functions: [],
+        permissions: [],
+        showDemoMode: true,
+        applicationID: 1,
+        info: '',
+        onPressed: () => Modular.to.pushNamed('/pcp/ficha-tecnica'),
+      ),
+    );
   }
 
   @override
@@ -38,7 +52,7 @@ class FichaTecnicaModule extends Module {
         //Datasources
         Bind.lazySingleton((i) => RemoteUnidadeDatasourceImpl(i())),
         Bind.lazySingleton((i) => RemoteProdutoDatasourceImpl(i())),
-        Bind.lazySingleton((i) => RemoteFichaTecnicaDatasourceImpl(i(), i(), i())),
+        Bind.lazySingleton((i) => RemoteFichaTecnicaDatasourceImpl(i())),
         //Repositories
         Bind.lazySingleton((i) => FichaTecnicaRepositoryImpl(i())),
         Bind.lazySingleton((i) => UnidadeRepositoryImpl(i())),

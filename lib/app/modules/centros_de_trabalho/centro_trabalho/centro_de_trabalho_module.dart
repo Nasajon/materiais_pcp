@@ -1,5 +1,7 @@
-import 'package:flutter/widgets.dart';
+import 'package:design_system/design_system.dart';
+import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/domain/usecases/atualizar_centro_trabalho_usecase.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/domain/usecases/deletar_centro_trabalho_usecase.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/domain/usecases/get_centro_trabalho_por_id_usecase.dart';
@@ -17,13 +19,25 @@ import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/pres
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/presenter/stores/centro_trabalho_list_store.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/presenter/stores/inserir_editar_centro_trabalho_store.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/presenter/ui/pages/centro_trabalho_form_page.dart';
-import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/presenter/ui/pages/turno_trabalho_list_page.dart';
-import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/presenter/ui/widgets/centro_de_trabalho_card.dart';
-import 'package:pcp_flutter/app/modules/presenter/presenter.dart';
+import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/presenter/ui/pages/centro_trabalho_list_page.dart';
 
-class CentroDeTrabalhoModule extends Module {
-  static List<CardWidget> getCards(BuildContext context) {
-    return [CentroDeTrabalhoCard(context: context)];
+class CentroDeTrabalhoModule extends NasajonModule {
+  @override
+  void addCards(CardManager manager) {
+    manager.add(
+      SimpleCardWidget(
+        title: translation.titles.centrosDeTrabalho,
+        section: 'PCP',
+        code: 'materiais_pcp_turnos_de_trabalho',
+        descriptions: [],
+        functions: [],
+        permissions: [],
+        showDemoMode: true,
+        applicationID: 1,
+        info: '',
+        onPressed: () => Modular.to.pushNamed('/pcp/centro-de-trabalho/'),
+      ),
+    );
   }
 
   @override

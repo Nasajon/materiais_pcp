@@ -3,7 +3,7 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
-import 'package:pcp_flutter/app/core/localization/enums/artigo.dart';
+import 'package:pcp_flutter/app/core/localization/enums/artigo_enum.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
@@ -205,7 +205,7 @@ class _MobileFichaTecnicaFormStatePage extends State<MobileFichaTecnicaFormPage>
             fichaTecnicaListStore.addFichaTecnica(fichaTecnica);
             Modular.to.pop();
             NotificationSnackBar.showSnackBar(
-              l10n.messages.criouAEntidadeComSucesso(l10n.titles.fichaTecnica, ArtigoEnum.artigoFeminino),
+              l10n.messages.criouAEntidadeComSucesso(l10n.titles.fichaTecnica, artigo: ArtigoEnum.artigoFeminino),
               themeData: themeData,
             );
           }
@@ -216,42 +216,43 @@ class _MobileFichaTecnicaFormStatePage extends State<MobileFichaTecnicaFormPage>
 
               return ContainerNavigationBarWidget(
                 child: ValueListenableBuilder(
-                    valueListenable: page,
-                    builder: (context, page, child) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          CustomTextButton(
-                            title: descartarEdicao ? l10n.fields.descartar : l10n.fields.cancelar,
-                            onPressed: showDialogCancel,
-                          ),
-                          const SizedBox(width: 10),
-                          Visibility(
-                            visible: page > 0,
-                            child: CustomOutlinedButton(
-                              title: l10n.fields.voltar,
-                              isEnabled: !triple.isLoading,
-                              onPressed: () {
-                                pageController.previousPage(duration: const Duration(microseconds: 1), curve: Curves.ease);
-                              },
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          CustomPrimaryButton(
-                            title: page + 1 < 2 ? l10n.fields.continuar : l10n.fields.criar,
+                  valueListenable: page,
+                  builder: (context, page, child) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        CustomTextButton(
+                          title: descartarEdicao ? l10n.fields.descartar : l10n.fields.cancelar,
+                          onPressed: showDialogCancel,
+                        ),
+                        const SizedBox(width: 10),
+                        Visibility(
+                          visible: page > 0,
+                          child: CustomOutlinedButton(
+                            title: l10n.fields.voltar,
                             isEnabled: !triple.isLoading,
-                            isLoading: triple.isLoading,
-                            onPressed: () async {
-                              if (page + 1 < 2 && _fichaTecnicaIsValid()) {
-                                pageController.nextPage(duration: const Duration(microseconds: 1), curve: Curves.ease);
-                              } else if (_fichaTecnicaIsValid() && fichaTecnicaFormController.fichaTecnica.isValid) {
-                                inserirEditarFichaTecnicaStore.adicionarFichaTecnica(fichaTecnicaFormController.fichaTecnica);
-                              }
+                            onPressed: () {
+                              pageController.previousPage(duration: const Duration(microseconds: 1), curve: Curves.ease);
                             },
-                          )
-                        ],
-                      );
-                    }),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        CustomPrimaryButton(
+                          title: page + 1 < 2 ? l10n.fields.continuar : l10n.fields.criar,
+                          isEnabled: !triple.isLoading,
+                          isLoading: triple.isLoading,
+                          onPressed: () async {
+                            if (page + 1 < 2 && _fichaTecnicaIsValid()) {
+                              pageController.nextPage(duration: const Duration(microseconds: 1), curve: Curves.ease);
+                            } else if (_fichaTecnicaIsValid() && fichaTecnicaFormController.fichaTecnica.isValid) {
+                              inserirEditarFichaTecnicaStore.adicionarFichaTecnica(fichaTecnicaFormController.fichaTecnica);
+                            }
+                          },
+                        )
+                      ],
+                    );
+                  },
+                ),
               );
             },
           );

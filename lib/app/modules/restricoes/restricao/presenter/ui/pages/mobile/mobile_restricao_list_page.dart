@@ -6,9 +6,7 @@ import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
-import 'package:pcp_flutter/app/core/widgets/list_tile_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/pesquisa_form_field_widget.dart';
-import 'package:pcp_flutter/app/modules/restricoes/restricao/domain/aggregates/restricao_aggregate.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/stores/restricao_list_store.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/stores/state/restricao_state.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/widgets/restricao_item_widget.dart';
@@ -27,8 +25,6 @@ class MobileRestricaoListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
-
     const horizontalPadding = 16.0;
 
     return CustomScaffold.titleString(
@@ -57,7 +53,11 @@ class MobileRestricaoListPage extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
                         child: PesquisaFormFieldWidget(
                           label: translation.messages.avisoPesquisarPorNomeOuPalavraChave,
-                          onChanged: (value) => restricaoListStore.search = value,
+                          initialValue: restricaoListStore.search,
+                          onChanged: (value) {
+                            restricaoListStore.search = value;
+                            restricaoListStore.getListRestricao();
+                          },
                         ),
                       ),
                       const SizedBox(height: 40),

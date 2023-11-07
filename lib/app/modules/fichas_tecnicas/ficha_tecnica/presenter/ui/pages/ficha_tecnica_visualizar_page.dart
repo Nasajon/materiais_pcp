@@ -10,7 +10,6 @@ import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/presenter/
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/presenter/stores/inserir_editar_ficha_tecnica_store.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/presenter/stores/produtos_list_store.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/presenter/stores/unidades_list_store.dart';
-import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/presenter/ui/pages/mobile/mobile_ficha_tecnica_form_page.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/presenter/ui/pages/mobile/mobile_ficha_tecnica_visualizar_page.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/presenter/ui/pages/web/desktop_ficha_tecnica_visualizar_page.dart';
 

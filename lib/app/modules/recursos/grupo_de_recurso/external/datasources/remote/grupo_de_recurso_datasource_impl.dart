@@ -26,14 +26,37 @@ class GrupoDeRecursoDatasourceImpl implements GrupoDeRecursoDatasource {
 
       final response = await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
-        endPoint: '/1234/gruposderecursos',
+        endPoint: '/gruposderecursos',
         method: ClientRequestMethods.GET,
         queryParams: queryParams,
         interceptors: interceptors,
       ));
 
       return (response.data as List).map((e) => GrupoDeRecursoMapper.fromMap(e)).toList();
-    } on Failure catch (e) {
+    } on Failure {
+      // TODO: Verificar essa falha
+      rethrow;
+    } on Exception catch (exception, stacktrace) {
+      return Future.error(UnknownError(exception: exception, stackTrace: stacktrace, label: 'GrupoDeRecursoDatasourceImpl-getList'));
+    }
+  }
+
+  @override
+  Future<List<GrupoDeRecurso>> getGrupoDeRecursoRecente() async {
+    try {
+      Map<String, dynamic> queryParams = {'fields': 'tipo'};
+
+      final response = await clientService.request(ClientRequestParams(
+        selectedApi: APIEnum.pcp,
+        endPoint: '/gruposderecursos',
+        method: ClientRequestMethods.GET,
+        queryParams: queryParams,
+        interceptors: interceptors,
+      ));
+
+      return (response.data as List).map((e) => GrupoDeRecursoMapper.fromMap(e)).toList();
+    } on Failure {
+      // TODO: Verificar essa falha
       rethrow;
     } on Exception catch (exception, stacktrace) {
       return Future.error(UnknownError(exception: exception, stackTrace: stacktrace, label: 'GrupoDeRecursoDatasourceImpl-getList'));
@@ -47,7 +70,7 @@ class GrupoDeRecursoDatasourceImpl implements GrupoDeRecursoDatasource {
 
       final response = await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
-        endPoint: '/1234/gruposderecursos/$id',
+        endPoint: '/gruposderecursos/$id',
         method: ClientRequestMethods.GET,
         queryParams: queryParams,
         interceptors: interceptors,
@@ -72,7 +95,7 @@ class GrupoDeRecursoDatasourceImpl implements GrupoDeRecursoDatasource {
     try {
       final response = await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
-        endPoint: '/1234/gruposderecursos',
+        endPoint: '/gruposderecursos',
         method: ClientRequestMethods.POST,
         body: GrupoDeRecursoMapper.toMap(grupoDeRecurso),
         interceptors: interceptors,
@@ -91,7 +114,7 @@ class GrupoDeRecursoDatasourceImpl implements GrupoDeRecursoDatasource {
     try {
       final response = await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
-        endPoint: '/1234/gruposderecursos/${grupoDeRecurso.id!}',
+        endPoint: '/gruposderecursos/${grupoDeRecurso.id!}',
         method: ClientRequestMethods.PUT,
         body: GrupoDeRecursoMapper.toMap(grupoDeRecurso),
         interceptors: interceptors,
@@ -114,7 +137,7 @@ class GrupoDeRecursoDatasourceImpl implements GrupoDeRecursoDatasource {
     try {
       final response = await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
-        endPoint: '/1234/gruposderecursos/$id',
+        endPoint: '/gruposderecursos/$id',
         method: ClientRequestMethods.DELETE,
         interceptors: interceptors,
       ));

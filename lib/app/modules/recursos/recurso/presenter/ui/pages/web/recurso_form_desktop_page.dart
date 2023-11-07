@@ -3,7 +3,6 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
-import 'package:pcp_flutter/app/core/localization/enums/artigo.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
@@ -48,9 +47,6 @@ class RecursoFormDesktopPage extends StatefulWidget {
 class _RecursoFormDesktopPageState extends State<RecursoFormDesktopPage> {
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
-    final colorTheme = themeData.extension<AnaColorTheme>();
-
     context.select(() => [widget.recursoController.recurso]);
 
     final recurso = widget.recursoController.recurso;
@@ -180,8 +176,8 @@ class _RecursoFormDesktopPageState extends State<RecursoFormDesktopPage> {
                       SnackBar(
                         content: Text(
                           id == null
-                              ? translation.messages.criouAEntidadeComSucesso(translation.fields.recurso, ArtigoEnum.artigoMasculino)
-                              : translation.messages.editouAEntidadeComSucesso(translation.fields.recurso, ArtigoEnum.artigoMasculino),
+                              ? translation.messages.criouAEntidadeComSucesso(translation.fields.recurso)
+                              : translation.messages.editouAEntidadeComSucesso(translation.fields.recurso),
                           style: AnaTextStyles.grey14Px.copyWith(fontSize: 15, color: Colors.white, letterSpacing: 0.25),
                         ),
                         backgroundColor: const Color.fromRGBO(0, 0, 0, 0.87),

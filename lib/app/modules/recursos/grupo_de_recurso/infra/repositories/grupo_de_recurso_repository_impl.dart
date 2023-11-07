@@ -40,6 +40,19 @@ class GrupoDeRecursoRepositoryImpl implements GrupoDeRecursosRepository {
   }
 
   @override
+  Future<List<GrupoDeRecurso>> getGrupoDeRecursoRecente() async {
+    try {
+      final gruposDeRecurso = await _grupoDeRecursoDatasource.getGrupoDeRecursoRecente();
+
+      return gruposDeRecurso;
+    } on Failure {
+      rethrow;
+    } on Exception catch (exception, stacktrace) {
+      return Future.error(UnknownError(exception: exception, stackTrace: stacktrace, label: 'GrupoDeRecursoRepositoryImpl-getList'));
+    }
+  }
+
+  @override
   Future<GrupoDeRecurso> getItem(String id) {
     try {
       return _grupoDeRecursoDatasource.getItem(id);

@@ -29,9 +29,6 @@ class _GrupoDeRecursoListDesktopPageState extends State<GrupoDeRecursoListDeskto
     with DialogErrorMixin<GrupoDeRecursoListDesktopPage, GrupoDeRecursoListStore> {
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
-    final colorTheme = themeData.extension<AnaColorTheme>();
-
     return CustomScaffold.titleString(
       translation.titles.gruposDeRecursos,
       controller: widget.scaffoldController,
@@ -65,7 +62,10 @@ class _GrupoDeRecursoListDesktopPageState extends State<GrupoDeRecursoListDeskto
                       const SizedBox(height: 40),
                       PesquisaFormFieldWidget(
                         label: translation.messages.pesquisarNomeOuPalavraChave,
-                        onChanged: (value) => widget.grupoDeRecursoStore.search = value,
+                        onChanged: (value) {
+                          widget.grupoDeRecursoStore.search = value;
+                          widget.grupoDeRecursoStore.getList(search: widget.grupoDeRecursoStore.search);
+                        },
                       ),
                       const SizedBox(height: 40),
                     ];

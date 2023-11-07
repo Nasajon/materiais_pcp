@@ -1,11 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:ana_l10n/ana_l10n.dart';
-import 'package:ana_l10n/ana_localization.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
-import 'package:pcp_flutter/app/core/localization/enums/artigo.dart';
+import 'package:pcp_flutter/app/core/localization/enums/artigo_enum.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/widgets/list_tile_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/notification_snack_bar.dart';
@@ -37,7 +35,7 @@ class FichaTecnicaItemWidget extends StatelessWidget {
           if (triple.state && !triple.isLoading) {
             fichaTecnicaListStore.deleteFichaTecnica(fichaTecnica.id);
             NotificationSnackBar.showSnackBar(
-              l10n.messages.excluiuAEntidadeComSucesso(l10n.titles.fichaTecnica, ArtigoEnum.artigoFeminino),
+              l10n.messages.excluiuAEntidadeComSucesso(l10n.titles.fichaTecnica, artigo: ArtigoEnum.artigoFeminino),
               themeData: themeData,
             );
           }
@@ -53,8 +51,8 @@ class FichaTecnicaItemWidget extends StatelessWidget {
           }
           return ListTileWidget(
             key: key,
-            title: fichaTecnica.codigo.value,
-            subtitle: 'Produto: ${fichaTecnica.produto?.codigo}',
+            title: '${fichaTecnica.codigo.value} - ${fichaTecnica.descricao.value}',
+            subtitle: 'Produto: ${fichaTecnica.produto.codigo}',
             trailing: !triple.isLoading
                 ? PopupMenuButton(
                     icon: Icon(
@@ -70,7 +68,7 @@ class FichaTecnicaItemWidget extends StatelessWidget {
                           builder: (context) {
                             return ConfirmationModalWidget(
                               title: l10n.titles.excluirEntidade(l10n.titles.fichaTecnica),
-                              messages: l10n.messages.excluirAEntidade(l10n.titles.fichaTecnica, ArtigoEnum.artigoFeminino),
+                              messages: l10n.messages.excluirAEntidade(l10n.titles.fichaTecnica, artigo: ArtigoEnum.artigoFeminino),
                               titleCancel: l10n.fields.excluir,
                               titleSuccess: l10n.fields.cancelar,
                               onCancel: () => deletarFichaTecnicaStore.deletar(fichaTecnica.id),

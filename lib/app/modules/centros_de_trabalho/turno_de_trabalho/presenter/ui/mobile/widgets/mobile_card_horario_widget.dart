@@ -2,7 +2,6 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
-import 'package:pcp_flutter/app/core/localization/enums/artigo.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/domain/entities/horario_entity.dart';
 import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/presenter/controller/turno_trabalho_form_controller.dart';
@@ -124,8 +123,7 @@ class _MobileCardHorarioWidgetState extends State<MobileCardHorarioWidget> {
                         builder: (context) {
                           return ConfirmationModalWidget(
                             title: translation.titles.excluirEntidade(translation.fields.horario),
-                            messages:
-                                translation.messages.excluirAEntidade(translation.titles.turnosDeTrabalho, ArtigoEnum.artigoMasculino),
+                            messages: translation.messages.excluirAEntidade(translation.titles.turnosDeTrabalho),
                             titleCancel: translation.fields.excluir,
                             titleSuccess: translation.fields.cancelar,
                             onCancel: () => widget.turnoTrabalhoFormController.removerHorario(widget.horario.codigo),

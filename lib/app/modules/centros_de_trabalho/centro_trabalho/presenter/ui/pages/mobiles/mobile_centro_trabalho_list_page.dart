@@ -24,9 +24,6 @@ class MobileCentroTrabalhoListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
-    final colorTheme = themeData.extension<AnaColorTheme>();
-
     const horizontalPadding = 16.0;
 
     return CustomScaffold.titleString(
@@ -49,7 +46,10 @@ class MobileCentroTrabalhoListPage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
                 child: PesquisaFormFieldWidget(
                   label: translation.messages.pesquisarNomeOuPalavraChave,
-                  onChanged: (value) => centroTrabalhoListStore.search = value,
+                  onChanged: (value) {
+                    centroTrabalhoListStore.search = value;
+                    centroTrabalhoListStore.getListCentroTrabalho();
+                  },
                 ),
               ),
               const SizedBox(height: 40),

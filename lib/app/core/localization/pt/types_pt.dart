@@ -12,4 +12,31 @@ class TypesPt extends Types {
 
   @override
   String get pcpTipoRecursoPostoDeTrabalho => 'Posto de trabalho';
+
+  @override
+  String get prioridadeAlta => 'Alta';
+
+  @override
+  String get prioridadeBaixa => 'Baixa';
+
+  @override
+  String get prioridadeMedia => 'Média';
+
+  @override
+  String get tipoMedicaoTempoPorLote => 'Por lote';
+
+  @override
+  String get tipoMedicaoTempoPorUnidade => 'Por unidade';
+
+  @override
+  String get tipoMedicaoTempoTempoFixo => 'Tempo fixo';
+
+  @override
+  String get tipoQuandoAntesDaOperacao => 'Antes da operação';
+
+  @override
+  String get tipoQuandoAposAOperacao => 'Após a operação';
+
+  @override
+  String get tipoQuandoDuranteAOperacao => 'Durante a operação';
 }

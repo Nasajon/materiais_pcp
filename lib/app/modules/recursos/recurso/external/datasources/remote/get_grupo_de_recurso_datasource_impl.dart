@@ -20,14 +20,15 @@ class GetGrupoDeRecursoDatasourceImpl implements GetGrupoDeRecursoDatasource {
 
       final response = await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
-        endPoint: '/1234/gruposderecursos',
+        endPoint: '/gruposderecursos',
         method: ClientRequestMethods.GET,
         queryParams: queryParams,
         interceptors: interceptors,
       ));
 
       return (response.data as List).map((e) => GrupoDeRecursoMapper.fromMap(e)).toList();
-    } on Failure catch (e) {
+    } on Failure {
+      // TODO: Verificar essa falha
       rethrow;
     } on Exception catch (exception, stacktrace) {
       return Future.error(UnknownError(exception: exception, stackTrace: stacktrace, label: 'GrupoDeRecursoDatasourceImpl-getList'));

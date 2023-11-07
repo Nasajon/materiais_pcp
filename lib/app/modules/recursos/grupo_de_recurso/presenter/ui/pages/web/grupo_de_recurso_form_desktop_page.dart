@@ -2,7 +2,6 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
-import 'package:pcp_flutter/app/core/localization/enums/artigo.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
@@ -136,9 +135,8 @@ class _GrupoDeRecursoFormDesktopPageState extends State<GrupoDeRecursoFormDeskto
                       SnackBar(
                         content: Text(
                           id == null
-                              ? translation.messages.criouAEntidadeComSucesso(translation.fields.grupoDeRecurso, ArtigoEnum.artigoMasculino)
-                              : translation.messages
-                                  .editouAEntidadeComSucesso(translation.fields.grupoDeRecurso, ArtigoEnum.artigoMasculino),
+                              ? translation.messages.criouAEntidadeComSucesso(translation.fields.grupoDeRecurso)
+                              : translation.messages.editouAEntidadeComSucesso(translation.fields.grupoDeRecurso),
                           style: AnaTextStyles.grey14Px.copyWith(fontSize: 15, color: Colors.white, letterSpacing: 0.25),
                         ),
                         backgroundColor: const Color.fromRGBO(0, 0, 0, 0.87),

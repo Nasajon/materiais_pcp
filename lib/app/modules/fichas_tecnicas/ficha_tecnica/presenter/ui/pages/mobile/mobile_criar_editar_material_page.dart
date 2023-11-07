@@ -2,9 +2,9 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
-import 'package:pcp_flutter/app/core/localization/enums/artigo.dart';
+import 'package:pcp_flutter/app/core/localization/enums/artigo_enum.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
-import 'package:pcp_flutter/app/core/modules/domain/value_object/moeda_vo.dart';
+import 'package:pcp_flutter/app/core/modules/domain/value_object/double_vo.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/entities/produto.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/entities/unidade.dart';
@@ -34,10 +34,7 @@ class MobileCriarEditarMaterialPage extends StatefulWidget {
 class _MobileCriarEditarMaterialPageState extends State<MobileCriarEditarMaterialPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final formKey = GlobalKey<FormState>();
-  bool get isProdutoSelected =>
-      widget.fichaTecnicaFormController.material?.produto?.codigo != '' && widget.fichaTecnicaFormController.material?.produto?.nome != '';
-  bool get isUnidadeSelected =>
-      widget.fichaTecnicaFormController.material?.unidade?.codigo != '' && widget.fichaTecnicaFormController.material?.unidade?.nome != '';
+
   @override
   void initState() {
     super.initState();
@@ -51,8 +48,6 @@ class _MobileCriarEditarMaterialPageState extends State<MobileCriarEditarMateria
   }
 
   void verificarFichaTecnicaMaterialRouter() {
-    final currentRoute = ModalRoute.of(context);
-
     if (!ScreenSizeUtil(context).isMobile && widget.adaptiveModalNotifier.value) {
       SchedulerBinding.instance.addPostFrameCallback((_) {
         Navigator.of(context).pop();
@@ -86,17 +81,19 @@ class _MobileCriarEditarMaterialPageState extends State<MobileCriarEditarMateria
               RxBuilder(builder: (context) {
                 return AutocompleteTextFormField<ProdutoEntity>(
                   textFieldConfiguration: TextFieldConfiguration(decoration: InputDecoration(label: Text(translations.fields.produto))),
-                  initialSelectedValue: widget.fichaTecnicaFormController.material?.produto,
+                  initialSelectedValue: widget.fichaTecnicaFormController.material?.produto != ProdutoEntity.empty()
+                      ? widget.fichaTecnicaFormController.material?.produto
+                      : null,
                   itemTextValue: (value) => "${value.codigo} - ${value.nome}",
                   onSelected: (value) {
                     widget.fichaTecnicaFormController.material = widget.fichaTecnicaFormController.material?.copyWith(produto: value);
                   },
-                  validator: (_) => widget.fichaTecnicaFormController.material!.produto!.isValid
+                  validator: (_) => widget.fichaTecnicaFormController.material!.produto.isValid
                       ? ''
-                      : translations.messages.selecioneUm(translations.fields.produto, ArtigoEnum.artigoMasculino),
+                      : translations.messages.selecioneUm(translations.fields.produto),
                   itemBuilder: (context, produto) {
                     return ListTile(
-                      title: Text("${produto.codigo!} - ${produto.nome!}"),
+                      title: Text("${produto.codigo} - ${produto.nome}"),
                     );
                   },
                   suggestionsCallback: (pattern) async {
@@ -108,15 +105,15 @@ class _MobileCriarEditarMaterialPageState extends State<MobileCriarEditarMateria
               const SizedBox(height: 20),
               DoubleTextFormFieldWidget(
                 label: translations.fields.quantidade,
-                initialValue: widget.fichaTecnicaFormController.material?.quantidade?.value,
-                decimalDigits: widget.fichaTecnicaFormController.material?.unidade?.decimais ?? 0,
-                validator: (_) => widget.fichaTecnicaFormController.material!.quantidade != null &&
-                        widget.fichaTecnicaFormController.material!.quantidade!.isNotValid
-                    ? translations.messages.insiraUm(translations.fields.quantidade, ArtigoEnum.artigoFeminino)
+                initialValue: widget.fichaTecnicaFormController.material?.quantidade.valueOrNull,
+                decimalDigits: widget.fichaTecnicaFormController.material?.unidade.decimais ?? 0,
+                validator: (_) => widget.fichaTecnicaFormController.material!.quantidade.valueOrNull != null &&
+                        widget.fichaTecnicaFormController.material!.quantidade.isNotValid
+                    ? translations.messages.insiraUm(translations.fields.quantidade, artigo: ArtigoEnum.artigoFeminino)
                     : '',
                 onChanged: (value) {
                   widget.fichaTecnicaFormController.material =
-                      widget.fichaTecnicaFormController.material?.copyWith(quantidade: MoedaVO(value));
+                      widget.fichaTecnicaFormController.material?.copyWith(quantidade: DoubleVO(value));
                 },
               ),
               const SizedBox(height: 16),
@@ -124,17 +121,19 @@ class _MobileCriarEditarMaterialPageState extends State<MobileCriarEditarMateria
                 return AutocompleteTextFormField<UnidadeEntity>(
                   textFieldConfiguration:
                       TextFieldConfiguration(decoration: InputDecoration(label: Text(translations.fields.tipoDeUnidade))),
-                  initialSelectedValue: widget.fichaTecnicaFormController.material?.unidade,
+                  initialSelectedValue: widget.fichaTecnicaFormController.material?.unidade != UnidadeEntity.empty()
+                      ? widget.fichaTecnicaFormController.material?.unidade
+                      : null,
                   itemTextValue: (value) => "${value.codigo} - ${value.nome}",
                   onSelected: (value) {
                     widget.fichaTecnicaFormController.material = widget.fichaTecnicaFormController.material?.copyWith(unidade: value);
                   },
-                  validator: (_) => widget.fichaTecnicaFormController.material!.unidade!.isValid
-                      ? ''
-                      : translations.messages.selecioneUm(translations.fields.tipoDeUnidade, ArtigoEnum.artigoMasculino),
+                  validator: (_) => widget.fichaTecnicaFormController.material!.unidade == UnidadeEntity.empty()
+                      ? translations.messages.selecioneUm(translations.fields.tipoDeUnidade)
+                      : null,
                   itemBuilder: (context, unidade) {
                     return ListTile(
-                      title: Text("${unidade.codigo!} - ${unidade.nome!}"),
+                      title: Text("${unidade.codigo} - ${unidade.nome}"),
                     );
                   },
                   suggestionsCallback: (pattern) async {
@@ -163,7 +162,7 @@ class _MobileCriarEditarMaterialPageState extends State<MobileCriarEditarMateria
                     builder: (context) {
                       return ConfirmationModalWidget(
                         title: translations.titles.excluirEntidade(translations.fields.material),
-                        messages: translations.messages.excluirAEntidade(translations.fields.material, ArtigoEnum.artigoMasculino),
+                        messages: translations.messages.excluirAEntidade(translations.fields.material),
                         titleCancel: translations.fields.excluir,
                         titleSuccess: translations.fields.cancelar,
                         onCancel: () {

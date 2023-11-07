@@ -8,6 +8,11 @@ class RestricaoRepositoryImpl implements RestricaoRepository {
   const RestricaoRepositoryImpl(this._remoteRestricaoDatasource);
 
   @override
+  Future<List<RestricaoAggregate>> getRestricaoRecente() {
+    return _remoteRestricaoDatasource.getRestricaoRecente();
+  }
+
+  @override
   Future<List<RestricaoAggregate>> getList([String? search]) {
     return _remoteRestricaoDatasource.getList(search);
   }

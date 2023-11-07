@@ -27,9 +27,27 @@ class RecursoDatasourceImpl implements RecursoDatasource {
 
       final response = await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
-        endPoint: '/1234/recursos',
+        endPoint: '/recursos',
         method: ClientRequestMethods.GET,
         queryParams: queryParams,
+        interceptors: interceptors,
+      ));
+
+      return (response.data as List).map((e) => RecursoMapper.fromMap(e)).toList();
+    } on Failure {
+      rethrow;
+    } on Exception catch (exception, stacktrace) {
+      return Future.error(UnknownError(exception: exception, stackTrace: stacktrace, label: 'RecursoDatasourceImpl-getList'));
+    }
+  }
+
+  @override
+  Future<List<Recurso>> getRecursoRecente() async {
+    try {
+      final response = await clientService.request(ClientRequestParams(
+        selectedApi: APIEnum.pcp,
+        endPoint: '/recursos',
+        method: ClientRequestMethods.GET,
         interceptors: interceptors,
       ));
 
@@ -46,7 +64,7 @@ class RecursoDatasourceImpl implements RecursoDatasource {
     try {
       final response = await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
-        endPoint: '/1234/recursos/$id',
+        endPoint: '/recursos/$id',
         method: ClientRequestMethods.GET,
         queryParams: queryParams,
         interceptors: interceptors,
@@ -75,7 +93,7 @@ class RecursoDatasourceImpl implements RecursoDatasource {
     try {
       final response = await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
-        endPoint: '/1234/recursos',
+        endPoint: '/recursos',
         method: ClientRequestMethods.POST,
         body: RecursoMapper.toMap(recurso),
         queryParams: queryParams,
@@ -95,7 +113,7 @@ class RecursoDatasourceImpl implements RecursoDatasource {
     try {
       final response = await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
-        endPoint: '/1234/recursos/${recurso.id!}',
+        endPoint: '/recursos/${recurso.id!}',
         method: ClientRequestMethods.PUT,
         body: RecursoMapper.toMap(recurso),
         queryParams: queryParams,
@@ -120,7 +138,7 @@ class RecursoDatasourceImpl implements RecursoDatasource {
 
       final response = await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
-        endPoint: '/1234/gruposderecursos/$id',
+        endPoint: '/gruposderecursos/$id',
         method: ClientRequestMethods.GET,
         queryParams: queryParams,
         interceptors: interceptors,
@@ -142,9 +160,9 @@ class RecursoDatasourceImpl implements RecursoDatasource {
   @override
   Future<bool> deleteItem(String id) async {
     try {
-      final response = await clientService.request(ClientRequestParams(
+      await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
-        endPoint: '/1234/recursos/$id',
+        endPoint: '/recursos/$id',
         method: ClientRequestMethods.DELETE,
         interceptors: interceptors,
       ));

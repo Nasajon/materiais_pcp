@@ -2,9 +2,10 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
-import 'package:pcp_flutter/app/core/localization/enums/artigo.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/aggreagates/ficha_tecnica_produto_aggregate.dart';
+import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/entities/produto.dart';
+import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/entities/unidade.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/presenter/controllers/ficha_tecnica_form_controller.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/presenter/stores/produtos_list_store.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/presenter/stores/unidades_list_store.dart';
@@ -91,7 +92,7 @@ class _MobileCardMaterialWidgetState extends State<MobileCardMaterialWidget> {
                         ),
                       ),
                       Text(
-                        (widget.material.produto == null || widget.material.produto!.nome == null) ? '' : widget.material.produto!.nome!,
+                        widget.material.produto == ProdutoEntity.empty() ? '' : widget.material.produto.nome,
                         style: themeData.textTheme.bodyLarge?.copyWith(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
@@ -115,7 +116,7 @@ class _MobileCardMaterialWidgetState extends State<MobileCardMaterialWidget> {
                         builder: (context) {
                           return ConfirmationModalWidget(
                             title: l10n.titles.excluirEntidade(l10n.fields.material),
-                            messages: l10n.messages.excluirAEntidade(l10n.fields.material, ArtigoEnum.artigoMasculino),
+                            messages: l10n.messages.excluirAEntidade(l10n.fields.material),
                             titleCancel: l10n.fields.excluir,
                             titleSuccess: l10n.fields.cancelar,
                             onCancel: () => widget.fichaTecnicaFormController.removerMaterial(widget.material.codigo),
@@ -161,7 +162,7 @@ class _MobileCardMaterialWidgetState extends State<MobileCardMaterialWidget> {
                       ),
                     ),
                     Text(
-                      widget.material.quantidade!.toText,
+                      widget.material.quantidade.toText,
                       style: themeData.textTheme.bodyLarge?.copyWith(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
@@ -183,9 +184,9 @@ class _MobileCardMaterialWidgetState extends State<MobileCardMaterialWidget> {
                       ),
                     ),
                     Text(
-                      widget.material.unidade == null || widget.material.unidade!.codigo == null || widget.material.unidade!.nome == null
+                      widget.material.unidade == UnidadeEntity.empty()
                           ? ""
-                          : "${widget.material.unidade?.codigo} - ${widget.material.unidade?.nome}",
+                          : "${widget.material.unidade.codigo} - ${widget.material.unidade.nome}",
                       style: themeData.textTheme.bodyLarge?.copyWith(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,

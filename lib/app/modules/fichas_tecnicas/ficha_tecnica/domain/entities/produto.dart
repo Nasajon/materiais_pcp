@@ -1,18 +1,21 @@
-import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
-
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 class ProdutoEntity {
   final String id;
-  final String? codigo;
-  final String? nome;
+  final String codigo;
+  final String nome;
 
   const ProdutoEntity({
     required this.id,
-    this.codigo,
-    this.nome,
+    required this.codigo,
+    required this.nome,
   });
 
   factory ProdutoEntity.empty() {
-    return const ProdutoEntity(id: '', codigo: '', nome: '');
+    return const ProdutoEntity(
+      id: '',
+      codigo: '',
+      nome: '',
+    );
   }
 
   @override
@@ -25,5 +28,17 @@ class ProdutoEntity {
   @override
   int get hashCode => id.hashCode ^ codigo.hashCode ^ nome.hashCode;
 
-  bool get isValid => codigo != null && codigo!.isNotEmpty && nome != null && nome!.isNotEmpty;
+  bool get isValid => id.isNotEmpty && codigo.isNotEmpty && nome.isNotEmpty;
+
+  ProdutoEntity copyWith({
+    String? id,
+    String? codigo,
+    String? nome,
+  }) {
+    return ProdutoEntity(
+      id: id ?? this.id,
+      codigo: codigo ?? this.codigo,
+      nome: nome ?? this.nome,
+    );
+  }
 }

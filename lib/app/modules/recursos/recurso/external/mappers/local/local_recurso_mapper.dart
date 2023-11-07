@@ -1,6 +1,5 @@
 import 'package:flutter_core/ana_core.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart';
-import 'package:pcp_flutter/app/core/modules/domain/value_object/moeda_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/domain/entities/recurso.dart';
 

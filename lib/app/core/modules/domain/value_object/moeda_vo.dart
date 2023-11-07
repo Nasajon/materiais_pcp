@@ -3,7 +3,7 @@ import 'package:pcp_flutter/app/core/modules/domain/value_object/value_object.da
 
 class MoedaVO extends ValueObject<double?> {
   MoedaVO(super.value) {
-    _validade();
+    _validate();
   }
 
   factory MoedaVO.text(String value) {
@@ -14,7 +14,7 @@ class MoedaVO extends ValueObject<double?> {
     }
   }
 
-  void _validade() {
+  void _validate() {
     if (value == null || value! <= 0) {
       errorMessage = translation.messages.errorCampoObrigatorio;
     }

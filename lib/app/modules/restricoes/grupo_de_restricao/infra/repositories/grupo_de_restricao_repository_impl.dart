@@ -17,6 +17,19 @@ class GrupoDeRestricaoRepositoryImpl implements GrupoDeRestricaoRepository {
   );
 
   @override
+  Future<List<GrupoDeRestricaoEntity>> getGrupoDeRestricaoRecente() async {
+    try {
+      final gruposDeRestricao = await _grupoDeRestricaoDatasource.getGrupoDeRestricaoRecente();
+
+      return gruposDeRestricao;
+    } on Failure {
+      rethrow;
+    } on Exception catch (exception, stacktrace) {
+      return Future.error(UnknownError(exception: exception, stackTrace: stacktrace, label: 'GrupoDeRestricaoRepositoryImpl-getList'));
+    }
+  }
+
+  @override
   Future<List<GrupoDeRestricaoEntity>> getList(String? search) async {
     try {
       if (kIsWeb || _connectionStore.isOnline) {

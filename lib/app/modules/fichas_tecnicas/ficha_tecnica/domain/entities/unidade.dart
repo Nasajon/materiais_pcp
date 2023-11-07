@@ -1,18 +1,23 @@
 class UnidadeEntity {
   final String id;
-  final String? codigo;
-  final String? nome;
-  final int? decimais;
+  final String codigo;
+  final String nome;
+  final int decimais;
 
   const UnidadeEntity({
     required this.id,
-    this.codigo,
-    this.nome,
-    this.decimais,
+    required this.codigo,
+    required this.nome,
+    required this.decimais,
   });
 
   factory UnidadeEntity.empty() {
-    return const UnidadeEntity(id: '', codigo: '', nome: '', decimais: 0);
+    return const UnidadeEntity(
+      id: '',
+      codigo: '',
+      nome: '',
+      decimais: 0,
+    );
   }
 
   @override
@@ -25,5 +30,5 @@ class UnidadeEntity {
   @override
   int get hashCode => id.hashCode ^ codigo.hashCode ^ nome.hashCode ^ decimais.hashCode;
 
-  bool get isValid => codigo != null && codigo!.isNotEmpty && nome != null && nome!.isNotEmpty;
+  bool get isValid => id.isNotEmpty && codigo.isNotEmpty && codigo.isNotEmpty && nome.isNotEmpty;
 }

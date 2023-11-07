@@ -1,7 +1,6 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
-import 'package:pcp_flutter/app/core/localization/enums/artigo.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/aggreagates/ficha_tecnica_produto_aggregate.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/presenter/controllers/ficha_tecnica_form_controller.dart';
@@ -58,7 +57,7 @@ class DesktopCardMaterialWidget extends StatelessWidget {
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Text(
-                          "${material.produto?.nome}",
+                          material.produto.nome,
                           style: themeData.textTheme.bodyLarge?.copyWith(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
@@ -82,7 +81,7 @@ class DesktopCardMaterialWidget extends StatelessWidget {
                         builder: (context) {
                           return ConfirmationModalWidget(
                             title: l10n.titles.excluirEntidade(l10n.fields.material),
-                            messages: l10n.messages.excluirAEntidade(l10n.fields.material, ArtigoEnum.artigoMasculino),
+                            messages: l10n.messages.excluirAEntidade(l10n.fields.material),
                             titleCancel: l10n.fields.excluir,
                             titleSuccess: l10n.fields.cancelar,
                             onCancel: () => fichaTecnicaFormController.removerMaterial(material.codigo),
@@ -129,7 +128,7 @@ class DesktopCardMaterialWidget extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        material.quantidade!.toText,
+                        material.quantidade.toText,
                         style: themeData.textTheme.bodyLarge?.copyWith(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
@@ -152,7 +151,7 @@ class DesktopCardMaterialWidget extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "${material.unidade?.codigo} - ${material.unidade?.nome}",
+                        "${material.unidade.codigo} - ${material.unidade.nome}",
                         style: themeData.textTheme.bodyLarge?.copyWith(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,

@@ -1,28 +1,38 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:pcp_flutter/app/core/modules/domain/value_object/moeda_vo.dart';
+import 'package:pcp_flutter/app/core/modules/domain/value_object/double_vo.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/entities/produto.dart';
 import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/entities/unidade.dart';
 
 class FichaTecnicaMaterialAggregate {
-  final String id;
+  final String? id;
   final int codigo;
-  final ProdutoEntity? produto;
-  final MoedaVO? quantidade;
-  final UnidadeEntity? unidade;
+  final ProdutoEntity produto;
+  final DoubleVO quantidade;
+  final UnidadeEntity unidade;
 
   const FichaTecnicaMaterialAggregate({
-    required this.id,
+    this.id,
     required this.codigo,
-    this.produto,
+    required this.produto,
     required this.quantidade,
-    this.unidade,
+    required this.unidade,
   });
+
+  factory FichaTecnicaMaterialAggregate.empty() {
+    return FichaTecnicaMaterialAggregate(
+      id: null,
+      codigo: 0,
+      quantidade: DoubleVO(null),
+      produto: ProdutoEntity.empty(),
+      unidade: UnidadeEntity.empty(),
+    );
+  }
 
   FichaTecnicaMaterialAggregate copyWith({
     String? id,
     ProdutoEntity? produto,
     int? codigo,
-    MoedaVO? quantidade,
+    DoubleVO? quantidade,
     UnidadeEntity? unidade,
   }) {
     return FichaTecnicaMaterialAggregate(
@@ -34,21 +44,15 @@ class FichaTecnicaMaterialAggregate {
     );
   }
 
-  factory FichaTecnicaMaterialAggregate.empty() {
-    return FichaTecnicaMaterialAggregate(
-      id: '',
-      quantidade: MoedaVO(null),
-      codigo: 0,
-      produto: ProdutoEntity.empty(),
-      unidade: UnidadeEntity.empty(),
-    );
-  }
-
   @override
   bool operator ==(covariant FichaTecnicaMaterialAggregate other) {
     if (identical(this, other)) return true;
 
-    return other.id == id && other.produto == produto && other.unidade == unidade && other.codigo == codigo;
+    return other.id == id &&
+        other.produto == produto &&
+        other.unidade == unidade &&
+        other.codigo == codigo &&
+        other.quantidade == quantidade;
   }
 
   @override
@@ -56,5 +60,5 @@ class FichaTecnicaMaterialAggregate {
     return id.hashCode ^ produto.hashCode ^ unidade.hashCode;
   }
 
-  bool get isValid => quantidade != null && quantidade!.isValid && produto != null && unidade != null;
+  bool get isValid => quantidade.isValid && produto.id.isNotEmpty && unidade.id.isNotEmpty;
 }

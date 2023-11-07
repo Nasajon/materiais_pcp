@@ -29,9 +29,6 @@ class RecursoListDesktopPage extends StatefulWidget {
 class _RecursoListDesktopPageState extends State<RecursoListDesktopPage> with DialogErrorMixin<RecursoListDesktopPage, RecursoListStore> {
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
-    final colorTheme = themeData.extension<AnaColorTheme>();
-
     return CustomScaffold.titleString(
       translation.titles.tituloRecursos,
       controller: widget.scaffoldController,
@@ -64,7 +61,11 @@ class _RecursoListDesktopPageState extends State<RecursoListDesktopPage> with Di
                       const SizedBox(height: 40),
                       PesquisaFormFieldWidget(
                         label: translation.messages.pesquisarNomeOuPalavraChave,
-                        onChanged: (value) => widget.recursoListStore.search = value,
+                        initialValue: widget.recursoListStore.search,
+                        onChanged: (value) {
+                          widget.recursoListStore.search = value;
+                          widget.recursoListStore.getList(search: widget.recursoListStore.search);
+                        },
                       ),
                       const SizedBox(height: 40),
                     ];

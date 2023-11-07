@@ -24,8 +24,6 @@ class MobileTurnoTrabalhoListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
-
     const horizontalPadding = 16.0;
 
     return CustomScaffold.titleString(
@@ -48,7 +46,10 @@ class MobileTurnoTrabalhoListPage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
                 child: PesquisaFormFieldWidget(
                   label: translation.messages.pesquisarNomeOuPalavraChave,
-                  onChanged: (value) => turnoTrabalhoListStore.search = value,
+                  onChanged: (value) {
+                    turnoTrabalhoListStore.search = value;
+                    turnoTrabalhoListStore.getListTurnoTrabalho();
+                  },
                 ),
               ),
               const SizedBox(height: 40),

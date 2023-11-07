@@ -15,7 +15,7 @@ class DateVO extends TextVO {
   DateTime? getDate({String format = 'dd/MM/yyyy'}) {
     try {
       return DateFormat(format).parse(value);
-    } on FormatException catch (e) {
+    } on FormatException {
       return null;
     }
   }
@@ -27,7 +27,7 @@ class DateVO extends TextVO {
         return DateFormat(format).format(date);
       }
       return null;
-    } on FormatException catch (e) {
+    } on FormatException {
       return null;
     }
   }

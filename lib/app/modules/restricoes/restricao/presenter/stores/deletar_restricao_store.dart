@@ -1,5 +1,4 @@
 import 'package:flutter_core/ana_core.dart';
-import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/domain/usecases/deletar_centro_trabalho_usecase.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/domain/usecases/delete_restricao_usecase.dart';
 
 class DeletarRestricaoStore extends NasajonStreamStore<bool> {

@@ -15,29 +15,12 @@ class RemoteProdutoDatasourceImpl implements RemoteProdutoDatasource {
   List<Interceptor> interceptors = [ApiKeyInterceptor(), EntidadesEmpresariaisInterceptor()];
 
   @override
-  Future<ProdutoEntity> getProdutoPorId(String id) async {
-    try {
-      final response = await clientService.request(
-        ClientRequestParams(
-          selectedApi: APIEnum.pcp,
-          endPoint: '/1234/produtos/$id',
-          method: ClientRequestMethods.GET,
-          interceptors: interceptors,
-        ),
-      );
-      return RemoteProdutoMapper.fromMapToProduto(response.data);
-    } on ClientError catch (e) {
-      throw DatasourceProdutoFailure(errorMessage: e.message, stackTrace: e.stackTrace, exception: e.exception);
-    }
-  }
-
-  @override
   Future<List<ProdutoEntity>> getTodosProdutos(String search) async {
     try {
       final response = await clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/produtos${search.trim() == '' ? '' : '?search=$search'}',
+          endPoint: '/produtos${search.trim() == '' ? '' : '?search=$search'}',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
         ),
@@ -60,7 +43,7 @@ class RemoteProdutoDatasourceImpl implements RemoteProdutoDatasource {
       final response = await clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/1234/produtos?produto=${ids.join(',')}',
+          endPoint: '/produtos?produto=${ids.join(',')}',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
         ),

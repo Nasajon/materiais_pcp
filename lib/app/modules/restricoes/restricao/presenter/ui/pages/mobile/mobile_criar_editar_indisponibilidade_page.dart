@@ -40,8 +40,6 @@ class _MobileCriarEditarIndisponibilidadePageState extends State<MobileCriarEdit
   }
 
   void verificarHorarioRouter() {
-    final currentRoute = ModalRoute.of(context);
-
     if (!ScreenSizeUtil(context).isMobile && widget.adaptiveModalNotifier.value) {
       SchedulerBinding.instance.addPostFrameCallback((_) {
         Navigator.of(context).pop();

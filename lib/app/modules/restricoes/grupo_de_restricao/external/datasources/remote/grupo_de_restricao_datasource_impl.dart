@@ -15,6 +15,28 @@ class GrupoDeRestricaoDatasourceImpl implements GrupoDeRestricaoDatasource {
   List<Interceptor> interceptors = [ApiKeyInterceptor(), EntidadesEmpresariaisInterceptor()];
 
   @override
+  Future<List<GrupoDeRestricaoEntity>> getGrupoDeRestricaoRecente() async {
+    try {
+      Map<String, dynamic> queryParams = {'fields': 'tipo'};
+
+      final response = await clientService.request(ClientRequestParams(
+        selectedApi: APIEnum.pcp,
+        endPoint: '/gruposderestricoes',
+        method: ClientRequestMethods.GET,
+        queryParams: queryParams,
+        interceptors: interceptors,
+      ));
+
+      return (response.data as List).map((e) => GrupoDeRestricaoMapper.fromMapToGrupoDeRestricaoEntity(e)).toList();
+    } on Failure {
+      // TODO: Verificar essa falha
+      rethrow;
+    } on Exception catch (exception, stacktrace) {
+      return Future.error(UnknownError(exception: exception, stackTrace: stacktrace, label: 'GrupoDeRestricaoDatasourceImpl-getList'));
+    }
+  }
+
+  @override
   Future<List<GrupoDeRestricaoEntity>> getList(String? search) async {
     try {
       Map<String, dynamic> queryParams = {'fields': 'tipo'};
@@ -25,14 +47,15 @@ class GrupoDeRestricaoDatasourceImpl implements GrupoDeRestricaoDatasource {
 
       final response = await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
-        endPoint: '/1234/gruposderestricoes',
+        endPoint: '/gruposderestricoes',
         method: ClientRequestMethods.GET,
         queryParams: queryParams,
         interceptors: interceptors,
       ));
 
       return (response.data as List).map((e) => GrupoDeRestricaoMapper.fromMapToGrupoDeRestricaoEntity(e)).toList();
-    } on Failure catch (e) {
+    } on Failure {
+      // TODO: Verificar essa falha
       rethrow;
     } on Exception catch (exception, stacktrace) {
       return Future.error(UnknownError(exception: exception, stackTrace: stacktrace, label: 'GrupoDeRestricaoDatasourceImpl-getList'));
@@ -46,7 +69,7 @@ class GrupoDeRestricaoDatasourceImpl implements GrupoDeRestricaoDatasource {
 
       final response = await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
-        endPoint: '/1234/gruposderestricoes/$id',
+        endPoint: '/gruposderestricoes/$id',
         method: ClientRequestMethods.GET,
         queryParams: queryParams,
         interceptors: interceptors,
@@ -71,7 +94,7 @@ class GrupoDeRestricaoDatasourceImpl implements GrupoDeRestricaoDatasource {
     try {
       final response = await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
-        endPoint: '/1234/gruposderestricoes',
+        endPoint: '/gruposderestricoes',
         method: ClientRequestMethods.POST,
         body: GrupoDeRestricaoMapper.fromGrupoDeRestricaoEntityToMap(grupoDeRestricao),
         interceptors: interceptors,
@@ -90,7 +113,7 @@ class GrupoDeRestricaoDatasourceImpl implements GrupoDeRestricaoDatasource {
     try {
       final response = await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
-        endPoint: '/1234/gruposderestricoes/${grupoDeRestricao.id!}',
+        endPoint: '/gruposderestricoes/${grupoDeRestricao.id!}',
         method: ClientRequestMethods.PUT,
         body: GrupoDeRestricaoMapper.fromGrupoDeRestricaoEntityToMap(grupoDeRestricao),
         interceptors: interceptors,
@@ -111,9 +134,9 @@ class GrupoDeRestricaoDatasourceImpl implements GrupoDeRestricaoDatasource {
   @override
   Future<bool> deletarItem(String id) async {
     try {
-      final response = await clientService.request(ClientRequestParams(
+      await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
-        endPoint: '/1234/gruposderestricoes/$id',
+        endPoint: '/gruposderestricoes/$id',
         method: ClientRequestMethods.DELETE,
         interceptors: interceptors,
       ));

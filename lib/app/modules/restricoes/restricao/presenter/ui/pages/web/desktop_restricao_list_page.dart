@@ -4,9 +4,7 @@ import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
-import 'package:pcp_flutter/app/core/widgets/list_tile_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/pesquisa_form_field_widget.dart';
-import 'package:pcp_flutter/app/modules/restricoes/restricao/domain/aggregates/restricao_aggregate.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/stores/restricao_list_store.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/stores/state/restricao_state.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/widgets/restricao_item_widget.dart';
@@ -25,9 +23,6 @@ class DesktopRestricaoListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
-    final colorTheme = themeData.extension<AnaColorTheme>();
-
     final createRestricaoButton = Center(
       child: CustomPrimaryButton(
         title: translation.titles.criarRestricaoSecundaria,
@@ -38,9 +33,17 @@ class DesktopRestricaoListPage extends StatelessWidget {
     );
 
     final pesquisaWidget = [
-      PesquisaFormFieldWidget(
-        label: translation.messages.avisoPesquisarPorNomeOuPalavraChave,
-        onChanged: (value) => restricaoListStore.search = value,
+      RxBuilder(
+        builder: (context) {
+          return PesquisaFormFieldWidget(
+            label: translation.messages.avisoPesquisarPorNomeOuPalavraChave,
+            initialValue: restricaoListStore.search,
+            onChanged: (value) {
+              restricaoListStore.search = value;
+              restricaoListStore.getListRestricao();
+            },
+          );
+        },
       ),
       const SizedBox(height: 40),
     ];
@@ -61,6 +64,7 @@ class DesktopRestricaoListPage extends StatelessWidget {
               const SizedBox(height: 40),
               Expanded(
                 child: ScopedBuilder<RestricaoListStore, List<RestricaoState>>(
+                  store: restricaoListStore,
                   onLoading: (_) => const Center(child: CircularProgressIndicator(color: AnaColors.darkBlue)),
                   onError: (context, error) => Container(),
                   onState: (context, state) {

@@ -30,9 +30,6 @@ class RecursoListMobilePage extends StatefulWidget {
 class _RecursoListMobilePageState extends State<RecursoListMobilePage> with DialogErrorMixin<RecursoListMobilePage, RecursoListStore> {
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
-    final colorTheme = themeData.extension<AnaColorTheme>();
-
     const horizontalPadding = 16.0;
 
     return CustomScaffold.titleString(
@@ -42,71 +39,67 @@ class _RecursoListMobilePageState extends State<RecursoListMobilePage> with Dial
       actions: [
         InternetButtonIconWidget(connectionStore: widget.connectionStore),
       ],
-      body: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 635),
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.only(bottom: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const SizedBox(height: 40),
-              ScopedBuilder<RecursoListStore, List<RecursoState>>(
-                onLoading: (_) => const Center(child: CircularProgressIndicator(color: AnaColors.darkBlue)),
-                onError: (context, error) => Container(),
-                onState: (context, state) {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
-                        child: PesquisaFormFieldWidget(
-                          label: translation.messages.pesquisarNomeOuPalavraChave,
-                          onChanged: (value) => widget.recursoListStore.search = value,
-                        ),
-                      ),
-                      const SizedBox(height: 40),
-                      if (state.isEmpty) ...{
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 20, left: 16, right: 16),
-                          child: Text(
-                            widget.recursoListStore.search.isEmpty
-                                ? translation.messages.nenhumEntidadeEncontrado(translation.fields.recurso)
-                                : translation.messages.naoHaResultadosParaPesquisa,
-                            style: AnaTextStyles.grey20Px,
-                          ),
-                        ),
-                      } else if (widget.recursoListStore.search.isEmpty) ...{
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
-                          child: Text(
-                            translation.titles.ultimosRecursosAcessados,
-                            style: AnaTextStyles.boldDarkGrey16Px.copyWith(fontSize: 18),
-                          ),
-                        ),
-                        const SizedBox(height: 32),
-                      },
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
-                        child: Column(
-                          children: state.map(
-                            (value) {
-                              return RecursoItemWidget(
-                                key: ValueKey('${value.recurso.codigo} - ${value.recurso.descricao}'),
-                                recurso: value.recurso,
-                                deletarRecursoStore: value.deletarStore,
-                                recursoListStore: widget.recursoListStore,
-                              );
-                            },
-                          ).toList(),
-                        ),
-                      )
-                    ],
-                  );
+      body: ScopedBuilder<RecursoListStore, List<RecursoState>>(
+        onLoading: (_) => const Center(child: CircularProgressIndicator(color: AnaColors.darkBlue)),
+        onError: (context, error) => Container(),
+        onState: (context, state) => ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 635),
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 40),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
+                  child: PesquisaFormFieldWidget(
+                    label: translation.messages.pesquisarNomeOuPalavraChave,
+                    initialValue: widget.recursoListStore.search,
+                    onChanged: (value) {
+                      widget.recursoListStore.search = value;
+                      widget.recursoListStore.getList(search: widget.recursoListStore.search);
+                    },
+                  ),
+                ),
+                const SizedBox(height: 40),
+                if (state.isEmpty) ...{
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 20, left: 16, right: 16),
+                    child: Text(
+                      widget.recursoListStore.search.isEmpty
+                          ? translation.messages.nenhumEntidadeEncontrado(translation.fields.recurso)
+                          : translation.messages.naoHaResultadosParaPesquisa,
+                      style: AnaTextStyles.grey20Px,
+                    ),
+                  ),
+                } else if (widget.recursoListStore.search.isEmpty) ...{
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
+                    child: Text(
+                      translation.titles.ultimosRecursosAcessados,
+                      style: AnaTextStyles.boldDarkGrey16Px.copyWith(fontSize: 18),
+                    ),
+                  ),
+                  const SizedBox(height: 32),
                 },
-              ),
-            ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
+                  child: Column(
+                    children: state.map(
+                      (value) {
+                        return RecursoItemWidget(
+                          key: ValueKey('${value.recurso.codigo} - ${value.recurso.descricao}'),
+                          recurso: value.recurso,
+                          deletarRecursoStore: value.deletarStore,
+                          recursoListStore: widget.recursoListStore,
+                        );
+                      },
+                    ).toList(),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

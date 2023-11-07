@@ -1,9 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart';
-import 'package:pcp_flutter/app/core/modules/domain/value_object/moeda_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/modules/recursos/common/domain/entities/grupo_de_recurso.dart';
-import 'package:pcp_flutter/app/modules/recursos/common/domain/enum/tipo_de_recurso_enum.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/domain/entities/recurso_centro_de_trabalho.dart';
 
 class Recurso {
