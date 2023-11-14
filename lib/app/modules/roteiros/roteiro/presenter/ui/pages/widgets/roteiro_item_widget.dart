@@ -49,7 +49,7 @@ class RoteiroItemWidget extends StatelessWidget {
           return ListTileWidget(
             key: key,
             title: roteiro.produto.nome,
-            subtitle: '${translation.fields.descartar}: ${roteiro.descricao}',
+            subtitle: '${translation.fields.descricao}: ${roteiro.descricao}',
             trailing: !triple.isLoading
                 ? PopupMenuButton(
                     icon: Icon(

@@ -19,7 +19,7 @@ class RemoteOrdemDeProducaoMapper {
       cliente: map['cliente'] != null ? RemoteClienteMapper.fromMapToCliente(map['cliente']) : null,
       roteiro: RemoteRoteiroMapper.fromMapToRoteiroEntity(map['roteiro']),
       quantidade: DoubleVO(map['quantidade']),
-      previsaoDeEntrega: DateVO.date(DateTime.parse(map['fim'])),
+      previsaoDeEntrega: DateVO.date(DateTime.parse(map['fim_previsto'])),
       prioridade: PrioridadeEnum.select(map['prioridade']),
       origem: OrigemOrdemEnum.select(map['origem']),
     );
@@ -32,7 +32,7 @@ class RemoteOrdemDeProducaoMapper {
       'cliente': ordem.cliente?.id,
       'roteiro': ordem.roteiro.id,
       'quantidade': ordem.quantidade.value,
-      'fim': ordem.previsaoDeEntrega.dateFormat(format: 'yyyy-MM-dd'),
+      'fim_previsto': ordem.previsaoDeEntrega.dateFormat(format: 'yyyy-MM-dd'),
       'prioridade': ordem.prioridade.code,
       'origem': ordem.origem.code,
     };
