@@ -1,0 +1,1 @@
+enum ArtigoEnum { artigoMasculino, artigoFeminino }
