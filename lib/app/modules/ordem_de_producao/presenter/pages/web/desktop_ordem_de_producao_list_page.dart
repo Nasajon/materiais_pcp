@@ -110,7 +110,7 @@ class _DesktopOrdemDeProducaoListPageState extends State<DesktopOrdemDeProducaoL
                             padding: const EdgeInsets.only(bottom: 20),
                             child: Text(
                               widget.ordemDeProducaoListStore.search.isEmpty
-                                  ? translation.messages.nenhumEntidadeEncontrado(translation.fields.ordemDeProducao)
+                                  ? translation.messages.nenhumaEntidadeEncontrada(translation.fields.ordemDeProducao)
                                   : translation.messages.naoHaResultadosParaPesquisa,
                               style: AnaTextStyles.grey20Px,
                             ),

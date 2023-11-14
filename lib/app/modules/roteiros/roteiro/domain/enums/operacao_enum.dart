@@ -1,7 +1,7 @@
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 
 enum QuandoEnum {
-  antesDaOperacao('antes_do_inicio_da_execucao'),
+  antesDaOperacao('tempo_antes_do_inicio_da_execucao'),
   duranteAOperacao('durante_toda_a_execucao'),
   aposAOperacao('tempo_apos_o_fim_da_execucao');
 
