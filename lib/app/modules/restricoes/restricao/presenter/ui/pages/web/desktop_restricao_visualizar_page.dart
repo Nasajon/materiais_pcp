@@ -141,9 +141,12 @@ class _DesktopRestricaoVisualizarPageState extends State<DesktopRestricaoVisuali
                 }
 
                 final restricao = triple.state;
-                if (triple.isLoading == false && restricao != null && restricao != oldRestricao) {
-                  widget.restricaoFormController.restricao = restricao;
-                  oldRestricao = widget.restricaoFormController.restricao.copyWith();
+                if (triple.isLoading == false &&
+                    restricao != null &&
+                    restricao == widget.restricaoFormController.restricao &&
+                    restricao != oldRestricao) {
+                  widget.restricaoFormController.restricao = restricao.copyWith();
+                  oldRestricao = restricao.copyWith();
                   widget.restricaoFormController.restricaoNotifyListeners();
 
                   NotificationSnackBar.showSnackBar(

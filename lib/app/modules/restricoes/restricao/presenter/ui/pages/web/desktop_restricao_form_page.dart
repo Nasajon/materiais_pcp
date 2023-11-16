@@ -170,7 +170,10 @@ class _DesktopRestricaoFormStatePage extends State<DesktopRestricaoFormPage> {
           }
 
           final restricao = triple.state;
-          if (!triple.isLoading && restricao != null && restricao != RestricaoAggregate.empty()) {
+          if (!triple.isLoading &&
+              restricao != null &&
+              restricao != RestricaoAggregate.empty() &&
+              widget.restricaoFormController.restricao != RestricaoAggregate.empty()) {
             Modular.to.pop();
             NotificationSnackBar.showSnackBar(
               themeData: themeData,
@@ -189,6 +192,7 @@ class _DesktopRestricaoFormStatePage extends State<DesktopRestricaoFormPage> {
                       title: translation.fields.cancelar,
                       isEnabled: !triple.isLoading,
                       onPressed: () {
+                        print(restricaoFormController.restricao != RestricaoAggregate.empty());
                         if (restricaoFormController.restricao != RestricaoAggregate.empty()) {
                           Asuka.showDialog(
                             barrierColor: Colors.black38,

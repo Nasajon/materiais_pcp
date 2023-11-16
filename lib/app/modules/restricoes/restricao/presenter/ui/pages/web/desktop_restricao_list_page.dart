@@ -28,6 +28,7 @@ class DesktopRestricaoListPage extends StatelessWidget {
         title: translation.titles.criarRestricaoSecundaria,
         onPressed: () async {
           await Modular.to.pushNamed('./new');
+          restricaoListStore.getListRestricao();
         },
       ),
     );

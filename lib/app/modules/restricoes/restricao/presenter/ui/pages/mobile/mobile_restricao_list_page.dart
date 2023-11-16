@@ -110,7 +110,13 @@ class MobileRestricaoListPage extends StatelessWidget {
           children: [
             CustomTextButton(title: translation.fields.voltar, onPressed: () => Modular.to.pop()),
             const SizedBox(width: 12),
-            CustomPrimaryButton(title: translation.fields.criarRestricao, onPressed: () => Modular.to.pushNamed('./new'))
+            CustomPrimaryButton(
+              title: translation.fields.criarRestricao,
+              onPressed: () async {
+                await Modular.to.pushNamed('./new');
+                restricaoListStore.getListRestricao();
+              },
+            )
           ],
         ),
       ),

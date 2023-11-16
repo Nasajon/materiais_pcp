@@ -40,7 +40,7 @@ class RestricaoAggregate {
       codigo: codigo ?? this.codigo,
       descricao: descricao ?? this.descricao,
       grupoDeRestricao: grupoDeRestricao ?? this.grupoDeRestricao,
-      indisponibilidades: indisponibilidades ?? this.indisponibilidades,
+      indisponibilidades: indisponibilidades ?? List.from(this.indisponibilidades),
     );
   }
 
