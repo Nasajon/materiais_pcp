@@ -40,6 +40,7 @@ class _DesktopOrdemDeProducaoListPageState extends State<DesktopOrdemDeProducaoL
         title: translation.fields.criarEntity(translation.fields.ordemDeProducao),
         onPressed: () async {
           await Modular.to.pushNamed('./new');
+          widget.ordemDeProducaoListStore.getOrdemDeProducaos();
         },
       ),
     );

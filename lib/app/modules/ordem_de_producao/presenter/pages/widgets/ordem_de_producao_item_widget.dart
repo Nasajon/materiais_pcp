@@ -56,33 +56,43 @@ class OrdemDeProducaoItemWidget extends StatelessWidget {
                       Icons.more_vert,
                       color: colorTheme?.icons,
                     ),
-                    onSelected: (value) {
-                      if (value == translation.fields.visualizar) {
-                        Modular.to.pushNamed('./${ordemDeProducao.id}');
-                      } else if (value == translation.fields.excluir) {
-                        Asuka.showDialog(
-                          barrierColor: Colors.black38,
-                          builder: (context) {
-                            return ConfirmationModalWidget(
-                              title: translation.titles.excluirEntidade(translation.titles.centroDeTrabalho),
-                              messages: translation.messages.excluirUmaEntidade(translation.titles.centroDeTrabalho),
-                              titleCancel: translation.fields.excluir,
-                              titleSuccess: translation.fields.cancelar,
-                              onCancel: () => deletarOrdemDeProducaoStore.deletarOrdemDeProducaoPorId(ordemDeProducao.id),
-                            );
-                          },
-                        );
-                      }
-                    },
                     itemBuilder: (context) {
                       return [
                         PopupMenuItem<String>(
                           value: translation.fields.visualizar,
                           child: Text(translation.fields.visualizar),
+                          onTap: () async {
+                            await Modular.to.pushNamed('./${ordemDeProducao.id}');
+
+                            ordemDeProducaoListStore.getOrdemDeProducaos();
+                          },
+                        ),
+                        PopupMenuItem<String>(
+                          value: translation.fields.sequenciarOperacoes,
+                          child: Text(translation.fields.sequenciarOperacoes),
+                          onTap: () async {
+                            Modular.to.pushNamed('./${ordemDeProducao.id}/gerar-sequenciamento');
+
+                            ordemDeProducaoListStore.getOrdemDeProducaos();
+                          },
                         ),
                         PopupMenuItem<String>(
                           value: translation.fields.excluir,
                           child: Text(translation.fields.excluir),
+                          onTap: () {
+                            Asuka.showDialog(
+                              barrierColor: Colors.black38,
+                              builder: (context) {
+                                return ConfirmationModalWidget(
+                                  title: translation.titles.excluirEntidade(translation.titles.centroDeTrabalho),
+                                  messages: translation.messages.excluirUmaEntidade(translation.titles.centroDeTrabalho),
+                                  titleCancel: translation.fields.excluir,
+                                  titleSuccess: translation.fields.cancelar,
+                                  onCancel: () => deletarOrdemDeProducaoStore.deletarOrdemDeProducaoPorId(ordemDeProducao.id),
+                                );
+                              },
+                            );
+                          },
                         ),
                       ];
                     },

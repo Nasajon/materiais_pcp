@@ -2,8 +2,8 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
-
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
+import 'package:pcp_flutter/app/core/modules/domain/enums/roteiro_medicao_tempo_enum.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/double_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/time_vo.dart';
@@ -11,7 +11,6 @@ import 'package:pcp_flutter/app/core/widgets/dropdown_widget.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/centro_de_trabalho_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/produto_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/unidade_entity.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/enums/medicao_tempo_enum.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/controllers/operacao_controller.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_centro_de_trabalho_store.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/presenter/stores/get_produto_store.dart';
@@ -127,14 +126,15 @@ class MobileOperacaoDadosBasicosFormWidget extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 16),
-                  DropdownButtonWidget<MedicaoTempoEnum>(
+                  DropdownButtonWidget<RoteiroMedicaoTempoEnum>(
                     label: translation.fields.medicaoDeTempo,
                     value: operacao.medicaoTempo,
                     isRequiredField: true,
                     errorMessage: translation.messages.errorCampoObrigatorio,
                     isEnabled: true,
-                    items:
-                        MedicaoTempoEnum.values.map((medicaoTempo) => DropdownItem(value: medicaoTempo, label: medicaoTempo.name)).toList(),
+                    items: RoteiroMedicaoTempoEnum.values
+                        .map((medicaoTempo) => DropdownItem(value: medicaoTempo, label: medicaoTempo.name))
+                        .toList(),
                     onSelected: (value) {
                       operacaoController.operacao = operacao.copyWith(medicaoTempo: value);
                     },
@@ -230,7 +230,7 @@ class MobileOperacaoDadosBasicosFormWidget extends StatelessWidget {
                             return Text(error.toString());
                           },
                           onSelected: (produtoResultante) {
-                            operacaoController.operacao = operacao.copyWith(produtoResultante: produtoResultante ?? ProdutoEntity.empty());
+                            operacaoController.operacao = operacao.copyWith(produtoResultante: produtoResultante);
                           },
                         ),
                       ),

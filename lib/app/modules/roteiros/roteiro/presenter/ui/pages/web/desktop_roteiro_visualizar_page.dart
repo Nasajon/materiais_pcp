@@ -168,7 +168,7 @@ class _DesktopRoteiroVisualizarPageState extends State<DesktopRoteiroVisualizarP
                 }
 
                 final roteiro = triple.state;
-                if (roteiro != null && roteiro != RoteiroAggregate.empty() && roteiro != roteiroOld && !triple.isLoading) {
+                if (!triple.isLoading && roteiro != null && roteiro != RoteiroAggregate.empty() && roteiro != roteiroOld) {
                   Asuka.showSnackBar(
                     SnackBar(
                       content: Text(

@@ -8,7 +8,7 @@ import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/centro_
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/material_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/produto_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/unidade_entity.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/enums/medicao_tempo_enum.dart';
+import 'package:pcp_flutter/app/core/modules/domain/enums/roteiro_medicao_tempo_enum.dart';
 
 class OperacaoAggregate {
   final String id;
@@ -18,7 +18,7 @@ class OperacaoAggregate {
   final TimeVO preparacao;
   final TimeVO execucao;
   final ProdutoEntity? produtoResultante;
-  final MedicaoTempoEnum? medicaoTempo;
+  final RoteiroMedicaoTempoEnum? medicaoTempo;
   final UnidadeEntity unidade;
   final CentroDeTrabalhoEntity centroDeTrabalho;
   final List<MaterialEntity> materiais;
@@ -62,7 +62,7 @@ class OperacaoAggregate {
     TimeVO? preparacao,
     TimeVO? execucao,
     ProdutoEntity? produtoResultante,
-    MedicaoTempoEnum? medicaoTempo,
+    RoteiroMedicaoTempoEnum? medicaoTempo,
     UnidadeEntity? unidade,
     CentroDeTrabalhoEntity? centroDeTrabalho,
     List<MaterialEntity>? materiais,
@@ -75,7 +75,7 @@ class OperacaoAggregate {
       razaoConversao: razaoConversao ?? this.razaoConversao,
       preparacao: preparacao ?? this.preparacao,
       execucao: execucao ?? this.execucao,
-      produtoResultante: produtoResultante ?? this.produtoResultante,
+      produtoResultante: produtoResultante,
       medicaoTempo: medicaoTempo ?? this.medicaoTempo,
       unidade: unidade ?? this.unidade,
       centroDeTrabalho: centroDeTrabalho ?? this.centroDeTrabalho,

@@ -4,18 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
-import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart';
-import 'package:pcp_flutter/app/core/modules/domain/value_object/date_vo.dart';
-import 'package:pcp_flutter/app/core/modules/domain/value_object/double_vo.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/aggregates/ordem_de_producao_aggregate.dart';
-import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/entities/cliente_entity.dart';
-import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/entities/produto_entity.dart';
-import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/entities/roteiro_entity.dart';
-import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/errors/ordem_de_producao_failure.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/controllers/ordem_de_producao_controller.dart';
-import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/pages/web/widgets/desktop_operacao_widget.dart';
-import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/pages/widgets/prioridade_widget.dart';
+import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/pages/web/widgets/desktop_ordem_de_producao_form_widget.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/stores/get_cliente_store.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/stores/get_operacao_store.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/stores/get_ordem_de_producao_por_id_store.dart';
@@ -75,210 +67,13 @@ class _DesktopOrdemDeProducaoFormPageState extends State<DesktopOrdemDeProducaoF
             : '${translation.fields.ordemDeProducao} ${translation.fields.codigo.toLowerCase()} ${widget.ordemDeProducaoOld.value!.codigo.toText}',
         controller: widget.scaffoldController,
         alignment: Alignment.centerLeft,
-        body: SingleChildScrollView(
-          child: Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 686),
-              child: Form(
-                key: widget.formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 48),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Flexible(
-                          child: IntegerTextFormFieldWidget(
-                            label: translation.fields.codigo,
-                            initialValue: ordemDeProducao.codigo.value,
-                            validator: (_) => ordemDeProducao.codigo.errorMessage,
-                            onChanged: (value) {
-                              widget.ordemDeProducaoController.ordemDeProducao = ordemDeProducao.copyWith(codigo: CodigoVO(value));
-                            },
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Flexible(
-                          flex: 4,
-                          child: AutocompleteTextFormField<ProdutoEntity>(
-                            initialSelectedValue: ordemDeProducao.produto != ProdutoEntity.empty() ? ordemDeProducao.produto : null,
-                            itemTextValue: (value) => value.nome,
-                            textFieldConfiguration: TextFieldConfiguration(
-                              decoration: InputDecoration(
-                                labelText: translation.fields.produto,
-                              ),
-                            ),
-                            suggestionsCallback: (pattern) async {
-                              return widget.getProdutoStore.getListProdutos(search: pattern);
-                            },
-                            suggestionsForNextPageCallback: (pattern, lastObject) async {
-                              return await widget.getProdutoStore.getListProdutosProximaPagina(search: pattern, ultimoId: lastObject.id);
-                            },
-                            itemBuilder: (context, produto) {
-                              return ListTile(
-                                title: Text('${produto.codigo} - ${produto.nome}'),
-                              );
-                            },
-                            errorBuilder: (context, error) {
-                              return Text(error.toString());
-                            },
-                            validator: (value) {
-                              if (ordemDeProducao.produto == ProdutoEntity.empty()) {
-                                return translation.messages.errorCampoObrigatorio;
-                              }
-
-                              return null;
-                            },
-                            onSelected: (produto) {
-                              widget.ordemDeProducaoController.ordemDeProducao = ordemDeProducao.copyWith(
-                                roteiro: produto != ordemDeProducao.produto ? RoteiroEntity.empty() : null,
-                                produto: produto ?? ProdutoEntity.empty(),
-                              );
-
-                              if (produto != ordemDeProducao.produto) {
-                                widget.getOperacaoStore.cleanList();
-                              }
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Flexible(
-                          child: AutocompleteTextFormField<RoteiroEntity>(
-                            key: ValueKey(ordemDeProducao.produto),
-                            initialSelectedValue: ordemDeProducao.roteiro != RoteiroEntity.empty() ? ordemDeProducao.roteiro : null,
-                            itemTextValue: (value) => value.nome,
-                            textFieldConfiguration: TextFieldConfiguration(
-                              decoration: InputDecoration(
-                                labelText: translation.fields.roteiro,
-                              ),
-                            ),
-                            suggestionsCallback: (pattern) async {
-                              return await widget.getRoteiroStore.getListRoteiros(
-                                produtoId: ordemDeProducao.produto.id,
-                                search: pattern,
-                              );
-                            },
-                            suggestionsForNextPageCallback: (pattern, lastObject) async {
-                              return await widget.getRoteiroStore.getListRoteirosProximaPage(
-                                produtoId: ordemDeProducao.produto.id,
-                                search: pattern,
-                                ultimoId: lastObject.id,
-                              );
-                            },
-                            itemBuilder: (context, roteiro) {
-                              return ListTile(
-                                title: Text('${roteiro.codigo} - ${roteiro.nome}'),
-                              );
-                            },
-                            errorBuilder: (context, error) {
-                              if (error is InvalidOrdemDeProducaoFailure) {
-                                return ListTile(title: Text(error.errorMessage ?? ''));
-                              }
-
-                              return ListTile(title: Text(error.toString()));
-                            },
-                            validator: (value) {
-                              if (ordemDeProducao.roteiro == RoteiroEntity.empty()) {
-                                return translation.messages.errorCampoObrigatorio;
-                              }
-
-                              return null;
-                            },
-                            onSelected: (roteiro) {
-                              if (roteiro != null && roteiro != ordemDeProducao.roteiro) {
-                                widget.getOperacaoStore.getList(roteiro.id);
-                              } else {
-                                widget.getOperacaoStore.cleanList();
-                              }
-
-                              widget.ordemDeProducaoController.ordemDeProducao =
-                                  ordemDeProducao.copyWith(roteiro: roteiro ?? RoteiroEntity.empty());
-                            },
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Flexible(
-                          child: AutocompleteTextFormField<ClienteEntity>(
-                            initialSelectedValue: ordemDeProducao.cliente != ClienteEntity.empty() ? ordemDeProducao.cliente : null,
-                            itemTextValue: (value) => value.nome,
-                            textFieldConfiguration: TextFieldConfiguration(
-                              decoration: InputDecoration(
-                                labelText: translation.fields.cliente,
-                              ),
-                            ),
-                            suggestionsCallback: (pattern) async {
-                              return await widget.getClienteStore.getListClientes(search: pattern);
-                            },
-                            suggestionsForNextPageCallback: (pattern, lastObject) async {
-                              return await widget.getClienteStore.getListClientesProximaPagina(search: pattern, ultimoId: lastObject.id);
-                            },
-                            itemBuilder: (context, cliente) {
-                              return ListTile(
-                                title: Text('${cliente.codigo} - ${cliente.nome}'),
-                              );
-                            },
-                            errorBuilder: (context, error) {
-                              return Text(error.toString());
-                            },
-                            onSelected: (cliente) {
-                              widget.ordemDeProducaoController.ordemDeProducao =
-                                  ordemDeProducao.copyWith(cliente: cliente ?? ClienteEntity.empty());
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Flexible(
-                          child: DoubleTextFormFieldWidget(
-                            key: ValueKey(ordemDeProducao.produto),
-                            label: translation.fields.quantidade,
-                            initialValue: ordemDeProducao.quantidade.valueOrNull,
-                            suffixSymbol: ordemDeProducao.roteiro.unidade.nome,
-                            decimalDigits: ordemDeProducao.roteiro.unidade.decimal,
-                            validator: (_) => ordemDeProducao.quantidade.errorMessage,
-                            onValueOrNull: (value) {
-                              widget.ordemDeProducaoController.ordemDeProducao = ordemDeProducao.copyWith(quantidade: DoubleVO(value));
-                            },
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Flexible(
-                          child: DateTextFormFieldWidget(
-                            label: translation.fields.periodoDeEntrega,
-                            initialValue: ordemDeProducao.previsaoDeEntrega.getDate(),
-                            validator: (_) => ordemDeProducao.previsaoDeEntrega.errorMessage,
-                            onChanged: (value) {
-                              widget.ordemDeProducaoController.ordemDeProducao = ordemDeProducao.copyWith(
-                                previsaoDeEntrega: value != null ? DateVO.date(value) : DateVO(''),
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    PrioridadeWidget(ordemDeProducaoController: widget.ordemDeProducaoController),
-                    const SizedBox(height: 16),
-                    DesktopOperacaoWidget(getOperacaoStore: widget.getOperacaoStore)
-                  ],
-                ),
-              ),
-            ),
-          ),
+        body: DesktopOrdemDeProducaoFormWidget(
+          ordemDeProducaoController: widget.ordemDeProducaoController,
+          getRoteiroStore: widget.getRoteiroStore,
+          getProdutoStore: widget.getProdutoStore,
+          getClienteStore: widget.getClienteStore,
+          getOperacaoStore: widget.getOperacaoStore,
+          formKey: widget.formKey,
         ),
         bottomNavigationBar: ValueListenableBuilder(
           valueListenable: widget.ordemDeProducaoOld,

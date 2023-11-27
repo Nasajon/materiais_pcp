@@ -17,6 +17,7 @@ abstract class Fields {
   String get cnpj;
   String get codigo;
   String get confirmacao;
+  String get confirmarSequenciamento;
   String get continuar;
   String get cpf;
   String get criar;
@@ -76,6 +77,7 @@ abstract class Fields {
   String get periodoDeEntrega;
   String get periodoDeVigencia;
   String get preparacao;
+  String get previsaoDeEntrega;
   String get prioridade;
   String get produto;
   String get produtoResultante;
@@ -83,15 +85,18 @@ abstract class Fields {
   String get quantidadeDeProducao;
   String get razaoDeConversao;
   String get recurso;
+  String get recursos;
   String get recursoApto;
   String get recursosAptos;
   String get remover;
   String get restricao;
   String get restricoes;
   String get roteiro;
+  String get roteiroDeProducao;
   String get roteiros;
   String get salvar;
   String get semOperacoes;
+  String get sequenciarOperacoes;
   String get tempo;
   String get tipo;
   String get tipoDeRecurso;
@@ -102,5 +107,6 @@ abstract class Fields {
   String get utilizar;
   String get visualizar;
   String get voltar;
+  String get resultado;
   String criarEntity(String entity);
 }

@@ -1,8 +1,8 @@
+import 'package:pcp_flutter/app/core/modules/domain/enums/roteiro_medicao_tempo_enum.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/double_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/time_vo.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/operacao_aggregate.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/enums/medicao_tempo_enum.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/external/mappers/remotes/remote_centro_de_trabalho_mapper.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/external/mappers/remotes/remote_grupo_de_recurso_mapper.dart';
 import 'package:pcp_flutter/app/modules/roteiros/roteiro/external/mappers/remotes/remote_material_mapper.dart';
@@ -21,7 +21,7 @@ class RemoteOperacaoMapper {
       preparacao: TimeVO(map['preparacao']),
       execucao: TimeVO(map['execucao']),
       produtoResultante: map['produto_resultante'] != null ? RemoteProdutoMapper.fromMapToProdutoEntity(map['produto_resultante']) : null,
-      medicaoTempo: MedicaoTempoEnum.selectByValue(map['medicao_tempo']),
+      medicaoTempo: RoteiroMedicaoTempoEnum.selectByValue(map['medicao_tempo']),
       unidade: RemoteUnidadeMapper.fromMapToUnidadeEntity(map['unidade']),
       centroDeTrabalho: RemoteCentroDeTrabalhoMapper.fromMapToCentroDeTrabalho(map['centro_de_trabalho']),
       materiais: List.from(map['produtos']).map((map) => RemoteMaterialMapper.fromMapToMaterial(map)).toList(),

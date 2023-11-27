@@ -1,11 +1,10 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
-import 'package:flutter_modular/src/presenter/models/bind.dart';
-import 'package:modular_interfaces/src/route/modular_route.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/usecases/atualizar_ordem_de_producao_usecase.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/usecases/deletar_ordem_de_producao_usecase.dart';
+import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/usecases/gerar_sequenciamento_usecase.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/usecases/get_cliente_usecase.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/usecases/get_operacao_usecase.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/usecases/get_ordem_de_producao_por_id_usecase.dart';
@@ -18,15 +17,20 @@ import 'package:pcp_flutter/app/modules/ordem_de_producao/external/datasources/r
 import 'package:pcp_flutter/app/modules/ordem_de_producao/external/datasources/remote/remote_get_produto_datasource_impl.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/external/datasources/remote/remote_get_roteiro_datasource_impl.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/external/datasources/remote/remote_ordem_producao_datasource_impl.dart';
+import 'package:pcp_flutter/app/modules/ordem_de_producao/external/datasources/remote/remote_sequenciamento_datasource_impl.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/infra/repositories/get_cliente_repository_impl.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/infra/repositories/get_operacao_repository_impl.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/infra/repositories/get_produto_repository_impl.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/infra/repositories/get_roteiro_repository_impl.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/infra/repositories/ordem_de_producao_repository_impl.dart';
+import 'package:pcp_flutter/app/modules/ordem_de_producao/infra/repositories/sequenciamento_repository_impl.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/controllers/ordem_de_producao_controller.dart';
+import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/controllers/sequenciamento_controller.dart';
+import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/pages/gerar_sequenciamento_page.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/pages/ordem_de_producao_form_page.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/pages/ordem_de_producao_list_page.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/stores/deletar_ordem_de_producao_store.dart';
+import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/stores/gerar_sequenciamento_store.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/stores/get_cliente_store.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/stores/get_operacao_store.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/stores/get_ordem_de_producao_por_id_store.dart';
@@ -62,6 +66,7 @@ class OrdemDeProducaoModule extends NasajonModule {
         Bind.lazySingleton((i) => RemoteGetProdutoDatasourceImpl(i())),
         Bind.lazySingleton((i) => RemoteGetRoteiroDatasourceImpl(i())),
         Bind.lazySingleton((i) => RemoteOrdemDeProducaoDatasourceImpl(i())),
+        Bind.lazySingleton((i) => RemoteSequenciamentoDatasourceImpl(i())),
 
         // Repositories
         Bind.lazySingleton((i) => GetClienteRepositoryImpl(i())),
@@ -69,6 +74,7 @@ class OrdemDeProducaoModule extends NasajonModule {
         Bind.lazySingleton((i) => GetProdutoRepositoryImpl(i())),
         Bind.lazySingleton((i) => GetRoteiroRepositoryImpl(i())),
         Bind.lazySingleton((i) => OrdemDeProducaoRepositoryImpl(i())),
+        Bind.lazySingleton((i) => SequenciamentoRepositoryImpl(i())),
 
         // Usecases
         Bind.lazySingleton((i) => AtualizarOrdemDeProducaoUsecaseImpl(i())),
@@ -80,6 +86,7 @@ class OrdemDeProducaoModule extends NasajonModule {
         Bind.lazySingleton((i) => GetProdutoUsecaseImpl(i())),
         Bind.lazySingleton((i) => GetRoteiroUsecaseImpl(i())),
         Bind.lazySingleton((i) => InserirOrdemDeProducaoUsecaseImpl(i())),
+        Bind.lazySingleton((i) => GerarSequenciamentoUsecaseImpl(i())),
 
         //Stores
         TripleBind.lazySingleton((i) => GetClienteStore(i())),
@@ -89,10 +96,12 @@ class OrdemDeProducaoModule extends NasajonModule {
         TripleBind.lazySingleton((i) => DeletarOrdemDeProducaoStore(i())),
         TripleBind.lazySingleton((i) => OrdemDeProducaoListStore(i(), i())),
         TripleBind.factory((i) => InserirEditarOrdemDeProducaoStore(i(), i())),
+        TripleBind.factory((i) => GerarSequenciamentoStore(i())),
         TripleBind.factory((i) => GetOrdemDeProducaoPorIdStore(i())),
 
         //Controllers
         Bind.factory((i) => OrdemDeProducaoController()),
+        Bind.lazySingleton((i) => SequenciamentoController()),
       ];
 
   @override
@@ -129,6 +138,22 @@ class OrdemDeProducaoModule extends NasajonModule {
             getRoteiroStore: context.read(),
             getClienteStore: context.read(),
             getOperacaoStore: context.read(),
+            connectionStore: context.read(),
+            scaffoldController: context.read(),
+            ordemDeProducaoController: context.read(),
+          ),
+        ),
+        ChildRoute(
+          '/:id/gerar-sequenciamento',
+          child: (context, args) => GerarSequenciamentoPage(
+            id: args.params['id'],
+            getOrdemDeProducaoPorIdStore: context.read(),
+            getProdutoStore: context.read(),
+            getRoteiroStore: context.read(),
+            getClienteStore: context.read(),
+            getOperacaoStore: context.read(),
+            gerarSequenciamentoStore: context.read(),
+            sequenciamentoController: context.read(),
             connectionStore: context.read(),
             scaffoldController: context.read(),
             ordemDeProducaoController: context.read(),
