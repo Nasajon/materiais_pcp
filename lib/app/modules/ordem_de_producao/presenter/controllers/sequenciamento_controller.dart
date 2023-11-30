@@ -20,6 +20,7 @@ class SequenciamentoController {
     ordensIdsNotifier.value = List.from(ordensIdsNotifier.value);
   }
 
+  // Recursos
   final recursosIdsNotifier = ValueNotifier(<String>[]);
   List<String> get recursosIds => recursosIdsNotifier.value;
   void addRecursoId(String value) {
@@ -32,5 +33,22 @@ class SequenciamentoController {
     recursosIdsNotifier.value = List.from(recursosIdsNotifier.value);
   }
 
-  SequenciamentoDTO get sequenciamentoDTO => SequenciamentoDTO(ordensIds: ordensIds, recursosIds: recursosIds);
+  // Restrições
+  final restricaoIdsNotifier = ValueNotifier(<String>[]);
+  List<String> get restricaoIds => restricaoIdsNotifier.value;
+  void addRestricaoId(String value) {
+    restricaoIdsNotifier.value.add(value);
+    restricaoIdsNotifier.value = List.from(restricaoIdsNotifier.value);
+  }
+
+  void removeRestricaoId(String value) {
+    restricaoIdsNotifier.value.remove(value);
+    restricaoIdsNotifier.value = List.from(restricaoIdsNotifier.value);
+  }
+
+  SequenciamentoDTO get sequenciamentoDTO => SequenciamentoDTO(
+        ordensIds: ordensIds,
+        recursosIds: recursosIds,
+        restricoesIds: restricaoIds,
+      );
 }

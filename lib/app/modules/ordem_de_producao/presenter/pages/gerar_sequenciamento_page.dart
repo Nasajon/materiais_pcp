@@ -77,11 +77,33 @@ class GerarSequenciamentoPageState extends State<GerarSequenciamentoPage> {
     getOrdemDeProducaoPorIdStore.getOrdem(id);
 
     getOperacaoDispose = getOperacaoStore.observer(onState: (state) {
-      state.forEach((operacao) => operacao.grupoDeRecursos.forEach((grupoDeRecurso) => grupoDeRecurso.recursos.forEach((recurso) {
-            if (!sequenciamentoController.recursosIds.contains(recurso.id)) {
-              sequenciamentoController.addRecursoId(recurso.id);
-            }
-          })));
+      state.forEach(
+        (operacao) => operacao.grupoDeRecursos.forEach(
+          (grupoDeRecurso) => grupoDeRecurso.recursos.forEach(
+            (recurso) {
+              if (!sequenciamentoController.recursosIds.contains(recurso.id)) {
+                sequenciamentoController.addRecursoId(recurso.id);
+              }
+            },
+          ),
+        ),
+      );
+
+      state.forEach(
+        (operacao) => operacao.grupoDeRecursos.forEach(
+          (grupoDeRecurso) => grupoDeRecurso.recursos.forEach(
+            (recurso) => recurso.grupoDeRestricoes.forEach(
+              (grupoDeRestricao) => grupoDeRestricao.restricoes.forEach(
+                (restricao) {
+                  if (!sequenciamentoController.restricaoIds.contains(restricao.id)) {
+                    sequenciamentoController.addRestricaoId(restricao.id);
+                  }
+                },
+              ),
+            ),
+          ),
+        ),
+      );
 
       sequenciamentoController.addOrdemId(ordemDeProducaoController.ordemDeProducao.id);
     });
@@ -124,7 +146,7 @@ class GerarSequenciamentoPageState extends State<GerarSequenciamentoPage> {
         final mobilePage = Container();
 
         return Visibility(
-          visible: sequenciamento == SequenciamentoAggregate.empty(),
+          visible: true,
           replacement: AdaptiveRedirectorPage(
             mobilePage: mobilePage,
             tabletPage: desktopSequenciamentoPage,

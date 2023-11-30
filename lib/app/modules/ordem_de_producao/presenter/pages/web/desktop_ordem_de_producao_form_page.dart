@@ -74,6 +74,7 @@ class _DesktopOrdemDeProducaoFormPageState extends State<DesktopOrdemDeProducaoF
           getClienteStore: widget.getClienteStore,
           getOperacaoStore: widget.getOperacaoStore,
           formKey: widget.formKey,
+          padding: const EdgeInsets.symmetric(vertical: 48),
         ),
         bottomNavigationBar: ValueListenableBuilder(
           valueListenable: widget.ordemDeProducaoOld,

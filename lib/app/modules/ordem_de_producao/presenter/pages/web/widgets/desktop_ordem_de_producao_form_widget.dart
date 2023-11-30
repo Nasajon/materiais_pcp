@@ -25,6 +25,7 @@ class DesktopOrdemDeProducaoFormWidget extends StatelessWidget {
   final GetClienteStore getClienteStore;
   final GetOperacaoStore getOperacaoStore;
   final GlobalKey<FormState> formKey;
+  final EdgeInsetsGeometry? padding;
 
   const DesktopOrdemDeProducaoFormWidget({
     Key? key,
@@ -34,6 +35,7 @@ class DesktopOrdemDeProducaoFormWidget extends StatelessWidget {
     required this.getClienteStore,
     required this.getOperacaoStore,
     required this.formKey,
+    this.padding,
   }) : super(key: key);
 
   @override
@@ -41,6 +43,7 @@ class DesktopOrdemDeProducaoFormWidget extends StatelessWidget {
     final ordemDeProducao = ordemDeProducaoController.ordemDeProducao;
 
     return SingleChildScrollView(
+      padding: padding,
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 686),
@@ -50,7 +53,6 @@ class DesktopOrdemDeProducaoFormWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 48),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,

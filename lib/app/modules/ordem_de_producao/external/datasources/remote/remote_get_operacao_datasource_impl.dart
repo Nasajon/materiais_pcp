@@ -19,7 +19,7 @@ class RemoteGetOperacaoDatasourceImpl implements RemoteGetOperacaoDatasource {
     try {
       Map<String, dynamic> queryParams = {
         'fields':
-            'operacoes.centro_de_trabalho,operacoes.produtos.produto,operacoes.produtos.unidade,operacoes.grupos_recursos.grupo_de_recurso,operacoes.grupos_recursos.recursos.recurso',
+            'operacoes.centro_de_trabalho,operacoes.produtos.produto,operacoes.produtos.unidade,operacoes.grupos_recursos.grupo_de_recurso,operacoes.grupos_recursos.recursos.recurso, operacoes.grupos_recursos.recursos.grupos_restricoes.grupo_de_restricao,operacoes.grupos_recursos.recursos.grupos_restricoes.restricoes.restricao',
       };
 
       final response = await _clientService.request(

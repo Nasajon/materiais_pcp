@@ -7,7 +7,7 @@ class RemoteSequenciamentoRecursoMapper {
 
   static SequenciamentoRecursoAggregate fromMapToSequenciamentoRecurso(Map<String, dynamic> map) {
     return SequenciamentoRecursoAggregate(
-      recurso: RemoteRecursoMapper.fromMapToRecurso(map['recurso']),
+      recurso: RemoteRecursoMapper.fromMapToSequenciamentoRecurso(map['recurso']),
       eventos: List.from(map['events'])
           .map(
             (map) => RemoteSequencimantoRecursoEventoMapper.fromMapToSequenciamentoRecursoEvento(map),

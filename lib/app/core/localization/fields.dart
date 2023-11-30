@@ -55,6 +55,8 @@ abstract class Fields {
   String get id;
   String get indisponibilidade;
   String get inicio;
+  String get inicioPlanejado;
+  String get fimPlanejado;
   String get intervalo;
   String get intervaloFinal;
   String get intervaloInicial;
@@ -71,6 +73,7 @@ abstract class Fields {
   String get nome;
   String get observacoes;
   String get opcional;
+  String get operacao;
   String get operacoes;
   String get ordemDeProducao;
   String get periodo;

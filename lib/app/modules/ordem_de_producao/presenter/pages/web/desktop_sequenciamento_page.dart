@@ -3,7 +3,6 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
-
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/aggregates/sequenciamento_aggregate.dart';
@@ -11,7 +10,6 @@ import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/aggregates/sequ
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/entities/recurso_entity.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/controllers/sequenciamento_controller.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/stores/gerar_sequenciamento_store.dart';
-import 'package:pcp_flutter/app/modules/recursos/recurso/domain/entities/recurso.dart';
 
 class DesktopSequenciamentoPage extends StatelessWidget {
   final GerarSequenciamentoStore gerarSequenciamentoStore;

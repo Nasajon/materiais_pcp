@@ -101,7 +101,7 @@ class OrdemDeProducaoModule extends NasajonModule {
 
         //Controllers
         Bind.factory((i) => OrdemDeProducaoController()),
-        Bind.lazySingleton((i) => SequenciamentoController()),
+        Bind.factory((i) => SequenciamentoController()),
       ];
 
   @override

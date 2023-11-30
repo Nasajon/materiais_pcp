@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/core/client/interceptors/api_key_interceptor.dart';
@@ -23,6 +21,7 @@ class RemoteSequenciamentoDatasourceImpl implements RemoteSequenciamentoDatasour
       Map<String, dynamic> body = {
         'ordens': sequenciamento.ordensIds,
         'recursos': sequenciamento.recursosIds,
+        'restricoes': sequenciamento.restricoesIds,
       };
 
       final response = await _clientService.request(

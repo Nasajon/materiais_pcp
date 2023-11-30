@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/foundation.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/date_vo.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/entities/operacao_roteiro_entity.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/entities/ordem_producao_entity.dart';

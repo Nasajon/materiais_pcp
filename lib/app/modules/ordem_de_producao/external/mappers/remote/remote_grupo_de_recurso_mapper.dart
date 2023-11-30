@@ -9,7 +9,7 @@ class RemoteGrupoDeRecursoMapper {
       id: map['grupo_de_recurso']['grupo_de_recurso'],
       codigo: map['grupo_de_recurso']['codigo'],
       nome: map['grupo_de_recurso']['nome'],
-      recursos: List.from(map['recursos']).map((map) => RemoteRecursoMapper.fromMapToRecurso(map['recurso'])).toList(),
+      recursos: List.from(map['recursos']).map((map) => RemoteRecursoMapper.fromMapToRecurso(map)).toList(),
     );
   }
 }

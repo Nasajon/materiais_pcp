@@ -129,6 +129,9 @@ class FieldsPt extends Fields {
   String get fim => 'Fim';
 
   @override
+  String get fimPlanejado => 'Fim planejado';
+
+  @override
   String get grupoDeRecurso => 'Grupo de recurso';
 
   @override
@@ -168,16 +171,19 @@ class FieldsPt extends Fields {
   String get inicio => 'Início';
 
   @override
+  String get inicioPlanejado => 'Início planejado';
+
+  @override
   String get intervalo => 'Intervalo';
 
   @override
   String get intervaloFinal => 'Intervalo inicial';
-
   @override
   String get intervaloInicial => 'Intervalo final';
 
   @override
   String get intervalos => 'Intervalos';
+
   @override
   String get limitarCapacidadeDeProducao => 'Limitar capacidade de produção';
 
@@ -212,6 +218,9 @@ class FieldsPt extends Fields {
 
   @override
   String get opcional => 'Opcional';
+
+  @override
+  String get operacao => 'Operação';
 
   @override
   String get operacoes => 'Operações';
@@ -260,6 +269,9 @@ class FieldsPt extends Fields {
   String get recursoApto => 'Recurso apto';
 
   @override
+  String get recursos => 'Recursos';
+
+  @override
   String get recursosAptos => 'Recursos aptos';
 
   @override
@@ -270,6 +282,9 @@ class FieldsPt extends Fields {
 
   @override
   String get restricoes => 'Restrições';
+
+  @override
+  String get resultado => 'Resultado';
 
   @override
   String get roteiro => 'Roteiro';
@@ -321,10 +336,4 @@ class FieldsPt extends Fields {
 
   @override
   String criarEntity(String entity) => 'Criar ${entity.toLowerCase()}';
-
-  @override
-  String get recursos => 'Recursos';
-
-  @override
-  String get resultado => 'Resultado';
 }
