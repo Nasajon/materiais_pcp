@@ -8,7 +8,7 @@ abstract interface class GetClienteUsecase {
 class GetClienteUsecaseImpl implements GetClienteUsecase {
   final GetClienteRepository _getClienteRepository;
 
-  const GetClienteUsecaseImpl(this._getClienteRepository);
+  const GetClienteUsecaseImpl({required GetClienteRepository getClienteRepository}) : _getClienteRepository = getClienteRepository;
 
   @override
   Future<List<ClienteEntity>> call({String search = '', String ultimoId = ''}) {

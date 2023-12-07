@@ -3,4 +3,5 @@ import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/dto/sequenciame
 
 abstract interface class SequenciamentoRepository {
   Future<SequenciamentoAggregate> gerarSequencimaneto(SequenciamentoDTO sequenciamento);
+  Future<bool> sequenciarOrdemDeProducao(SequenciamentoAggregate sequenciamento);
 }

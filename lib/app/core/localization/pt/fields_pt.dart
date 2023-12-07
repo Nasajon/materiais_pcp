@@ -27,6 +27,9 @@ class FieldsPt extends Fields {
   String get adicionarOperacao => 'Adicionar operação';
 
   @override
+  String get aprovarOrdemDeProducao => 'Aprovar ordem de produção';
+
+  @override
   String get cancelar => 'Cancelar';
 
   @override
@@ -175,9 +178,9 @@ class FieldsPt extends Fields {
 
   @override
   String get intervalo => 'Intervalo';
-
   @override
   String get intervaloFinal => 'Intervalo inicial';
+
   @override
   String get intervaloInicial => 'Intervalo final';
 
@@ -330,6 +333,9 @@ class FieldsPt extends Fields {
 
   @override
   String get visualizar => 'Visualizar';
+
+  @override
+  String get visualizarEmGrafico => 'Visualizar em gráfico';
 
   @override
   String get voltar => 'Voltar';

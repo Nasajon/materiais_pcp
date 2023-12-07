@@ -3,6 +3,7 @@ import 'package:pcp_flutter/app/core/modules/domain/value_object/date_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/double_vo.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/enums/origem_ordem_enum.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/enums/prioridade_enum.dart';
+import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/enums/status_ordem_de_producao_enum.dart';
 
 class OrdemDeProducaoEntity {
   final String id;
@@ -10,7 +11,7 @@ class OrdemDeProducaoEntity {
   final DateVO previsaoDeEntrega;
   final DoubleVO quantidade;
   final OrigemOrdemEnum origem;
-  final String status;
+  final StatusOrdemDeProducaoEnum status;
   final PrioridadeEnum prioridade;
 
   const OrdemDeProducaoEntity({
@@ -29,7 +30,7 @@ class OrdemDeProducaoEntity {
     DateVO? previsaoDeEntrega,
     DoubleVO? quantidade,
     OrigemOrdemEnum? origem,
-    String? status,
+    StatusOrdemDeProducaoEnum? status,
     PrioridadeEnum? prioridade,
   }) {
     return OrdemDeProducaoEntity(

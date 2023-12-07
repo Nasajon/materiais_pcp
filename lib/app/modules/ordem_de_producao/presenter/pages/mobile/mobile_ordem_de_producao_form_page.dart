@@ -12,6 +12,7 @@ import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/aggregates/orde
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/entities/cliente_entity.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/entities/produto_entity.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/entities/roteiro_entity.dart';
+import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/enums/status_ordem_de_producao_enum.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/controllers/ordem_de_producao_controller.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/pages/mobile/widgets/mobile_operacao_widget.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/pages/widgets/prioridade_widget.dart';
@@ -67,6 +68,9 @@ class _MobileOrdemDeProducaoFormPageState extends State<MobileOrdemDeProducaoFor
   @override
   Widget build(BuildContext context) {
     final [ordemDeProducao] = context.select(() => [widget.ordemDeProducaoController.ordemDeProducao]);
+
+    final isEnabledForm =
+        ordemDeProducao.status != StatusOrdemDeProducaoEnum.aberta && ordemDeProducao.status != StatusOrdemDeProducaoEnum.aprovada;
 
     return CustomScaffold.titleString(
       widget.ordemDeProducaoOld.value == null
@@ -225,7 +229,10 @@ class _MobileOrdemDeProducaoFormPageState extends State<MobileOrdemDeProducaoFor
                 },
               ),
               const SizedBox(height: 16),
-              PrioridadeWidget(ordemDeProducaoController: widget.ordemDeProducaoController),
+              PrioridadeWidget(
+                ordemDeProducaoController: widget.ordemDeProducaoController,
+                isEnabledForm: isEnabledForm,
+              ),
               const SizedBox(height: 16),
               MobileOperacaoWidget(getOperacaoStore: widget.getOperacaoStore)
             ],

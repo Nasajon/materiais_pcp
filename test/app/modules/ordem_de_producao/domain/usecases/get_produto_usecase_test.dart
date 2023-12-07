@@ -13,7 +13,7 @@ void main() {
 
   setUp(() {
     getProdutoRepository = GetProdutoRepositoryMock();
-    getProdutoUsecase = GetProdutoUsecaseImpl(getProdutoRepository);
+    getProdutoUsecase = GetProdutoUsecaseImpl(getProdutoRepository: getProdutoRepository);
   });
 
   group('GetProdutoUsecaseImpl -', () {

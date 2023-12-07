@@ -5,6 +5,8 @@ abstract interface class OrdemDeProducaoRepository {
 
   Future<OrdemDeProducaoAggregate> getOrdemDeProducaoPorId(String ordemDeProducaoId);
 
+  Future<bool> aprovarOrdemDeProducao(String ordemDeProducaoId);
+
   Future<OrdemDeProducaoAggregate> inserir(OrdemDeProducaoAggregate ordemDeProducao);
 
   Future<bool> atualizar(OrdemDeProducaoAggregate ordemDeProducao);

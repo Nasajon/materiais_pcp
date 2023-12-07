@@ -2,14 +2,14 @@ import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/errors/ordem_de_producao_failure.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/repositories/ordem_de_producao_repository.dart';
 
-abstract interface class DeletarOrdemDeProducaoUsecase {
+abstract interface class AprovarOrdemDeProducaoUsecase {
   Future<bool> call(String ordemDeProducaoId);
 }
 
-class DeletarOrdemDeProducaoUsecaseImpl implements DeletarOrdemDeProducaoUsecase {
+class AprovarOrdemDeProducaoUsecaseImpl implements AprovarOrdemDeProducaoUsecase {
   final OrdemDeProducaoRepository _ordemDeProducaoRepository;
 
-  const DeletarOrdemDeProducaoUsecaseImpl({required OrdemDeProducaoRepository ordemDeProducaoRepository})
+  const AprovarOrdemDeProducaoUsecaseImpl({required OrdemDeProducaoRepository ordemDeProducaoRepository})
       : _ordemDeProducaoRepository = ordemDeProducaoRepository;
 
   @override
@@ -21,6 +21,6 @@ class DeletarOrdemDeProducaoUsecaseImpl implements DeletarOrdemDeProducaoUsecase
       );
     }
 
-    return _ordemDeProducaoRepository.deletar(ordemDeProducaoId);
+    return _ordemDeProducaoRepository.aprovarOrdemDeProducao(ordemDeProducaoId);
   }
 }

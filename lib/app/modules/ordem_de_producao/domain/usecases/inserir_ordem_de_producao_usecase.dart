@@ -10,7 +10,8 @@ abstract interface class InserirOrdemDeProducaoUsecase {
 class InserirOrdemDeProducaoUsecaseImpl implements InserirOrdemDeProducaoUsecase {
   final OrdemDeProducaoRepository _ordemDeProducaoRepository;
 
-  const InserirOrdemDeProducaoUsecaseImpl(this._ordemDeProducaoRepository);
+  const InserirOrdemDeProducaoUsecaseImpl({required OrdemDeProducaoRepository ordemDeProducaoRepository})
+      : _ordemDeProducaoRepository = ordemDeProducaoRepository;
 
   @override
   Future<OrdemDeProducaoAggregate> call(OrdemDeProducaoAggregate ordemDeProducao) {

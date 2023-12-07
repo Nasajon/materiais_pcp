@@ -13,7 +13,7 @@ void main() {
 
   setUp(() {
     ordemDeProducaoRepository = OrdemDeProducaoRepositoryMock();
-    getOrdemDeProducaoUsecase = GetOrdemDeProducaoUsecaseImpl(ordemDeProducaoRepository);
+    getOrdemDeProducaoUsecase = GetOrdemDeProducaoUsecaseImpl(ordemDeProducaoRepository: ordemDeProducaoRepository);
   });
 
   group('GetOrdemDeProducaoUsecaseImpl -', () {

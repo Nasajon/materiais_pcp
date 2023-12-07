@@ -1,23 +1,44 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
-import 'package:pcp_flutter/app/core/localization/localizations.dart';
-import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/aggregates/sequenciamento_recurso_aggregate.dart';
+import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/aggregates/sequenciamento_object_aggregate.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/pages/web/widgets/desktop_linha_sequenciamento_evento_widget.dart';
 
-class DesktopCardSequenciamentoRecursosWidget extends StatefulWidget {
-  final List<SequenciamentoRecursoAggregate> sequenciamentosRecursos;
+class DesktopCardSequenciamentoObjectWidget extends StatefulWidget {
+  final String title;
+  final List<SequenciamentoObjectAggregate> sequenciamentoObject;
 
-  const DesktopCardSequenciamentoRecursosWidget({
+  const DesktopCardSequenciamentoObjectWidget({
     Key? key,
-    required this.sequenciamentosRecursos,
+    required this.title,
+    required this.sequenciamentoObject,
   }) : super(key: key);
 
   @override
-  State<DesktopCardSequenciamentoRecursosWidget> createState() => _DesktopCardSequenciamentoRecursosWidgetState();
+  State<DesktopCardSequenciamentoObjectWidget> createState() => _DesktopCardSequenciamentoObjectWidgetState();
 }
 
-class _DesktopCardSequenciamentoRecursosWidgetState extends State<DesktopCardSequenciamentoRecursosWidget> {
+class _DesktopCardSequenciamentoObjectWidgetState extends State<DesktopCardSequenciamentoObjectWidget> {
+  final listEventoMap = <Map<String, dynamic>>[];
+
+  @override
+  void initState() {
+    super.initState();
+
+    for (var sequenciamentoObject in widget.sequenciamentoObject) {
+      for (var evento in sequenciamentoObject.eventos) {
+        final temEventoNoMap = listEventoMap.where((map) => map['id'] == evento.operacaoRoteiro.operacaoId).toList().isNotEmpty;
+
+        if (!temEventoNoMap) {
+          listEventoMap.add({
+            'id': evento.operacaoRoteiro.operacaoId,
+            'nome': evento.operacaoRoteiro.nome,
+          });
+        }
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
@@ -43,13 +64,26 @@ class _DesktopCardSequenciamentoRecursosWidgetState extends State<DesktopCardSeq
             mainAxisSize: MainAxisSize.max,
             children: [
               Text(
-                translation.fields.recursos,
+                widget.title,
                 style: themeData.textTheme.titleLarge?.copyWith(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              ...widget.sequenciamentosRecursos.map((sequenciamentoRecurso) {
+              ...listEventoMap.map((eventoMap) {
+                final sequenciamentosObject = <SequenciamentoObjectAggregate>[];
+
+                for (var sequenciamentoObject in widget.sequenciamentoObject) {
+                  final temEventoMap = sequenciamentoObject.eventos
+                      .where((evento) => evento.operacaoRoteiro.operacaoId == eventoMap['id'])
+                      .toList()
+                      .isNotEmpty;
+
+                  if (temEventoMap) {
+                    sequenciamentosObject.add(sequenciamentoObject);
+                  }
+                }
+
                 return ExpansionTile(
                   controlAffinity: ListTileControlAffinity.leading,
                   collapsedTextColor: colorTheme?.text,
@@ -59,12 +93,15 @@ class _DesktopCardSequenciamentoRecursosWidgetState extends State<DesktopCardSeq
                   backgroundColor: colorTheme?.background,
                   shape: Border.all(color: colorTheme?.background ?? Colors.transparent),
                   title: Text(
-                    sequenciamentoRecurso.recurso.nome,
+                    eventoMap['nome'],
                   ),
                   children: [
                     Divider(color: colorTheme?.border, height: 1),
                     const SizedBox(height: 16),
-                    DesktopLinhaSequenciamentoEventoWidget(sequenciamentoRecursoEvento: sequenciamentoRecurso.eventos),
+                    DesktopLinhaSequenciamentoEventoWidget(
+                      sequenciamentosObject: sequenciamentosObject,
+                      eventoMap: eventoMap,
+                    ),
                     Divider(color: colorTheme?.border, height: 1),
                   ],
                 );

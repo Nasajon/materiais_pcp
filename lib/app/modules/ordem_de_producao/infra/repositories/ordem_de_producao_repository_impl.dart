@@ -18,6 +18,11 @@ class OrdemDeProducaoRepositoryImpl implements OrdemDeProducaoRepository {
   }
 
   @override
+  Future<bool> aprovarOrdemDeProducao(String ordemDeProducaoId) {
+    return _remoteOrdemDeProducaoDatasource.aprovarOrdemDeProducao(ordemDeProducaoId);
+  }
+
+  @override
   Future<OrdemDeProducaoAggregate> inserir(OrdemDeProducaoAggregate ordemDeProducao) {
     return _remoteOrdemDeProducaoDatasource.inserir(ordemDeProducao);
   }

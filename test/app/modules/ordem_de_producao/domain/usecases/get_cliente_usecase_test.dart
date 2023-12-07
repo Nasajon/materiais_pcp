@@ -13,7 +13,7 @@ void main() {
 
   setUp(() {
     getClienteRepository = GetClienteRepositoryMock();
-    getClienteUsecase = GetClienteUsecaseImpl(getClienteRepository);
+    getClienteUsecase = GetClienteUsecaseImpl(getClienteRepository: getClienteRepository);
   });
 
   group('GetClienteUsecaseImpl -', () {

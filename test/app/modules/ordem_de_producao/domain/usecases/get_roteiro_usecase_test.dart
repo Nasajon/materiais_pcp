@@ -13,7 +13,7 @@ void main() {
 
   setUp(() {
     getRoteiroRepository = GetRoteiroRepositoryMock();
-    getRoteiroUsecase = GetRoteiroUsecaseImpl(getRoteiroRepository);
+    getRoteiroUsecase = GetRoteiroUsecaseImpl(getRoteiroRepository: getRoteiroRepository);
   });
 
   group('GetRoteiroUsecaseImpl -', () {

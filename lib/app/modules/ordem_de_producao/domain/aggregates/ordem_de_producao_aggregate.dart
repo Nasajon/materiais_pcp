@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/date_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/double_vo.dart';
@@ -6,10 +7,12 @@ import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/entities/produt
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/entities/roteiro_entity.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/enums/origem_ordem_enum.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/enums/prioridade_enum.dart';
+import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/enums/status_ordem_de_producao_enum.dart';
 
 class OrdemDeProducaoAggregate {
   final String id;
   final CodigoVO codigo;
+  final StatusOrdemDeProducaoEnum status;
   final ProdutoEntity produto;
   final RoteiroEntity roteiro;
   final ClienteEntity? cliente;
@@ -21,6 +24,7 @@ class OrdemDeProducaoAggregate {
   const OrdemDeProducaoAggregate({
     required this.id,
     required this.codigo,
+    required this.status,
     required this.produto,
     required this.roteiro,
     this.cliente,
@@ -33,6 +37,7 @@ class OrdemDeProducaoAggregate {
   factory OrdemDeProducaoAggregate.empty() {
     return OrdemDeProducaoAggregate(
       id: '',
+      status: StatusOrdemDeProducaoEnum.aberta,
       codigo: CodigoVO(null),
       produto: ProdutoEntity.empty(),
       roteiro: RoteiroEntity.empty(),
@@ -44,6 +49,7 @@ class OrdemDeProducaoAggregate {
   OrdemDeProducaoAggregate copyWith({
     String? id,
     CodigoVO? codigo,
+    StatusOrdemDeProducaoEnum? status,
     ProdutoEntity? produto,
     RoteiroEntity? roteiro,
     ClienteEntity? cliente,
@@ -55,6 +61,7 @@ class OrdemDeProducaoAggregate {
     return OrdemDeProducaoAggregate(
       id: id ?? this.id,
       codigo: codigo ?? this.codigo,
+      status: status ?? this.status,
       produto: produto ?? this.produto,
       roteiro: roteiro ?? this.roteiro,
       cliente: cliente ?? this.cliente,
@@ -71,6 +78,7 @@ class OrdemDeProducaoAggregate {
 
     return other.id == id &&
         other.codigo == codigo &&
+        other.status == status &&
         other.produto == produto &&
         other.roteiro == roteiro &&
         other.cliente == cliente &&
@@ -84,6 +92,7 @@ class OrdemDeProducaoAggregate {
   int get hashCode {
     return id.hashCode ^
         codigo.hashCode ^
+        status.hashCode ^
         produto.hashCode ^
         roteiro.hashCode ^
         cliente.hashCode ^

@@ -11,9 +11,35 @@ class RemoteSequenciamentoMapper {
       tempoFinal: DateVO.date(DateTime.parse(map['tempo_final'])),
       sequenciamentoRecursos: List.from(map['sequenciamento_recursos'])
           .map(
-            (map) => RemoteSequenciamentoRecursoMapper.fromMapToSequenciamentoRecurso(map),
+            (map) => RemoteSequenciamentoObjectMapper.fromMapToSequenciamentoObject(map),
+          )
+          .toList(),
+      sequenciamentoRestricoes: List.from(map['sequenciamento_restricoes'])
+          .map(
+            (map) => RemoteSequenciamentoObjectMapper.fromMapToSequenciamentoObject(map),
           )
           .toList(),
     );
+  }
+
+  static Map<String, dynamic> fromSequenciamentoTopMap(SequenciamentoAggregate sequenciamento) {
+    final map = {
+      "tempo_inicial": sequenciamento.tempoInicial.dateFormat(format: "yyyy-MM-ddThh:mm:ss"),
+      "tempo_final": sequenciamento.tempoFinal.dateFormat(format: "yyyy-MM-ddThh:mm:ss"),
+      "sequenciamento_recursos": sequenciamento.sequenciamentoRecursos
+          .map((recurso) => RemoteSequenciamentoObjectMapper.fromSequenciamentoObjectToMap(
+                recurso,
+                isRecurso: true,
+              ))
+          .toList(),
+      "sequenciamento_restricoes": sequenciamento.sequenciamentoRestricoes
+          .map((restricao) => RemoteSequenciamentoObjectMapper.fromSequenciamentoObjectToMap(
+                restricao,
+                isRecurso: false,
+              ))
+          .toList(),
+    };
+
+    return map;
   }
 }

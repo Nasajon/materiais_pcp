@@ -68,6 +68,24 @@ class RemoteOrdemDeProducaoDatasourceImpl implements RemoteOrdemDeProducaoDataso
   }
 
   @override
+  Future<bool> aprovarOrdemDeProducao(String ordemDeProducaoId) async {
+    try {
+      await _clientService.request(
+        ClientRequestParams(
+          selectedApi: APIEnum.pcp,
+          endPoint: '/ordensdeproducoes/$ordemDeProducaoId/aprovar',
+          method: ClientRequestMethods.GET,
+          interceptors: interceptors,
+        ),
+      );
+
+      return true;
+    } on ClientError catch (e) {
+      throw DatasourceOrdemDeProducaoFailure(errorMessage: e.message, stackTrace: e.stackTrace);
+    }
+  }
+
+  @override
   Future<OrdemDeProducaoAggregate> inserir(OrdemDeProducaoAggregate ordemDeProducao) async {
     try {
       final response = await _clientService.request(

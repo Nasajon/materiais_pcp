@@ -9,7 +9,8 @@ abstract interface class GerarSequenciamentoUsecase {
 class GerarSequenciamentoUsecaseImpl implements GerarSequenciamentoUsecase {
   final SequenciamentoRepository _sequenciamentoRepository;
 
-  const GerarSequenciamentoUsecaseImpl(this._sequenciamentoRepository);
+  const GerarSequenciamentoUsecaseImpl({required SequenciamentoRepository sequenciamentoRepository})
+      : _sequenciamentoRepository = sequenciamentoRepository;
 
   @override
   Future<SequenciamentoAggregate> call(SequenciamentoDTO sequenciamento) {

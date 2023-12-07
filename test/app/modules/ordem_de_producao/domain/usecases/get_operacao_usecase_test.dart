@@ -13,7 +13,7 @@ void main() {
 
   setUp(() {
     getOperacaoRepository = GetOperacaoRepositoryMock();
-    getOperacaoUsecase = GetOperacaoUsecaseImpl(getOperacaoRepository);
+    getOperacaoUsecase = GetOperacaoUsecaseImpl(getOperacaoRepository: getOperacaoRepository);
   });
 
   group('GetOperacaoUsecaseImpl -', () {

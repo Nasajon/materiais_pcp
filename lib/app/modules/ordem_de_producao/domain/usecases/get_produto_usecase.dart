@@ -8,7 +8,7 @@ abstract interface class GetProdutoUsecase {
 class GetProdutoUsecaseImpl implements GetProdutoUsecase {
   final GetProdutoRepository _getProdutoRepository;
 
-  const GetProdutoUsecaseImpl(this._getProdutoRepository);
+  const GetProdutoUsecaseImpl({required GetProdutoRepository getProdutoRepository}) : _getProdutoRepository = getProdutoRepository;
 
   @override
   Future<List<ProdutoEntity>> call({String search = '', String ultimoId = ''}) {

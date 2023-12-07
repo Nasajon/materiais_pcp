@@ -105,6 +105,7 @@ class _MobileOrdemDeProducaoListPageState extends State<MobileOrdemDeProducaoLis
                             key: ValueKey(value),
                             ordemDeProducao: value.ordemDeProducao,
                             deletarOrdemDeProducaoStore: value.deletarOrdemDeProducaoStore,
+                            aprovarOrdemDeProducaoStore: value.aprovarOrdemDeProducaoStore,
                             ordemDeProducaoListStore: widget.ordemDeProducaoListStore,
                           );
                         },

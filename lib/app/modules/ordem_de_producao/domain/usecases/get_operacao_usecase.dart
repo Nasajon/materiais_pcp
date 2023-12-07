@@ -10,7 +10,7 @@ abstract interface class GetOperacaoUsecase {
 class GetOperacaoUsecaseImpl implements GetOperacaoUsecase {
   final GetOperacaoRepository _getOperacaoRepository;
 
-  const GetOperacaoUsecaseImpl(this._getOperacaoRepository);
+  const GetOperacaoUsecaseImpl({required GetOperacaoRepository getOperacaoRepository}) : _getOperacaoRepository = getOperacaoRepository;
 
   @override
   Future<List<OperacaoAggregate>> call(String roteiroId) {

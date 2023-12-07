@@ -142,6 +142,7 @@ class _DesktopOrdemDeProducaoListPageState extends State<DesktopOrdemDeProducaoL
                                   ordemDeProducao: value.ordemDeProducao,
                                   deletarOrdemDeProducaoStore: value.deletarOrdemDeProducaoStore,
                                   ordemDeProducaoListStore: widget.ordemDeProducaoListStore,
+                                  aprovarOrdemDeProducaoStore: value.aprovarOrdemDeProducaoStore,
                                 );
                               }).toList(),
                               const SizedBox(height: 16),

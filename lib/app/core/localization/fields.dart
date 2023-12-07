@@ -8,6 +8,7 @@ abstract class Fields {
   String get adicionarMateriais;
   String get adicionarMaterial;
   String get adicionarOperacao;
+  String get aprovarOrdemDeProducao;
   String get cancelar;
   String get capacidade;
   String get capacidadeDeProducao;
@@ -42,6 +43,7 @@ abstract class Fields {
   String get execucao;
   String get fichaTecnica;
   String get fim;
+  String get fimPlanejado;
   String get grupoDeRecurso;
   String get grupoDeRecursos;
   String get grupoDeRestricao;
@@ -56,7 +58,6 @@ abstract class Fields {
   String get indisponibilidade;
   String get inicio;
   String get inicioPlanejado;
-  String get fimPlanejado;
   String get intervalo;
   String get intervaloFinal;
   String get intervaloInicial;
@@ -88,12 +89,13 @@ abstract class Fields {
   String get quantidadeDeProducao;
   String get razaoDeConversao;
   String get recurso;
-  String get recursos;
   String get recursoApto;
+  String get recursos;
   String get recursosAptos;
   String get remover;
   String get restricao;
   String get restricoes;
+  String get resultado;
   String get roteiro;
   String get roteiroDeProducao;
   String get roteiros;
@@ -109,7 +111,7 @@ abstract class Fields {
   String get usar;
   String get utilizar;
   String get visualizar;
+  String get visualizarEmGrafico;
   String get voltar;
-  String get resultado;
   String criarEntity(String entity);
 }
