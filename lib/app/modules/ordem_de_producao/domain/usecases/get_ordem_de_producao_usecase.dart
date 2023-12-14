@@ -2,7 +2,7 @@ import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/aggregates/orde
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/repositories/ordem_de_producao_repository.dart';
 
 abstract interface class GetOrdemDeProducaoUsecase {
-  Future<List<OrdemDeProducaoAggregate>> call({String search = '', String ultimoId = ''});
+  Future<List<OrdemDeProducaoAggregate>> call({String search = '', String ultimoId = '', String? status});
 }
 
 class GetOrdemDeProducaoUsecaseImpl implements GetOrdemDeProducaoUsecase {
@@ -12,7 +12,7 @@ class GetOrdemDeProducaoUsecaseImpl implements GetOrdemDeProducaoUsecase {
       : _ordemDeProducaoRepository = ordemDeProducaoRepository;
 
   @override
-  Future<List<OrdemDeProducaoAggregate>> call({String search = '', String ultimoId = ''}) {
-    return _ordemDeProducaoRepository.getOrdens(search: search, ultimoId: ultimoId);
+  Future<List<OrdemDeProducaoAggregate>> call({String search = '', String ultimoId = '', String? status}) {
+    return _ordemDeProducaoRepository.getOrdens(search: search, ultimoId: ultimoId, status: status);
   }
 }

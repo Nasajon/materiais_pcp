@@ -8,6 +8,8 @@ class RemoteOperacaoMapper {
 
   static OperacaoAggregate fromMapToOperacaoEntity(Map<String, dynamic> map) {
     return OperacaoAggregate(
+      id: map['operacao'],
+      roteiroId: map['roteiro'],
       ordem: map['ordem'],
       nome: map['nome'],
       centroDeTrabalho: RemoteCentroDeTrabalhoMapper.fromMapToCentroDeTrabalho(map['centro_de_trabalho']),

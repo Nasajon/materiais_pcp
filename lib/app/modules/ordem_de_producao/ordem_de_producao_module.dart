@@ -37,6 +37,7 @@ import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/stores/gerar
 import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/stores/get_cliente_store.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/stores/get_operacao_store.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/stores/get_ordem_de_producao_por_id_store.dart';
+import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/stores/get_ordem_de_producao_store.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/stores/get_produto_store.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/stores/get_roteiro_store.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/stores/inserir_editar_ordem_de_producao_store.dart';
@@ -102,6 +103,7 @@ class OrdemDeProducaoModule extends NasajonModule {
         TripleBind.lazySingleton((i) => DeletarOrdemDeProducaoStore(i())),
         TripleBind.lazySingleton((i) => AprovarOrdemDeProducaoStore(i())),
         TripleBind.lazySingleton((i) => OrdemDeProducaoListStore(i(), i(), i())),
+        TripleBind.factory((i) => GetOrdemDeProducaoStore(i())),
         TripleBind.factory((i) => InserirEditarOrdemDeProducaoStore(i(), i())),
         TripleBind.factory((i) => GerarSequenciamentoStore(i())),
         TripleBind.factory((i) => GetOrdemDeProducaoPorIdStore(i())),
@@ -162,6 +164,7 @@ class OrdemDeProducaoModule extends NasajonModule {
             getRoteiroStore: context.read(),
             getClienteStore: context.read(),
             getOperacaoStore: context.read(),
+            getOrdemDeProducaoStore: context.read(),
             gerarSequenciamentoStore: context.read(),
             sequenciamentoController: context.read(),
             connectionStore: context.read(),

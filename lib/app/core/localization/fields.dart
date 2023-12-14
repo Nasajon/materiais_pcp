@@ -1,5 +1,6 @@
 abstract class Fields {
   String get adicionar;
+  String get adicionarOrdemDeProducao;
   String get adicionarDisponibilidade;
   String get adicionarGrupoDeRecursos;
   String get adicionarGrupoDeRestricoes;

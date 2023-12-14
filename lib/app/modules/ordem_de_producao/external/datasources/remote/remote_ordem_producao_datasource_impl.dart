@@ -15,7 +15,7 @@ class RemoteOrdemDeProducaoDatasourceImpl implements RemoteOrdemDeProducaoDataso
   List<Interceptor> interceptors = [ApiKeyInterceptor(), EntidadesEmpresariaisInterceptor()];
 
   @override
-  Future<List<OrdemDeProducaoAggregate>> getOrdens({String search = '', String ultimoId = ''}) async {
+  Future<List<OrdemDeProducaoAggregate>> getOrdens({String search = '', String ultimoId = '', String? status}) async {
     try {
       Map<String, dynamic> queryParams = {'fields': 'fim,roteiro.unidade,produto,cliente'};
 
@@ -24,6 +24,9 @@ class RemoteOrdemDeProducaoDatasourceImpl implements RemoteOrdemDeProducaoDataso
       }
       if (ultimoId.isNotEmpty) {
         queryParams['after'] = ultimoId;
+      }
+      if (status != null && status.isNotEmpty) {
+        queryParams['status'] = status;
       }
 
       final response = await _clientService.request(

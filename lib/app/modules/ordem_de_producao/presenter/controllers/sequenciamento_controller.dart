@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/aggregates/operacao_aggregate.dart';
+import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/aggregates/ordem_de_producao_aggregate.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/aggregates/sequenciamento_aggregate.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/dto/sequenciamento_dto.dart';
 
@@ -13,11 +15,68 @@ class SequenciamentoController {
   SequenciamentoAggregate get sequenciamento => _sequenciamentoAggregateNotifier.value;
   set sequenciamento(SequenciamentoAggregate value) => _sequenciamentoAggregateNotifier.value = value;
 
-  final ordensIdsNotifier = ValueNotifier(<String>[]);
-  List<String> get ordensIds => ordensIdsNotifier.value;
-  void addOrdemId(String value) {
-    ordensIdsNotifier.value.add(value);
-    ordensIdsNotifier.value = List.from(ordensIdsNotifier.value);
+  // Lista de ordem de produção
+  final _listOrdemProducaoNotifier = RxNotifier(<OrdemDeProducaoAggregate>[]);
+  List<OrdemDeProducaoAggregate> get listOrdemDeProducao => _listOrdemProducaoNotifier.value;
+
+  List<String> get ordensIds => listOrdemDeProducao.map((ordemDeProducao) => ordemDeProducao.id).toList();
+
+  void addOrdemDeProducao(List<OrdemDeProducaoAggregate> listOrdemDeProducao) {
+    _listOrdemProducaoNotifier.value.addAll(listOrdemDeProducao);
+    _listOrdemProducaoNotifier();
+  }
+
+  void atualizarOrdemDeProducao(OrdemDeProducaoAggregate ordemDeProducao) {
+    for (var i = 0; i < listOrdemDeProducao.length; i++) {
+      if (listOrdemDeProducao[i].id == ordemDeProducao.id) {
+        _listOrdemProducaoNotifier.value.setAll(i, [ordemDeProducao]);
+        _listOrdemProducaoNotifier();
+        break;
+      }
+    }
+  }
+
+  // Lista das operacoes
+  final _listOperacoesNotifier = RxNotifier(<OperacaoAggregate>[]);
+  List<OperacaoAggregate> get listOperacoes => _listOperacoesNotifier.value;
+
+  void addOperacao(List<OperacaoAggregate> operacoes) {
+    for (var operacao in operacoes) {
+      bool temOperacao = listOperacoes.where((op) => op.id == operacao.id).isNotEmpty;
+
+      if (!temOperacao) {
+        _listOperacoesNotifier.value.add(operacao);
+        // _listOperacoesNotifier();
+      }
+    }
+
+    for (var operacao in listOperacoes) {
+      operacao.grupoDeRecursos.forEach(
+        (grupoDeRecurso) => grupoDeRecurso.recursos.forEach(
+          (recurso) {
+            if (!recursosIds.contains(recurso.id)) {
+              addRecursoId(recurso.id);
+            }
+          },
+        ),
+      );
+    }
+
+    for (var operacao in listOperacoes) {
+      operacao.grupoDeRecursos.forEach(
+        (grupoDeRecurso) => grupoDeRecurso.recursos.forEach(
+          (recurso) => recurso.grupoDeRestricoes.forEach(
+            (grupoDeRestricao) => grupoDeRestricao.restricoes.forEach(
+              (restricao) {
+                if (!restricaoIds.contains(restricao.id)) {
+                  addRestricaoId(restricao.id);
+                }
+              },
+            ),
+          ),
+        ),
+      );
+    }
   }
 
   // Recursos

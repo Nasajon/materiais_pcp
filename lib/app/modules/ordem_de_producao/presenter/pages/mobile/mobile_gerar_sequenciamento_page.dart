@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:io';
+
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
@@ -9,21 +11,20 @@ import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/aggregates/orde
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/aggregates/sequenciamento_aggregate.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/controllers/ordem_de_producao_controller.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/controllers/sequenciamento_controller.dart';
-import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/pages/web/widgets/desktop_sequenciamento_grafico_gantt_widget.dart';
-import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/pages/web/widgets/desktop_sequenciamento_recursos_widget.dart';
-import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/pages/web/widgets/desktop_sequenciamento_restricoes_widget.dart';
-import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/pages/web/widgets/desktop_sequenciamento_widget.dart';
-import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/pages/web/widgets/desktop_table_ordem_de_producao_widget.dart';
+import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/pages/mobile/widgets/mobile_ordem_de_producao_form_widget.dart';
+import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/pages/mobile/widgets/mobile_sequenciamento_grafico_gantt_widget.dart';
+import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/pages/mobile/widgets/mobile_sequenciamento_recursos_widget.dart';
+import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/pages/mobile/widgets/mobile_sequenciamento_restricoes_widget.dart';
+import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/pages/mobile/widgets/mobile_sequenciamento_widget.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/stores/gerar_sequenciamento_store.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/stores/get_cliente_store.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/stores/get_operacao_store.dart';
-import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/stores/get_ordem_de_producao_store.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/stores/get_produto_store.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/stores/get_roteiro_store.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/stores/inserir_editar_ordem_de_producao_store.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/stores/sequenciar_ordem_de_producao_store.dart';
 
-class DesktopGerarSequenciamentoPage extends StatefulWidget {
+class MobileGerarSequenciamentoPage extends StatefulWidget {
   final GerarSequenciamentoStore gerarSequenciamentoStore;
   final ConfirmarSequenciamentoStore confirmarSequenciamentoStore;
   final InserirEditarOrdemDeProducaoStore inserirEditarOrdemDeProducaoStore;
@@ -31,13 +32,13 @@ class DesktopGerarSequenciamentoPage extends StatefulWidget {
   final GetRoteiroStore getRoteiroStore;
   final GetClienteStore getClienteStore;
   final GetOperacaoStore getOperacaoStore;
-  final GetOrdemDeProducaoStore getOrdemDeProducaoStore;
   final SequenciamentoController sequenciamentoController;
   final InternetConnectionStore connectionStore;
   final CustomScaffoldController scaffoldController;
   final OrdemDeProducaoController ordemDeProducaoController;
+  final GlobalKey<FormState> formKey;
 
-  const DesktopGerarSequenciamentoPage({
+  const MobileGerarSequenciamentoPage({
     Key? key,
     required this.gerarSequenciamentoStore,
     required this.confirmarSequenciamentoStore,
@@ -46,18 +47,18 @@ class DesktopGerarSequenciamentoPage extends StatefulWidget {
     required this.getRoteiroStore,
     required this.getClienteStore,
     required this.getOperacaoStore,
-    required this.getOrdemDeProducaoStore,
     required this.sequenciamentoController,
     required this.connectionStore,
     required this.scaffoldController,
     required this.ordemDeProducaoController,
+    required this.formKey,
   }) : super(key: key);
 
   @override
-  State<DesktopGerarSequenciamentoPage> createState() => _DesktopGerarSequenciamentoPageState();
+  State<MobileGerarSequenciamentoPage> createState() => _MobileGerarSequenciamentoPageState();
 }
 
-class _DesktopGerarSequenciamentoPageState extends State<DesktopGerarSequenciamentoPage> {
+class _MobileGerarSequenciamentoPageState extends State<MobileGerarSequenciamentoPage> {
   GerarSequenciamentoStore get gerarSequenciamentoStore => widget.gerarSequenciamentoStore;
   ConfirmarSequenciamentoStore get confirmarSequenciamentoStore => widget.confirmarSequenciamentoStore;
   InserirEditarOrdemDeProducaoStore get inserirEditarOrdemDeProducaoStore => widget.inserirEditarOrdemDeProducaoStore;
@@ -65,7 +66,6 @@ class _DesktopGerarSequenciamentoPageState extends State<DesktopGerarSequenciame
   GetRoteiroStore get getRoteiroStore => widget.getRoteiroStore;
   GetClienteStore get getClienteStore => widget.getClienteStore;
   GetOperacaoStore get getOperacaoStore => widget.getOperacaoStore;
-  GetOrdemDeProducaoStore get getOrdemDeProducaoStore => widget.getOrdemDeProducaoStore;
   SequenciamentoController get sequenciamentoController => widget.sequenciamentoController;
   InternetConnectionStore get connectionStore => widget.connectionStore;
   CustomScaffoldController get scaffoldController => widget.scaffoldController;
@@ -87,8 +87,14 @@ class _DesktopGerarSequenciamentoPageState extends State<DesktopGerarSequenciame
       onError: (error) => showError(error),
       onState: (operacoes) {
         isLoadingNotifier.value = false;
-        sequenciamentoController.addOperacao(operacoes);
-        containsRestricoesNotifier.value = sequenciamentoController.restricaoIds.isNotEmpty;
+        for (var operacao in operacoes) {
+          for (var grupoDeRecurso in operacao.grupoDeRecursos) {
+            for (var recurso in grupoDeRecurso.recursos) {
+              containsRestricoesNotifier.value = recurso.grupoDeRestricoes.isNotEmpty;
+              break;
+            }
+          }
+        }
       },
     );
 
@@ -156,13 +162,14 @@ class _DesktopGerarSequenciamentoPageState extends State<DesktopGerarSequenciame
           translation.titles.planejarOrdem,
           controller: scaffoldController,
           alignment: Alignment.centerLeft,
-          body: Padding(
-            padding: const EdgeInsets.only(top: 60),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                VerticalStepperWidget(
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 30),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: HorizontalStepperWidget(
                   key: ValueKey(pageIndex),
                   initialValue: pageIndex,
                   steppers: [
@@ -172,47 +179,37 @@ class _DesktopGerarSequenciamentoPageState extends State<DesktopGerarSequenciame
                     StepperComponent(textInfo: translation.fields.resultado),
                   ],
                 ),
-                const SizedBox(width: 60),
-                Container(
-                  constraints: const BoxConstraints(maxWidth: 670),
-                  child: PageView(
-                    key: ValueKey(pageIndex),
-                    controller: PageController(initialPage: pageIndex),
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: [
-                      DesktopTableOrdemDeProducaoWidget(
-                        sequenciamentoController: sequenciamentoController,
-                        ordemDeProducaoController: ordemDeProducaoController,
-                        getRoteiroStore: getRoteiroStore,
-                        getProdutoStore: getProdutoStore,
-                        getClienteStore: getClienteStore,
-                        getOperacaoStore: getOperacaoStore,
-                        getOrdemDeProducaoStore: getOrdemDeProducaoStore,
-                      ),
-                      // DesktopOrdemDeProducaoFormWidget(
-                      //   ordemDeProducaoController: ordemDeProducaoController,
-                      //   getRoteiroStore: getRoteiroStore,
-                      //   getProdutoStore: getProdutoStore,
-                      //   getClienteStore: getClienteStore,
-                      //   getOperacaoStore: getOperacaoStore,
-                      //   formKey: widget.formKey,
-                      //   padding: const EdgeInsets.symmetric(vertical: 6),
-                      // ),
-                      DesktopSequenciamentoRecursosWidget(
+              ),
+              const SizedBox(height: 32),
+              Flexible(
+                child: PageView(
+                  key: ValueKey(pageIndex),
+                  controller: PageController(initialPage: pageIndex),
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: [
+                    MobileOrdemDeProducaoFormWidget(
+                      ordemDeProducaoController: ordemDeProducaoController,
+                      getRoteiroStore: getRoteiroStore,
+                      getProdutoStore: getProdutoStore,
+                      getClienteStore: getClienteStore,
+                      getOperacaoStore: getOperacaoStore,
+                      formKey: widget.formKey,
+                      padding: const EdgeInsets.all(16),
+                    ),
+                    MobileSequenciamentoRecursosWidget(
+                      getOperacaoStore: getOperacaoStore,
+                      sequenciamentoController: sequenciamentoController,
+                    ),
+                    if (containsRestricoes)
+                      MobileSequenciamentoRestricoesWidget(
                         getOperacaoStore: getOperacaoStore,
                         sequenciamentoController: sequenciamentoController,
                       ),
-                      if (containsRestricoes)
-                        DesktopSequenciamentoRestricoesWidget(
-                          getOperacaoStore: getOperacaoStore,
-                          sequenciamentoController: sequenciamentoController,
-                        ),
-                      DesktopSquenciamentoWidget(sequenciamentoController: sequenciamentoController)
-                    ],
-                  ),
+                    MobileSquenciamentoWidget(sequenciamentoController: sequenciamentoController)
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
           bottomNavigationBar: ValueListenableBuilder(
             valueListenable: isLoadingNotifier,
@@ -226,60 +223,64 @@ class _DesktopGerarSequenciamentoPageState extends State<DesktopGerarSequenciame
               }
 
               return ContainerNavigationBarWidget(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Visibility(
-                      visible: ((containsRestricoes && pageIndex > 2) || (!containsRestricoes && pageIndex > 1)) &&
-                          sequenciamentoController.sequenciamento != SequenciamentoAggregate.empty(),
-                      child: CustomTextButton(
-                        title: translation.fields.visualizarEmGrafico,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  reverse: true,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Visibility(
+                        visible: (Platform.isAndroid || Platform.isIOS) &&
+                            ((containsRestricoes && pageIndex > 2) || (!containsRestricoes && pageIndex > 1)) &&
+                            sequenciamentoController.sequenciamento != SequenciamentoAggregate.empty(),
+                        child: CustomTextButton(
+                          title: translation.fields.visualizarEmGrafico,
+                          isEnabled: !isLoading,
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return Dialog.fullscreen(
+                                    child: MobileSequenciamentoGraficoGantt(
+                                      sequenciamentoController: sequenciamentoController,
+                                      connectionStore: connectionStore,
+                                      scaffoldController: scaffoldController,
+                                    ),
+                                  );
+                                });
+                          },
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Visibility(
+                        visible: pageIndex > 0,
+                        child: CustomTextButton(
+                          title: translation.fields.voltar,
+                          isEnabled: !isLoading,
+                          onPressed: () => sequenciamentoController.pageIndex = pageIndex - 1,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      CustomPrimaryButton(
+                        title: buttonPrimaryText,
                         isEnabled: !isLoading,
+                        isLoading: isLoading,
                         onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return Dialog.fullscreen(
-                                child: DesktopSequenciamentoGraficoGantt(
-                                  sequenciamentoController: sequenciamentoController,
-                                  connectionStore: connectionStore,
-                                  scaffoldController: scaffoldController,
-                                ),
-                              );
-                            },
-                          );
+                          if (pageIndex < 2) {
+                            if (pageIndex == 0 && widget.formKey.currentState != null && widget.formKey.currentState!.validate()) {
+                              sequenciamentoController.pageIndex = pageIndex + 1;
+                            } else if (pageIndex != 0) {
+                              sequenciamentoController.pageIndex = pageIndex + 1;
+                            }
+                          } else if ((containsRestricoes && pageIndex == 2) || (!containsRestricoes && pageIndex == 1)) {
+                            gerarSequenciamentoStore.gerarSequenciamento(sequenciamentoController.sequenciamentoDTO);
+                          } else {
+                            inserirEditarOrdemDeProducaoStore.atualizar(ordemDeProducaoController.ordemDeProducao);
+                          }
                         },
                       ),
-                    ),
-                    const SizedBox(width: 10),
-                    Visibility(
-                      visible: pageIndex > 0,
-                      child: CustomTextButton(
-                        title: translation.fields.voltar,
-                        isEnabled: !isLoading,
-                        onPressed: () => sequenciamentoController.pageIndex = pageIndex - 1,
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    CustomPrimaryButton(
-                      title: buttonPrimaryText,
-                      isEnabled: !isLoading,
-                      isLoading: isLoading,
-                      onPressed: () {
-                        if (pageIndex < 2) {
-                          if (pageIndex == 0) {
-                            sequenciamentoController.pageIndex = pageIndex + 1;
-                          } else if (pageIndex != 0) {
-                            sequenciamentoController.pageIndex = pageIndex + 1;
-                          }
-                        } else if ((containsRestricoes && pageIndex == 2) || (!containsRestricoes && pageIndex == 1)) {
-                          gerarSequenciamentoStore.gerarSequenciamento(sequenciamentoController.sequenciamentoDTO);
-                        } else {
-                          inserirEditarOrdemDeProducaoStore.atualizar(ordemDeProducaoController.ordemDeProducao);
-                        }
-                      },
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               );
             },

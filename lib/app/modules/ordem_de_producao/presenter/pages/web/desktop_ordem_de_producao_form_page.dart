@@ -53,7 +53,7 @@ class _DesktopOrdemDeProducaoFormPageState extends State<DesktopOrdemDeProducaoF
     super.initState();
 
     if (widget.ordemDeProducaoOld.value != null) {
-      widget.getOperacaoStore.getList(widget.ordemDeProducaoController.ordemDeProducao.roteiro.id);
+      widget.getOperacaoStore.getList([widget.ordemDeProducaoController.ordemDeProducao.roteiro.id]);
     }
   }
 

@@ -172,7 +172,7 @@ class DesktopOrdemDeProducaoFormWidget extends StatelessWidget {
                             },
                             onSelected: (roteiro) {
                               if (roteiro != null && roteiro != ordemDeProducao.roteiro) {
-                                getOperacaoStore.getList(roteiro.id);
+                                getOperacaoStore.getList([roteiro.id]);
                               } else {
                                 getOperacaoStore.cleanList();
                               }

@@ -1,7 +1,7 @@
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/aggregates/ordem_de_producao_aggregate.dart';
 
 abstract interface class RemoteOrdemDeProducaoDatasource {
-  Future<List<OrdemDeProducaoAggregate>> getOrdens({String search = '', String ultimoId = ''});
+  Future<List<OrdemDeProducaoAggregate>> getOrdens({String search = '', String ultimoId = '', String? status});
 
   Future<OrdemDeProducaoAggregate> getOrdemDeProducaoPorId(String ordemDeProducaoId);
 
