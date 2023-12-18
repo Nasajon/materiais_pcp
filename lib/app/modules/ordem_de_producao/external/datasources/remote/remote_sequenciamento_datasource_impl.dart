@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/core/client/interceptors/api_key_interceptor.dart';
@@ -47,7 +45,6 @@ class RemoteSequenciamentoDatasourceImpl implements RemoteSequenciamentoDatasour
   @override
   Future<bool> sequenciarOrdemDeProducao(SequenciamentoAggregate sequenciamento) async {
     try {
-      print(jsonEncode(RemoteSequenciamentoMapper.fromSequenciamentoTopMap(sequenciamento)));
       await _clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,

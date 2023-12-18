@@ -5,7 +5,6 @@ import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart' hide showDialog;
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
-import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/aggregates/ordem_de_producao_aggregate.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/aggregates/sequenciamento_aggregate.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/controllers/ordem_de_producao_controller.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/controllers/sequenciamento_controller.dart';
@@ -73,7 +72,6 @@ class _DesktopGerarSequenciamentoPageState extends State<DesktopGerarSequenciame
 
   late Disposer operacoesDisposer;
   late Disposer gerarSequenciamentoDisposer;
-  late Disposer inserirEditarOrdemDeProducaoDisposer;
   late Disposer confirmarSequenciamentoDisposer;
   final containsRestricoesNotifier = ValueNotifier(false);
   final isLoadingNotifier = ValueNotifier(false);
@@ -89,20 +87,6 @@ class _DesktopGerarSequenciamentoPageState extends State<DesktopGerarSequenciame
         isLoadingNotifier.value = false;
         sequenciamentoController.addOperacao(operacoes);
         containsRestricoesNotifier.value = sequenciamentoController.restricaoIds.isNotEmpty;
-      },
-    );
-
-    inserirEditarOrdemDeProducaoDisposer = inserirEditarOrdemDeProducaoStore.observer(
-      onLoading: (value) => isLoadingNotifier.value = value,
-      onError: (error) => showError(error),
-      onState: (state) {
-        isLoadingNotifier.value = false;
-        final ordemDeProducao = state;
-
-        if (ordemDeProducao != OrdemDeProducaoAggregate.empty()) {
-          ordemDeProducaoController.ordemDeProducao = ordemDeProducao;
-          confirmarSequenciamentoStore.confirmarSequenciamentoOrdemDeProducao(sequenciamentoController.sequenciamento);
-        }
       },
     );
 
@@ -138,7 +122,6 @@ class _DesktopGerarSequenciamentoPageState extends State<DesktopGerarSequenciame
   void dispose() {
     operacoesDisposer();
     gerarSequenciamentoDisposer();
-    inserirEditarOrdemDeProducaoDisposer();
     confirmarSequenciamentoDisposer();
     super.dispose();
   }
@@ -151,7 +134,7 @@ class _DesktopGerarSequenciamentoPageState extends State<DesktopGerarSequenciame
 
     return ValueListenableBuilder(
       valueListenable: containsRestricoesNotifier,
-      builder: (context, containsRestricoes, _) {
+      builder: (_, containsRestricoes, __) {
         return CustomScaffold.titleString(
           translation.titles.planejarOrdem,
           controller: scaffoldController,
@@ -188,16 +171,8 @@ class _DesktopGerarSequenciamentoPageState extends State<DesktopGerarSequenciame
                         getClienteStore: getClienteStore,
                         getOperacaoStore: getOperacaoStore,
                         getOrdemDeProducaoStore: getOrdemDeProducaoStore,
+                        inserirEditarOrdemDeProducaoStore: inserirEditarOrdemDeProducaoStore,
                       ),
-                      // DesktopOrdemDeProducaoFormWidget(
-                      //   ordemDeProducaoController: ordemDeProducaoController,
-                      //   getRoteiroStore: getRoteiroStore,
-                      //   getProdutoStore: getProdutoStore,
-                      //   getClienteStore: getClienteStore,
-                      //   getOperacaoStore: getOperacaoStore,
-                      //   formKey: widget.formKey,
-                      //   padding: const EdgeInsets.symmetric(vertical: 6),
-                      // ),
                       DesktopSequenciamentoRecursosWidget(
                         getOperacaoStore: getOperacaoStore,
                         sequenciamentoController: sequenciamentoController,
@@ -275,7 +250,7 @@ class _DesktopGerarSequenciamentoPageState extends State<DesktopGerarSequenciame
                         } else if ((containsRestricoes && pageIndex == 2) || (!containsRestricoes && pageIndex == 1)) {
                           gerarSequenciamentoStore.gerarSequenciamento(sequenciamentoController.sequenciamentoDTO);
                         } else {
-                          inserirEditarOrdemDeProducaoStore.atualizar(ordemDeProducaoController.ordemDeProducao);
+                          confirmarSequenciamentoStore.confirmarSequenciamentoOrdemDeProducao(sequenciamentoController.sequenciamento);
                         }
                       },
                     ),

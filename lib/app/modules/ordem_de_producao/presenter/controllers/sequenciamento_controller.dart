@@ -36,6 +36,11 @@ class SequenciamentoController {
     }
   }
 
+  void deletarOrdemdeProducao(OrdemDeProducaoAggregate ordemDeProducao) {
+    _listOrdemProducaoNotifier.value.removeWhere((element) => element.id == ordemDeProducao.id);
+    _listOrdemProducaoNotifier();
+  }
+
   // Lista das operacoes
   final _listOperacoesNotifier = RxNotifier(<OperacaoAggregate>[]);
   List<OperacaoAggregate> get listOperacoes => _listOperacoesNotifier.value;
