@@ -121,7 +121,7 @@ class _DesktopTableOrdemDeProducaoWidgetState extends State<DesktopTableOrdemDeP
       );
     });
 
-    if (response != null && response is List<OrdemDeProducaoAggregate>) {
+    if (response != null && response is List<OrdemDeProducaoAggregate> && response.isNotEmpty) {
       widget.sequenciamentoController.addOrdemDeProducao(response);
       widget.getOperacaoStore.getList(response.map((ordem) => ordem.roteiro.id).toList());
     }

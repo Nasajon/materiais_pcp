@@ -94,7 +94,7 @@ class _OrdemDeProducaoItemWidgetState extends State<OrdemDeProducaoItemWidget> {
         return ListTileWidget(
           key: widget.key,
           title: widget.ordemDeProducao.produto.nome,
-          subtitle: '',
+          subtitle: '${translation.fields.status}: ${widget.ordemDeProducao.status.name}',
           trailing: !isLoading
               ? PopupMenuButton(
                   icon: Icon(

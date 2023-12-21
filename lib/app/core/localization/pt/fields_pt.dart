@@ -311,6 +311,9 @@ class FieldsPt extends Fields {
   String get sequenciarOperacoes => 'Sequenciar operações';
 
   @override
+  String get status => 'Status';
+
+  @override
   String get tempo => 'Tempo';
 
   @override

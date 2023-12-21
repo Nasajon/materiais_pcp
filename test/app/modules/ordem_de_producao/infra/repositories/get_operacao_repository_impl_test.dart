@@ -21,9 +21,9 @@ void main() {
     group('remote -', () {
       group('sucesso -', () {
         test('Deve retornar uma lista de operações quando informar o codigo do roteiro.', () async {
-          when(() => remoteGetOperacaoDatasource('1')).thenAnswer((_) async => <OperacaoAggregate>[]);
+          when(() => remoteGetOperacaoDatasource(['1'])).thenAnswer((_) async => <OperacaoAggregate>[]);
 
-          final response = await getOperacaoRepository('1');
+          final response = await getOperacaoRepository(['1']);
 
           expect(response, isA<List<OperacaoAggregate>>());
         });
@@ -31,11 +31,11 @@ void main() {
 
       group('falha -', () {
         test('Deve retornar um OrdemDeProducaoFailure quando ocorrer erro mapeado no Datasource.', () async {
-          when(() => remoteGetOperacaoDatasource('')).thenThrow(
+          when(() => remoteGetOperacaoDatasource([])).thenThrow(
             DatasourceOrdemDeProducaoFailure(errorMessage: 'error', stackTrace: StackTrace.current),
           );
 
-          expect(() => getOperacaoRepository(''), throwsA(isA<OrdemDeProducaoFailure>()));
+          expect(() => getOperacaoRepository([]), throwsA(isA<OrdemDeProducaoFailure>()));
         });
       });
     });

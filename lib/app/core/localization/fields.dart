@@ -1,6 +1,5 @@
 abstract class Fields {
   String get adicionar;
-  String get adicionarOrdemDeProducao;
   String get adicionarDisponibilidade;
   String get adicionarGrupoDeRecursos;
   String get adicionarGrupoDeRestricoes;
@@ -9,6 +8,7 @@ abstract class Fields {
   String get adicionarMateriais;
   String get adicionarMaterial;
   String get adicionarOperacao;
+  String get adicionarOrdemDeProducao;
   String get aprovarOrdemDeProducao;
   String get cancelar;
   String get capacidade;
@@ -103,6 +103,7 @@ abstract class Fields {
   String get salvar;
   String get semOperacoes;
   String get sequenciarOperacoes;
+  String get status;
   String get tempo;
   String get tipo;
   String get tipoDeRecurso;

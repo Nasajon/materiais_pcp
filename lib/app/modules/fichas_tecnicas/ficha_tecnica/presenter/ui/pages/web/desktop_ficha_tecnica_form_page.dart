@@ -48,7 +48,7 @@ class DesktopFichaTecnicaFormPage extends StatefulWidget {
 }
 
 class _DesktopFichaTecnicaFormStatePage extends State<DesktopFichaTecnicaFormPage> {
-  ValueNotifier<int> get page => widget.pageNotifier;
+  ValueNotifier<int> get pageNotifier => widget.pageNotifier;
   GlobalKey<FormState> get dadosGeraisFormKey => widget.dadosGeraisFormKey;
   GlobalKey<FormState> get horariosFormKey => widget.horariosFormKey;
   ProdutoListStore get produtoListStore => widget.produtoListStore;
@@ -61,17 +61,44 @@ class _DesktopFichaTecnicaFormStatePage extends State<DesktopFichaTecnicaFormPag
   bool get descartarEdicao => widget.fichaTecnicaFormController.fichaTecnica != FichaTecnicaAggregate.empty();
   late final PageController pageController;
 
+  late final Disposer inserirEditarFichaTecnicaDisposer;
+
   @override
   void initState() {
     super.initState();
-    pageController = PageController(initialPage: page.value);
+    pageController = PageController(initialPage: pageNotifier.value);
+
+    inserirEditarFichaTecnicaDisposer = inserirEditarFichaTecnicaStore.observer(
+      onLoading: (value) => setState(() {}),
+      onError: (error) {
+        if (error is Failure) {
+          Asuka.showDialog(
+            barrierColor: Colors.black38,
+            builder: (context) {
+              return ErrorModal(errorMessage: error.errorMessage ?? '');
+            },
+          );
+        }
+        setState(() {});
+      },
+      onState: (state) {
+        if (state != null) {
+          fichaTecnicaListStore.addFichaTecnica(state);
+          Modular.to.pop();
+          NotificationSnackBar.showSnackBar(
+            translation.messages.editouAEntidadeComSucesso(translation.fields.fichaTecnica, artigo: ArtigoEnum.artigoFeminino),
+            themeData: Theme.of(context),
+          );
+        }
+      },
+    );
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       pageController.addListener(() {
         if (pageController.positions.isNotEmpty && pageController.page != null) {
-          page.value = (pageController.page?.round() ?? 0);
+          pageNotifier.value = (pageController.page?.round() ?? 0);
         } else {
-          page.value = pageController.initialPage;
+          pageNotifier.value = pageController.initialPage;
         }
       });
     });
@@ -85,7 +112,7 @@ class _DesktopFichaTecnicaFormStatePage extends State<DesktopFichaTecnicaFormPag
   }
 
   bool _fichaTecnicaIsValid() {
-    switch (page.value + 1) {
+    switch (pageNotifier.value + 1) {
       case 1:
         return dadosGeraisFormKey.currentState != null &&
             dadosGeraisFormKey.currentState!.validate() &&
@@ -102,12 +129,12 @@ class _DesktopFichaTecnicaFormStatePage extends State<DesktopFichaTecnicaFormPag
   void dispose() {
     widget.fichaTecnicaFormController.resetOld();
     pageController.dispose();
+    inserirEditarFichaTecnicaDisposer();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
     final l10n = translation;
 
     void showDialogCancel() {
@@ -141,8 +168,8 @@ class _DesktopFichaTecnicaFormStatePage extends State<DesktopFichaTecnicaFormPag
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ValueListenableBuilder(
-                valueListenable: page,
-                builder: (_, __, ___) {
+                valueListenable: pageNotifier,
+                builder: (_, page, ___) {
                   return VerticalStepperWidget(
                     pageController: pageController,
                     isStepperClickable: true,
@@ -184,76 +211,45 @@ class _DesktopFichaTecnicaFormStatePage extends State<DesktopFichaTecnicaFormPag
           ],
         ),
       ),
-      bottomNavigationBar: TripleBuilder<InserirEditarFichaTecnicaStore, FichaTecnicaAggregate?>(
-        store: inserirEditarFichaTecnicaStore,
-        builder: (context, triple) {
-          final error = triple.error;
-          if (!triple.isLoading && error != null && error is Failure) {
-            Asuka.showDialog(
-              barrierColor: Colors.black38,
-              builder: (context) {
-                return ErrorModal(errorMessage: (triple.error as Failure).errorMessage ?? '');
-              },
-            );
-          }
-
-          final fichaTecnica = triple.state;
-          if (triple.isLoading == false && fichaTecnica != null) {
-            fichaTecnicaListStore.addFichaTecnica(fichaTecnica);
-            Modular.to.pop();
-            NotificationSnackBar.showSnackBar(
-              l10n.messages.editouAEntidadeComSucesso(l10n.titles.fichaTecnica, artigo: ArtigoEnum.artigoFeminino),
-              themeData: themeData,
-            );
-          }
-
-          return RxBuilder(
-            builder: (context) {
-              final descartarEdicao = fichaTecnicaFormController.fichaTecnica != FichaTecnicaAggregate.empty();
-
-              return ContainerNavigationBarWidget(
-                child: ValueListenableBuilder(
-                    valueListenable: page,
-                    builder: (context, page, child) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          CustomTextButton(
-                            title: descartarEdicao ? l10n.fields.descartar : l10n.fields.cancelar,
-                            isEnabled: !triple.isLoading,
-                            onPressed: showDialogCancel,
-                          ),
-                          const SizedBox(width: 10),
-                          Visibility(
-                            visible: page > 0,
-                            child: CustomOutlinedButton(
-                              title: l10n.fields.voltar,
-                              isEnabled: !triple.isLoading,
-                              onPressed: () {
-                                pageController.previousPage(duration: const Duration(microseconds: 1), curve: Curves.ease);
-                              },
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          CustomPrimaryButton(
-                            title: page + 1 < 2 ? l10n.fields.continuar : l10n.fields.criar,
-                            isEnabled: !triple.isLoading,
-                            isLoading: triple.isLoading,
-                            onPressed: () async {
-                              if (page + 1 < 2 && _fichaTecnicaIsValid()) {
-                                pageController.nextPage(duration: const Duration(microseconds: 1), curve: Curves.ease);
-                              } else if (_fichaTecnicaIsValid() && fichaTecnicaFormController.fichaTecnica.isValid) {
-                                inserirEditarFichaTecnicaStore.adicionarFichaTecnica(fichaTecnicaFormController.fichaTecnica);
-                              }
-                            },
-                          )
-                        ],
-                      );
-                    }),
+      bottomNavigationBar: ContainerNavigationBarWidget(
+        child: ValueListenableBuilder(
+            valueListenable: pageNotifier,
+            builder: (context, page, child) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  CustomTextButton(
+                    title: descartarEdicao ? l10n.fields.descartar : l10n.fields.cancelar,
+                    isEnabled: !inserirEditarFichaTecnicaStore.isLoading,
+                    onPressed: showDialogCancel,
+                  ),
+                  const SizedBox(width: 10),
+                  Visibility(
+                    visible: page > 0,
+                    child: CustomOutlinedButton(
+                      title: l10n.fields.voltar,
+                      isEnabled: !inserirEditarFichaTecnicaStore.isLoading,
+                      onPressed: () {
+                        pageController.previousPage(duration: const Duration(microseconds: 1), curve: Curves.ease);
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  CustomPrimaryButton(
+                    title: page + 1 < 2 ? l10n.fields.continuar : l10n.fields.criar,
+                    isEnabled: !inserirEditarFichaTecnicaStore.isLoading,
+                    isLoading: inserirEditarFichaTecnicaStore.isLoading,
+                    onPressed: () async {
+                      if (page + 1 < 2 && _fichaTecnicaIsValid()) {
+                        pageController.nextPage(duration: const Duration(microseconds: 1), curve: Curves.ease);
+                      } else if (_fichaTecnicaIsValid() && fichaTecnicaFormController.fichaTecnica.isValid) {
+                        inserirEditarFichaTecnicaStore.adicionarFichaTecnica(fichaTecnicaFormController.fichaTecnica);
+                      }
+                    },
+                  )
+                ],
               );
-            },
-          );
-        },
+            }),
       ),
     );
   }

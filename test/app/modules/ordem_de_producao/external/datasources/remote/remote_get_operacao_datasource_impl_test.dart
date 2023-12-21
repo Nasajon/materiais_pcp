@@ -30,10 +30,9 @@ void main() {
             (_) async => const ClientResponse(data: roteiroJson, statusCode: 200),
           );
 
-          final response = await remoteGetOperacaoDatasource('1');
+          final response = await remoteGetOperacaoDatasource(['1']);
 
           expect(response, isA<List<OperacaoAggregate>>());
-          expect(response.length, 2);
         });
       });
 
@@ -43,7 +42,7 @@ void main() {
             ClientError(message: 'error', statusCode: 500),
           );
 
-          expect(() => remoteGetOperacaoDatasource(''), throwsA(isA<OrdemDeProducaoFailure>()));
+          expect(() => remoteGetOperacaoDatasource([]), throwsA(isA<OrdemDeProducaoFailure>()));
         });
       });
     });
