@@ -14,3 +14,7 @@ class DatasourceRestricaoFailure extends RestricaoFailure {
     super.stackTrace,
   });
 }
+
+class RestricaoInvalidCentroDeTrabalhoIdError extends RestricaoFailure {
+  RestricaoInvalidCentroDeTrabalhoIdError({super.errorMessage, super.stackTrace});
+}

@@ -6,14 +6,18 @@ import 'package:pcp_flutter/app/modules/recursos/recurso/domain/usecases/delete_
 import 'package:pcp_flutter/app/modules/recursos/recurso/domain/usecases/get_centro_de_trabalho_usecase.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/domain/usecases/get_grupo_de_recurso_usecase.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/domain/usecases/get_recurso_recente_usecase.dart';
+import 'package:pcp_flutter/app/modules/recursos/recurso/domain/usecases/get_turno_de_trabalho_usecase.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/external/datasources/local/get_grupo_de_recurso_local_datasource_impl.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/external/datasources/remote/get_centro_de_trabalho_datasource_impl.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/external/datasources/remote/get_grupo_de_recurso_datasource_impl.dart';
+import 'package:pcp_flutter/app/modules/recursos/recurso/external/datasources/remote/remote_get_turno_de_trabalho_datasource_impl.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/infra/repositories/get_centro_de_trabalho_repository_impl.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/infra/repositories/get_grupo_de_recurso_repository_impl.dart';
+import 'package:pcp_flutter/app/modules/recursos/recurso/infra/repositories/get_turno_de_trabalho_repository_impl.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/presenter/controllers/recurso_controller.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/presenter/stores/get_centro_de_trabalho_store.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/presenter/stores/get_grupo_de_recurso_store.dart';
+import 'package:pcp_flutter/app/modules/recursos/recurso/presenter/stores/get_turno_de_trabalho_store.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/presenter/ui/pages/recurso_form_page.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/presenter/ui/pages/recurso_list_page.dart';
 
@@ -51,11 +55,13 @@ class RecursoModule extends NasajonModule {
         Bind.lazySingleton((i) => GetGrupoDeRecursoDatasourceImpl(i())),
         Bind.lazySingleton((i) => GetGrupoDeRecursoLocalDatasourceImpl(i())),
         Bind.lazySingleton((i) => GetCentroDeTrabalhoDatasourceImpl(i())),
+        Bind.lazySingleton((i) => RemoteGetTurnoDeTrabalhoDatasourceImpl(i())),
 
         //Repositories
         Bind.lazySingleton((i) => RecursoRepositoryImpl(i())),
         Bind.lazySingleton((i) => GetGrupoDeRecursoRepositoryImpl(i(), i(), i())),
         Bind.lazySingleton((i) => GetCentroDeTrabalhoRepositoryImpl(i())),
+        Bind.lazySingleton((i) => GetTurnoDeTrabalhoRepositoryImpl(i())),
 
         //UseCases
         Bind.lazySingleton((i) => GetRecursoListUsecaseImpl(i())),
@@ -65,12 +71,14 @@ class RecursoModule extends NasajonModule {
         Bind.lazySingleton((i) => GetGrupoDeRecursoUsecaseImpl(i())),
         Bind.lazySingleton((i) => DeleteRecursoUsecaseImpl(i())),
         Bind.lazySingleton((i) => GetCentroDeTrabalhoUsecaseImpl(i())),
+        Bind.lazySingleton((i) => GetTurnoDeTrabalhoUsecaseImpl(i())),
 
         //Stores
         Bind.lazySingleton((i) => RecursoListStore(i(), i(), i())),
         Bind.factory((i) => RecursoFormStore(i(), i())),
         TripleBind.lazySingleton((i) => GetGrupoDeRecursoStore(i())),
         TripleBind.lazySingleton((i) => GetCentroDeTrabalhoStore(i())),
+        TripleBind.lazySingleton((i) => GetTurnoDeTrabalhoStore(i())),
 
         //Controller
         Bind.lazySingleton((i) => RecursoController()),
@@ -92,6 +100,7 @@ class RecursoModule extends NasajonModule {
             recursoFormStore: context.read(),
             getGrupoDeRecursoStore: context.read(),
             getCentroDeTrabalhoStore: context.read(),
+            getTurnoDeTrabalhoStore: context.read(),
             recursoController: context.read(),
             connectionStore: context.read(),
             scaffoldController: context.read(),
@@ -104,6 +113,7 @@ class RecursoModule extends NasajonModule {
             recursoFormStore: context.read(),
             getGrupoDeRecursoStore: context.read(),
             getCentroDeTrabalhoStore: context.read(),
+            getTurnoDeTrabalhoStore: context.read(),
             recursoController: context.read(),
             connectionStore: context.read(),
             scaffoldController: context.read(),

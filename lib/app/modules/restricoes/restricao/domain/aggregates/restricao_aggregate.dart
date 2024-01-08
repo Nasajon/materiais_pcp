@@ -4,6 +4,8 @@ import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart'
 import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/modules/restricoes/common/domain/entities/grupo_de_restricao_entity.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/domain/entities/indisponibilidade_entity.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/domain/entities/restricao_centro_de_trabalho.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/domain/entities/turno_de_trabalho_entity.dart';
 
 class RestricaoAggregate {
   final String? id;
@@ -11,6 +13,8 @@ class RestricaoAggregate {
   final TextVO descricao;
   final GrupoDeRestricaoEntity? grupoDeRestricao;
   final List<IndisponibilidadeEntity> indisponibilidades;
+  final RestricaoCentroDeTrabalho centroDeTrabalho;
+  final List<TurnoDeTrabalhoEntity> turnos;
 
   const RestricaoAggregate({
     this.id,
@@ -18,13 +22,17 @@ class RestricaoAggregate {
     required this.descricao,
     this.grupoDeRestricao,
     required this.indisponibilidades,
+    required this.centroDeTrabalho,
+    required this.turnos,
   });
 
   factory RestricaoAggregate.empty() {
     return RestricaoAggregate(
       codigo: CodigoVO(null),
       descricao: TextVO(''),
+      centroDeTrabalho: RestricaoCentroDeTrabalho.empty(),
       indisponibilidades: [],
+      turnos: [],
     );
   }
 
@@ -34,6 +42,8 @@ class RestricaoAggregate {
     TextVO? descricao,
     GrupoDeRestricaoEntity? grupoDeRestricao,
     List<IndisponibilidadeEntity>? indisponibilidades,
+    RestricaoCentroDeTrabalho? centroDeTrabalho,
+    List<TurnoDeTrabalhoEntity>? turnos,
   }) {
     return RestricaoAggregate(
       id: id ?? this.id,
@@ -41,6 +51,8 @@ class RestricaoAggregate {
       descricao: descricao ?? this.descricao,
       grupoDeRestricao: grupoDeRestricao ?? this.grupoDeRestricao,
       indisponibilidades: indisponibilidades ?? List.from(this.indisponibilidades),
+      centroDeTrabalho: centroDeTrabalho ?? this.centroDeTrabalho,
+      turnos: turnos ?? List.from(this.turnos),
     );
   }
 
@@ -52,12 +64,20 @@ class RestricaoAggregate {
         other.codigo == codigo &&
         other.descricao == descricao &&
         other.grupoDeRestricao == grupoDeRestricao &&
-        listEquals(other.indisponibilidades, indisponibilidades);
+        listEquals(other.indisponibilidades, indisponibilidades) &&
+        other.centroDeTrabalho == centroDeTrabalho &&
+        listEquals(other.turnos, turnos);
   }
 
   @override
   int get hashCode {
-    return id.hashCode ^ codigo.hashCode ^ descricao.hashCode ^ grupoDeRestricao.hashCode ^ indisponibilidades.hashCode;
+    return id.hashCode ^
+        codigo.hashCode ^
+        descricao.hashCode ^
+        grupoDeRestricao.hashCode ^
+        indisponibilidades.hashCode ^
+        centroDeTrabalho.hashCode ^
+        turnos.hashCode;
   }
 
   bool get dadosGeraisIsValid => (codigo.isValid) && descricao.isValid && grupoDeRestricao != null;

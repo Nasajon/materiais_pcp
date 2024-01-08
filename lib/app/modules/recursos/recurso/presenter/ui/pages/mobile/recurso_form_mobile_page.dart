@@ -7,14 +7,15 @@ import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
-import 'package:pcp_flutter/app/core/widgets/dropdown_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
 import 'package:pcp_flutter/app/modules/recursos/common/domain/entities/grupo_de_recurso.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/domain/entities/recurso.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/domain/entities/recurso_centro_de_trabalho.dart';
+import 'package:pcp_flutter/app/modules/recursos/recurso/domain/entities/turno_de_trabalho_entity.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/presenter/controllers/recurso_controller.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/presenter/stores/get_centro_de_trabalho_store.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/presenter/stores/get_grupo_de_recurso_store.dart';
+import 'package:pcp_flutter/app/modules/recursos/recurso/presenter/stores/get_turno_de_trabalho_store.dart';
 
 import '../../../stores/recurso_form_store.dart';
 
@@ -23,6 +24,7 @@ class RecursoFormMobilePage extends StatefulWidget {
   final RecursoFormStore recursoFormStore;
   final GetGrupoDeRecursoStore getGrupoDeRecursoStore;
   final GetCentroDeTrabalhoStore getCentroDeTrabalhoStore;
+  final GetTurnoDeTrabalhoStore getTurnoDeTrabalhoStore;
   final RecursoController recursoController;
   final InternetConnectionStore connectionStore;
   final CustomScaffoldController scaffoldController;
@@ -34,6 +36,7 @@ class RecursoFormMobilePage extends StatefulWidget {
     required this.recursoFormStore,
     required this.getGrupoDeRecursoStore,
     required this.getCentroDeTrabalhoStore,
+    required this.getTurnoDeTrabalhoStore,
     required this.recursoController,
     required this.connectionStore,
     required this.scaffoldController,
@@ -45,8 +48,68 @@ class RecursoFormMobilePage extends StatefulWidget {
 }
 
 class _RecursoFormMobilePageState extends State<RecursoFormMobilePage> {
+  String? get id => widget.recursoController.recurso.id;
+
+  late final Disposer recursoFormDisposer;
+  final isLoadingNotifier = ValueNotifier(false);
+
+  @override
+  void initState() {
+    super.initState();
+
+    recursoFormDisposer = widget.recursoFormStore.observer(
+      onLoading: (value) => isLoadingNotifier.value = value,
+      onError: (error) async {
+        await Asuka.showDialog(
+          barrierColor: Colors.black38,
+          builder: (context) {
+            return ErrorModal(errorMessage: (error as Failure).errorMessage ?? '');
+          },
+        );
+        isLoadingNotifier.value = false;
+      },
+      onState: (state) {
+        if (state != null && state != widget.oldRecurso.value) {
+          Asuka.showSnackBar(
+            SnackBar(
+              content: Text(
+                id == null
+                    ? translation.messages.criouAEntidadeComSucesso(translation.fields.recurso)
+                    : translation.messages.editouAEntidadeComSucesso(translation.fields.recurso),
+                style: AnaTextStyles.grey14Px.copyWith(fontSize: 15, color: Colors.white, letterSpacing: 0.25),
+              ),
+              backgroundColor: const Color.fromRGBO(0, 0, 0, 0.87),
+              behavior: SnackBarBehavior.floating,
+              width: 635,
+            ),
+          );
+
+          if (id == null) {
+            Modular.to.pop();
+          } else {
+            widget.recursoController.recurso = state;
+            widget.oldRecurso.value = widget.recursoController.recurso.copyWith();
+            widget.recursoController.recursoNotifyListeners();
+          }
+        }
+
+        isLoadingNotifier.value = false;
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    recursoFormDisposer();
+    isLoadingNotifier.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final themeData = Theme.of(context);
+    final colorTheme = themeData.extension<AnaColorTheme>();
+
     context.select(() => [widget.recursoController.recurso]);
 
     final recurso = widget.recursoController.recurso;
@@ -89,41 +152,129 @@ class _RecursoFormMobilePageState extends State<RecursoFormMobilePage> {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      ScopedBuilder<GetGrupoDeRecursoStore, List<GrupoDeRecurso>>(
-                        store: widget.getGrupoDeRecursoStore,
-                        onLoading: (context) => DropdownLoadWidget(label: translation.fields.grupoDeRecurso),
-                        onState: (_, grupos) {
-                          return DropdownButtonWidget<GrupoDeRecurso>(
-                            label: translation.fields.grupoDeRecurso,
-                            value: grupos.isNotEmpty ? widget.recursoController.recurso.grupoDeRecurso : null,
-                            isRequiredField: true,
-                            errorMessage: translation.messages.errorCampoObrigatorio,
-                            isEnabled: widget.recursoController.isEnabled,
-                            items: grupos
-                                .map((grupoDeRecurso) => DropdownItem(value: grupoDeRecurso, label: grupoDeRecurso.descricao.value))
-                                .toList(),
-                            onSelected: (value) =>
-                                widget.recursoController.recurso = widget.recursoController.recurso.copyWith(grupoDeRecurso: value),
+                      AutocompleteTextFormField<GrupoDeRecurso>(
+                        initialSelectedValue: widget.recursoController.recurso.grupoDeRecurso,
+                        itemTextValue: (value) => value.descricao.value,
+                        textFieldConfiguration: TextFieldConfiguration(
+                          decoration: InputDecoration(
+                            labelText: translation.fields.grupoDeRecurso,
+                          ),
+                        ),
+                        suggestionsCallback: (pattern) async {
+                          return widget.getGrupoDeRecursoStore.getGrupoDeRecurso(pattern);
+                        },
+                        suggestionsForNextPageCallback: (pattern, lastObject) async {
+                          return await widget.getGrupoDeRecursoStore.getGrupoDeRecurso(pattern, ultimoGrupoDeRecursoId: lastObject.id);
+                        },
+                        itemBuilder: (context, grupo) {
+                          return ListTile(
+                            title: Text(grupo.descricao.value),
                           );
+                        },
+                        errorBuilder: (context, error) {
+                          return Text(error.toString());
+                        },
+                        validator: (value) {
+                          if (widget.recursoController.recurso.centroDeTrabalho == null) {
+                            return translation.messages.errorCampoObrigatorio;
+                          }
+
+                          return null;
+                        },
+                        onSelected: (value) {
+                          widget.recursoController.recurso = widget.recursoController.recurso.copyWith(grupoDeRecurso: value);
                         },
                       ),
                       const SizedBox(height: 16),
-                      ScopedBuilder<GetCentroDeTrabalhoStore, List<RecursoCentroDeTrabalho>>(
-                        store: widget.getCentroDeTrabalhoStore,
-                        onLoading: (context) => DropdownLoadWidget(label: translation.fields.centroDeTrabalho),
-                        onState: (_, centros) {
-                          return DropdownButtonWidget<RecursoCentroDeTrabalho>(
-                            label: translation.fields.centroDeTrabalho,
-                            value: centros.isNotEmpty ? widget.recursoController.recurso.centroDeTrabalho : null,
-                            isRequiredField: true,
-                            errorMessage: translation.messages.errorCampoObrigatorio,
-                            isEnabled: widget.recursoController.isEnabled,
-                            items: centros
-                                .map((centroDeTrabalho) => DropdownItem(value: centroDeTrabalho, label: centroDeTrabalho.nome))
-                                .toList(),
-                            onSelected: (value) =>
-                                widget.recursoController.recurso = widget.recursoController.recurso.copyWith(centroDeTrabalho: value),
+                      AutocompleteTextFormField<RecursoCentroDeTrabalho>(
+                        initialSelectedValue: widget.recursoController.recurso.centroDeTrabalho,
+                        itemTextValue: (value) => value.nome,
+                        textFieldConfiguration: TextFieldConfiguration(
+                          decoration: InputDecoration(
+                            labelText: translation.fields.centroDeTrabalho,
+                          ),
+                        ),
+                        suggestionsCallback: (pattern) async {
+                          return widget.getCentroDeTrabalhoStore.getCentro(pattern);
+                        },
+                        suggestionsForNextPageCallback: (pattern, lastObject) async {
+                          return await widget.getCentroDeTrabalhoStore.getCentro(pattern, ultimoCentroDeTrabalhoId: lastObject.id);
+                        },
+                        itemBuilder: (context, centroTrabalho) {
+                          return ListTile(
+                            title: Text(centroTrabalho.nome),
                           );
+                        },
+                        errorBuilder: (context, error) {
+                          return Text(error.toString());
+                        },
+                        validator: (value) {
+                          if (widget.recursoController.recurso.centroDeTrabalho == null) {
+                            return translation.messages.errorCampoObrigatorio;
+                          }
+
+                          return null;
+                        },
+                        onSelected: (value) {
+                          widget.recursoController.recurso = widget.recursoController.recurso.copyWith(centroDeTrabalho: value);
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      ChipsTextField<TurnoDeTrabalhoEntity>(
+                        label: translation.fields.turnosDeTrabalho,
+                        initialValue: widget.recursoController.recurso.turnos,
+                        chip: (value) => Chip(
+                          key: ValueKey(value.id),
+                          label: Text(
+                            value.nome,
+                            style: themeData.textTheme.bodySmall?.copyWith(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          deleteIcon: Icon(
+                            Icons.close,
+                            color: colorTheme?.field,
+                            size: 12,
+                          ),
+                          deleteIconColor: Colors.transparent,
+                          onDeleted: () {
+                            final turnos = widget.recursoController.recurso.turnos;
+
+                            turnos.removeWhere(
+                              (turno) => turno.id == value.id,
+                            );
+
+                            widget.recursoController.recurso = widget.recursoController.recurso.copyWith(turnos: turnos);
+                          },
+                        ),
+                        suggestionsCallback: (pattern) async {
+                          if (widget.recursoController.recurso.centroDeTrabalho != null) {
+                            return widget.getTurnoDeTrabalhoStore.getTurnoPorCentroDeTrabalho(
+                              widget.recursoController.recurso.centroDeTrabalho!.id,
+                              search: pattern,
+                            );
+                          }
+
+                          return [];
+                        },
+                        itemBuilder: (context, centroTrabalho) {
+                          return ListTile(
+                            title: Text(centroTrabalho.nome),
+                          );
+                        },
+                        errorBuilder: (context, error) {
+                          return Text(error.toString());
+                        },
+                        // validator: (value) {
+                        //   if (widget.recursoController.recurso.centroDeTrabalho == null) {
+                        //     return translation.messages.errorCampoObrigatorio;
+                        //   }
+
+                        //   return null;
+                        // },
+                        onSelected: (value) {
+                          widget.recursoController.recurso = widget.recursoController.recurso.copyWith(turnos: value);
                         },
                       ),
                     ],
@@ -140,52 +291,15 @@ class _RecursoFormMobilePageState extends State<RecursoFormMobilePage> {
           return Visibility(
             visible: recurso.id == null || (recurso.id != null && oldRecurso != recurso),
             child: ContainerNavigationBarWidget(
-              child: TripleBuilder<RecursoFormStore, Recurso?>(
-                store: widget.recursoFormStore,
-                builder: (context, triple) {
-                  final id = widget.recursoController.recurso.id;
-
-                  final error = triple.error;
-                  if (!triple.isLoading && error != null && error is Failure) {
-                    Asuka.showDialog(
-                      barrierColor: Colors.black38,
-                      builder: (context) {
-                        return ErrorModal(errorMessage: (triple.error as Failure).errorMessage ?? '');
-                      },
-                    );
-                  }
-
-                  final recurso = triple.state;
-                  if (recurso != null && !triple.isLoading && recurso != oldRecurso) {
-                    Asuka.showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          id == null
-                              ? translation.messages.criouAEntidadeComSucesso(translation.fields.recurso)
-                              : translation.messages.editouAEntidadeComSucesso(translation.fields.recurso),
-                          style: AnaTextStyles.grey14Px.copyWith(fontSize: 15, color: Colors.white, letterSpacing: 0.25),
-                        ),
-                        backgroundColor: const Color.fromRGBO(0, 0, 0, 0.87),
-                        behavior: SnackBarBehavior.floating,
-                        width: 635,
-                      ),
-                    );
-
-                    if (id == null) {
-                      Modular.to.pop();
-                    } else {
-                      widget.recursoController.recurso = recurso;
-                      widget.oldRecurso.value = widget.recursoController.recurso.copyWith();
-                      widget.recursoController.recursoNotifyListeners();
-                    }
-                  }
-
+              child: ValueListenableBuilder(
+                valueListenable: isLoadingNotifier,
+                builder: (_, isLoading, __) {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       CustomTextButton(
                         title: id == null ? translation.fields.cancelar : translation.fields.descartar,
-                        isEnabled: !triple.isLoading,
+                        isEnabled: !isLoading,
                         onPressed: () {
                           if (oldRecurso != widget.recursoController.recurso) {
                             Asuka.showDialog(
@@ -208,7 +322,7 @@ class _RecursoFormMobilePageState extends State<RecursoFormMobilePage> {
                       const SizedBox(width: 10),
                       CustomPrimaryButton(
                         title: id != null ? translation.fields.salvar : translation.fields.criar,
-                        isLoading: triple.isLoading,
+                        isLoading: isLoading,
                         onPressed: () async {
                           if (widget.formKey.currentState!.validate()) {
                             widget.recursoFormStore.salvar(widget.recursoController.recurso);

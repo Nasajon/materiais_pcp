@@ -20,6 +20,7 @@ class LocalRecursoMapper extends TypeAdapter<Recurso> {
       descricao: TextVO(fields[2]),
       grupoDeRecurso: fields[3],
       centroDeTrabalho: fields[4],
+      turnos: fields[5],
     );
   }
 
@@ -36,6 +37,8 @@ class LocalRecursoMapper extends TypeAdapter<Recurso> {
       ..writeByte(3)
       ..write(obj.grupoDeRecurso)
       ..writeByte(4)
-      ..write(obj.centroDeTrabalho);
+      ..write(obj.centroDeTrabalho)
+      ..writeByte(5)
+      ..write(obj.turnos);
   }
 }

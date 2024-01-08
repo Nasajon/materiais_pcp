@@ -8,7 +8,7 @@ class GetGrupoDeRestricaoRepositoryImpl implements GetGrupoDeRestricaoRepository
   const GetGrupoDeRestricaoRepositoryImpl(this._remoteGetGrupoDeRestricaoDatasource);
 
   @override
-  Future<List<GrupoDeRestricaoEntity>> call() {
-    return _remoteGetGrupoDeRestricaoDatasource();
+  Future<List<GrupoDeRestricaoEntity>> call(String search, {String? ultimoGrupoDeRestricaoId}) {
+    return _remoteGetGrupoDeRestricaoDatasource(search, ultimoGrupoDeRestricaoId: ultimoGrupoDeRestricaoId);
   }
 }

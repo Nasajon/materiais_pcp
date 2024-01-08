@@ -8,7 +8,7 @@ class GetCentroDeTrabalhoRepositoryImpl implements GetCentroDeTrabalhoRepository
   const GetCentroDeTrabalhoRepositoryImpl(this._remoteGetCentroDeTrabalhoDatasource);
 
   @override
-  Future<List<RecursoCentroDeTrabalho>> call() {
-    return _remoteGetCentroDeTrabalhoDatasource();
+  Future<List<RecursoCentroDeTrabalho>> call({required String search, String? ultimoCentroDeTrabalhoId}) {
+    return _remoteGetCentroDeTrabalhoDatasource(search: search, ultimoCentroDeTrabalhoId: ultimoCentroDeTrabalhoId);
   }
 }

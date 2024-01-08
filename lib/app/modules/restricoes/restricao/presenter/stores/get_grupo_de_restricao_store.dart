@@ -7,14 +7,18 @@ class GetGrupoDeRestricaoStore extends NasajonStreamStore<List<GrupoDeRestricaoE
 
   GetGrupoDeRestricaoStore(this._getGrupoDeRestricaoUsecase) : super(initialState: []);
 
-  Future<void> getList() async {
+  Future<void> getList(String search, {String? ultimoGrupoDeRestricaoId}) async {
     setLoading(true);
     try {
-      final response = await _getGrupoDeRestricaoUsecase();
+      final response = await _getGrupoDeRestricaoUsecase(search, ultimoGrupoDeRestricaoId: ultimoGrupoDeRestricaoId);
 
       update(response);
     } on Failure catch (e) {
       setError(e);
     }
+  }
+
+  Future<List<GrupoDeRestricaoEntity>> getGruposDeRestricao(String search, {String? ultimoGrupoDeRestricaoId}) async {
+    return await _getGrupoDeRestricaoUsecase(search, ultimoGrupoDeRestricaoId: ultimoGrupoDeRestricaoId);
   }
 }

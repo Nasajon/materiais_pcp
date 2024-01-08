@@ -16,7 +16,7 @@ class RecursoDatasourceImpl implements RecursoDatasource {
 
   List<Interceptor> interceptors = [ApiKeyInterceptor(), EntidadesEmpresariaisInterceptor()];
 
-  Map<String, dynamic> queryParams = {'fields': 'grupo_de_recurso, centro_de_trabalho'};
+  Map<String, dynamic> queryParams = {'fields': 'grupo_de_recurso, centro_de_trabalho, turnos.turno'};
 
   @override
   Future<List<Recurso>> getList(String? search) async {
@@ -48,6 +48,7 @@ class RecursoDatasourceImpl implements RecursoDatasource {
         selectedApi: APIEnum.pcp,
         endPoint: '/recursos',
         method: ClientRequestMethods.GET,
+        queryParams: queryParams,
         interceptors: interceptors,
       ));
 
@@ -81,10 +82,8 @@ class RecursoDatasourceImpl implements RecursoDatasource {
       // }
 
       return RecursoMapper.fromMap(recursoMap);
-    } on Failure {
-      rethrow;
-    } on Exception catch (exception, stacktrace) {
-      return Future.error(UnknownError(exception: exception, stackTrace: stacktrace, label: 'RecursoDatasourceImpl-getItem'));
+    } on ClientError catch (e) {
+      throw DatasourceRecursoFailure(errorMessage: e.message, stackTrace: e.stackTrace);
     }
   }
 
@@ -100,11 +99,11 @@ class RecursoDatasourceImpl implements RecursoDatasource {
         interceptors: interceptors,
       ));
 
-      return RecursoMapper.fromMap(response.data);
-    } on Failure {
-      rethrow;
-    } on Exception catch (exception, stacktrace) {
-      return Future.error(UnknownError(exception: exception, stackTrace: stacktrace, label: 'RecursoDatasourceImpl-insertItem'));
+      recurso = recurso.copyWith(id: response.data['recurso']);
+
+      return recurso;
+    } on ClientError catch (e) {
+      throw DatasourceRecursoFailure(errorMessage: e.message, stackTrace: e.stackTrace);
     }
   }
 
@@ -125,10 +124,8 @@ class RecursoDatasourceImpl implements RecursoDatasource {
       }
 
       return recurso;
-    } on Failure {
-      rethrow;
-    } on Exception catch (exception, stacktrace) {
-      return Future.error(UnknownError(exception: exception, stackTrace: stacktrace, label: 'RecursoDatasourceImpl-updateItem'));
+    } on ClientError catch (e) {
+      throw DatasourceRecursoFailure(errorMessage: e.message, stackTrace: e.stackTrace);
     }
   }
 
@@ -149,11 +146,8 @@ class RecursoDatasourceImpl implements RecursoDatasource {
       }
 
       return response.data;
-    } on Failure {
-      rethrow;
-    } on Exception catch (exception, stacktrace) {
-      return Future.error(
-          UnknownError(exception: exception, stackTrace: stacktrace, label: 'RecursoDatasourceImpl-_getGrupoDeRecursoById'));
+    } on ClientError catch (e) {
+      throw DatasourceRecursoFailure(errorMessage: e.message, stackTrace: e.stackTrace);
     }
   }
 
@@ -168,11 +162,8 @@ class RecursoDatasourceImpl implements RecursoDatasource {
       ));
 
       return true;
-    } on Failure {
-      rethrow;
-    } on Exception catch (exception, stacktrace) {
-      return Future.error(
-          UnknownError(exception: exception, stackTrace: stacktrace, label: 'RecursoDatasourceImpl-_getGrupoDeRecursoById'));
+    } on ClientError catch (e) {
+      throw DatasourceRecursoFailure(errorMessage: e.message, stackTrace: e.stackTrace);
     }
   }
 }

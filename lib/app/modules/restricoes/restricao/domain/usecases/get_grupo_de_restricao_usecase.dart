@@ -2,7 +2,7 @@ import 'package:pcp_flutter/app/modules/restricoes/common/domain/entities/grupo_
 import 'package:pcp_flutter/app/modules/restricoes/restricao/domain/repositories/get_grupo_de_restricao_repository.dart';
 
 abstract class GetGrupoDeRestricaoUsecase {
-  Future<List<GrupoDeRestricaoEntity>> call();
+  Future<List<GrupoDeRestricaoEntity>> call(String search, {String? ultimoGrupoDeRestricaoId});
 }
 
 class GetGrupoDeRestricaoUsecaseImpl implements GetGrupoDeRestricaoUsecase {
@@ -11,7 +11,7 @@ class GetGrupoDeRestricaoUsecaseImpl implements GetGrupoDeRestricaoUsecase {
   const GetGrupoDeRestricaoUsecaseImpl(this._getGrupoDeRestricaoRepository);
 
   @override
-  Future<List<GrupoDeRestricaoEntity>> call() {
-    return _getGrupoDeRestricaoRepository();
+  Future<List<GrupoDeRestricaoEntity>> call(String search, {String? ultimoGrupoDeRestricaoId}) {
+    return _getGrupoDeRestricaoRepository(search, ultimoGrupoDeRestricaoId: ultimoGrupoDeRestricaoId);
   }
 }

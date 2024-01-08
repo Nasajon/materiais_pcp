@@ -14,9 +14,19 @@ class GetGrupoDeRecursoDatasourceImpl implements GetGrupoDeRecursoDatasource {
   List<Interceptor> interceptors = [ApiKeyInterceptor(), EntidadesEmpresariaisInterceptor()];
 
   @override
-  Future<List<GrupoDeRecurso>> getList() async {
+  Future<List<GrupoDeRecurso>> getList({
+    required String search,
+    String? ultimoGrupoDeRecursoId,
+  }) async {
     try {
       Map<String, dynamic> queryParams = {'fields': 'tipo'};
+
+      if (search.isNotEmpty) {
+        queryParams['search'] = search;
+      }
+      if (ultimoGrupoDeRecursoId != null && ultimoGrupoDeRecursoId.isNotEmpty) {
+        queryParams['after'] = ultimoGrupoDeRecursoId;
+      }
 
       final response = await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,

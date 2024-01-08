@@ -1,8 +1,8 @@
 import 'package:flutter_core/ana_core.dart';
-import 'package:pcp_flutter/app/modules/recursos/recurso/domain/entities/recurso_centro_de_trabalho.dart';
-import 'package:pcp_flutter/app/modules/recursos/recurso/domain/usecases/get_centro_de_trabalho_usecase.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/domain/entities/restricao_centro_de_trabalho.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/domain/usecases/get_centro_de_trabalho_usecase.dart';
 
-class GetCentroDeTrabalhoStore extends NasajonStreamStore<List<RecursoCentroDeTrabalho>> {
+class GetCentroDeTrabalhoStore extends NasajonStreamStore<List<RestricaoCentroDeTrabalho>> {
   final GetCentroDeTrabalhoUsecase _getCentroDeTrabalhoUsecase;
 
   GetCentroDeTrabalhoStore(this._getCentroDeTrabalhoUsecase) : super(initialState: []);
@@ -19,7 +19,7 @@ class GetCentroDeTrabalhoStore extends NasajonStreamStore<List<RecursoCentroDeTr
     }
   }
 
-  Future<List<RecursoCentroDeTrabalho>> getCentro(String search, {String? ultimoCentroDeTrabalhoId}) async {
+  Future<List<RestricaoCentroDeTrabalho>> getCentro(String search, {String? ultimoCentroDeTrabalhoId}) async {
     final response = await _getCentroDeTrabalhoUsecase(search: search, ultimoCentroDeTrabalhoId: ultimoCentroDeTrabalhoId);
     return response;
   }

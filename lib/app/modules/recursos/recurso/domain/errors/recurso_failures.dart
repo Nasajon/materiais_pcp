@@ -22,4 +22,8 @@ class RecursoInvalidIdError extends Failure {
   RecursoInvalidIdError() : super(errorMessage: 'Invalid id text error');
 }
 
+class RecursoInvalidCentroDeTrabalhoIdError extends RecursoFailure {
+  RecursoInvalidCentroDeTrabalhoIdError({super.errorMessage, super.stackTrace});
+}
+
 class RecursoNotFound extends Failure {}

@@ -2,30 +2,39 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
-import 'package:pcp_flutter/app/core/widgets/dropdown_widget.dart';
 import 'package:pcp_flutter/app/modules/restricoes/common/domain/entities/grupo_de_restricao_entity.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/domain/entities/restricao_centro_de_trabalho.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/domain/entities/turno_de_trabalho_entity.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/controllers/restricao_form_controller.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/stores/get_centro_de_trabalho_store.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/stores/get_grupo_de_restricao_store.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/stores/get_turno_de_trabalho_store.dart';
 
 class MobileRestricaoDadosGeraisFormWidget extends StatelessWidget {
   final GetGrupoDeRestricaoStore getGrupoDeRestricaoStore;
+  final GetCentroDeTrabalhoStore getCentroDeTrabalhoStore;
+  final GetTurnoDeTrabalhoStore getTurnoDeTrabalhoStore;
   final RestricaoFormController restricaoFormController;
   final GlobalKey<FormState> formKey;
 
   const MobileRestricaoDadosGeraisFormWidget({
     Key? key,
     required this.getGrupoDeRestricaoStore,
+    required this.getCentroDeTrabalhoStore,
+    required this.getTurnoDeTrabalhoStore,
     required this.restricaoFormController,
     required this.formKey,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    final themeData = Theme.of(context);
+    final colorTheme = themeData.extension<AnaColorTheme>();
+
+    return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Form(
         key: formKey,
@@ -59,22 +68,125 @@ class MobileRestricaoDadosGeraisFormWidget extends StatelessWidget {
               },
             ),
             const SizedBox(height: 16),
-            ScopedBuilder<GetGrupoDeRestricaoStore, List<GrupoDeRestricaoEntity>>(
-              store: getGrupoDeRestricaoStore,
-              onLoading: (context) => DropdownLoadWidget(label: translation.fields.grupoDeRestricao),
-              onState: (_, grupos) {
-                return DropdownButtonWidget<GrupoDeRestricaoEntity>(
-                  label: translation.fields.grupoDeRestricao,
-                  value: grupos.isNotEmpty ? restricaoFormController.restricao.grupoDeRestricao : null,
-                  isRequiredField: true,
-                  errorMessage: translation.messages.errorCampoObrigatorio,
-                  isEnabled: true,
-                  items: grupos
-                      .map((grupoDeRestricao) => DropdownItem(value: grupoDeRestricao, label: grupoDeRestricao.descricao.value))
-                      .toList(),
-                  onSelected: (value) =>
-                      restricaoFormController.restricao = restricaoFormController.restricao.copyWith(grupoDeRestricao: value),
+            AutocompleteTextFormField<GrupoDeRestricaoEntity>(
+              initialSelectedValue: restricaoFormController.restricao.grupoDeRestricao,
+              itemTextValue: (value) => value.descricao.value,
+              textFieldConfiguration: TextFieldConfiguration(
+                decoration: InputDecoration(
+                  labelText: translation.fields.grupoDeRecurso,
+                ),
+              ),
+              suggestionsCallback: (pattern) async {
+                return getGrupoDeRestricaoStore.getGruposDeRestricao(pattern);
+              },
+              suggestionsForNextPageCallback: (pattern, lastObject) async {
+                return await getGrupoDeRestricaoStore.getGruposDeRestricao(pattern, ultimoGrupoDeRestricaoId: lastObject.id);
+              },
+              itemBuilder: (context, grupo) {
+                return ListTile(
+                  title: Text(grupo.descricao.value),
                 );
+              },
+              errorBuilder: (context, error) {
+                return Text(error.toString());
+              },
+              validator: (value) {
+                if (restricaoFormController.restricao.grupoDeRestricao == null) {
+                  return translation.messages.errorCampoObrigatorio;
+                }
+
+                return null;
+              },
+              onSelected: (value) {
+                restricaoFormController.restricao = restricaoFormController.restricao.copyWith(grupoDeRestricao: value);
+              },
+            ),
+            const SizedBox(height: 16),
+            AutocompleteTextFormField<RestricaoCentroDeTrabalho>(
+              initialSelectedValue: restricaoFormController.restricao.centroDeTrabalho,
+              itemTextValue: (value) => value.nome,
+              textFieldConfiguration: TextFieldConfiguration(
+                decoration: InputDecoration(
+                  labelText: translation.fields.centroDeTrabalho,
+                ),
+              ),
+              suggestionsCallback: (pattern) async {
+                return getCentroDeTrabalhoStore.getCentro(pattern);
+              },
+              suggestionsForNextPageCallback: (pattern, lastObject) async {
+                return await getCentroDeTrabalhoStore.getCentro(pattern, ultimoCentroDeTrabalhoId: lastObject.id);
+              },
+              itemBuilder: (context, centroTrabalho) {
+                return ListTile(
+                  title: Text(centroTrabalho.nome),
+                );
+              },
+              errorBuilder: (context, error) {
+                return Text(error.toString());
+              },
+              validator: (value) {
+                if (restricaoFormController.restricao.centroDeTrabalho == RestricaoCentroDeTrabalho.empty()) {
+                  return translation.messages.errorCampoObrigatorio;
+                }
+
+                return null;
+              },
+              onSelected: (value) {
+                restricaoFormController.restricao = restricaoFormController.restricao.copyWith(
+                  centroDeTrabalho: value ?? RestricaoCentroDeTrabalho.empty(),
+                );
+              },
+            ),
+            const SizedBox(height: 16),
+            ChipsTextField<TurnoDeTrabalhoEntity>(
+              label: translation.fields.turnosDeTrabalho,
+              initialValue: restricaoFormController.restricao.turnos,
+              chip: (value) => Chip(
+                key: ValueKey(value.id),
+                label: Text(
+                  value.nome,
+                  style: themeData.textTheme.bodySmall?.copyWith(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                deleteIcon: Icon(
+                  Icons.close,
+                  color: colorTheme?.field,
+                  size: 12,
+                ),
+                deleteIconColor: Colors.transparent,
+                onDeleted: () {
+                  final turnos = restricaoFormController.restricao.turnos;
+
+                  turnos.removeWhere(
+                    (turno) => turno.id == value.id,
+                  );
+
+                  restricaoFormController.restricao = restricaoFormController.restricao.copyWith(turnos: turnos);
+                },
+              ),
+              suggestionsCallback: (pattern) async {
+                if (restricaoFormController.restricao.centroDeTrabalho != RestricaoCentroDeTrabalho.empty()) {
+                  return getTurnoDeTrabalhoStore.getTurnoPorCentroDeTrabalho(
+                    restricaoFormController.restricao.centroDeTrabalho.id,
+                    search: pattern,
+                    turnos: restricaoFormController.restricao.turnos,
+                  );
+                }
+
+                return [];
+              },
+              itemBuilder: (context, centroTrabalho) {
+                return ListTile(
+                  title: Text(centroTrabalho.nome),
+                );
+              },
+              errorBuilder: (context, error) {
+                return Text(error.toString());
+              },
+              onSelected: (value) {
+                restricaoFormController.restricao = restricaoFormController.restricao.copyWith(turnos: value);
               },
             ),
           ],

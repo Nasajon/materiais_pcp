@@ -14,9 +14,16 @@ class RemoteGetGrupoDeRestricaoDatasourceImpl implements RemoteGetGrupoDeRestric
   List<Interceptor> interceptors = [ApiKeyInterceptor(), EntidadesEmpresariaisInterceptor()];
 
   @override
-  Future<List<GrupoDeRestricaoEntity>> call() async {
+  Future<List<GrupoDeRestricaoEntity>> call(String search, {String? ultimoGrupoDeRestricaoId}) async {
     try {
       Map<String, dynamic> queryParams = {'fields': 'tipo'};
+
+      if (search.isNotEmpty) {
+        queryParams['search'] = search;
+      }
+      if (ultimoGrupoDeRestricaoId != null && ultimoGrupoDeRestricaoId.isNotEmpty) {
+        queryParams['after'] = ultimoGrupoDeRestricaoId;
+      }
 
       final response = await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,

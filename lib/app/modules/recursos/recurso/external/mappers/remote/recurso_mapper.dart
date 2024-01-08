@@ -3,6 +3,7 @@ import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart'
 import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/modules/recursos/common/external/mapper/remote/grupo_de_recurso_mapper.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/external/mappers/remote/recurso_centro_de_trabalho_mapper.dart';
+import 'package:pcp_flutter/app/modules/recursos/recurso/external/mappers/remote/remote_turno_de_trabalho_mapper.dart';
 
 import '../../../domain/entities/recurso.dart';
 
@@ -17,6 +18,7 @@ class RecursoMapper {
         centroDeTrabalho: map['centro_de_trabalho'] != null
             ? RecursoCentroDeTrabalhoMapper.fromMapToRecursoCentroDeTrabalho(map['centro_de_trabalho'])
             : null,
+        turnos: List.from(map['turnos']).map((map) => RemoteTurnoDeTrabalhoMapper.fromMapToRecursoTurnoTrabalho(map)).toList(),
       );
     } catch (error, stackTrace) {
       throw MapperError(
@@ -36,6 +38,7 @@ class RecursoMapper {
       'tipo': recurso.grupoDeRecurso?.tipo?.value,
       'grupo_de_recurso': recurso.grupoDeRecurso?.id,
       'centro_de_trabalho': recurso.centroDeTrabalho?.id,
+      'turnos': recurso.turnos.map((turno) => RemoteTurnoDeTrabalhoMapper.fromTurnoTrabalhoToMap(turno)).toList(),
     };
   }
 }

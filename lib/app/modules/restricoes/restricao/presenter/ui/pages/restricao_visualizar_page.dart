@@ -5,8 +5,10 @@ import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/domain/aggregates/restricao_aggregate.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/controllers/restricao_form_controller.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/stores/get_centro_de_trabalho_store.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/stores/get_grupo_de_restricao_store.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/stores/get_restricao_store.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/stores/get_turno_de_trabalho_store.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/stores/inserir_editar_restricao_store.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/mobile/mobile_restricao_visualizar_page.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/web/desktop_restricao_visualizar_page.dart';
@@ -16,6 +18,8 @@ class RestricaoVisualizarPage extends StatefulWidget {
   final InserirEditarRestricaoStore inserirEditarRestricaoStore;
   final GetRestricaoStore getRestricaoStore;
   final GetGrupoDeRestricaoStore getGrupoDeRestricaoStore;
+  final GetCentroDeTrabalhoStore getCentroDeTrabalhoStore;
+  final GetTurnoDeTrabalhoStore getTurnoDeTrabalhoStore;
   final RestricaoFormController restricaoFormController;
   final CustomScaffoldController scaffoldController;
   final InternetConnectionStore connectionStore;
@@ -26,6 +30,8 @@ class RestricaoVisualizarPage extends StatefulWidget {
     required this.inserirEditarRestricaoStore,
     required this.getRestricaoStore,
     required this.getGrupoDeRestricaoStore,
+    required this.getCentroDeTrabalhoStore,
+    required this.getTurnoDeTrabalhoStore,
     required this.restricaoFormController,
     required this.scaffoldController,
     required this.connectionStore,
@@ -52,8 +58,6 @@ class _RestricaoVisualizarPageState extends State<RestricaoVisualizarPage> {
     widget.restricaoFormController.indisponibilidade = null;
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      widget.getGrupoDeRestricaoStore.getList();
-
       widget.getRestricaoStore.getRestricaoPorId(widget.id);
       getRestricaoDisposer = widget.getRestricaoStore.observer(
         onState: (state) {
@@ -87,6 +91,8 @@ class _RestricaoVisualizarPageState extends State<RestricaoVisualizarPage> {
           pageNotifier: pageNotifier,
           inserirEditarRestricaoStore: widget.inserirEditarRestricaoStore,
           getGrupoDeRestricaoStore: widget.getGrupoDeRestricaoStore,
+          getCentroDeTrabalhoStore: widget.getCentroDeTrabalhoStore,
+          getTurnoDeTrabalhoStore: widget.getTurnoDeTrabalhoStore,
           restricaoFormController: widget.restricaoFormController,
           scaffoldController: widget.scaffoldController,
           connectionStore: widget.connectionStore,
@@ -101,6 +107,8 @@ class _RestricaoVisualizarPageState extends State<RestricaoVisualizarPage> {
             pageNotifier: pageNotifier,
             inserirEditarRestricaoStore: widget.inserirEditarRestricaoStore,
             getGrupoDeRestricaoStore: widget.getGrupoDeRestricaoStore,
+            getCentroDeTrabalhoStore: widget.getCentroDeTrabalhoStore,
+            getTurnoDeTrabalhoStore: widget.getTurnoDeTrabalhoStore,
             restricaoFormController: widget.restricaoFormController,
             scaffoldController: widget.scaffoldController,
             connectionStore: widget.connectionStore,

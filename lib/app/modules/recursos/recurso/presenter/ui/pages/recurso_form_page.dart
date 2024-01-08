@@ -1,13 +1,12 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
-
 import 'package:pcp_flutter/app/modules/recursos/recurso/domain/entities/recurso.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/presenter/controllers/recurso_controller.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/presenter/stores/get_centro_de_trabalho_store.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/presenter/stores/get_grupo_de_recurso_store.dart';
+import 'package:pcp_flutter/app/modules/recursos/recurso/presenter/stores/get_turno_de_trabalho_store.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/presenter/stores/recurso_form_store.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/presenter/ui/pages/mobile/recurso_form_mobile_page.dart';
 import 'package:pcp_flutter/app/modules/recursos/recurso/presenter/ui/pages/web/recurso_form_desktop_page.dart';
@@ -17,6 +16,7 @@ class RecursoFormPage extends StatefulWidget {
   final RecursoFormStore recursoFormStore;
   final GetGrupoDeRecursoStore getGrupoDeRecursoStore;
   final GetCentroDeTrabalhoStore getCentroDeTrabalhoStore;
+  final GetTurnoDeTrabalhoStore getTurnoDeTrabalhoStore;
   final RecursoController recursoController;
   final InternetConnectionStore connectionStore;
   final CustomScaffoldController scaffoldController;
@@ -27,6 +27,7 @@ class RecursoFormPage extends StatefulWidget {
     required this.recursoFormStore,
     required this.getGrupoDeRecursoStore,
     required this.getCentroDeTrabalhoStore,
+    required this.getTurnoDeTrabalhoStore,
     required this.recursoController,
     required this.connectionStore,
     required this.scaffoldController,
@@ -50,9 +51,6 @@ class _RecursoFormPageState extends State<RecursoFormPage> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final id = widget.id;
 
-      widget.getGrupoDeRecursoStore.getGrupos();
-      widget.getCentroDeTrabalhoStore.getCentrosDeTrabalho();
-
       if (id != null && widget.recursoFormStore.state?.id != id) {
         widget.recursoController.recurso = await widget.recursoFormStore.pegarRecurso(id);
         oldRecurso.value = widget.recursoController.recurso.copyWith();
@@ -71,6 +69,7 @@ class _RecursoFormPageState extends State<RecursoFormPage> {
       recursoFormStore: widget.recursoFormStore,
       getGrupoDeRecursoStore: widget.getGrupoDeRecursoStore,
       getCentroDeTrabalhoStore: widget.getCentroDeTrabalhoStore,
+      getTurnoDeTrabalhoStore: widget.getTurnoDeTrabalhoStore,
       recursoController: widget.recursoController,
       connectionStore: widget.connectionStore,
       scaffoldController: widget.scaffoldController,
@@ -89,6 +88,7 @@ class _RecursoFormPageState extends State<RecursoFormPage> {
             recursoFormStore: widget.recursoFormStore,
             getGrupoDeRecursoStore: widget.getGrupoDeRecursoStore,
             getCentroDeTrabalhoStore: widget.getCentroDeTrabalhoStore,
+            getTurnoDeTrabalhoStore: widget.getTurnoDeTrabalhoStore,
             recursoController: widget.recursoController,
             connectionStore: widget.connectionStore,
             scaffoldController: widget.scaffoldController,

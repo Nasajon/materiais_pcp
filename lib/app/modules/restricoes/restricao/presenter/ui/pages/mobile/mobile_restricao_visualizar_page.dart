@@ -10,7 +10,9 @@ import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/notification_snack_bar.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/domain/aggregates/restricao_aggregate.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/controllers/restricao_form_controller.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/stores/get_centro_de_trabalho_store.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/stores/get_grupo_de_restricao_store.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/stores/get_turno_de_trabalho_store.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/stores/inserir_editar_restricao_store.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/mobile/widgets/mobile_indisponibilidade_form_widget.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/mobile/widgets/mobile_restricao_dados_gerais_form_widget.dart';
@@ -19,6 +21,8 @@ class MobileRestricaoVisualizarPage extends StatefulWidget {
   final ValueNotifier<int> pageNotifier;
   final InserirEditarRestricaoStore inserirEditarRestricaoStore;
   final GetGrupoDeRestricaoStore getGrupoDeRestricaoStore;
+  final GetCentroDeTrabalhoStore getCentroDeTrabalhoStore;
+  final GetTurnoDeTrabalhoStore getTurnoDeTrabalhoStore;
   final RestricaoFormController restricaoFormController;
   final CustomScaffoldController scaffoldController;
   final InternetConnectionStore connectionStore;
@@ -33,6 +37,8 @@ class MobileRestricaoVisualizarPage extends StatefulWidget {
     required this.pageNotifier,
     required this.inserirEditarRestricaoStore,
     required this.getGrupoDeRestricaoStore,
+    required this.getCentroDeTrabalhoStore,
+    required this.getTurnoDeTrabalhoStore,
     required this.restricaoFormController,
     required this.scaffoldController,
     required this.connectionStore,
@@ -110,6 +116,8 @@ class _MobileRestricaoVisualizarPageState extends State<MobileRestricaoVisualiza
               children: [
                 MobileRestricaoDadosGeraisFormWidget(
                   getGrupoDeRestricaoStore: widget.getGrupoDeRestricaoStore,
+                  getCentroDeTrabalhoStore: widget.getCentroDeTrabalhoStore,
+                  getTurnoDeTrabalhoStore: widget.getTurnoDeTrabalhoStore,
                   restricaoFormController: widget.restricaoFormController,
                   formKey: widget.dadosGeraisFormKey,
                 ),

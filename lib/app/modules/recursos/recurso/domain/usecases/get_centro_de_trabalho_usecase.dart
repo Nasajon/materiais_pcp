@@ -2,7 +2,7 @@ import 'package:pcp_flutter/app/modules/recursos/recurso/domain/entities/recurso
 import 'package:pcp_flutter/app/modules/recursos/recurso/domain/repositories/get_centro_de_trabalho_repository.dart';
 
 abstract class GetCentroDeTrabalhoUsecase {
-  Future<List<RecursoCentroDeTrabalho>> call();
+  Future<List<RecursoCentroDeTrabalho>> call({required String search, String? ultimoCentroDeTrabalhoId});
 }
 
 class GetCentroDeTrabalhoUsecaseImpl implements GetCentroDeTrabalhoUsecase {
@@ -11,7 +11,7 @@ class GetCentroDeTrabalhoUsecaseImpl implements GetCentroDeTrabalhoUsecase {
   const GetCentroDeTrabalhoUsecaseImpl(this._getCentroDeTrabalhoRepository);
 
   @override
-  Future<List<RecursoCentroDeTrabalho>> call() {
-    return _getCentroDeTrabalhoRepository();
+  Future<List<RecursoCentroDeTrabalho>> call({required String search, String? ultimoCentroDeTrabalhoId}) {
+    return _getCentroDeTrabalhoRepository(search: search, ultimoCentroDeTrabalhoId: ultimoCentroDeTrabalhoId);
   }
 }

@@ -10,7 +10,9 @@ import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/notification_snack_bar.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/domain/aggregates/restricao_aggregate.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/controllers/restricao_form_controller.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/stores/get_centro_de_trabalho_store.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/stores/get_grupo_de_restricao_store.dart';
+import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/stores/get_turno_de_trabalho_store.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/stores/inserir_editar_restricao_store.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/web/widgets/desktop_indisponibilidade_form_widget.dart';
 import 'package:pcp_flutter/app/modules/restricoes/restricao/presenter/ui/pages/web/widgets/desktop_restricao_dados_gerais_form_widget.dart';
@@ -23,6 +25,8 @@ class DesktopRestricaoFormPage extends StatefulWidget {
   final GlobalKey<FormState> indisponibilidadeFormKey;
   final InserirEditarRestricaoStore inserirEditarRestricaoStore;
   final GetGrupoDeRestricaoStore getGrupoDeRestricaoStore;
+  final GetCentroDeTrabalhoStore getCentroDeTrabalhoStore;
+  final GetTurnoDeTrabalhoStore getTurnoDeTrabalhoStore;
   final RestricaoFormController restricaoFormController;
   final CustomScaffoldController scaffoldController;
   final InternetConnectionStore connectionStore;
@@ -36,6 +40,8 @@ class DesktopRestricaoFormPage extends StatefulWidget {
     required this.indisponibilidadeFormKey,
     required this.inserirEditarRestricaoStore,
     required this.getGrupoDeRestricaoStore,
+    required this.getCentroDeTrabalhoStore,
+    required this.getTurnoDeTrabalhoStore,
     required this.restricaoFormController,
     required this.scaffoldController,
     required this.connectionStore,
@@ -64,8 +70,6 @@ class _DesktopRestricaoFormStatePage extends State<DesktopRestricaoFormPage> {
     pageController = PageController(initialPage: page.value);
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      widget.getGrupoDeRestricaoStore.getList();
-
       pageController.addListener(() {
         if (pageController.positions.isNotEmpty && pageController.page != null) {
           page.value = (pageController.page?.round() ?? 0);
@@ -113,6 +117,7 @@ class _DesktopRestricaoFormStatePage extends State<DesktopRestricaoFormPage> {
       body: Padding(
         padding: const EdgeInsets.only(top: 30),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ValueListenableBuilder(
@@ -135,14 +140,17 @@ class _DesktopRestricaoFormStatePage extends State<DesktopRestricaoFormPage> {
               },
             ),
             const SizedBox(width: 40),
-            Expanded(
+            Container(
+              constraints: const BoxConstraints(maxWidth: 670),
               child: PageView(
                 controller: pageController,
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
                   DesktopRestricaoDadosGeraisFormWidget(
                     getGrupoDeRestricaoStore: widget.getGrupoDeRestricaoStore,
+                    getCentroDeTrabalhoStore: widget.getCentroDeTrabalhoStore,
                     restricaoFormController: restricaoFormController,
+                    getTurnoDeTrabalhoStore: widget.getTurnoDeTrabalhoStore,
                     formKey: dadosGeraisFormKey,
                   ),
                   SingleChildScrollView(

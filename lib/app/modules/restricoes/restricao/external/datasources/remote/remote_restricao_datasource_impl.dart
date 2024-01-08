@@ -17,22 +17,26 @@ class RemoteRestricaoDatasourceImpl implements RemoteRestricaoDatasource {
 
   @override
   Future<List<RestricaoAggregate>> getRestricaoRecente([String? search]) async {
-    Map<String, dynamic> queryParams = {'fields': 'grupo_de_restricao'};
+    try {
+      Map<String, dynamic> queryParams = {'fields': 'grupo_de_restricao, centro_de_trabalho, turnos.turno'};
 
-    final response = await _clientService.request(ClientRequestParams(
-      selectedApi: APIEnum.pcp,
-      endPoint: '/restricoes',
-      method: ClientRequestMethods.GET,
-      queryParams: queryParams,
-      interceptors: interceptors,
-    ));
+      final response = await _clientService.request(ClientRequestParams(
+        selectedApi: APIEnum.pcp,
+        endPoint: '/restricoes',
+        method: ClientRequestMethods.GET,
+        queryParams: queryParams,
+        interceptors: interceptors,
+      ));
 
-    return List.from(response.data).map((map) => RemoteRestricaoMapper.fromMapToRestricaoAggregate(map)).toList();
+      return List.from(response.data).map((map) => RemoteRestricaoMapper.fromMapToRestricaoAggregate(map)).toList();
+    } on ClientError catch (e) {
+      throw DatasourceRestricaoFailure(errorMessage: e.message, stackTrace: e.stackTrace);
+    }
   }
 
   @override
   Future<List<RestricaoAggregate>> getList([String? search]) async {
-    Map<String, dynamic> queryParams = {'fields': 'grupo_de_restricao'};
+    Map<String, dynamic> queryParams = {'fields': 'grupo_de_restricao, centro_de_trabalho, turnos.turno'};
 
     if (search != null && search.isNotEmpty) {
       queryParams['search'] = search;
@@ -51,20 +55,24 @@ class RemoteRestricaoDatasourceImpl implements RemoteRestricaoDatasource {
 
   @override
   Future<RestricaoAggregate> getRestricaoPorId(String id) async {
-    Map<String, dynamic> queryParams = {'fields': 'grupo_de_restricao, indisponibilidades'};
+    try {
+      Map<String, dynamic> queryParams = {'fields': 'grupo_de_restricao, indisponibilidades, centro_de_trabalho, turnos.turno'};
 
-    final response = await _clientService.request(ClientRequestParams(
-      selectedApi: APIEnum.pcp,
-      endPoint: '/restricoes/$id',
-      method: ClientRequestMethods.GET,
-      queryParams: queryParams,
-      interceptors: interceptors,
-    ));
+      final response = await _clientService.request(ClientRequestParams(
+        selectedApi: APIEnum.pcp,
+        endPoint: '/restricoes/$id',
+        method: ClientRequestMethods.GET,
+        queryParams: queryParams,
+        interceptors: interceptors,
+      ));
 
-    final restricao = RemoteRestricaoMapper.fromMapToRestricaoAggregate(response.data);
+      final restricao = RemoteRestricaoMapper.fromMapToRestricaoAggregate(response.data);
 
-    return restricao.copyWith(
-        indisponibilidades: RemoteIndisponibilidadeMapper.setarIndexParaOsIndisponibilidades(restricao.indisponibilidades));
+      return restricao.copyWith(
+          indisponibilidades: RemoteIndisponibilidadeMapper.setarIndexParaOsIndisponibilidades(restricao.indisponibilidades));
+    } on ClientError catch (e) {
+      throw DatasourceRestricaoFailure(errorMessage: e.message, stackTrace: e.stackTrace);
+    }
   }
 
   @override
@@ -117,42 +125,3 @@ class RemoteRestricaoDatasourceImpl implements RemoteRestricaoDatasource {
     }
   }
 }
-
-final json = [
-  {
-    'restricao': '123',
-    'codigo': '1',
-    'descricao': 'Restrição 1',
-    'grupo': {
-      'grupo_de_restricao': 'aa0fa0e4-2654-44c4-8307-8cd0b75d5ba5',
-      'codigo': '1',
-      'nome': 'Teste 11',
-      'tipo': 'equipamento',
-      'tenant': 47
-    },
-    'tipo_unidade': 'decimetro_cubico',
-    'capacidade_producao': 2,
-    'custo_por_hora': 20.0,
-    'limitar_capacidade_producao': false,
-    'indisponibilidades': <Map<String, dynamic>>[],
-    'disponibilidades': <Map<String, dynamic>>[],
-  },
-  {
-    'restricao': '1234',
-    'codigo': '2',
-    'descricao': 'Restrição 2',
-    'grupo': {
-      'grupo_de_restricao': 'aa0fa0e4-2654-44c4-8307-8cd0b75d5ba5',
-      'codigo': '1',
-      'nome': 'Teste 11',
-      'tipo': 'equipamento',
-      'tenant': 47
-    },
-    'tipo_unidade': 'decimetro_cubico',
-    'capacidade_producao': 2,
-    'custo_por_hora': 20.0,
-    'limitar_capacidade_producao': false,
-    'indisponibilidades': <Map<String, dynamic>>[],
-    'disponibilidades': <Map<String, dynamic>>[],
-  }
-];
