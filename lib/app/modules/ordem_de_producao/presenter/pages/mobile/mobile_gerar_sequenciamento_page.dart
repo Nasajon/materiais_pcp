@@ -5,6 +5,7 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart' hide showDialog;
+import 'package:pcp_flutter/app/core/constants/navigation_router.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/aggregates/ordem_de_producao_aggregate.dart';
@@ -115,7 +116,7 @@ class _MobileGerarSequenciamentoPageState extends State<MobileGerarSequenciament
     confirmarSequenciamentoDisposer = confirmarSequenciamentoStore.observer(
       onLoading: (value) => isLoadingNotifier.value = value,
       onError: (error) => showError(error),
-      onState: (state) => Modular.to.pop(),
+      onState: (state) => checkPreviousRouteWeb(NavigationRouter.ordensDeProducoesModule.path),
     );
 
     gerarSequenciamentoDisposer = gerarSequenciamentoStore.observer(
@@ -162,6 +163,7 @@ class _MobileGerarSequenciamentoPageState extends State<MobileGerarSequenciament
           translation.titles.planejarOrdem,
           controller: scaffoldController,
           alignment: Alignment.centerLeft,
+          onClosePressed: () => checkPreviousRouteWeb(NavigationRouter.ordensDeProducoesModule.path),
           body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,

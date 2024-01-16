@@ -1,10 +1,10 @@
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/grupo_de_restricao_entity.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/errors/roteiro_failure.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/repositories/get_grupo_de_restricao_repository.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/usecases/get_grupo_de_restricao_usecase.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/entities/grupo_de_restricao_entity.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/errors/roteiro_failure.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/repositories/get_grupo_de_restricao_repository.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/usecases/get_grupo_de_restricao_usecase.dart';
 
 class GetGrupoDeRestricaoRepositoryMock extends Mock implements GetGrupoDeRestricaoRepository {}
 

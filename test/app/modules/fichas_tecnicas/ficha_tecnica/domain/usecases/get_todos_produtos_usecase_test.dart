@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/entities/produto.dart';
-import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/errors/produto_failure.dart';
-import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/repositories/produto_repository.dart';
-import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/usecases/get_todos_produtos_usecase.dart';
+import 'package:pcp_flutter/app/modules/ficha_tecnica/domain/entities/produto.dart';
+import 'package:pcp_flutter/app/modules/ficha_tecnica/domain/errors/produto_failure.dart';
+import 'package:pcp_flutter/app/modules/ficha_tecnica/domain/repositories/produto_repository.dart';
+import 'package:pcp_flutter/app/modules/ficha_tecnica/domain/usecases/get_todos_produtos_usecase.dart';
 
 class ProdutoRepositoryMock extends Mock implements ProdutoRepository {}
 

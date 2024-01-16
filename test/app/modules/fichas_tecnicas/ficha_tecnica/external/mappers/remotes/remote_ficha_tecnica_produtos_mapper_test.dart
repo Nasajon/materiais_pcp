@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/aggreagates/ficha_tecnica_produto_aggregate.dart';
-import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/entities/unidade.dart';
-import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/entities/produto.dart';
-import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/external/mappers/remotes/remote_ficha_tecnica_produtos_mapper.dart';
+import 'package:pcp_flutter/app/modules/ficha_tecnica/domain/aggreagates/ficha_tecnica_produto_aggregate.dart';
+import 'package:pcp_flutter/app/modules/ficha_tecnica/domain/entities/unidade.dart';
+import 'package:pcp_flutter/app/modules/ficha_tecnica/domain/entities/produto.dart';
+import 'package:pcp_flutter/app/modules/ficha_tecnica/external/mappers/remotes/remote_ficha_tecnica_produtos_mapper.dart';
 
 void main() {
   test('Deve converter um Map em Ficha tecnica', () async {

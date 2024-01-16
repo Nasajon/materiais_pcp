@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/ficha_tecnica_entity.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/external/mappers/remotes/remote_ficha_tecnica_mappers.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/entities/ficha_tecnica_entity.dart';
+import 'package:pcp_flutter/app/modules/roteiro/external/mappers/remotes/remote_ficha_tecnica_mappers.dart';
 
 void main() {
   test('Deve converter um Map em FinchaTecnicaEntity', () async {

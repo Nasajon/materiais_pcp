@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/recurso_aggregate.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/errors/roteiro_failure.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/repositories/get_recurso_por_repository.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/infra/datasources/remotes/remote_get_recurso_por_grupo_datasource.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/infra/repositories/get_recurso_por_grupo_repository_impl.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/aggregates/recurso_aggregate.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/errors/roteiro_failure.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/repositories/get_recurso_por_repository.dart';
+import 'package:pcp_flutter/app/modules/roteiro/infra/datasources/remotes/remote_get_recurso_por_grupo_datasource.dart';
+import 'package:pcp_flutter/app/modules/roteiro/infra/repositories/get_recurso_por_grupo_repository_impl.dart';
 
 class RemoteGetRecursoPorGrupoDatasourceMock extends Mock implements RemoteGetRecursoPorGrupoDatasource {}
 

@@ -18,6 +18,12 @@ class RemoteSequencimantoEventoMapper {
       operacaoRoteiro: RemoteOperacaoRoteiroMapper.fromMapToOperacaoRoteiro(map['operacao_roteiro']),
       inicioPlanejado: DateVO.date(DateTime.parse(map['inicio_planejado'])),
       fimPlanejado: DateVO.date(DateTime.parse(map['fim_planejado'])),
+      inicioPreparacaoPlanejada: map['inicio_preparacao_planejada'] != null && (map['inicio_preparacao_planejada'] as String).isNotEmpty
+          ? DateVO.date(DateTime.parse(map['inicio_preparacao_planejada']))
+          : null,
+      fimPreparacaoPlanejada: map['fim_preparacao_planejada'] != null && (map['fim_preparacao_planejada'] as String).isNotEmpty
+          ? DateVO.date(DateTime.parse(map['fim_preparacao_planejada']))
+          : null,
     );
   }
 

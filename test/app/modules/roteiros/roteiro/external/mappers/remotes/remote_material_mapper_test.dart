@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/material_entity.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/external/mappers/remotes/remote_material_mapper.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/entities/material_entity.dart';
+import 'package:pcp_flutter/app/modules/roteiro/external/mappers/remotes/remote_material_mapper.dart';
 
 void main() {
   test('Deve converter um Map em MaterialEntity', () async {

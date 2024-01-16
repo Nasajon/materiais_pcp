@@ -3,6 +3,7 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/constants/navigation_router.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/widgets/list_tile_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/notification_snack_bar.dart';
@@ -107,7 +108,7 @@ class _OrdemDeProducaoItemWidgetState extends State<OrdemDeProducaoItemWidget> {
                         value: translation.fields.visualizar,
                         child: Text(translation.fields.visualizar),
                         onTap: () async {
-                          await Modular.to.pushNamed('./${widget.ordemDeProducao.id}');
+                          await Modular.to.pushNamed(NavigationRouter.ordensDeProducoesModule.updatePath(widget.ordemDeProducao.id));
 
                           widget.ordemDeProducaoListStore.getOrdemDeProducaos();
                         },
@@ -123,7 +124,9 @@ class _OrdemDeProducaoItemWidgetState extends State<OrdemDeProducaoItemWidget> {
                           value: translation.fields.sequenciarOperacoes,
                           child: Text(translation.fields.sequenciarOperacoes),
                           onTap: () async {
-                            Modular.to.pushNamed('./${widget.ordemDeProducao.id}/gerar-sequenciamento');
+                            Modular.to.pushNamed(
+                              NavigationRouter.ordensDeProducoesSequenciamentoModule.updatePath(widget.ordemDeProducao.id),
+                            );
 
                             widget.ordemDeProducaoListStore.getOrdemDeProducaos();
                           },

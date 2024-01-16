@@ -3,6 +3,7 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/constants/navigation_router.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/aggregates/ordem_de_producao_aggregate.dart';
@@ -67,6 +68,7 @@ class _DesktopOrdemDeProducaoFormPageState extends State<DesktopOrdemDeProducaoF
             : '${translation.fields.ordemDeProducao} ${translation.fields.codigo.toLowerCase()} ${widget.ordemDeProducaoOld.value!.codigo.toText}',
         controller: widget.scaffoldController,
         alignment: Alignment.centerLeft,
+        onClosePressed: () => checkPreviousRouteWeb(NavigationRouter.ordensDeProducoesModule.path),
         body: DesktopOrdemDeProducaoFormWidget(
           ordemDeProducaoController: widget.ordemDeProducaoController,
           getRoteiroStore: widget.getRoteiroStore,
@@ -114,7 +116,7 @@ class _DesktopOrdemDeProducaoFormPageState extends State<DesktopOrdemDeProducaoF
                       );
 
                       if (id.isEmpty) {
-                        Modular.to.pop();
+                        checkPreviousRouteWeb(NavigationRouter.ordensDeProducoesModule.path);
                       } else {
                         widget.ordemDeProducaoController.ordemDeProducao = ordemDeProducao;
                         widget.ordemDeProducaoOld.value = widget.ordemDeProducaoController.ordemDeProducao.copyWith();
@@ -138,12 +140,12 @@ class _DesktopOrdemDeProducaoFormPageState extends State<DesktopOrdemDeProducaoF
                                     messages: translation.messages.descatarAlteracoesCriacaoEntidade,
                                     titleCancel: translation.fields.descartar,
                                     titleSuccess: translation.fields.continuar,
-                                    onCancel: () => Modular.to.pop(),
+                                    onCancel: () => checkPreviousRouteWeb(NavigationRouter.ordensDeProducoesModule.path),
                                   );
                                 },
                               );
                             } else {
-                              Modular.to.pop();
+                              checkPreviousRouteWeb(NavigationRouter.ordensDeProducoesModule.path);
                             }
                           },
                         ),

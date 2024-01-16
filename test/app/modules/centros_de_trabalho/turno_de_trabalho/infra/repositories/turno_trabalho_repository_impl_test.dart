@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/domain/aggregates/turno_trabalho_aggregate.dart';
-import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/domain/repositories/turno_trabalho_repository.dart';
-import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/domain/errors/turno_trabalho_failure.dart';
-import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/infra/datasources/remote/remote_turno_trabalho_datasource.dart';
-import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/infra/repositories/turno_trabalho_repository_impl.dart';
+import 'package:pcp_flutter/app/modules/turno_de_trabalho/domain/aggregates/turno_trabalho_aggregate.dart';
+import 'package:pcp_flutter/app/modules/turno_de_trabalho/domain/repositories/turno_trabalho_repository.dart';
+import 'package:pcp_flutter/app/modules/turno_de_trabalho/domain/errors/turno_trabalho_failure.dart';
+import 'package:pcp_flutter/app/modules/turno_de_trabalho/infra/datasources/remote/remote_turno_trabalho_datasource.dart';
+import 'package:pcp_flutter/app/modules/turno_de_trabalho/infra/repositories/turno_trabalho_repository_impl.dart';
 
 class RemoteTurnoTrabalhoDatasourceMock extends Mock implements RemoteTurnoTrabalhoDatasource {}
 

@@ -1,9 +1,9 @@
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/errors/roteiro_failure.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/repositories/roteiro_repository.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/usecases/deletar_roteiro_usecase.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/errors/roteiro_failure.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/repositories/roteiro_repository.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/usecases/deletar_roteiro_usecase.dart';
 
 class RoteiroRepositoryMock extends Mock implements RoteiroRepository {}
 

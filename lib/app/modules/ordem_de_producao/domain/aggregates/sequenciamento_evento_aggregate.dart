@@ -14,6 +14,8 @@ class SequenciamentoEventoAggregate {
   final OperacaoRoteiroEntity operacaoRoteiro;
   final DateVO inicioPlanejado;
   final DateVO fimPlanejado;
+  final DateVO? inicioPreparacaoPlanejada;
+  final DateVO? fimPreparacaoPlanejada;
 
   const SequenciamentoEventoAggregate({
     required this.eventoRecursoId,
@@ -25,6 +27,8 @@ class SequenciamentoEventoAggregate {
     required this.operacaoRoteiro,
     required this.inicioPlanejado,
     required this.fimPlanejado,
+    this.inicioPreparacaoPlanejada,
+    this.fimPreparacaoPlanejada,
   });
 
   SequenciamentoEventoAggregate copyWith({
@@ -37,6 +41,8 @@ class SequenciamentoEventoAggregate {
     OperacaoRoteiroEntity? operacaoRoteiro,
     DateVO? inicioPlanejado,
     DateVO? fimPlanejado,
+    DateVO? inicioPreparacaoPlanejada,
+    DateVO? fimPreparacaoPlanejada,
   }) {
     return SequenciamentoEventoAggregate(
       eventoRecursoId: eventoRecursoId ?? this.eventoRecursoId,
@@ -48,6 +54,8 @@ class SequenciamentoEventoAggregate {
       operacaoRoteiro: operacaoRoteiro ?? this.operacaoRoteiro,
       inicioPlanejado: inicioPlanejado ?? this.inicioPlanejado,
       fimPlanejado: fimPlanejado ?? this.fimPlanejado,
+      inicioPreparacaoPlanejada: inicioPreparacaoPlanejada ?? this.inicioPreparacaoPlanejada,
+      fimPreparacaoPlanejada: fimPreparacaoPlanejada ?? this.fimPreparacaoPlanejada,
     );
   }
 
@@ -63,7 +71,9 @@ class SequenciamentoEventoAggregate {
         other.ordemDeProducao == ordemDeProducao &&
         other.operacaoRoteiro == operacaoRoteiro &&
         other.inicioPlanejado == inicioPlanejado &&
-        other.fimPlanejado == fimPlanejado;
+        other.fimPlanejado == fimPlanejado &&
+        other.inicioPreparacaoPlanejada == inicioPreparacaoPlanejada &&
+        other.fimPreparacaoPlanejada == fimPreparacaoPlanejada;
   }
 
   @override
@@ -76,6 +86,8 @@ class SequenciamentoEventoAggregate {
         ordemDeProducao.hashCode ^
         operacaoRoteiro.hashCode ^
         inicioPlanejado.hashCode ^
-        fimPlanejado.hashCode;
+        fimPlanejado.hashCode ^
+        inicioPreparacaoPlanejada.hashCode ^
+        fimPreparacaoPlanejada.hashCode;
   }
 }

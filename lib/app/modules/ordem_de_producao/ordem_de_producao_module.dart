@@ -1,6 +1,7 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/constants/navigation_router.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/usecases/aprovar_ordem_de_producao_usecase.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/usecases/atualizar_ordem_de_producao_usecase.dart';
@@ -58,7 +59,7 @@ class OrdemDeProducaoModule extends NasajonModule {
         showDemoMode: true,
         applicationID: 291,
         info: '',
-        onPressed: () => Modular.to.pushNamed('/pcp/ordem-de-producao/'),
+        onPressed: () => Modular.to.pushNamed(NavigationRouter.ordensDeProducoesModule.path),
       ),
     );
   }
@@ -117,7 +118,7 @@ class OrdemDeProducaoModule extends NasajonModule {
   @override
   List<ModularRoute> get routes => [
         ChildRoute(
-          '/',
+          NavigationRouter.startModule.module,
           child: (context, args) => OrdemDeProducaoListPage(
             ordemDeProducaoListStore: context.read(),
             scaffoldController: context.read(),
@@ -125,7 +126,7 @@ class OrdemDeProducaoModule extends NasajonModule {
           ),
         ),
         ChildRoute(
-          '/new',
+          NavigationRouter.createModule.module,
           child: (context, args) => OrdemDeProducaoFormPage(
             inserirEditarOrdemDeProducaoStore: context.read(),
             getOrdemDeProducaoPorIdStore: context.read(),
@@ -139,7 +140,7 @@ class OrdemDeProducaoModule extends NasajonModule {
           ),
         ),
         ChildRoute(
-          '/:id',
+          NavigationRouter.updateModule.module,
           child: (context, args) => OrdemDeProducaoFormPage(
             id: args.params['id'],
             inserirEditarOrdemDeProducaoStore: context.read(),
@@ -154,7 +155,7 @@ class OrdemDeProducaoModule extends NasajonModule {
           ),
         ),
         ChildRoute(
-          '/:id/gerar-sequenciamento',
+          NavigationRouter.ordensDeProducoesSequenciamentoModule.module,
           child: (context, args) => GerarSequenciamentoPage(
             id: args.params['id'],
             confirmarSequenciamentoStore: context.read(),
