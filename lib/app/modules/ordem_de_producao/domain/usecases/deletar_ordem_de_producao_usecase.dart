@@ -9,7 +9,8 @@ abstract interface class DeletarOrdemDeProducaoUsecase {
 class DeletarOrdemDeProducaoUsecaseImpl implements DeletarOrdemDeProducaoUsecase {
   final OrdemDeProducaoRepository _ordemDeProducaoRepository;
 
-  const DeletarOrdemDeProducaoUsecaseImpl(this._ordemDeProducaoRepository);
+  const DeletarOrdemDeProducaoUsecaseImpl({required OrdemDeProducaoRepository ordemDeProducaoRepository})
+      : _ordemDeProducaoRepository = ordemDeProducaoRepository;
 
   @override
   Future<bool> call(String ordemDeProducaoId) {

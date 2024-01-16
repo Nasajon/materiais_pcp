@@ -2,25 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:pcp_flutter/app/core/modules/domain/enums/roteiro_medicao_tempo_enum.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/date_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/double_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/time_vo.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/grupo_de_recurso_aggregate.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/operacao_aggregate.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/recurso_aggregate.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/aggregates/roteiro_aggregate.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/dtos/recurso_capacidade_dto.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/centro_de_trabalho_entity.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/ficha_tecnica_entity.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/grupo_de_recurso_entity.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/produto_entity.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/unidade_entity.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/enums/medicao_tempo_enum.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/errors/roteiro_failure.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/repositories/roteiro_repository.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/usecases/editar_roteiro_usecase.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/aggregates/grupo_de_recurso_aggregate.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/aggregates/operacao_aggregate.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/aggregates/recurso_aggregate.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/aggregates/roteiro_aggregate.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/dtos/recurso_capacidade_dto.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/entities/centro_de_trabalho_entity.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/entities/ficha_tecnica_entity.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/entities/grupo_de_recurso_entity.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/entities/produto_entity.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/entities/unidade_entity.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/errors/roteiro_failure.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/repositories/roteiro_repository.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/usecases/editar_roteiro_usecase.dart';
 
 class RoteiroRepositoryMock extends Mock implements RoteiroRepository {}
 
@@ -89,7 +89,7 @@ final roteiro = RoteiroAggregate(
       preparacao: TimeVO.time(TimeOfDay.now()),
       execucao: TimeVO.time(TimeOfDay.now()),
       produtoResultante: null,
-      medicaoTempo: MedicaoTempoEnum.porLote,
+      medicaoTempo: RoteiroMedicaoTempoEnum.porLote,
       unidade: const UnidadeEntity(
         id: '1',
         codigo: '1',

@@ -1,10 +1,10 @@
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/domain/aggregates/turno_trabalho_aggregate.dart';
-import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/domain/errors/turno_trabalho_failure.dart';
-import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/external/datasources/remote/remote_turno_trabalho_datasource_impl.dart';
-import 'package:pcp_flutter/app/modules/centros_de_trabalho/turno_de_trabalho/infra/datasources/remote/remote_turno_trabalho_datasource.dart';
+import 'package:pcp_flutter/app/modules/turno_de_trabalho/domain/aggregates/turno_trabalho_aggregate.dart';
+import 'package:pcp_flutter/app/modules/turno_de_trabalho/domain/errors/turno_trabalho_failure.dart';
+import 'package:pcp_flutter/app/modules/turno_de_trabalho/external/datasources/remote/remote_turno_trabalho_datasource_impl.dart';
+import 'package:pcp_flutter/app/modules/turno_de_trabalho/infra/datasources/remote/remote_turno_trabalho_datasource.dart';
 
 class ClientServiceMock extends Mock implements IClientService {}
 

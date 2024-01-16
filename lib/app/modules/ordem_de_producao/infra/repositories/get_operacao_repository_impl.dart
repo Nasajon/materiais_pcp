@@ -8,7 +8,7 @@ class GetOperacaoRepositoryImpl implements GetOperacaoRepository {
   const GetOperacaoRepositoryImpl(this._remoteGetOperacaoDatasource);
 
   @override
-  Future<List<OperacaoAggregate>> call(String roteiroId) {
-    return _remoteGetOperacaoDatasource(roteiroId);
+  Future<List<OperacaoAggregate>> call(List<String> roteirosId) {
+    return _remoteGetOperacaoDatasource(roteirosId);
   }
 }

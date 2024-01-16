@@ -13,15 +13,15 @@ void main() {
 
   setUp(() {
     getOperacaoRepository = GetOperacaoRepositoryMock();
-    getOperacaoUsecase = GetOperacaoUsecaseImpl(getOperacaoRepository);
+    getOperacaoUsecase = GetOperacaoUsecaseImpl(getOperacaoRepository: getOperacaoRepository);
   });
 
   group('GetOperacaoUsecaseImpl -', () {
     group('Sucesso -', () {
       test('Deve retornar uma lista de produto quando passar ou não uma pesquisa.', () async {
-        when(() => getOperacaoRepository('1')).thenAnswer((_) async => <OperacaoAggregate>[]);
+        when(() => getOperacaoRepository(['1'])).thenAnswer((_) async => <OperacaoAggregate>[]);
 
-        final response = await getOperacaoUsecase('1');
+        final response = await getOperacaoUsecase(['1']);
 
         expect(response, isA<List<OperacaoAggregate>>());
       });
@@ -29,13 +29,13 @@ void main() {
 
     group('Falha -', () {
       test('Deve retornar uma OrdemDeProducaoFailure quando não informar o id do roteiro.', () async {
-        expect(() => getOperacaoUsecase(''), throwsA(isA<OrdemDeProducaoFailure>()));
+        expect(() => getOperacaoUsecase([]), throwsA(isA<OrdemDeProducaoFailure>()));
       });
 
       test('Deve retornar uma OrdemDeProducaoFailure quando ocorrer um erro na pesquisa.', () async {
-        when(() => getOperacaoRepository('1')).thenThrow(OrdemDeProducaoFailure(errorMessage: ''));
+        when(() => getOperacaoRepository(['1'])).thenThrow(OrdemDeProducaoFailure(errorMessage: ''));
 
-        expect(() => getOperacaoUsecase('1'), throwsA(isA<OrdemDeProducaoFailure>()));
+        expect(() => getOperacaoUsecase(['1']), throwsA(isA<OrdemDeProducaoFailure>()));
       });
     });
   });

@@ -8,6 +8,8 @@ abstract class Fields {
   String get adicionarMateriais;
   String get adicionarMaterial;
   String get adicionarOperacao;
+  String get adicionarOrdemDeProducao;
+  String get aprovarOrdemDeProducao;
   String get cancelar;
   String get capacidade;
   String get capacidadeDeProducao;
@@ -17,6 +19,7 @@ abstract class Fields {
   String get cnpj;
   String get codigo;
   String get confirmacao;
+  String get confirmarSequenciamento;
   String get continuar;
   String get cpf;
   String get criar;
@@ -41,6 +44,7 @@ abstract class Fields {
   String get execucao;
   String get fichaTecnica;
   String get fim;
+  String get fimPlanejado;
   String get grupoDeRecurso;
   String get grupoDeRecursos;
   String get grupoDeRestricao;
@@ -54,6 +58,7 @@ abstract class Fields {
   String get id;
   String get indisponibilidade;
   String get inicio;
+  String get inicioPlanejado;
   String get intervalo;
   String get intervaloFinal;
   String get intervaloInicial;
@@ -70,12 +75,14 @@ abstract class Fields {
   String get nome;
   String get observacoes;
   String get opcional;
+  String get operacao;
   String get operacoes;
   String get ordemDeProducao;
   String get periodo;
   String get periodoDeEntrega;
   String get periodoDeVigencia;
   String get preparacao;
+  String get previsaoDeEntrega;
   String get prioridade;
   String get produto;
   String get produtoResultante;
@@ -84,14 +91,19 @@ abstract class Fields {
   String get razaoDeConversao;
   String get recurso;
   String get recursoApto;
+  String get recursos;
   String get recursosAptos;
   String get remover;
   String get restricao;
   String get restricoes;
+  String get resultado;
   String get roteiro;
+  String get roteiroDeProducao;
   String get roteiros;
   String get salvar;
   String get semOperacoes;
+  String get sequenciarOperacoes;
+  String get status;
   String get tempo;
   String get tipo;
   String get tipoDeRecurso;
@@ -101,6 +113,7 @@ abstract class Fields {
   String get usar;
   String get utilizar;
   String get visualizar;
+  String get visualizarEmGrafico;
   String get voltar;
   String criarEntity(String entity);
 }

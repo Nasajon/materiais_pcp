@@ -109,10 +109,16 @@ class TitlesPt extends Titles {
   String get ordemDeProducao => 'Ordem de produção';
 
   @override
+  String get planejarOrdem => 'Planejar ordem';
+
+  @override
   String get restricoes => 'Restrições';
 
   @override
   String get restricoesSecundarias => 'Restrições secundárias';
+
+  @override
+  String get resultadoSequenciamento => 'Resultado do sequenciamento';
 
   @override
   String get roteiroDeProducao => 'Roteiros de produção';
@@ -133,6 +139,9 @@ class TitlesPt extends Titles {
   String get ultimasFichasTecnicasAcessadas => 'Ultimas fichas técnicas acessadas';
 
   @override
+  String get ultimasOrdensDeProducaosAcessados => 'Últimas ordens de produtos acessados';
+
+  @override
   String get ultimasRestricoesAcessadas => 'Últimas restrições acessadas';
 
   @override
@@ -143,9 +152,6 @@ class TitlesPt extends Titles {
 
   @override
   String get ultimosGruposAcessados => 'Últimos grupos acessados';
-
-  @override
-  String get ultimasOrdensDeProducaosAcessados => 'Últimas ordens de produtos acessados';
 
   @override
   String get ultimosRecursosAcessados => 'Últimos recursos acessados';

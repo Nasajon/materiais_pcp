@@ -4,23 +4,23 @@ import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/errors/ordem_de
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/repositories/get_operacao_repository.dart';
 
 abstract interface class GetOperacaoUsecase {
-  Future<List<OperacaoAggregate>> call(String roteiroId);
+  Future<List<OperacaoAggregate>> call(List<String> roteirosId);
 }
 
 class GetOperacaoUsecaseImpl implements GetOperacaoUsecase {
   final GetOperacaoRepository _getOperacaoRepository;
 
-  const GetOperacaoUsecaseImpl(this._getOperacaoRepository);
+  const GetOperacaoUsecaseImpl({required GetOperacaoRepository getOperacaoRepository}) : _getOperacaoRepository = getOperacaoRepository;
 
   @override
-  Future<List<OperacaoAggregate>> call(String roteiroId) {
-    if (roteiroId.isEmpty) {
+  Future<List<OperacaoAggregate>> call(List<String> roteirosId) {
+    if (roteirosId.isEmpty) {
       throw IdNotFoundOrdemDeProducaoFailure(
         errorMessage: translation.messages.erroIdNaoInformado,
         stackTrace: StackTrace.current,
       );
     }
 
-    return _getOperacaoRepository(roteiroId);
+    return _getOperacaoRepository(roteirosId);
   }
 }

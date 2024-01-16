@@ -14,7 +14,7 @@ void main() {
 
   setUp(() {
     ordemDeProducaoRepository = OrdemDeProducaoRepositoryMock();
-    getOrdemDeProducaoPorIdUsecase = GetOrdemDeProducaoPorIdUsecaseImpl(ordemDeProducaoRepository);
+    getOrdemDeProducaoPorIdUsecase = GetOrdemDeProducaoPorIdUsecaseImpl(ordemDeProducaoRepository: ordemDeProducaoRepository);
   });
 
   group('GetOrdemDeProducaoPorIdUsecaseImpl -', () {

@@ -7,12 +7,16 @@ class DateVO extends TextVO {
   }
 
   factory DateVO.date(DateTime date) {
-    return DateVO(DateFormat('dd/MM/yyyy').format(date));
+    return DateVO(DateFormat('dd/MM/yyyy HH:mm:ss').format(date));
+  }
+
+  factory DateVO.empty() {
+    return DateVO.date(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day));
   }
 
   _validate() {}
 
-  DateTime? getDate({String format = 'dd/MM/yyyy'}) {
+  DateTime? getDate({String format = 'dd/MM/yyyy HH:mm:ss'}) {
     try {
       return DateFormat(format).parse(value);
     } on FormatException {

@@ -15,26 +15,31 @@ class RemoteGetOperacaoDatasourceImpl implements RemoteGetOperacaoDatasource {
   List<Interceptor> interceptors = [ApiKeyInterceptor(), EntidadesEmpresariaisInterceptor()];
 
   @override
-  Future<List<OperacaoAggregate>> call(String roteiroId) async {
+  Future<List<OperacaoAggregate>> call(List<String> roteirosId) async {
     try {
       Map<String, dynamic> queryParams = {
         'fields':
-            'operacoes.centro_de_trabalho,operacoes.produtos.produto,operacoes.produtos.unidade,operacoes.grupos_recursos.grupo_de_recurso,operacoes.grupos_recursos.recursos.recurso',
+            'operacoes.centro_de_trabalho,operacoes.produtos.produto,operacoes.produtos.unidade,operacoes.grupos_recursos.grupo_de_recurso,operacoes.grupos_recursos.recursos.recurso, operacoes.grupos_recursos.recursos.grupos_restricoes.grupo_de_restricao,operacoes.grupos_recursos.recursos.grupos_restricoes.restricoes.restricao',
+        'roteiro': roteirosId.join(','),
       };
 
       final response = await _clientService.request(
         ClientRequestParams(
           selectedApi: APIEnum.pcp,
-          endPoint: '/roteiros/$roteiroId',
+          endPoint: '/roteiros',
           method: ClientRequestMethods.GET,
           interceptors: interceptors,
           queryParams: queryParams,
         ),
       );
 
-      final data = List.from(response.data['operacoes']).map((map) => RemoteOperacaoMapper.fromMapToOperacaoEntity(map)).toList();
+      final operacoes = <OperacaoAggregate>[];
 
-      return data;
+      List.from(response.data).forEach((map) {
+        List.from(map['operacoes']).forEach((map) => operacoes.add(RemoteOperacaoMapper.fromMapToOperacaoEntity(map)));
+      });
+
+      return operacoes;
     } on ClientError catch (e) {
       throw DatasourceOrdemDeProducaoFailure(errorMessage: e.message, stackTrace: e.stackTrace);
     }

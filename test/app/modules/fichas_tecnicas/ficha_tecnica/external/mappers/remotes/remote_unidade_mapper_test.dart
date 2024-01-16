@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/entities/unidade.dart';
-import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/external/mappers/remotes/remote_unidade_mapper.dart';
+import 'package:pcp_flutter/app/modules/ficha_tecnica/domain/entities/unidade.dart';
+import 'package:pcp_flutter/app/modules/ficha_tecnica/external/mappers/remotes/remote_unidade_mapper.dart';
 
 void main() {
   test('Deve converter um Map em Ficha tecnica', () async {

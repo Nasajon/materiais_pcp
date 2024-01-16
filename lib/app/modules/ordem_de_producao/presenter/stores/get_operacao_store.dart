@@ -9,11 +9,11 @@ class GetOperacaoStore extends NasajonNotifierStore<List<OperacaoAggregate>> {
 
   GetOperacaoStore(this._getOperacaoUsecase) : super(initialState: []);
 
-  void getList(String roteiroId) async {
+  void getList(List<String> roteirosId) async {
     setLoading(true);
 
     try {
-      final response = await _getOperacaoUsecase(roteiroId);
+      final response = await _getOperacaoUsecase(roteirosId);
 
       update(response);
     } on OrdemDeProducaoFailure catch (error) {

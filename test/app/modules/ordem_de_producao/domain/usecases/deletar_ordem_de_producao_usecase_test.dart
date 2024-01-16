@@ -13,7 +13,7 @@ void main() {
 
   setUp(() {
     ordemDeProducaoRepository = OrdemDeProducaoRepositoryMock();
-    deletarOrdemDeProducaoUsecase = DeletarOrdemDeProducaoUsecaseImpl(ordemDeProducaoRepository);
+    deletarOrdemDeProducaoUsecase = DeletarOrdemDeProducaoUsecaseImpl(ordemDeProducaoRepository: ordemDeProducaoRepository);
   });
 
   group('DeletarOrdemDeProducaoUsecaseImpl -', () {

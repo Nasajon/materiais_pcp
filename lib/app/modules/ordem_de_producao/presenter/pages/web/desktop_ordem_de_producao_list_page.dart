@@ -2,6 +2,7 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/constants/navigation_router.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/pesquisa_form_field_widget.dart';
@@ -39,7 +40,8 @@ class _DesktopOrdemDeProducaoListPageState extends State<DesktopOrdemDeProducaoL
       child: CustomPrimaryButton(
         title: translation.fields.criarEntity(translation.fields.ordemDeProducao),
         onPressed: () async {
-          await Modular.to.pushNamed('./new');
+          await Modular.to.pushNamed(NavigationRouter.ordensDeProducoesModule.createPath);
+          widget.ordemDeProducaoListStore.getOrdemDeProducaos();
         },
       ),
     );
@@ -48,6 +50,7 @@ class _DesktopOrdemDeProducaoListPageState extends State<DesktopOrdemDeProducaoL
       translation.titles.ordemDeProducao,
       controller: widget.scaffoldController,
       alignment: Alignment.centerLeft,
+      onClosePressed: () => checkPreviousRouteWeb(NavigationRouter.appModule.path),
       actions: [
         InternetButtonIconWidget(connectionStore: widget.connectionStore),
       ],
@@ -141,6 +144,7 @@ class _DesktopOrdemDeProducaoListPageState extends State<DesktopOrdemDeProducaoL
                                   ordemDeProducao: value.ordemDeProducao,
                                   deletarOrdemDeProducaoStore: value.deletarOrdemDeProducaoStore,
                                   ordemDeProducaoListStore: widget.ordemDeProducaoListStore,
+                                  aprovarOrdemDeProducaoStore: value.aprovarOrdemDeProducaoStore,
                                 );
                               }).toList(),
                               const SizedBox(height: 16),

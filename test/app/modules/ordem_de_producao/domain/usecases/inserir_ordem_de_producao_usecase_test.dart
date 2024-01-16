@@ -8,6 +8,7 @@ import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/entities/produt
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/entities/roteiro_entity.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/entities/unidade_entity.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/enums/prioridade_enum.dart';
+import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/enums/status_ordem_de_producao_enum.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/errors/ordem_de_producao_failure.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/repositories/ordem_de_producao_repository.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/usecases/inserir_ordem_de_producao_usecase.dart';
@@ -20,7 +21,7 @@ void main() {
 
   setUp(() {
     ordemDeProducaoRepository = OrdemDeProducaoRepositoryMock();
-    inserirOrdemDeProducaoUsecase = InserirOrdemDeProducaoUsecaseImpl(ordemDeProducaoRepository);
+    inserirOrdemDeProducaoUsecase = InserirOrdemDeProducaoUsecaseImpl(ordemDeProducaoRepository: ordemDeProducaoRepository);
   });
 
   group('InserirOrdemDeProducaoUsecaseImpl -', () {
@@ -52,6 +53,7 @@ void main() {
 final ordemDeProducao = OrdemDeProducaoAggregate(
   id: '1',
   codigo: CodigoVO(1),
+  status: StatusOrdemDeProducaoEnum.aberta,
   produto: const ProdutoEntity(
     id: '1',
     codigo: '1',

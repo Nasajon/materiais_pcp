@@ -7,10 +7,12 @@ import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/controllers/
 
 class PrioridadeWidget extends StatelessWidget {
   final OrdemDeProducaoController ordemDeProducaoController;
+  final bool isEnabledForm;
 
   const PrioridadeWidget({
     Key? key,
     required this.ordemDeProducaoController,
+    required this.isEnabledForm,
   }) : super(key: key);
 
   @override
@@ -42,7 +44,9 @@ class PrioridadeWidget extends StatelessWidget {
               )
               .toList(),
           onSelectionChanged: (value) {
-            ordemDeProducaoController.ordemDeProducao = ordemDeProducaoController.ordemDeProducao.copyWith(prioridade: value.first);
+            if (isEnabledForm) {
+              ordemDeProducaoController.ordemDeProducao = ordemDeProducaoController.ordemDeProducao.copyWith(prioridade: value.first);
+            }
           },
           style: ButtonStyle(
             side: MaterialStatePropertyAll(

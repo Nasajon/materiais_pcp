@@ -1,8 +1,10 @@
 import 'package:flutter_core/ana_core.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/aggregates/ordem_de_producao_aggregate.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/errors/ordem_de_producao_failure.dart';
+import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/usecases/aprovar_ordem_de_producao_usecase.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/usecases/deletar_ordem_de_producao_usecase.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/domain/usecases/get_ordem_de_producao_usecase.dart';
+import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/stores/aprovar_ordem_de_producao_store.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/stores/deletar_ordem_de_producao_store.dart';
 import 'package:pcp_flutter/app/modules/ordem_de_producao/presenter/stores/states/ordem_de_producao_state.dart';
 
@@ -10,11 +12,13 @@ class OrdemDeProducaoListStore extends NasajonNotifierStore<List<OrdemDeProducao
   final GetOrdemDeProducaoUsecase _getOrdemDeProducaoUsecase;
   // final GetOrdemDeProducaoRecenteUsecase _getOrdemDeProducaoRecenteUsecase;
   final DeletarOrdemDeProducaoUsecase _deletarOrdemDeProducaoUsecase;
+  final AprovarOrdemDeProducaoUsecase _aprovarOrdemDeProducaoUsecase;
 
   OrdemDeProducaoListStore(
     this._getOrdemDeProducaoUsecase,
     // this._getOrdemDeProducaoRecenteUsecase,
     this._deletarOrdemDeProducaoUsecase,
+    this._aprovarOrdemDeProducaoUsecase,
   ) : super(initialState: []);
 
   String search = '';
@@ -48,6 +52,7 @@ class OrdemDeProducaoListStore extends NasajonNotifierStore<List<OrdemDeProducao
                 (ordemDeProducao) => OrdemDeProducaoState(
                   ordemDeProducao: ordemDeProducao,
                   deletarOrdemDeProducaoStore: DeletarOrdemDeProducaoStore(_deletarOrdemDeProducaoUsecase),
+                  aprovarOrdemDeProducaoStore: AprovarOrdemDeProducaoStore(_aprovarOrdemDeProducaoUsecase),
                 ),
               )
               .toList();
@@ -66,6 +71,7 @@ class OrdemDeProducaoListStore extends NasajonNotifierStore<List<OrdemDeProducao
       OrdemDeProducaoState(
         ordemDeProducao: ordemDeProducao,
         deletarOrdemDeProducaoStore: DeletarOrdemDeProducaoStore(_deletarOrdemDeProducaoUsecase),
+        aprovarOrdemDeProducaoStore: AprovarOrdemDeProducaoStore(_aprovarOrdemDeProducaoUsecase),
       ),
     );
 
@@ -81,6 +87,7 @@ class OrdemDeProducaoListStore extends NasajonNotifierStore<List<OrdemDeProducao
       OrdemDeProducaoState(
         ordemDeProducao: ordemDeProducao,
         deletarOrdemDeProducaoStore: DeletarOrdemDeProducaoStore(_deletarOrdemDeProducaoUsecase),
+        aprovarOrdemDeProducaoStore: AprovarOrdemDeProducaoStore(_aprovarOrdemDeProducaoUsecase),
       ),
     ]);
 

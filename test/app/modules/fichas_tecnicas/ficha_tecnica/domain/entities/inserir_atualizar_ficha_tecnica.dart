@@ -1,9 +1,9 @@
 import 'package:pcp_flutter/app/core/modules/domain/value_object/double_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
-import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/aggreagates/ficha_tecnica_aggregate.dart';
-import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/aggreagates/ficha_tecnica_produto_aggregate.dart';
-import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/entities/produto.dart';
-import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/entities/unidade.dart';
+import 'package:pcp_flutter/app/modules/ficha_tecnica/domain/aggreagates/ficha_tecnica_aggregate.dart';
+import 'package:pcp_flutter/app/modules/ficha_tecnica/domain/aggreagates/ficha_tecnica_produto_aggregate.dart';
+import 'package:pcp_flutter/app/modules/ficha_tecnica/domain/entities/produto.dart';
+import 'package:pcp_flutter/app/modules/ficha_tecnica/domain/entities/unidade.dart';
 
 ProdutoEntity prod = const ProdutoEntity(id: '2c921bfe-eba4-45fb-8ebe-e9c2f45b22c4', codigo: '01', nome: 'produto 01');
 ProdutoEntity prodMaterial1 = const ProdutoEntity(id: 'cb53a49e-e36d-48d4-a9a4-3746fcaca78b', codigo: '01', nome: 'produto 01');

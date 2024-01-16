@@ -1,11 +1,11 @@
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/domain/aggreagates/centro_trabalho_aggregate.dart';
-import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/domain/entities/turno_trabalho_entity.dart';
-import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/domain/errors/centro_trabalho_failure.dart';
-import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/external/datasources/remotes/remote_centro_trabalho_datasource_impl.dart';
-import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/infra/datasources/remotes/remote_centro_trabalho_datasource.dart';
+import 'package:pcp_flutter/app/modules/centro_trabalho/domain/aggreagates/centro_trabalho_aggregate.dart';
+import 'package:pcp_flutter/app/modules/centro_trabalho/domain/entities/turno_trabalho_entity.dart';
+import 'package:pcp_flutter/app/modules/centro_trabalho/domain/errors/centro_trabalho_failure.dart';
+import 'package:pcp_flutter/app/modules/centro_trabalho/external/datasources/remotes/remote_centro_trabalho_datasource_impl.dart';
+import 'package:pcp_flutter/app/modules/centro_trabalho/infra/datasources/remotes/remote_centro_trabalho_datasource.dart';
 
 class ClientServiceMock extends Mock implements IClientService {}
 

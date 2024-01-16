@@ -10,7 +10,8 @@ abstract interface class GetOrdemDeProducaoPorIdUsecase {
 class GetOrdemDeProducaoPorIdUsecaseImpl implements GetOrdemDeProducaoPorIdUsecase {
   final OrdemDeProducaoRepository _ordemDeProducaoRepository;
 
-  const GetOrdemDeProducaoPorIdUsecaseImpl(this._ordemDeProducaoRepository);
+  const GetOrdemDeProducaoPorIdUsecaseImpl({required OrdemDeProducaoRepository ordemDeProducaoRepository})
+      : _ordemDeProducaoRepository = ordemDeProducaoRepository;
 
   @override
   Future<OrdemDeProducaoAggregate> call(String ordemDeProducaoId) {

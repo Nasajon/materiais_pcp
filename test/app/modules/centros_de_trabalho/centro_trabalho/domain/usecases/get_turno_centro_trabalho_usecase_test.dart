@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/domain/entities/turno_trabalho_entity.dart';
-import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/domain/errors/centro_trabalho_failure.dart';
-import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/domain/repositories/centro_trabalho_repository.dart';
-import 'package:pcp_flutter/app/modules/centros_de_trabalho/centro_trabalho/domain/usecases/get_turno_centro_trabalho_usecase.dart';
+import 'package:pcp_flutter/app/modules/centro_trabalho/domain/entities/turno_trabalho_entity.dart';
+import 'package:pcp_flutter/app/modules/centro_trabalho/domain/errors/centro_trabalho_failure.dart';
+import 'package:pcp_flutter/app/modules/centro_trabalho/domain/repositories/centro_trabalho_repository.dart';
+import 'package:pcp_flutter/app/modules/centro_trabalho/domain/usecases/get_turno_centro_trabalho_usecase.dart';
 
 class TurnoTrabalhoRepositoryMock extends Mock implements CentroTrabalhoRepository {}
 

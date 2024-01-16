@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/entities/unidade.dart';
-import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/errors/unidade_failure.dart';
-import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/repositories/unidade_repository.dart';
-import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/infra/datasources/remotes/remote_unidade_datasource.dart';
-import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/infra/repositories/unidade_repository_impl.dart';
+import 'package:pcp_flutter/app/modules/ficha_tecnica/domain/entities/unidade.dart';
+import 'package:pcp_flutter/app/modules/ficha_tecnica/domain/errors/unidade_failure.dart';
+import 'package:pcp_flutter/app/modules/ficha_tecnica/domain/repositories/unidade_repository.dart';
+import 'package:pcp_flutter/app/modules/ficha_tecnica/infra/datasources/remotes/remote_unidade_datasource.dart';
+import 'package:pcp_flutter/app/modules/ficha_tecnica/infra/repositories/unidade_repository_impl.dart';
 
 class RemoteUnidadeDatasourceMock extends Mock implements RemoteUnidadeDatasource {}
 

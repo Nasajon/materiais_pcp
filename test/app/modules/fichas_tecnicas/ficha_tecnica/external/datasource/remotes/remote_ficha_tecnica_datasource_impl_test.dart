@@ -1,10 +1,10 @@
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/aggreagates/ficha_tecnica_aggregate.dart';
-import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/errors/ficha_tecnica_failure.dart';
-import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/external/datasources/remotes/remote_ficha_tecnica_datasource_impl.dart';
-import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/infra/datasources/remotes/remote_ficha_tecnica_datasource.dart';
+import 'package:pcp_flutter/app/modules/ficha_tecnica/domain/aggreagates/ficha_tecnica_aggregate.dart';
+import 'package:pcp_flutter/app/modules/ficha_tecnica/domain/errors/ficha_tecnica_failure.dart';
+import 'package:pcp_flutter/app/modules/ficha_tecnica/external/datasources/remotes/remote_ficha_tecnica_datasource_impl.dart';
+import 'package:pcp_flutter/app/modules/ficha_tecnica/infra/datasources/remotes/remote_ficha_tecnica_datasource.dart';
 
 import '../../../domain/entities/inserir_atualizar_ficha_tecnica.dart';
 

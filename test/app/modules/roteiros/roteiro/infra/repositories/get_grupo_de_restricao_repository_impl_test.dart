@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/grupo_de_restricao_entity.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/errors/roteiro_failure.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/repositories/get_grupo_de_restricao_repository.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/infra/datasources/remotes/remote_get_grupo_de_restricao_datasource.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/infra/repositories/get_grupo_de_restricao_repository_impl.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/entities/grupo_de_restricao_entity.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/errors/roteiro_failure.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/repositories/get_grupo_de_restricao_repository.dart';
+import 'package:pcp_flutter/app/modules/roteiro/infra/datasources/remotes/remote_get_grupo_de_restricao_datasource.dart';
+import 'package:pcp_flutter/app/modules/roteiro/infra/repositories/get_grupo_de_restricao_repository_impl.dart';
 
 class RemoteGetGrupoDeRestricaoDatasourceMock extends Mock implements RemoteGetGrupoDeRestricaoDatasource {}
 

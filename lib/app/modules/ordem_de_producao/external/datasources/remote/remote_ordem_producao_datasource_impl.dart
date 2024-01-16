@@ -15,7 +15,7 @@ class RemoteOrdemDeProducaoDatasourceImpl implements RemoteOrdemDeProducaoDataso
   List<Interceptor> interceptors = [ApiKeyInterceptor(), EntidadesEmpresariaisInterceptor()];
 
   @override
-  Future<List<OrdemDeProducaoAggregate>> getOrdens({String search = '', String ultimoId = ''}) async {
+  Future<List<OrdemDeProducaoAggregate>> getOrdens({String search = '', String ultimoId = '', String? status}) async {
     try {
       Map<String, dynamic> queryParams = {'fields': 'fim,roteiro.unidade,produto,cliente'};
 
@@ -24,6 +24,9 @@ class RemoteOrdemDeProducaoDatasourceImpl implements RemoteOrdemDeProducaoDataso
       }
       if (ultimoId.isNotEmpty) {
         queryParams['after'] = ultimoId;
+      }
+      if (status != null && status.isNotEmpty) {
+        queryParams['status'] = status;
       }
 
       final response = await _clientService.request(
@@ -62,6 +65,24 @@ class RemoteOrdemDeProducaoDatasourceImpl implements RemoteOrdemDeProducaoDataso
       final data = RemoteOrdemDeProducaoMapper.fromMapToOrdemDeProducaoAggregate(response.data);
 
       return data;
+    } on ClientError catch (e) {
+      throw DatasourceOrdemDeProducaoFailure(errorMessage: e.message, stackTrace: e.stackTrace);
+    }
+  }
+
+  @override
+  Future<bool> aprovarOrdemDeProducao(String ordemDeProducaoId) async {
+    try {
+      await _clientService.request(
+        ClientRequestParams(
+          selectedApi: APIEnum.pcp,
+          endPoint: '/ordensdeproducoes/$ordemDeProducaoId/aprovar',
+          method: ClientRequestMethods.GET,
+          interceptors: interceptors,
+        ),
+      );
+
+      return true;
     } on ClientError catch (e) {
       throw DatasourceOrdemDeProducaoFailure(errorMessage: e.message, stackTrace: e.stackTrace);
     }

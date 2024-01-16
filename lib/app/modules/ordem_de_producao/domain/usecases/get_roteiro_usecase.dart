@@ -10,7 +10,7 @@ abstract interface class GetRoteiroUsecase {
 class GetRoteiroUsecaseImpl implements GetRoteiroUsecase {
   final GetRoteiroRepository _getRoteiroRepository;
 
-  const GetRoteiroUsecaseImpl(this._getRoteiroRepository);
+  const GetRoteiroUsecaseImpl({required GetRoteiroRepository getRoteiroRepository}) : _getRoteiroRepository = getRoteiroRepository;
 
   @override
   Future<List<RoteiroEntity>> call(String produtoId, {String search = '', String ultimoId = ''}) async {

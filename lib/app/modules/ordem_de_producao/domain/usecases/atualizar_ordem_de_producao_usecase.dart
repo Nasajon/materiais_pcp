@@ -10,7 +10,8 @@ abstract interface class AtualizarOrdemDeProducaoUsecase {
 class AtualizarOrdemDeProducaoUsecaseImpl implements AtualizarOrdemDeProducaoUsecase {
   final OrdemDeProducaoRepository _ordemDeProducaoRepository;
 
-  const AtualizarOrdemDeProducaoUsecaseImpl(this._ordemDeProducaoRepository);
+  const AtualizarOrdemDeProducaoUsecaseImpl({required OrdemDeProducaoRepository ordemDeProducaoRepository})
+      : _ordemDeProducaoRepository = ordemDeProducaoRepository;
 
   @override
   Future<bool> call(OrdemDeProducaoAggregate ordemDeProducao) {

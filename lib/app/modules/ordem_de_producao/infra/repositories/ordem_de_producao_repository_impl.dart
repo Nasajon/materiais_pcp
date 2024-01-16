@@ -8,13 +8,18 @@ class OrdemDeProducaoRepositoryImpl implements OrdemDeProducaoRepository {
   const OrdemDeProducaoRepositoryImpl(this._remoteOrdemDeProducaoDatasource);
 
   @override
-  Future<List<OrdemDeProducaoAggregate>> getOrdens({String search = '', String ultimoId = ''}) {
-    return _remoteOrdemDeProducaoDatasource.getOrdens(search: search, ultimoId: ultimoId);
+  Future<List<OrdemDeProducaoAggregate>> getOrdens({String search = '', String ultimoId = '', String? status}) {
+    return _remoteOrdemDeProducaoDatasource.getOrdens(search: search, ultimoId: ultimoId, status: status);
   }
 
   @override
   Future<OrdemDeProducaoAggregate> getOrdemDeProducaoPorId(String ordemDeProducaoId) {
     return _remoteOrdemDeProducaoDatasource.getOrdemDeProducaoPorId(ordemDeProducaoId);
+  }
+
+  @override
+  Future<bool> aprovarOrdemDeProducao(String ordemDeProducaoId) {
+    return _remoteOrdemDeProducaoDatasource.aprovarOrdemDeProducao(ordemDeProducaoId);
   }
 
   @override

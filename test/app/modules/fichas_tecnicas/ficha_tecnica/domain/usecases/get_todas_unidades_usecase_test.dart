@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/entities/unidade.dart';
-import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/errors/ficha_tecnica_failure.dart';
-import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/repositories/unidade_repository.dart';
-import 'package:pcp_flutter/app/modules/fichas_tecnicas/ficha_tecnica/domain/usecases/get_todas_unidades_usecase.dart';
+import 'package:pcp_flutter/app/modules/ficha_tecnica/domain/entities/unidade.dart';
+import 'package:pcp_flutter/app/modules/ficha_tecnica/domain/errors/ficha_tecnica_failure.dart';
+import 'package:pcp_flutter/app/modules/ficha_tecnica/domain/repositories/unidade_repository.dart';
+import 'package:pcp_flutter/app/modules/ficha_tecnica/domain/usecases/get_todas_unidades_usecase.dart';
 
 class UnidadeRepositoryMock extends Mock implements UnidadeRepository {}
 

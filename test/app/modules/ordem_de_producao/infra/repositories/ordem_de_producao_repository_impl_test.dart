@@ -37,6 +37,14 @@ void main() {
           expect(response, isA<OrdemDeProducaoAggregate>());
         });
 
+        test('aprovarOrdemDeProducao - Deve retornar um OrdemDeProducaoAggregate quando passar o id do ordemDeProducao.', () async {
+          when(() => remoteOrdemDeProducaoDatasource.aprovarOrdemDeProducao('1')).thenAnswer((invocation) async => true);
+
+          final response = await ordemDeProducaoRepository.aprovarOrdemDeProducao('1');
+
+          expect(response, isA<bool>());
+        });
+
         test('inserir - Deve inserir a ordem de produção e retornar o id quando passar os dados do ordemDeProducao corretos.', () async {
           when(() => remoteOrdemDeProducaoDatasource.inserir(OrdemDeProducaoAggregate.empty()))
               .thenAnswer((invocation) async => OrdemDeProducaoAggregate.empty());
@@ -78,6 +86,13 @@ void main() {
               .thenThrow(DatasourceOrdemDeProducaoFailure(errorMessage: '', stackTrace: StackTrace.current));
 
           expect(() => ordemDeProducaoRepository.getOrdemDeProducaoPorId(''), throwsA(isA<OrdemDeProducaoFailure>()));
+        });
+
+        test('aprovarOrdemDeProducao - Deve retornar um OrdemDeProducaoFailure quando ocorrer erro mapeado no Datasource.', () async {
+          when(() => remoteOrdemDeProducaoDatasource.aprovarOrdemDeProducao(''))
+              .thenThrow(DatasourceOrdemDeProducaoFailure(errorMessage: '', stackTrace: StackTrace.current));
+
+          expect(() => ordemDeProducaoRepository.aprovarOrdemDeProducao(''), throwsA(isA<OrdemDeProducaoFailure>()));
         });
 
         test('inserir - Deve retornar um OrdemDeProducaoFailure quando ocorrer erro mapeado no Datasource.', () async {

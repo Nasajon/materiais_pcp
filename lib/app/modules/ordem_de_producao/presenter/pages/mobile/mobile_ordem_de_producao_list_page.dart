@@ -2,6 +2,7 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/constants/navigation_router.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
@@ -51,6 +52,7 @@ class _MobileOrdemDeProducaoListPageState extends State<MobileOrdemDeProducaoLis
       translation.titles.ordemDeProducao,
       controller: widget.scaffoldController,
       alignment: Alignment.centerLeft,
+      onClosePressed: () => checkPreviousRouteWeb(NavigationRouter.appModule.path),
       actions: [
         InternetButtonIconWidget(connectionStore: widget.connectionStore),
       ],
@@ -105,6 +107,7 @@ class _MobileOrdemDeProducaoListPageState extends State<MobileOrdemDeProducaoLis
                             key: ValueKey(value),
                             ordemDeProducao: value.ordemDeProducao,
                             deletarOrdemDeProducaoStore: value.deletarOrdemDeProducaoStore,
+                            aprovarOrdemDeProducaoStore: value.aprovarOrdemDeProducaoStore,
                             ordemDeProducaoListStore: widget.ordemDeProducaoListStore,
                           );
                         },
@@ -121,9 +124,15 @@ class _MobileOrdemDeProducaoListPageState extends State<MobileOrdemDeProducaoLis
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            CustomTextButton(title: translation.fields.voltar, onPressed: () => Modular.to.pop()),
+            CustomTextButton(
+              title: translation.fields.voltar,
+              onPressed: () => checkPreviousRouteWeb(NavigationRouter.appModule.path),
+            ),
             const SizedBox(width: 12),
-            CustomPrimaryButton(title: translation.fields.criarOrdem, onPressed: () => Modular.to.pushNamed('./new'))
+            CustomPrimaryButton(
+              title: translation.fields.criarOrdem,
+              onPressed: () => Modular.to.pushNamed(NavigationRouter.ordensDeProducoesModule.createPath),
+            )
           ],
         ),
       ),

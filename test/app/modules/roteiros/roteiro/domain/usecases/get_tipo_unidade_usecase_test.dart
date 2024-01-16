@@ -1,10 +1,10 @@
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/entities/unidade_entity.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/errors/roteiro_failure.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/repositories/get_unidade_repository.dart';
-import 'package:pcp_flutter/app/modules/roteiros/roteiro/domain/usecases/get_unidade_usecase.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/entities/unidade_entity.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/errors/roteiro_failure.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/repositories/get_unidade_repository.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/usecases/get_unidade_usecase.dart';
 
 class GetUnidadeRepositoryMock extends Mock implements GetUnidadeRepository {}
 

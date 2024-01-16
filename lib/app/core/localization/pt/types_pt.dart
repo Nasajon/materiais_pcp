@@ -23,6 +23,24 @@ class TypesPt extends Types {
   String get prioridadeMedia => 'Média';
 
   @override
+  String get statusOrdemDeProducaoAberta => 'Aberta';
+
+  @override
+  String get statusOrdemDeProducaoAprovada => 'Aprovada';
+
+  @override
+  String get statusOrdemDeProducaoCancelada => 'Cancelada';
+
+  @override
+  String get statusOrdemDeProducaoEmProducao => 'Em produção';
+
+  @override
+  String get statusOrdemDeProducaoPlanejada => 'Planejada';
+
+  @override
+  String get statusOrdemDeProducaoProduzida => 'Produzida';
+
+  @override
   String get tipoMedicaoTempoPorLote => 'Por lote';
 
   @override
