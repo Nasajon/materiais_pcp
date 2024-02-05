@@ -6,6 +6,7 @@ import 'package:pcp_flutter/app/core/constants/local_db_key.dart';
 import 'package:pcp_flutter/app/core/constants/navigation_router.dart';
 import 'package:pcp_flutter/app/core/stores/reducers/internet_connection_reducer.dart';
 import 'package:pcp_flutter/app/modules/centro_trabalho/centro_de_trabalho_module.dart';
+import 'package:pcp_flutter/app/modules/chao_de_fabrica/chao_de_fabrica_module.dart';
 import 'package:pcp_flutter/app/modules/ficha_tecnica/ficha_tecnica_module.dart';
 import 'package:pcp_flutter/app/modules/grupo_de_recurso/grupo_de_recurso_module.dart';
 import 'package:pcp_flutter/app/modules/grupo_de_restricao/grupo_de_restricao_module.dart';
@@ -26,6 +27,7 @@ class PcpModule extends NasajonModule {
 
   @override
   List<ModularRoute> get routes => [
+        ModuleRoute(NavigationRouter.chaoDeFabricaModule.module, module: ChaoDeFabricaModule()),
         ModuleRoute(NavigationRouter.fichasTecnicasModule.module, module: FichaTecnicaModule()),
         ModuleRoute(NavigationRouter.roteirosModule.module, module: RoteiroModule()),
         ModuleRoute(NavigationRouter.centrosDeTrabalhosModule.module, module: CentroDeTrabalhoModule()),

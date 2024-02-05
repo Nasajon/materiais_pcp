@@ -30,6 +30,9 @@ class FieldsPt extends Fields {
   String get adicionarOrdemDeProducao => 'Adicionar ordem de producao';
 
   @override
+  String get apontarEvolucao => 'Apontar evolução';
+
+  @override
   String get aprovarOrdemDeProducao => 'Aprovar ordem de produção';
 
   @override
@@ -60,10 +63,16 @@ class FieldsPt extends Fields {
   String get confirmacao => 'Confirmação';
 
   @override
+  String get confirmarSelecao => 'Confirmar seleção';
+
+  @override
   String get confirmarSequenciamento => 'Confirmar sequenciamento';
 
   @override
   String get continuar => 'Continuar';
+
+  @override
+  String get continuarAtividade => 'Continuar atividade';
 
   @override
   String get cpf => 'CPF';
@@ -102,6 +111,9 @@ class FieldsPt extends Fields {
   String get dadosGerais => 'Dados gerais';
 
   @override
+  String get data => 'Data';
+
+  @override
   String get descartar => 'Descartar';
 
   @override
@@ -138,6 +150,9 @@ class FieldsPt extends Fields {
   String get fimPlanejado => 'Fim planejado';
 
   @override
+  String get finalizarAtividade => 'Finalizar atividade';
+
+  @override
   String get grupoDeRecurso => 'Grupo de recurso';
 
   @override
@@ -162,6 +177,8 @@ class FieldsPt extends Fields {
   String get horarioInicial => 'Horário inicial';
 
   @override
+  String get horarioPrevisto => 'Horário previsto';
+  @override
   String get horarios => 'Horários';
 
   @override
@@ -174,10 +191,17 @@ class FieldsPt extends Fields {
   String get indisponibilidade => 'Indisponibilidade';
 
   @override
+  String get iniciarAtividade => 'Iniciar atividade';
+
+  @override
+  String get iniciarPreparacao => 'Iniciar preparação';
+
+  @override
   String get inicio => 'Início';
 
   @override
   String get inicioPlanejado => 'Início planejado';
+
   @override
   String get intervalo => 'Intervalo';
 
@@ -235,6 +259,9 @@ class FieldsPt extends Fields {
   String get ordemDeProducao => 'Ordem de produção';
 
   @override
+  String get pausarAtividade => 'Pausar atividade';
+
+  @override
   String get periodo => 'Período';
 
   @override
@@ -257,6 +284,9 @@ class FieldsPt extends Fields {
 
   @override
   String get produtoResultante => 'Produto resultante';
+
+  @override
+  String get progresso => 'Progresso';
 
   @override
   String get quantidade => 'Quantidade';
@@ -311,6 +341,9 @@ class FieldsPt extends Fields {
   String get sequenciarOperacoes => 'Sequenciar operações';
 
   @override
+  String get situacao => 'Situação';
+
+  @override
   String get status => 'Status';
 
   @override
@@ -348,4 +381,7 @@ class FieldsPt extends Fields {
 
   @override
   String criarEntity(String entity) => 'Criar ${entity.toLowerCase()}';
+
+  @override
+  String get fechar => 'Fechar';
 }

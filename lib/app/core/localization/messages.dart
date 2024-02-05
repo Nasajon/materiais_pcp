@@ -32,6 +32,8 @@ abstract class Messages {
   String get erroSelecioneUmProdutoAntes;
   String get erroNaoHaRoteiroParaProdutoSelecionado;
 
+  String pesquiseUmaEntidade(String entidade, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino});
+
   String criouAEntidadeComSucesso(String entidade, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino});
 
   String criouUmaEntidadeComSucesso(String entidade, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino});

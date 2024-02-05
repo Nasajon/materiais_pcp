@@ -1,3 +1,4 @@
+import 'package:pcp_flutter/app/core/localization/enums/artigo_enum.dart';
 import 'package:pcp_flutter/app/core/localization/titles.dart';
 
 class TitlesPt extends Titles {
@@ -174,5 +175,20 @@ class TitlesPt extends Titles {
   @override
   String removerEntidade(String entidade) {
     return 'Remover ${entidade.toLowerCase()}';
+  }
+
+  @override
+  String get chaoDeFabrica => 'Chão de fábrica';
+
+  @override
+  String get minhasAtividades => 'Minhas atividades';
+
+  @override
+  String selecione(String entidade, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino}) {
+    if (artigo == ArtigoEnum.artigoMasculino) {
+      return 'Selecione um ${entidade.toLowerCase()}';
+    }
+
+    return 'Selecione uma ${entidade.toLowerCase()}';
   }
 }

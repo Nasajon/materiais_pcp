@@ -88,4 +88,18 @@ class TimeVO extends TextVO {
   String _formatQuantityMinute(int quantity) {
     return quantity == 1 ? '1 ${translation.fields.minuto.toLowerCase()}' : '$quantity ${translation.fields.minutos.toLowerCase()}';
   }
+
+  static String calculateDateDifference(DateTime date1, DateTime date2) {
+    Duration difference = date2.difference(date1);
+
+    if (difference.inHours < 1) {
+      if (difference.inMinutes % 60 == 1) {
+        return '${difference.inMinutes} ${translation.fields.minuto.toLowerCase()}';
+      }
+
+      return '${difference.inMinutes} ${translation.fields.minutos.toLowerCase()}';
+    } else {
+      return '${difference.inHours}h${difference.inMinutes % 60}';
+    }
+  }
 }

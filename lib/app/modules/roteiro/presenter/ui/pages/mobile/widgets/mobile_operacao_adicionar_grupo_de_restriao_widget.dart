@@ -8,10 +8,10 @@ import 'package:pcp_flutter/app/core/modules/domain/value_object/time_vo.dart';
 import 'package:pcp_flutter/app/core/utils/event_timer.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
 import 'package:pcp_flutter/app/core/widgets/dropdown_widget.dart';
+import 'package:pcp_flutter/app/modules/chao_de_fabrica/domain/enums/medicao_tempo_restricao_enum.dart';
 import 'package:pcp_flutter/app/modules/roteiro/domain/aggregates/grupo_de_restricao_aggregate.dart';
 import 'package:pcp_flutter/app/modules/roteiro/domain/entities/grupo_de_restricao_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiro/domain/entities/unidade_entity.dart';
-import 'package:pcp_flutter/app/modules/roteiro/domain/enums/operacao_enum.dart';
 import 'package:pcp_flutter/app/modules/roteiro/presenter/controllers/grupo_de_restricao_controller.dart';
 import 'package:pcp_flutter/app/modules/roteiro/presenter/stores/get_grupo_de_restricao_store.dart';
 import 'package:pcp_flutter/app/modules/roteiro/presenter/stores/get_unidade_store.dart';
@@ -164,13 +164,13 @@ class _MobileOperacaoAdicionarGrupoDeRestricaoWidgetState extends State<MobileOp
                   },
                 ),
                 const SizedBox(height: 16),
-                DropdownButtonWidget<QuandoEnum>(
+                DropdownButtonWidget<MedicaoTempoRestricao>(
                   label: translation.fields.medicaoDeTempo,
                   value: grupoDeRestricao.quando,
                   isRequiredField: true,
                   errorMessage: translation.messages.errorCampoObrigatorio,
                   isEnabled: true,
-                  items: QuandoEnum.values.map((quando) => DropdownItem(value: quando, label: quando.name)).toList(),
+                  items: MedicaoTempoRestricao.values.map((quando) => DropdownItem(value: quando, label: quando.name)).toList(),
                   onSelected: (value) {
                     widget.grupoDeRestricaoController.grupoDeRestricao = grupoDeRestricao.copyWith(quando: value);
                   },

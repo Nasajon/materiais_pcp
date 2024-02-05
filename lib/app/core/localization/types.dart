@@ -8,6 +8,13 @@ abstract class Types {
   String get prioridadeBaixa;
   String get prioridadeMedia;
 
+  String get statusAtividadeAberta;
+  String get statusAtividadeCancelada;
+  String get statusAtividadeEmPreparacao;
+  String get statusAtividadeEncerrada;
+  String get statusAtividadeIniciada;
+  String get statusAtividadePausada;
+
   String get statusOrdemDeProducaoAberta;
   String get statusOrdemDeProducaoAprovada;
   String get statusOrdemDeProducaoCancelada;

@@ -14,6 +14,9 @@ class RemoteSequencimantoEventoMapper {
       recursoId: map.containsKey('recurso') && !map.containsKey('restricao') ? map['recurso'] : map['recurso']['recurso'],
       restricaoId: map.containsKey('restricao') ? map['restricao'] : null,
       capacidade: (map['capacidade'] is int) ? DoubleVO((map['capacidade'] as int).toDouble()) : DoubleVO(map['capacidade']),
+      capacidadeUtilizada: (map['capacidade_utilizada'] is int)
+          ? DoubleVO((map['capacidade_utilizada'] as int).toDouble())
+          : DoubleVO(map['capacidade_utilizada']),
       ordemDeProducao: RemoteOrdemDeProducaoMapper.fromMapToOrdemDeProducaoEntity(map['ordem_de_producao']),
       operacaoRoteiro: RemoteOperacaoRoteiroMapper.fromMapToOperacaoRoteiro(map['operacao_roteiro']),
       inicioPlanejado: DateVO.date(DateTime.parse(map['inicio_planejado'])),
@@ -33,10 +36,13 @@ class RemoteSequencimantoEventoMapper {
       'recurso': evento.recursoId,
       'restricao': evento.restricaoId,
       'capacidade': evento.capacidade.value,
+      'capacidade_utilizada': evento.capacidadeUtilizada.value,
       'ordem_de_producao': evento.ordemDeProducao.id,
       'operacao_roteiro': evento.operacaoRoteiro.operacaoId,
       'inicio_planejado': evento.inicioPlanejado.dateFormat(format: "yyyy-MM-ddThh:mm:ss"),
       'fim_planejado': evento.fimPlanejado.dateFormat(format: "yyyy-MM-ddThh:mm:ss"),
+      'inicio_preparacao_planejada': evento.inicioPreparacaoPlanejada?.dateFormat(format: "yyyy-MM-ddThh:mm:ss"),
+      'fim_preparacao_planejada': evento.fimPreparacaoPlanejada?.dateFormat(format: "yyyy-MM-ddThh:mm:ss"),
     };
 
     if (evento.eventoRestricaoId != null) {

@@ -17,6 +17,8 @@ class EventTimer<T> {
     _debounce = Timer(const Duration(milliseconds: 300), () async {
       func.call();
     });
+
+    return null;
   }
 }
 

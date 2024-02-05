@@ -9,6 +9,10 @@ class CentroDeTrabalhoEntity {
     required this.nome,
   });
 
+  factory CentroDeTrabalhoEntity.empty() {
+    return const CentroDeTrabalhoEntity(id: '', codigo: '', nome: '');
+  }
+
   CentroDeTrabalhoEntity copyWith({
     String? id,
     String? codigo,

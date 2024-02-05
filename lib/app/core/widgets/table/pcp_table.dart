@@ -1,18 +1,21 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 
-import 'package:design_system/design_system.dart';
+enum TypeTable { modelo1, modelo2 }
 
 class PCPTable extends StatefulWidget {
   final List<DataColumn> columns;
   final List<DataRow> rows;
   final List<Widget> actions;
+  final TypeTable type;
 
   const PCPTable({
     Key? key,
     required this.columns,
     required this.rows,
     this.actions = const [],
+    this.type = TypeTable.modelo1,
   }) : super(key: key);
 
   @override
@@ -35,6 +38,11 @@ class _PCPTableState extends State<PCPTable> {
             Container(
               decoration: BoxDecoration(
                 color: GanttEvent.makeColorLighter(colorTheme?.primary ?? Colors.transparent, factor: 0.95),
+                border: widget.type == TypeTable.modelo2
+                    ? Border.all(
+                        color: colorTheme?.border ?? Colors.transparent,
+                      )
+                    : null,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Column(
@@ -54,13 +62,29 @@ class _PCPTableState extends State<PCPTable> {
                       child: SizedBox(
                         width: constraints.maxWidth,
                         child: SingleChildScrollView(
-                          child: DataTable(
-                            border: TableBorder.all(
-                              color: colorTheme?.border ?? Colors.transparent,
-                              borderRadius: BorderRadius.circular(10),
+                          child: Theme(
+                            data: Theme.of(context).copyWith(
+                              dividerColor: colorTheme?.border,
+                              dividerTheme: const DividerThemeData(
+                                thickness: 1.0,
+                              ),
+                              dataTableTheme: const DataTableThemeData(
+                                dataRowMaxHeight: 54,
+                                columnSpacing: 32,
+                              ),
                             ),
-                            columns: widget.columns,
-                            rows: widget.rows,
+                            child: DataTable(
+                              headingRowColor:
+                                  widget.type == TypeTable.modelo2 ? MaterialStateColor.resolveWith((states) => Colors.transparent) : null,
+                              border: widget.type == TypeTable.modelo1
+                                  ? TableBorder.all(
+                                      color: colorTheme?.border ?? Colors.transparent,
+                                      borderRadius: BorderRadius.circular(10),
+                                    )
+                                  : null,
+                              columns: widget.columns,
+                              rows: widget.rows,
+                            ),
                           ),
                         ),
                       ),
@@ -78,19 +102,67 @@ class _PCPTableState extends State<PCPTable> {
 
 class TextDataColumn extends StatelessWidget {
   final String text;
+  final double? width;
+  final double? height;
+  final AlignmentGeometry alignment;
 
   const TextDataColumn({
     Key? key,
     required this.text,
+    this.width,
+    this.height,
+    this.alignment = Alignment.centerLeft,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    return Text(
-      text,
-      style: themeData.textTheme.labelLarge?.copyWith(
-        fontWeight: FontWeight.w700,
+    return Expanded(
+      child: SizedBox(
+        width: width,
+        height: height,
+        child: Align(
+          alignment: alignment,
+          child: Text(
+            text,
+            style: themeData.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class TextRow extends StatelessWidget {
+  final String text;
+  final double? width;
+  final double? height;
+  final AlignmentGeometry alignment;
+
+  const TextRow({
+    Key? key,
+    required this.text,
+    this.width,
+    this.height,
+    this.alignment = Alignment.centerLeft,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final themeData = Theme.of(context);
+    return SizedBox(
+      width: width,
+      height: height,
+      child: Align(
+        alignment: alignment,
+        child: Text(
+          text,
+          style: themeData.textTheme.labelLarge?.copyWith(
+            fontWeight: FontWeight.w400,
+          ),
+        ),
       ),
     );
   }

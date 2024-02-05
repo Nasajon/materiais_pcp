@@ -199,4 +199,9 @@ class MessagesPt extends Messages {
 
   @override
   String get erroSelecioneUmProdutoAntes => 'Você precisa selecionar um produto antes.';
+
+  @override
+  String pesquiseUmaEntidade(String entidade, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino}) {
+    return artigo == ArtigoEnum.artigoMasculino ? 'Pesquise um ${entidade.toLowerCase()}' : 'Pesquise uma ${entidade.toLowerCase()}';
+  }
 }

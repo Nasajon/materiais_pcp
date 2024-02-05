@@ -1,3 +1,5 @@
+import 'package:pcp_flutter/app/core/localization/enums/artigo_enum.dart';
+
 abstract class Titles {
   String get adicionarDisponibilidade;
   String get adicionarGrupoDeRecurso;
@@ -13,6 +15,7 @@ abstract class Titles {
   String get adicioneUmMaterial;
   String get centroDeTrabalho;
   String get centrosDeTrabalho;
+  String get chaoDeFabrica;
   String get criarCentroDeTrabalho;
   String get criarFichaTecnica;
   String get criarGrupoDeRecursos;
@@ -35,6 +38,7 @@ abstract class Titles {
   String get gruposDeRestricao;
   String get materiais;
   String get ordemDeProducao;
+  String get minhasAtividades;
   String get planejarOrdem;
   String get restricoes;
   String get restricoesSecundarias;
@@ -53,6 +57,7 @@ abstract class Titles {
   String get ultimosRecursosAcessados;
   String get ultimosRoteirosAcessados;
   String get ultimosTurnosAcessados;
+  String selecione(String entidade, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino});
   String criarEntidade(String entidade);
   String editarEntidade(String entidade);
   String excluirEntidade(String entidade);

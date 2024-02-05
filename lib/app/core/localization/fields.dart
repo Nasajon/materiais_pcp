@@ -9,6 +9,7 @@ abstract class Fields {
   String get adicionarMaterial;
   String get adicionarOperacao;
   String get adicionarOrdemDeProducao;
+  String get apontarEvolucao;
   String get aprovarOrdemDeProducao;
   String get cancelar;
   String get capacidade;
@@ -19,8 +20,10 @@ abstract class Fields {
   String get cnpj;
   String get codigo;
   String get confirmacao;
+  String get confirmarSelecao;
   String get confirmarSequenciamento;
   String get continuar;
+  String get continuarAtividade;
   String get cpf;
   String get criar;
   String get criarCentro;
@@ -33,6 +36,7 @@ abstract class Fields {
   String get custoPorHora;
   String get dadosBasicos;
   String get dadosGerais;
+  String get data;
   String get descartar;
   String get descricao;
   String get diaInteiro;
@@ -42,9 +46,11 @@ abstract class Fields {
   String get editar;
   String get excluir;
   String get execucao;
+  String get fechar;
   String get fichaTecnica;
   String get fim;
   String get fimPlanejado;
+  String get finalizarAtividade;
   String get grupoDeRecurso;
   String get grupoDeRecursos;
   String get grupoDeRestricao;
@@ -53,10 +59,13 @@ abstract class Fields {
   String get horario;
   String get horarioFinal;
   String get horarioInicial;
+  String get horarioPrevisto;
   String get horarios;
   String get horas;
   String get id;
   String get indisponibilidade;
+  String get iniciarAtividade;
+  String get iniciarPreparacao;
   String get inicio;
   String get inicioPlanejado;
   String get intervalo;
@@ -78,6 +87,7 @@ abstract class Fields {
   String get operacao;
   String get operacoes;
   String get ordemDeProducao;
+  String get pausarAtividade;
   String get periodo;
   String get periodoDeEntrega;
   String get periodoDeVigencia;
@@ -86,6 +96,7 @@ abstract class Fields {
   String get prioridade;
   String get produto;
   String get produtoResultante;
+  String get progresso;
   String get quantidade;
   String get quantidadeDeProducao;
   String get razaoDeConversao;
@@ -103,6 +114,7 @@ abstract class Fields {
   String get salvar;
   String get semOperacoes;
   String get sequenciarOperacoes;
+  String get situacao;
   String get status;
   String get tempo;
   String get tipo;

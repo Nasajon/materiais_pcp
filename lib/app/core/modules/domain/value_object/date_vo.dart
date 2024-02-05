@@ -10,6 +10,10 @@ class DateVO extends TextVO {
     return DateVO(DateFormat('dd/MM/yyyy HH:mm:ss').format(date));
   }
 
+  factory DateVO.parse(String date) {
+    return DateVO.date(DateTime.parse((date)));
+  }
+
   factory DateVO.empty() {
     return DateVO.date(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day));
   }
@@ -35,4 +39,7 @@ class DateVO extends TextVO {
       return null;
     }
   }
+
+  bool get isEmpty => value.isEmpty;
+  bool get isNotEmpty => value.isNotEmpty;
 }

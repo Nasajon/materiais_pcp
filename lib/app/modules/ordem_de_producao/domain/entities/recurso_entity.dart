@@ -14,6 +14,10 @@ class RecursoEntity {
     required this.grupoDeRestricoes,
   });
 
+  factory RecursoEntity.empty() {
+    return const RecursoEntity(id: '', codigo: '', nome: '', grupoDeRestricoes: []);
+  }
+
   RecursoEntity copyWith({
     String? id,
     String? codigo,

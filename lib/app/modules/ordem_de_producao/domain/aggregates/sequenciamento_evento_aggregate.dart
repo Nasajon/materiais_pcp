@@ -10,6 +10,7 @@ class SequenciamentoEventoAggregate {
   final String? recursoId;
   final String? restricaoId;
   final DoubleVO capacidade;
+  final DoubleVO capacidadeUtilizada;
   final OrdemDeProducaoEntity ordemDeProducao;
   final OperacaoRoteiroEntity operacaoRoteiro;
   final DateVO inicioPlanejado;
@@ -23,6 +24,7 @@ class SequenciamentoEventoAggregate {
     this.recursoId,
     this.restricaoId,
     required this.capacidade,
+    required this.capacidadeUtilizada,
     required this.ordemDeProducao,
     required this.operacaoRoteiro,
     required this.inicioPlanejado,
@@ -37,6 +39,7 @@ class SequenciamentoEventoAggregate {
     String? recursoId,
     String? restricaoId,
     DoubleVO? capacidade,
+    DoubleVO? capacidadeUtilizada,
     OrdemDeProducaoEntity? ordemDeProducao,
     OperacaoRoteiroEntity? operacaoRoteiro,
     DateVO? inicioPlanejado,
@@ -50,6 +53,7 @@ class SequenciamentoEventoAggregate {
       recursoId: recursoId ?? this.recursoId,
       restricaoId: restricaoId ?? this.restricaoId,
       capacidade: capacidade ?? this.capacidade,
+      capacidadeUtilizada: capacidadeUtilizada ?? this.capacidadeUtilizada,
       ordemDeProducao: ordemDeProducao ?? this.ordemDeProducao,
       operacaoRoteiro: operacaoRoteiro ?? this.operacaoRoteiro,
       inicioPlanejado: inicioPlanejado ?? this.inicioPlanejado,
@@ -68,6 +72,7 @@ class SequenciamentoEventoAggregate {
         other.recursoId == recursoId &&
         other.restricaoId == restricaoId &&
         other.capacidade == capacidade &&
+        other.capacidadeUtilizada == capacidadeUtilizada &&
         other.ordemDeProducao == ordemDeProducao &&
         other.operacaoRoteiro == operacaoRoteiro &&
         other.inicioPlanejado == inicioPlanejado &&
@@ -83,6 +88,7 @@ class SequenciamentoEventoAggregate {
         recursoId.hashCode ^
         restricaoId.hashCode ^
         capacidade.hashCode ^
+        capacidadeUtilizada.hashCode ^
         ordemDeProducao.hashCode ^
         operacaoRoteiro.hashCode ^
         inicioPlanejado.hashCode ^

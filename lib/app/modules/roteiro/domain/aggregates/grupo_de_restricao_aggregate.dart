@@ -1,15 +1,15 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/foundation.dart';
+import 'package:pcp_flutter/app/modules/chao_de_fabrica/domain/enums/medicao_tempo_restricao_enum.dart';
 import 'package:pcp_flutter/app/modules/roteiro/domain/aggregates/restricao_aggregate.dart';
 import 'package:pcp_flutter/app/modules/roteiro/domain/dtos/restricao_capacidade_dto.dart';
 import 'package:pcp_flutter/app/modules/roteiro/domain/entities/grupo_de_restricao_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiro/domain/entities/unidade_entity.dart';
-import 'package:pcp_flutter/app/modules/roteiro/domain/enums/operacao_enum.dart';
 
 class GrupoDeRestricaoAggregate {
   final GrupoDeRestricaoEntity grupo;
   final RestricaoCapacidadeDTO capacidade;
-  final QuandoEnum? quando;
+  final MedicaoTempoRestricao? quando;
   final List<RestricaoAggregate> restricoes;
 
   const GrupoDeRestricaoAggregate({
@@ -32,7 +32,7 @@ class GrupoDeRestricaoAggregate {
     GrupoDeRestricaoEntity? grupo,
     UnidadeEntity? unidade,
     RestricaoCapacidadeDTO? capacidade,
-    QuandoEnum? quando,
+    MedicaoTempoRestricao? quando,
     List<RestricaoAggregate>? restricoes,
   }) {
     return GrupoDeRestricaoAggregate(
