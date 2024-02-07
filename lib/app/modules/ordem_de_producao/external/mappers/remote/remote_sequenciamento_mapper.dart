@@ -24,8 +24,8 @@ class RemoteSequenciamentoMapper {
 
   static Map<String, dynamic> fromSequenciamentoTopMap(SequenciamentoAggregate sequenciamento) {
     final map = {
-      "tempo_inicial": sequenciamento.tempoInicial.dateFormat(format: "yyyy-MM-ddThh:mm:ss"),
-      "tempo_final": sequenciamento.tempoFinal.dateFormat(format: "yyyy-MM-ddThh:mm:ss"),
+      "tempo_inicial": sequenciamento.tempoInicial.dateFormat(format: "yyyy-MM-ddTHH:mm:ss"),
+      "tempo_final": sequenciamento.tempoFinal.dateFormat(format: "yyyy-MM-ddTHH:mm:ss"),
       "sequenciamento_recursos": sequenciamento.sequenciamentoRecursos
           .map((recurso) => RemoteSequenciamentoObjectMapper.fromSequenciamentoObjectToMap(
                 recurso,
