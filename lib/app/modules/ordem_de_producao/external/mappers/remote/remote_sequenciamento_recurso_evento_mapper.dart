@@ -39,10 +39,10 @@ class RemoteSequencimantoEventoMapper {
       'capacidade_utilizada': evento.capacidadeUtilizada.value,
       'ordem_de_producao': evento.ordemDeProducao.id,
       'operacao_roteiro': evento.operacaoRoteiro.operacaoId,
-      'inicio_planejado': evento.inicioPlanejado.dateFormat(format: "yyyy-MM-ddThh:mm:ss"),
-      'fim_planejado': evento.fimPlanejado.dateFormat(format: "yyyy-MM-ddThh:mm:ss"),
-      'inicio_preparacao_planejada': evento.inicioPreparacaoPlanejada?.dateFormat(format: "yyyy-MM-ddThh:mm:ss"),
-      'fim_preparacao_planejada': evento.fimPreparacaoPlanejada?.dateFormat(format: "yyyy-MM-ddThh:mm:ss"),
+      'inicio_planejado': evento.inicioPlanejado.dateFormat(format: "yyyy-MM-ddTHH:mm:ss"),
+      'fim_planejado': evento.fimPlanejado.dateFormat(format: "yyyy-MM-ddTHH:mm:ss"),
+      'inicio_preparacao_planejada': evento.inicioPreparacaoPlanejada?.dateFormat(format: "yyyy-MM-ddTHH:mm:ss"),
+      'fim_preparacao_planejada': evento.fimPreparacaoPlanejada?.dateFormat(format: "yyyy-MM-ddTHH:mm:ss"),
     };
 
     if (evento.eventoRestricaoId != null) {
