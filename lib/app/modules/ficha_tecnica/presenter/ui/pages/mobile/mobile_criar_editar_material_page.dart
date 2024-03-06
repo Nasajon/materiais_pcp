@@ -48,7 +48,7 @@ class _MobileCriarEditarMaterialPageState extends State<MobileCriarEditarMateria
   }
 
   void verificarFichaTecnicaMaterialRouter() {
-    if (!ScreenSizeUtil(context).isMobile && widget.adaptiveModalNotifier.value) {
+    if (!NhidsScreenSize(context).isMobile && widget.adaptiveModalNotifier.value) {
       SchedulerBinding.instance.addPostFrameCallback((_) {
         Navigator.of(context).pop();
       });

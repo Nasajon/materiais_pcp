@@ -8,10 +8,14 @@ class RemoteChaoDeFabricaMaterialMapper {
 
   static ChaoDeFabricaMaterialEntity fromMapToMaterialEntity(Map<String, dynamic> map) {
     return ChaoDeFabricaMaterialEntity(
-      id: map['produto_execucao'],
+      id: map['produto_atividade'],
+      atividadeRecursoId: map['atividade_recurso'],
       produto: RemoteChaoDeFabricaProdutoMapper.fromMapToProdutoEntity(map['produto']),
       unidade: RemoteChaoDeFabricaUnidadeMapper.fromMapToUnidadeEntity(map['unidade']),
       quantidade: DoubleVO(map['quantidade']),
+      quantidadeUtilizada: DoubleVO(map['quantidade_utilizada']),
+      quantidadePerda: DoubleVO(map['quantidade_perda']),
+      quantidadeSobra: DoubleVO(map['quantidade_sobra']),
     );
   }
 }

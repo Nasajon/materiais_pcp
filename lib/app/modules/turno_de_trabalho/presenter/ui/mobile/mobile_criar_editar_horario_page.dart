@@ -40,7 +40,7 @@ class _MobileCriarEditarHorarioState extends State<MobileCriarEditarHorario> {
   }
 
   void verificarHorarioRouter() {
-    if (!ScreenSizeUtil(context).isMobile && widget.adaptiveModalNotifier.value) {
+    if (!NhidsScreenSize(context).isMobile && widget.adaptiveModalNotifier.value) {
       SchedulerBinding.instance.addPostFrameCallback((_) {
         Navigator.of(context).pop();
       });

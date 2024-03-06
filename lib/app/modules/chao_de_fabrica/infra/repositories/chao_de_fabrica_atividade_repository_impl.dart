@@ -15,6 +15,11 @@ class ChaoDeFabricaAtividadeRepositoryImpl implements ChaoDeFabricaAtividadeRepo
   }
 
   @override
+  Future<ChaoDeFabricaAtividadeAggregate> getAtividade(String atividadeId) {
+    return _atividadeDatasource.getAtividade(atividadeId);
+  }
+
+  @override
   Future<ChaoDeFabricaAtividadeAggregate> iniciarPreparacao(ChaoDeFabricaAtividadeAggregate atividade) {
     return _atividadeDatasource.iniciarPreparacao(atividade);
   }

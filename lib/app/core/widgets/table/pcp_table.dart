@@ -2,7 +2,7 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 
-enum TypeTable { modelo1, modelo2 }
+enum TypeTable { modelo1, modelo2, modelo3 }
 
 class PCPTable extends StatefulWidget {
   final List<DataColumn> columns;
@@ -27,6 +27,12 @@ class _PCPTableState extends State<PCPTable> {
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     final colorTheme = themeData.extension<AnaColorTheme>();
+
+    var color = Colors.transparent;
+
+    if (widget.type == TypeTable.modelo3) {
+      color = colorTheme?.border ?? color;
+    }
 
     return LayoutBuilder(
       builder: (_, constraints) {
@@ -68,15 +74,14 @@ class _PCPTableState extends State<PCPTable> {
                               dividerTheme: const DividerThemeData(
                                 thickness: 1.0,
                               ),
-                              dataTableTheme: const DataTableThemeData(
-                                dataRowMaxHeight: 54,
+                              dataTableTheme: DataTableThemeData(
+                                dataRowMaxHeight: widget.type == TypeTable.modelo3 ? 61 : 54,
                                 columnSpacing: 32,
                               ),
                             ),
                             child: DataTable(
-                              headingRowColor:
-                                  widget.type == TypeTable.modelo2 ? MaterialStateColor.resolveWith((states) => Colors.transparent) : null,
-                              border: widget.type == TypeTable.modelo1
+                              headingRowColor: MaterialStateColor.resolveWith((states) => color),
+                              border: widget.type == TypeTable.modelo1 || widget.type == TypeTable.modelo3
                                   ? TableBorder.all(
                                       color: colorTheme?.border ?? Colors.transparent,
                                       borderRadius: BorderRadius.circular(10),
@@ -105,6 +110,7 @@ class TextDataColumn extends StatelessWidget {
   final double? width;
   final double? height;
   final AlignmentGeometry alignment;
+  final Color? color;
 
   const TextDataColumn({
     Key? key,
@@ -112,15 +118,17 @@ class TextDataColumn extends StatelessWidget {
     this.width,
     this.height,
     this.alignment = Alignment.centerLeft,
+    this.color,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     return Expanded(
-      child: SizedBox(
+      child: Container(
         width: width,
         height: height,
+        color: color,
         child: Align(
           alignment: alignment,
           child: Text(
@@ -131,6 +139,22 @@ class TextDataColumn extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  TextDataColumn copyWith({
+    String? text,
+    double? width,
+    double? height,
+    AlignmentGeometry? alignment,
+    Color? color,
+  }) {
+    return TextDataColumn(
+      text: text ?? this.text,
+      width: width ?? this.width,
+      height: height ?? this.height,
+      alignment: alignment ?? this.alignment,
+      color: color ?? this.color,
     );
   }
 }

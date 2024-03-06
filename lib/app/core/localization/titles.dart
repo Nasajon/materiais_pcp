@@ -24,6 +24,7 @@ abstract class Titles {
   String get criarRestricaoSecundaria;
   String get criarTurnoDeTrabalho;
   String get dadosBasicos;
+  String get dadosDoApontamento;
   String get descartarAlteracoes;
   String get desejaExcluir;
   String get editarDisponibilidade;
@@ -37,8 +38,8 @@ abstract class Titles {
   String get gruposDeRecursos;
   String get gruposDeRestricao;
   String get materiais;
-  String get ordemDeProducao;
   String get minhasAtividades;
+  String get ordemDeProducao;
   String get planejarOrdem;
   String get restricoes;
   String get restricoesSecundarias;
@@ -57,9 +58,9 @@ abstract class Titles {
   String get ultimosRecursosAcessados;
   String get ultimosRoteirosAcessados;
   String get ultimosTurnosAcessados;
-  String selecione(String entidade, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino});
   String criarEntidade(String entidade);
   String editarEntidade(String entidade);
   String excluirEntidade(String entidade);
   String removerEntidade(String entidade);
+  String selecione(String entidade, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino});
 }

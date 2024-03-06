@@ -36,6 +36,15 @@ class FieldsPt extends Fields {
   String get aprovarOrdemDeProducao => 'Aprovar ordem de produção';
 
   @override
+  String get as => 'às';
+
+  @override
+  String get atividade => 'Atividade';
+
+  @override
+  String get brasilia => 'Brasília';
+
+  @override
   String get cancelar => 'Cancelar';
 
   @override
@@ -114,6 +123,9 @@ class FieldsPt extends Fields {
   String get data => 'Data';
 
   @override
+  String get dataEHoraAtual => 'Data e hora atual';
+
+  @override
   String get descartar => 'Descartar';
 
   @override
@@ -141,6 +153,15 @@ class FieldsPt extends Fields {
   String get execucao => 'Execução';
 
   @override
+  String get falta => 'Falta';
+
+  @override
+  String get fazerApontamento => 'Fazer apontamento';
+
+  @override
+  String get fechar => 'Fechar';
+
+  @override
   String get fichaTecnica => 'Ficha técnica';
 
   @override
@@ -157,7 +178,6 @@ class FieldsPt extends Fields {
 
   @override
   String get grupoDeRecursos => 'Grupo de recursos';
-
   @override
   String get grupoDeRestricao => 'Grupo de restrição';
 
@@ -178,6 +198,7 @@ class FieldsPt extends Fields {
 
   @override
   String get horarioPrevisto => 'Horário previsto';
+
   @override
   String get horarios => 'Horários';
 
@@ -241,6 +262,9 @@ class FieldsPt extends Fields {
   String get motivo => 'Motivo';
 
   @override
+  String get mudarCentroDeTrabalho => 'Mudar centro de trabalho';
+
+  @override
   String get nome => 'Nome';
 
   @override
@@ -260,6 +284,24 @@ class FieldsPt extends Fields {
 
   @override
   String get pausarAtividade => 'Pausar atividade';
+
+  @override
+  String get percentualAtual => 'Percentual atual';
+
+  @override
+  String get percentualEvoluido => 'Percentual evoluído';
+
+  @override
+  String get perda => 'Utilizados';
+
+  @override
+  String get perdaAcumulado => 'Perda acumulada';
+
+  @override
+  String get perdaParcial => 'Perda parcial';
+
+  @override
+  String get perdaTotal => 'Perda total';
 
   @override
   String get periodo => 'Período';
@@ -286,10 +328,16 @@ class FieldsPt extends Fields {
   String get produtoResultante => 'Produto resultante';
 
   @override
+  String get produzido => 'Produzido';
+
+  @override
   String get progresso => 'Progresso';
 
   @override
   String get quantidade => 'Quantidade';
+
+  @override
+  String get quantidadeApontada => 'Quantidade apontada';
 
   @override
   String get quantidadeDeProducao => 'Quantidade de produção';
@@ -344,6 +392,9 @@ class FieldsPt extends Fields {
   String get situacao => 'Situação';
 
   @override
+  String get sobra => 'Sobra';
+
+  @override
   String get status => 'Status';
 
   @override
@@ -368,6 +419,18 @@ class FieldsPt extends Fields {
   String get usar => 'Usar';
 
   @override
+  String get utilizadoAcumulado => 'Utilizado acumulado';
+
+  @override
+  String get utilizadoParcial => 'Utilizado parcial';
+
+  @override
+  String get utilizados => 'Perda';
+
+  @override
+  String get utilizadoTotal => 'Utilizado total';
+
+  @override
   String get utilizar => 'Utilizar';
 
   @override
@@ -381,7 +444,4 @@ class FieldsPt extends Fields {
 
   @override
   String criarEntity(String entity) => 'Criar ${entity.toLowerCase()}';
-
-  @override
-  String get fechar => 'Fechar';
 }

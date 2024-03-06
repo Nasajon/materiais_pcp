@@ -21,7 +21,7 @@ class RemoteChaoDeFabricaAtividadeDatasourceImpl implements RemoteChaoDeFabricaA
     try {
       Map<String, dynamic> queryParams = {
         'fields':
-            'produtos, produtos.produto, produtos.unidade, recurso, restricoes, restricoes.unidade, restricoes.restricao, unidade, operacao_ordem, operacao_ordem.ordem_de_producao, operacao_ordem.ordem_de_producao.unidade',
+            'capacidade_utilizada, quantidade_produzida, produtos, produtos.produto, produtos.unidade, recurso, restricoes, restricoes.unidade, restricoes.restricao, unidade, operacao_ordem, operacao_ordem.ordem_de_producao, operacao_ordem.ordem_de_producao.unidade',
         'limit': 10,
       };
 
@@ -69,6 +69,34 @@ class RemoteChaoDeFabricaAtividadeDatasourceImpl implements RemoteChaoDeFabricaA
       }).toList();
 
       return data;
+    } on ClientError catch (e) {
+      throw DatasourceChaoDeFabricaFailure(
+        errorMessage: e.message,
+        stackTrace: e.stackTrace,
+      );
+    }
+  }
+
+  @override
+  Future<ChaoDeFabricaAtividadeAggregate> getAtividade(String atividadeId) async {
+    try {
+      Map<String, dynamic> queryParams = {
+        'fields':
+            'capacidade_utilizada, quantidade_produzida, produtos, produtos.produto, produtos.unidade, recurso, restricoes, restricoes.unidade, restricoes.restricao, unidade, operacao_ordem, operacao_ordem.ordem_de_producao, operacao_ordem.ordem_de_producao.unidade',
+      };
+
+      final response = await _clientService.request(
+        ClientRequestParams(
+          selectedApi: APIEnum.pcp,
+          endPoint: '/atividadesrecursos/$atividadeId',
+          method: ClientRequestMethods.GET,
+          interceptors: interceptors,
+          queryParams: queryParams,
+          body: <String, dynamic>{},
+        ),
+      );
+
+      return RemoteChaoDeFabricaAtividadeMapper.fromMapToAtividadeAggregate(response.data);
     } on ClientError catch (e) {
       throw DatasourceChaoDeFabricaFailure(
         errorMessage: e.message,

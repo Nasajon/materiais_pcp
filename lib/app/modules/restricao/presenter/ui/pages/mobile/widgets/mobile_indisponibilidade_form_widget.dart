@@ -35,7 +35,7 @@ class _MobileIndisponibilidadeFormWidgetState extends State<MobileIndisponibilid
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (widget.restricaoFormController.indisponibilidade != null &&
           !widget.adaptiveModalNotifier.value &&
-          ScreenSizeUtil(context).isMobile) {
+          NhidsScreenSize(context).isMobile) {
         showModalCriarEditarHorario();
       }
     });

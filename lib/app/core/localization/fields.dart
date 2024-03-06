@@ -11,6 +11,9 @@ abstract class Fields {
   String get adicionarOrdemDeProducao;
   String get apontarEvolucao;
   String get aprovarOrdemDeProducao;
+  String get as;
+  String get atividade;
+  String get brasilia;
   String get cancelar;
   String get capacidade;
   String get capacidadeDeProducao;
@@ -37,6 +40,7 @@ abstract class Fields {
   String get dadosBasicos;
   String get dadosGerais;
   String get data;
+  String get dataEHoraAtual;
   String get descartar;
   String get descricao;
   String get diaInteiro;
@@ -46,6 +50,8 @@ abstract class Fields {
   String get editar;
   String get excluir;
   String get execucao;
+  String get falta;
+  String get fazerApontamento;
   String get fechar;
   String get fichaTecnica;
   String get fim;
@@ -81,6 +87,7 @@ abstract class Fields {
   String get minuto;
   String get minutos;
   String get motivo;
+  String get mudarCentroDeTrabalho;
   String get nome;
   String get observacoes;
   String get opcional;
@@ -88,6 +95,12 @@ abstract class Fields {
   String get operacoes;
   String get ordemDeProducao;
   String get pausarAtividade;
+  String get percentualAtual;
+  String get percentualEvoluido;
+  String get perda;
+  String get perdaAcumulado;
+  String get perdaParcial;
+  String get perdaTotal;
   String get periodo;
   String get periodoDeEntrega;
   String get periodoDeVigencia;
@@ -96,8 +109,10 @@ abstract class Fields {
   String get prioridade;
   String get produto;
   String get produtoResultante;
+  String get produzido;
   String get progresso;
   String get quantidade;
+  String get quantidadeApontada;
   String get quantidadeDeProducao;
   String get razaoDeConversao;
   String get recurso;
@@ -115,6 +130,7 @@ abstract class Fields {
   String get semOperacoes;
   String get sequenciarOperacoes;
   String get situacao;
+  String get sobra;
   String get status;
   String get tempo;
   String get tipo;
@@ -123,6 +139,10 @@ abstract class Fields {
   String get turnosDeTrabalho;
   String get unidadeDeMedida;
   String get usar;
+  String get utilizadoAcumulado;
+  String get utilizadoParcial;
+  String get utilizados;
+  String get utilizadoTotal;
   String get utilizar;
   String get visualizar;
   String get visualizarEmGrafico;

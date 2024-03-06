@@ -44,6 +44,9 @@ class TitlesPt extends Titles {
   String get centrosDeTrabalho => 'Centros de trabalho';
 
   @override
+  String get chaoDeFabrica => 'Chão de fábrica';
+
+  @override
   String get criarCentroDeTrabalho => 'Criar centro de trabalho';
 
   @override
@@ -66,6 +69,9 @@ class TitlesPt extends Titles {
 
   @override
   String get dadosBasicos => 'Dados básicos';
+
+  @override
+  String get dadosDoApontamento => 'Dados do apontamento';
 
   @override
   String get descartarAlteracoes => 'Descartar as informações?';
@@ -105,6 +111,9 @@ class TitlesPt extends Titles {
 
   @override
   String get materiais => 'Materiais';
+
+  @override
+  String get minhasAtividades => 'Minhas atividades';
 
   @override
   String get ordemDeProducao => 'Ordem de produção';
@@ -176,12 +185,6 @@ class TitlesPt extends Titles {
   String removerEntidade(String entidade) {
     return 'Remover ${entidade.toLowerCase()}';
   }
-
-  @override
-  String get chaoDeFabrica => 'Chão de fábrica';
-
-  @override
-  String get minhasAtividades => 'Minhas atividades';
 
   @override
   String selecione(String entidade, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino}) {

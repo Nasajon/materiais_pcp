@@ -7,16 +7,22 @@ import 'package:pcp_flutter/app/core/modules/domain/enums/atividade_status_enum%
 import 'package:pcp_flutter/app/core/modules/domain/value_object/time_vo.dart';
 import 'package:pcp_flutter/app/modules/chao_de_fabrica/domain/aggregates/chao_de_fabrica_atividade_aggregate.dart';
 import 'package:pcp_flutter/app/modules/chao_de_fabrica/presenter/pages/web/widgets/desktop_atividade_acoes_widget.dart';
+import 'package:pcp_flutter/app/modules/chao_de_fabrica/presenter/stores/chao_de_fabrica_apontamento_store.dart';
+import 'package:pcp_flutter/app/modules/chao_de_fabrica/presenter/stores/chao_de_fabrica_atividade_by_id_store.dart';
 import 'package:pcp_flutter/app/modules/chao_de_fabrica/presenter/stores/chao_de_fabrica_list_store.dart';
 
 class DesktopVisualizarAtividadeWidget extends StatefulWidget {
   final ChaoDeFabricaAtividadeAggregate atividade;
   final ChaoDeFabricaListStore chaoDeFabricaListStore;
+  final ChaoDeFabricaApontamentoStore apontamentoStore;
+  final ChaoDeFabricaAtividadeByIdStore atividadeByIdStore;
 
   const DesktopVisualizarAtividadeWidget({
     Key? key,
     required this.atividade,
     required this.chaoDeFabricaListStore,
+    required this.apontamentoStore,
+    required this.atividadeByIdStore,
   }) : super(key: key);
 
   @override
@@ -24,19 +30,36 @@ class DesktopVisualizarAtividadeWidget extends StatefulWidget {
 }
 
 class _DesktopVisualizarAtividadeWidgetState extends State<DesktopVisualizarAtividadeWidget> {
+  ChaoDeFabricaApontamentoStore get apontamentoStore => widget.apontamentoStore;
+  ChaoDeFabricaAtividadeByIdStore get atividadeByIdStore => widget.atividadeByIdStore;
+
   late final RxNotifier<ChaoDeFabricaAtividadeAggregate> atividadeNotifier;
+
+  late final Disposer atividadeByIdStoreDisposer;
 
   @override
   void initState() {
     super.initState();
 
     atividadeNotifier = RxNotifier(widget.atividade);
+
+    atividadeByIdStoreDisposer = atividadeByIdStore.observer(
+      onState: (state) {
+        atividadeNotifier.value = state;
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    atividadeByIdStoreDisposer();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    final colorTheme = themeData.extension<AnaColorTheme>();
+    final colorTheme = themeData.extension<NhidsColorTheme>();
 
     return RxBuilder(builder: (_) {
       final atividade = atividadeNotifier.value;
@@ -84,19 +107,28 @@ class _DesktopVisualizarAtividadeWidgetState extends State<DesktopVisualizarAtiv
                   ),
                 ),
                 const SizedBox(width: 12),
-                CustomChip(
-                  text: atividade.status.name,
-                  borderColor: statusColor,
-                  textStyle: themeData.textTheme.labelSmall?.copyWith(
-                    color: statusColor,
-                    fontWeight: FontWeight.w700,
-                  ),
-                  backgroundColor: GanttEvent.makeColorLighter(statusColor, factor: 0.8),
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                NhidsTagChip(
+                  label: atividade.status.name,
+                  color: statusColor,
+                  type: NhidsTagChipType.outlined,
                 )
               ],
             ),
             const SizedBox(height: 24),
+            Visibility(
+              visible: atividade.status != AtividadeStatusEnum.aberta && atividade.status != AtividadeStatusEnum.emPreparacao,
+              child: Column(
+                children: [
+                  NhidsTwoLine(
+                    title: translation.fields.progresso,
+                    child: NhidsLinearProgressIndicator(
+                      value: atividade.progresso,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                ],
+              ),
+            ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -110,16 +142,9 @@ class _DesktopVisualizarAtividadeWidgetState extends State<DesktopVisualizarAtiv
                       style: themeData.textTheme.labelLarge,
                     ),
                     const SizedBox(height: 4),
-                    CustomChip(
-                      text: atividade.recurso.nome,
-                      height: 22,
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      backgroundColor: colorTheme?.background,
-                      borderColor: colorTheme?.text,
-                      textStyle: themeData.textTheme.labelMedium?.copyWith(
-                        color: colorTheme?.text,
-                        fontWeight: FontWeight.w700,
-                      ),
+                    NhidsTagChip(
+                      label: atividade.recurso.nome,
+                      type: NhidsTagChipType.outlined,
                     ),
                   ],
                 ),
@@ -133,75 +158,35 @@ class _DesktopVisualizarAtividadeWidgetState extends State<DesktopVisualizarAtiv
                       style: themeData.textTheme.labelLarge,
                     ),
                     const SizedBox(height: 4),
-                    CustomChip(
-                      text: atividade.ordemDeProducao.codigo,
-                      height: 22,
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      backgroundColor: colorTheme?.background,
-                      borderColor: colorTheme?.text,
-                      textStyle: themeData.textTheme.labelMedium?.copyWith(
-                        color: colorTheme?.text,
-                        fontWeight: FontWeight.w700,
-                      ),
+                    NhidsTagChip(
+                      label: atividade.ordemDeProducao.codigo,
+                      type: NhidsTagChipType.outlined,
                     ),
                   ],
                 ),
                 const SizedBox(width: 28),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      translation.fields.data,
-                      style: themeData.textTheme.labelLarge,
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      atividade.inicioPreparacaoPlanejado.dateFormat() ?? '',
-                      style: themeData.textTheme.labelLarge?.copyWith(
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
+                NhidsTwoLineText(
+                  title: translation.fields.data,
+                  subtitle: atividade.inicioPreparacaoPlanejado.dateFormat() ?? '',
+                  type: NhidsTextType.type2,
+                  reverse: true,
                 ),
                 const SizedBox(width: 28),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      translation.fields.horarioPrevisto,
-                      style: themeData.textTheme.labelLarge,
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      horario,
-                      style: themeData.textTheme.labelLarge?.copyWith(
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
+                NhidsTwoLineText(
+                  title: translation.fields.horarioPrevisto,
+                  subtitle: horario,
+                  type: NhidsTextType.type2,
+                  reverse: true,
                 ),
                 const SizedBox(width: 28),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      translation.fields.preparacao,
-                      style: themeData.textTheme.labelLarge,
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      TimeVO.calculateDateDifference(
-                        atividade.inicioPreparacaoPlanejado.getDate() ?? DateTime.now(),
-                        atividade.fimPreparacaoPlanejado.getDate() ?? DateTime.now(),
-                      ),
-                      style: themeData.textTheme.labelLarge?.copyWith(
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
+                NhidsTwoLineText(
+                  title: translation.fields.preparacao,
+                  subtitle: TimeVO.calculateDateDifference(
+                    atividade.inicioPreparacaoPlanejado.getDate() ?? DateTime.now(),
+                    atividade.fimPreparacaoPlanejado.getDate() ?? DateTime.now(),
+                  ),
+                  type: NhidsTextType.type2,
+                  reverse: true,
                 ),
               ],
             ),
@@ -312,6 +297,8 @@ class _DesktopVisualizarAtividadeWidgetState extends State<DesktopVisualizarAtiv
             DesktopAtividadeAcoesWidget(
               atividadeNotifier: atividadeNotifier,
               chaoDeFabricaListStore: widget.chaoDeFabricaListStore,
+              apontamentoStore: apontamentoStore,
+              atividadeByIdStore: atividadeByIdStore,
             ),
           ],
         ),

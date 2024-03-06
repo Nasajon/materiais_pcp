@@ -204,4 +204,8 @@ class MessagesPt extends Messages {
   String pesquiseUmaEntidade(String entidade, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino}) {
     return artigo == ArtigoEnum.artigoMasculino ? 'Pesquise um ${entidade.toLowerCase()}' : 'Pesquise uma ${entidade.toLowerCase()}';
   }
+
+  @override
+  String get mensagemApontamentoChaoDeFabrica =>
+      'Você está apontando uma evolução nesta atividade. Utilize os campos abaixo para indicar a quantidade e/ou progresso realizado. Você também poderá visualizar e indicar os materiais utilizados e perdas ocorridas neste apontamento.';
 }

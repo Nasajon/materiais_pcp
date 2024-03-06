@@ -18,24 +18,29 @@ import 'package:pcp_flutter/app/modules/turno_de_trabalho/turno_de_trabalho_modu
 
 class PcpModule extends NasajonModule {
   @override
-  List<Bind> get binds => [
-        Bind.lazySingleton((i) => DioClientServiceImpl(BaseUrl.url())),
-        Bind.lazySingleton((i) => HiveDatabaseService(boxName: LocalDBKeys.boxKey)),
-        Bind.singleton((i) => CustomScaffoldController()),
-        Bind.singleton((i) => InternetConnectionReducer(connectionStore: i(), scaffoldController: i()))
-      ];
+  List<Module> get imports => [CoreModule()];
 
   @override
-  List<ModularRoute> get routes => [
-        ModuleRoute(NavigationRouter.chaoDeFabricaModule.module, module: ChaoDeFabricaModule()),
-        ModuleRoute(NavigationRouter.fichasTecnicasModule.module, module: FichaTecnicaModule()),
-        ModuleRoute(NavigationRouter.roteirosModule.module, module: RoteiroModule()),
-        ModuleRoute(NavigationRouter.centrosDeTrabalhosModule.module, module: CentroDeTrabalhoModule()),
-        ModuleRoute(NavigationRouter.turnosDeTrabalhosModule.module, module: TurnoDeTrabalhoModule()),
-        ModuleRoute(NavigationRouter.recursosModule.module, module: RecursoModule()),
-        ModuleRoute(NavigationRouter.gruposDeRecursosModule.module, module: GrupoDeRecursoModule()),
-        ModuleRoute(NavigationRouter.restricoesModule.module, module: RestricaoModule()),
-        ModuleRoute(NavigationRouter.gruposDeRestricoesModule.module, module: GrupoDeRestricaoModule()),
-        ModuleRoute(NavigationRouter.ordensDeProducoesModule.module, module: OrdemDeProducaoModule()),
-      ];
+  void exportedBinds(Injector i) {
+    i //
+      ..addLazySingleton<IClientService>(() => DioClientServiceImpl(BaseUrl.url()))
+      ..addLazySingleton<Database>(() => HiveDatabaseService(boxName: LocalDBKeys.boxKey))
+      ..addSingleton(() => CustomScaffoldController())
+      ..addSingleton(() => InternetConnectionReducer(connectionStore: i(), scaffoldController: i()));
+  }
+
+  @override
+  void routes(RouteManager r) {
+    r //
+      ..module(NavigationRouter.chaoDeFabricaModule.module, module: ChaoDeFabricaModule())
+      ..module(NavigationRouter.fichasTecnicasModule.module, module: FichaTecnicaModule())
+      ..module(NavigationRouter.roteirosModule.module, module: RoteiroModule())
+      ..module(NavigationRouter.centrosDeTrabalhosModule.module, module: CentroDeTrabalhoModule())
+      ..module(NavigationRouter.turnosDeTrabalhosModule.module, module: TurnoDeTrabalhoModule())
+      ..module(NavigationRouter.recursosModule.module, module: RecursoModule())
+      ..module(NavigationRouter.gruposDeRecursosModule.module, module: GrupoDeRecursoModule())
+      ..module(NavigationRouter.restricoesModule.module, module: RestricaoModule())
+      ..module(NavigationRouter.gruposDeRestricoesModule.module, module: GrupoDeRestricaoModule())
+      ..module(NavigationRouter.ordensDeProducoesModule.module, module: OrdemDeProducaoModule());
+  }
 }

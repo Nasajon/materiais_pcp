@@ -34,10 +34,8 @@ class RecursoDatasourceImpl implements RecursoDatasource {
       ));
 
       return (response.data as List).map((e) => RecursoMapper.fromMap(e)).toList();
-    } on Failure {
-      rethrow;
-    } on Exception catch (exception, stacktrace) {
-      return Future.error(UnknownError(exception: exception, stackTrace: stacktrace, label: 'RecursoDatasourceImpl-getList'));
+    } on ClientError catch (e) {
+      throw DatasourceRecursoFailure(errorMessage: e.errorMessage, stackTrace: e.stackTrace);
     }
   }
 
@@ -53,10 +51,8 @@ class RecursoDatasourceImpl implements RecursoDatasource {
       ));
 
       return (response.data as List).map((e) => RecursoMapper.fromMap(e)).toList();
-    } on Failure {
-      rethrow;
-    } on Exception catch (exception, stacktrace) {
-      return Future.error(UnknownError(exception: exception, stackTrace: stacktrace, label: 'RecursoDatasourceImpl-getList'));
+    } on ClientError catch (e) {
+      throw DatasourceRecursoFailure(errorMessage: e.errorMessage, stackTrace: e.stackTrace);
     }
   }
 
@@ -83,7 +79,7 @@ class RecursoDatasourceImpl implements RecursoDatasource {
 
       return RecursoMapper.fromMap(recursoMap);
     } on ClientError catch (e) {
-      throw DatasourceRecursoFailure(errorMessage: e.message, stackTrace: e.stackTrace);
+      throw DatasourceRecursoFailure(errorMessage: e.errorMessage, stackTrace: e.stackTrace);
     }
   }
 
@@ -103,7 +99,7 @@ class RecursoDatasourceImpl implements RecursoDatasource {
 
       return recurso;
     } on ClientError catch (e) {
-      throw DatasourceRecursoFailure(errorMessage: e.message, stackTrace: e.stackTrace);
+      throw DatasourceRecursoFailure(errorMessage: e.errorMessage, stackTrace: e.stackTrace);
     }
   }
 
@@ -125,7 +121,7 @@ class RecursoDatasourceImpl implements RecursoDatasource {
 
       return recurso;
     } on ClientError catch (e) {
-      throw DatasourceRecursoFailure(errorMessage: e.message, stackTrace: e.stackTrace);
+      throw DatasourceRecursoFailure(errorMessage: e.errorMessage, stackTrace: e.stackTrace);
     }
   }
 
@@ -147,7 +143,7 @@ class RecursoDatasourceImpl implements RecursoDatasource {
 
       return response.data;
     } on ClientError catch (e) {
-      throw DatasourceRecursoFailure(errorMessage: e.message, stackTrace: e.stackTrace);
+      throw DatasourceRecursoFailure(errorMessage: e.errorMessage, stackTrace: e.stackTrace);
     }
   }
 

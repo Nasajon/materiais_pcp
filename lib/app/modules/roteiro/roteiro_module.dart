@@ -3,6 +3,17 @@ import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/core/constants/navigation_router.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
+import 'package:pcp_flutter/app/modules/pcp_module.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/repositories/get_centro_de_trabalho_repository.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/repositories/get_ficha_tecnica_repository.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/repositories/get_grupo_de_recurso_repository.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/repositories/get_grupo_de_restricao_repository.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/repositories/get_material_repository.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/repositories/get_produto_repository.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/repositories/get_recurso_por_repository.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/repositories/get_restricao_por_grupo_repository.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/repositories/get_unidade_repository.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/repositories/roteiro_repository.dart';
 import 'package:pcp_flutter/app/modules/roteiro/domain/usecases/deletar_roteiro_usecase.dart';
 import 'package:pcp_flutter/app/modules/roteiro/domain/usecases/editar_roteiro_usecase.dart';
 import 'package:pcp_flutter/app/modules/roteiro/domain/usecases/get_centro_de_trabalho_usecase.dart';
@@ -28,6 +39,16 @@ import 'package:pcp_flutter/app/modules/roteiro/external/datasource/remotes/remo
 import 'package:pcp_flutter/app/modules/roteiro/external/datasource/remotes/remote_get_restricao_por_grupo_datasource_impl.dart';
 import 'package:pcp_flutter/app/modules/roteiro/external/datasource/remotes/remote_get_unidade_datasource_impl.dart';
 import 'package:pcp_flutter/app/modules/roteiro/external/datasource/remotes/remote_roteiro_datasource_impl.dart';
+import 'package:pcp_flutter/app/modules/roteiro/infra/datasources/remotes/remote_get_centro_de_trabalho_datasource.dart';
+import 'package:pcp_flutter/app/modules/roteiro/infra/datasources/remotes/remote_get_ficha_tecnica_datasource.dart';
+import 'package:pcp_flutter/app/modules/roteiro/infra/datasources/remotes/remote_get_grupo_de_recurso_datasource.dart';
+import 'package:pcp_flutter/app/modules/roteiro/infra/datasources/remotes/remote_get_grupo_de_restricao_datasource.dart';
+import 'package:pcp_flutter/app/modules/roteiro/infra/datasources/remotes/remote_get_material_datasource.dart';
+import 'package:pcp_flutter/app/modules/roteiro/infra/datasources/remotes/remote_get_produto_datasource.dart';
+import 'package:pcp_flutter/app/modules/roteiro/infra/datasources/remotes/remote_get_recurso_por_grupo_datasource.dart';
+import 'package:pcp_flutter/app/modules/roteiro/infra/datasources/remotes/remote_get_restricao_por_grupo_datasource.dart';
+import 'package:pcp_flutter/app/modules/roteiro/infra/datasources/remotes/remote_get_unidade_datasource.dart';
+import 'package:pcp_flutter/app/modules/roteiro/infra/datasources/remotes/remote_roteiro_datasource.dart';
 import 'package:pcp_flutter/app/modules/roteiro/infra/repositories/get_centro_de_trabalho_repository_impl.dart';
 import 'package:pcp_flutter/app/modules/roteiro/infra/repositories/get_ficha_tecnica_repository_impl.dart';
 import 'package:pcp_flutter/app/modules/roteiro/infra/repositories/get_grupo_de_recurso_repository_impl.dart';
@@ -59,154 +80,153 @@ class RoteiroModule extends NasajonModule {
   @override
   void addCards(CardManager manager) {
     manager.add(
-      SimpleCardWidget(
+      MfeModule(
         title: translation.titles.roteiroDeProducao,
         section: 'PCP',
-        code: 'materiais_pcp_roteiro',
-        descriptions: [],
-        functions: [],
-        permissions: [],
-        showDemoMode: true,
-        applicationID: 291,
-        info: '',
+        controller: MfeController(),
         onPressed: () => Modular.to.pushNamed(NavigationRouter.roteirosModule.path),
       ),
+      child: (context, mfe) => NhidsLaunchpadSimpleCard(mfe: mfe),
     );
   }
 
   @override
-  List<Bind<Object>> get binds => [
-        // Centro de trabalho
-        Bind.lazySingleton((i) => RemoteGetCentroDeTrabalhoDatasourceImpl(i())),
-        Bind.lazySingleton((i) => GetCentroDeTrabalhoRepositoryImpl(i())),
-        Bind.lazySingleton((i) => GetCentroDeTrabalhoUsecaseImpl(i())),
-
-        // Ficha tecnica
-        Bind.lazySingleton((i) => RemoteGetFichaTecnicaDatasourceImpl(i())),
-        Bind.lazySingleton((i) => GetFichaTecnicaRepositoryImpl(i())),
-        Bind.lazySingleton((i) => GetFichaTecnicaUsecaseImpl(i())),
-
-        // Grupo de recurso
-        Bind.lazySingleton((i) => RemoteGetGrupoDeRecursoDatasourceImpl(i())),
-        Bind.lazySingleton((i) => GetGrupoDeRecursoRepositoryImpl(i())),
-        Bind.lazySingleton((i) => GetGrupoDeRecursoUsecaseImpl(i())),
-
-        // Recurso
-        Bind.lazySingleton((i) => RemoteGetRecursoPorGrupoDatasourceImpl(i())),
-        Bind.lazySingleton((i) => GetRecursoPorGrupoRepositoryImpl(i())),
-        Bind.lazySingleton((i) => GetRecursoPorGrupoUsecaseImpl(i())),
-
-        // Grupo de restricao
-        Bind.lazySingleton((i) => RemoteGetGrupoDeRestricaoDatasourceImpl(i())),
-        Bind.lazySingleton((i) => GetGrupoDeRestricaoRepositoryImpl(i())),
-        Bind.lazySingleton((i) => GetGrupoDeRestricaoUsecaseImpl(i())),
-
-        // Restricao
-        Bind.lazySingleton((i) => RemoteGetRestricaoPorGrupoDatasourceImpl(i())),
-        Bind.lazySingleton((i) => GetRestricaoPorGrupoRepositoryImpl(i())),
-        Bind.lazySingleton((i) => GetRestricaoPorGrupoUsecaseImpl(i())),
-
-        // Material (Produtos)
-        Bind.lazySingleton((i) => RemoteGetMaterialDatasourceImpl(i())),
-        Bind.lazySingleton((i) => GetMaterialRepositoryImpl(i())),
-        Bind.lazySingleton((i) => GetMaterialUsecaseImpl(i())),
-
-        // Produtos
-        Bind.lazySingleton((i) => RemoteGetProdutoDatasourceImpl(i())),
-        Bind.lazySingleton((i) => GetProdutoRepositoryImpl(i())),
-        Bind.lazySingleton((i) => GetProdutoUsecaseImpl(i())),
-
-        // Unidades
-        Bind.lazySingleton((i) => RemoteGetUnidadeDatasourceImpl(i())),
-        Bind.lazySingleton((i) => GetUnidadeRepositoryImpl(i())),
-        Bind.lazySingleton((i) => GetUnidadeUsecaseImpl(i())),
-
-        // Roteiro
-        Bind.lazySingleton((i) => RemoteRoteiroDatasourceImpl(i())),
-        Bind.lazySingleton((i) => RoteiroRepositoryImpl(i())),
-        Bind.lazySingleton((i) => GetRoteiroPorIdUsecaseImpl(i())),
-        Bind.lazySingleton((i) => GetRoteiroRecenteUsecaseImpl(i())),
-        Bind.lazySingleton((i) => GetRoteiroUsecaseImpl(i())),
-        Bind.lazySingleton((i) => InserirRoteiroUsecaseImpl(i())),
-        Bind.lazySingleton((i) => EditarRoteiroUsecaseImpl(i())),
-        Bind.lazySingleton((i) => DeletarRoteiroUsecaseImpl(i())),
-
-        // Stores
-        Bind.lazySingleton((i) => GetCentroDeTrabalhoStore(i())),
-        Bind.lazySingleton((i) => GetFichaTecnicaStore(i())),
-        Bind.lazySingleton((i) => GetGrupoDeRecursoStore(i())),
-        Bind.lazySingleton((i) => GetGrupoDeRestricaoStore(i())),
-        Bind.lazySingleton((i) => GetProdutoStore(i())),
-        Bind.lazySingleton((i) => GetUnidadeStore(i())),
-        Bind.lazySingleton((i) => GetMaterialStore(i())),
-        Bind.lazySingleton((i) => GetRoteiroStore(i())),
-        Bind.lazySingleton((i) => RoteiroListStore(i(), i(), i())),
-        Bind.factory((i) => InserirEditarRoteiroStore(i(), i(), i())),
-
-        //Controllers
-        Bind.factory((i) => RoteiroController()),
-        Bind.lazySingleton((i) => OperacaoController(i(), i())),
-      ];
+  List<Module> get imports => [PcpModule()];
 
   @override
-  List<ModularRoute> get routes => [
-        ChildRoute(
-          NavigationRouter.startModule.module,
-          child: (context, args) => RoteiroListPage(
-            roteiroListStore: context.read(),
-            scaffoldController: context.read(),
-            connectionStore: context.read(),
-          ),
+  void binds(Injector i) {
+    i // Centro de trabalho
+      ..addLazySingleton<RemoteGetCentroDeTrabalhoDatasource>(RemoteGetCentroDeTrabalhoDatasourceImpl.new)
+      ..addLazySingleton<GetCentroDeTrabalhoRepository>(GetCentroDeTrabalhoRepositoryImpl.new)
+      ..addLazySingleton<GetCentroDeTrabalhoUsecase>(GetCentroDeTrabalhoUsecaseImpl.new)
+
+      // Ficha tecnica
+      ..addLazySingleton<RemoteGetFichaTecnicaDatasource>(RemoteGetFichaTecnicaDatasourceImpl.new)
+      ..addLazySingleton<GetFichaTecnicaRepository>(GetFichaTecnicaRepositoryImpl.new)
+      ..addLazySingleton<GetFichaTecnicaUsecase>(GetFichaTecnicaUsecaseImpl.new)
+
+      // Grupo de recurso
+      ..addLazySingleton<RemoteGetGrupoDeRecursoDatasource>(RemoteGetGrupoDeRecursoDatasourceImpl.new)
+      ..addLazySingleton<GetGrupoDeRecursoRepository>(GetGrupoDeRecursoRepositoryImpl.new)
+      ..addLazySingleton<GetGrupoDeRecursoUsecase>(GetGrupoDeRecursoUsecaseImpl.new)
+
+      // Recurso
+      ..addLazySingleton<RemoteGetRecursoPorGrupoDatasource>(RemoteGetRecursoPorGrupoDatasourceImpl.new)
+      ..addLazySingleton<GetRecursoPorGrupoRepository>(GetRecursoPorGrupoRepositoryImpl.new)
+      ..addLazySingleton<GetRecursoPorGrupoUsecase>(GetRecursoPorGrupoUsecaseImpl.new)
+
+      // Grupo de restricao
+      ..addLazySingleton<RemoteGetGrupoDeRestricaoDatasource>(RemoteGetGrupoDeRestricaoDatasourceImpl.new)
+      ..addLazySingleton<GetGrupoDeRestricaoRepository>(GetGrupoDeRestricaoRepositoryImpl.new)
+      ..addLazySingleton<GetGrupoDeRestricaoUsecase>(GetGrupoDeRestricaoUsecaseImpl.new)
+
+      // Restricao
+      ..addLazySingleton<RemoteGetRestricaoPorGrupoDatasource>(RemoteGetRestricaoPorGrupoDatasourceImpl.new)
+      ..addLazySingleton<GetRestricaoPorGrupoRepository>(GetRestricaoPorGrupoRepositoryImpl.new)
+      ..addLazySingleton<GetRestricaoPorGrupoUsecase>(GetRestricaoPorGrupoUsecaseImpl.new)
+
+      // Material (Produtos)
+      ..addLazySingleton<RemoteGetMaterialDatasource>(RemoteGetMaterialDatasourceImpl.new)
+      ..addLazySingleton<GetMaterialRepository>(GetMaterialRepositoryImpl.new)
+      ..addLazySingleton<GetMaterialUsecase>(GetMaterialUsecaseImpl.new)
+
+      // Produtos
+      ..addLazySingleton<RemoteGetProdutoDatasource>(RemoteGetProdutoDatasourceImpl.new)
+      ..addLazySingleton<GetProdutoRepository>(GetProdutoRepositoryImpl.new)
+      ..addLazySingleton<GetProdutoUsecase>(GetProdutoUsecaseImpl.new)
+
+      // Unidades
+      ..addLazySingleton<RemoteGetUnidadeDatasource>(RemoteGetUnidadeDatasourceImpl.new)
+      ..addLazySingleton<GetUnidadeRepository>(GetUnidadeRepositoryImpl.new)
+      ..addLazySingleton<GetUnidadeUsecase>(GetUnidadeUsecaseImpl.new)
+
+      // Roteiro
+      ..addLazySingleton<RemoteRoteiroDatasource>(RemoteRoteiroDatasourceImpl.new)
+      ..addLazySingleton<RoteiroRepository>(RoteiroRepositoryImpl.new)
+      ..addLazySingleton<GetRoteiroPorIdUsecase>(GetRoteiroPorIdUsecaseImpl.new)
+      ..addLazySingleton<GetRoteiroRecenteUsecase>(GetRoteiroRecenteUsecaseImpl.new)
+      ..addLazySingleton<GetRoteiroUsecase>(GetRoteiroUsecaseImpl.new)
+      ..addLazySingleton<InserirRoteiroUsecase>(InserirRoteiroUsecaseImpl.new)
+      ..addLazySingleton<EditarRoteiroUsecase>(EditarRoteiroUsecaseImpl.new)
+      ..addLazySingleton<DeletarRoteiroUsecase>(DeletarRoteiroUsecaseImpl.new)
+
+      // Stores
+      ..addLazySingleton(GetCentroDeTrabalhoStore.new)
+      ..addLazySingleton(GetFichaTecnicaStore.new)
+      ..addLazySingleton(GetGrupoDeRecursoStore.new)
+      ..addLazySingleton(GetGrupoDeRestricaoStore.new)
+      ..addLazySingleton(GetProdutoStore.new)
+      ..addLazySingleton(GetUnidadeStore.new)
+      ..addLazySingleton(GetMaterialStore.new)
+      ..addLazySingleton(GetRoteiroStore.new)
+      ..addLazySingleton(RoteiroListStore.new)
+      ..add(InserirEditarRoteiroStore.new)
+
+      //Controllers
+      ..add(RoteiroController.new)
+      ..addLazySingleton(OperacaoController.new);
+  }
+
+  @override
+  void routes(RouteManager r) {
+    r //
+      ..child(
+        NavigationRouter.startModule.module,
+        child: (context) => RoteiroListPage(
+          roteiroListStore: context.read(),
+          scaffoldController: context.read(),
+          connectionStore: context.read(),
         ),
-        ChildRoute(
-          NavigationRouter.createModule.module,
-          child: (context, args) => RoteiroFormPage(
-            roteiroListStore: context.read(),
-            inserirEditarRoteiroStore: context.read(),
-            getCentroDeTrabalhoStore: context.read(),
-            getFichaTecnicaStore: context.read(),
-            getGrupoDeRecursoStore: context.read(),
-            getGrupoDeRestricaoStore: context.read(),
-            getProdutoStore: context.read(),
-            getUnidadeStore: context.read(),
-            roteiroController: context.read(),
-            operacaoController: context.read(),
-            scaffoldController: context.read(),
-            connectionStore: context.read(),
-            getMaterialStore: context.read(),
-          ),
+      )
+      ..child(
+        NavigationRouter.createModule.module,
+        child: (context) => RoteiroFormPage(
+          roteiroListStore: context.read(),
+          inserirEditarRoteiroStore: context.read(),
+          getCentroDeTrabalhoStore: context.read(),
+          getFichaTecnicaStore: context.read(),
+          getGrupoDeRecursoStore: context.read(),
+          getGrupoDeRestricaoStore: context.read(),
+          getProdutoStore: context.read(),
+          getUnidadeStore: context.read(),
+          roteiroController: context.read(),
+          operacaoController: context.read(),
+          scaffoldController: context.read(),
+          connectionStore: context.read(),
+          getMaterialStore: context.read(),
         ),
-        ChildRoute(
-          NavigationRouter.updateModule.module,
-          child: (context, args) => RoteiroVisualizarPage(
-            roteiroId: args.params['id'],
-            getRoteiroStore: context.read(),
-            roteiroListStore: context.read(),
-            inserirEditarRoteiroStore: context.read(),
-            getCentroDeTrabalhoStore: context.read(),
-            getFichaTecnicaStore: context.read(),
-            getGrupoDeRecursoStore: context.read(),
-            getGrupoDeRestricaoStore: context.read(),
-            getProdutoStore: context.read(),
-            getUnidadeStore: context.read(),
-            roteiroController: context.read(),
-            operacaoController: context.read(),
-            scaffoldController: context.read(),
-            connectionStore: context.read(),
-            getMaterialStore: context.read(),
-          ),
+      )
+      ..child(
+        NavigationRouter.updateModule.module,
+        child: (context) => RoteiroVisualizarPage(
+          roteiroId: r.args.params['id'],
+          getRoteiroStore: context.read(),
+          roteiroListStore: context.read(),
+          inserirEditarRoteiroStore: context.read(),
+          getCentroDeTrabalhoStore: context.read(),
+          getFichaTecnicaStore: context.read(),
+          getGrupoDeRecursoStore: context.read(),
+          getGrupoDeRestricaoStore: context.read(),
+          getProdutoStore: context.read(),
+          getUnidadeStore: context.read(),
+          roteiroController: context.read(),
+          operacaoController: context.read(),
+          scaffoldController: context.read(),
+          connectionStore: context.read(),
+          getMaterialStore: context.read(),
         ),
-        ChildRoute(
-          NavigationRouter.roteirosOperacaoModule.module,
-          child: (context, args) => RoteiroFormOperacaoPage(
-            operacaoController: context.read(),
-            getUnidadeStore: context.read(),
-            getCentroDeTrabalhoStore: context.read(),
-            getProdutoStore: context.read(),
-            getMaterialStore: context.read(),
-            getGrupoDeRecursoStore: context.read(),
-            getGrupoDeRestricaoStore: context.read(),
-          ),
-        )
-      ];
+      )
+      ..child(
+        NavigationRouter.roteirosOperacaoModule.module,
+        child: (context) => RoteiroFormOperacaoPage(
+          operacaoController: context.read(),
+          getUnidadeStore: context.read(),
+          getCentroDeTrabalhoStore: context.read(),
+          getProdutoStore: context.read(),
+          getMaterialStore: context.read(),
+          getGrupoDeRecursoStore: context.read(),
+          getGrupoDeRestricaoStore: context.read(),
+        ),
+      );
+  }
 }

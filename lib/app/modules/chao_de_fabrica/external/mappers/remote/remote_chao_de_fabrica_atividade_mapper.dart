@@ -15,6 +15,7 @@ class RemoteChaoDeFabricaAtividadeMapper {
   static ChaoDeFabricaAtividadeAggregate fromMapToAtividadeAggregate(Map<String, dynamic> map) {
     return ChaoDeFabricaAtividadeAggregate(
       id: map['atividade_recurso'],
+      codigo: map['sequencial'].toString(),
       status: AtividadeStatusEnum.selectByValue(map['status']),
       inicioPlanejado: DateVO.parse(map['inicio_planejado']),
       fimPlanejado: DateVO.parse(map['fim_planejado']),
@@ -22,6 +23,8 @@ class RemoteChaoDeFabricaAtividadeMapper {
       fimPreparacaoPlanejado: DateVO.parse(map['fim_preparacao_planejada']),
       progresso: map['progresso'],
       capacidade: DoubleVO(map['capacidade']),
+      quantidade: DoubleVO(map['capacidade_utilizada']),
+      produzida: DoubleVO(map['quantidade_produzida']),
       unidade: RemoteChaoDeFabricaUnidadeMapper.fromMapToUnidadeEntity(map['unidade']),
       ordemDeProducao: RemoteChaoDeFabricaOrdemDeProducaoMapper.fromMapToOrdemDeProducaoEntity(map['operacao_ordem']['ordem_de_producao']),
       operacao: RemoteChaoDeFabricaOperacaoMapper.fromMapToOperacaoEntity(map['operacao_ordem']),

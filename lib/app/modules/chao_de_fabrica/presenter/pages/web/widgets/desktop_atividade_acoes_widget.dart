@@ -5,16 +5,23 @@ import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/modules/domain/enums/atividade_status_enum%20copy.dart';
 import 'package:pcp_flutter/app/modules/chao_de_fabrica/domain/aggregates/chao_de_fabrica_atividade_aggregate.dart';
+import 'package:pcp_flutter/app/modules/chao_de_fabrica/presenter/pages/web/widgets/desktop_apontar_evolucao_widget.dart';
+import 'package:pcp_flutter/app/modules/chao_de_fabrica/presenter/stores/chao_de_fabrica_apontamento_store.dart';
+import 'package:pcp_flutter/app/modules/chao_de_fabrica/presenter/stores/chao_de_fabrica_atividade_by_id_store.dart';
 import 'package:pcp_flutter/app/modules/chao_de_fabrica/presenter/stores/chao_de_fabrica_list_store.dart';
 
 class DesktopAtividadeAcoesWidget extends StatefulWidget {
   final RxNotifier<ChaoDeFabricaAtividadeAggregate> atividadeNotifier;
   final ChaoDeFabricaListStore chaoDeFabricaListStore;
+  final ChaoDeFabricaApontamentoStore apontamentoStore;
+  final ChaoDeFabricaAtividadeByIdStore atividadeByIdStore;
 
   const DesktopAtividadeAcoesWidget({
     Key? key,
     required this.atividadeNotifier,
     required this.chaoDeFabricaListStore,
+    required this.apontamentoStore,
+    required this.atividadeByIdStore,
   }) : super(key: key);
 
   @override
@@ -24,6 +31,8 @@ class DesktopAtividadeAcoesWidget extends StatefulWidget {
 class _DesktopAtividadeAcoesWidgetState extends State<DesktopAtividadeAcoesWidget> {
   RxNotifier<ChaoDeFabricaAtividadeAggregate> get atividadeNotifier => widget.atividadeNotifier;
   ChaoDeFabricaListStore get chaoDeFabricaListStore => widget.chaoDeFabricaListStore;
+  ChaoDeFabricaApontamentoStore get apontamentoStore => widget.apontamentoStore;
+  ChaoDeFabricaAtividadeByIdStore get atividadeByIdStore => widget.atividadeByIdStore;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +40,7 @@ class _DesktopAtividadeAcoesWidgetState extends State<DesktopAtividadeAcoesWidge
 
     final atividade = atividadeNotifier.value;
 
-    final acaoIniciarPreparacao = CustomOutlinedButton(
+    final acaoIniciarPreparacao = NhidsSecondaryButton(
       title: translation.fields.iniciarPreparacao,
       onPressed: () async {
         atividadeNotifier.value =
@@ -39,7 +48,7 @@ class _DesktopAtividadeAcoesWidgetState extends State<DesktopAtividadeAcoesWidge
         setState(() {});
       },
     );
-    final acaoIniciarAtividade = CustomOutlinedButton(
+    final acaoIniciarAtividade = NhidsSecondaryButton(
       title: translation.fields.iniciarAtividade,
       onPressed: () async {
         atividadeNotifier.value =
@@ -47,7 +56,7 @@ class _DesktopAtividadeAcoesWidgetState extends State<DesktopAtividadeAcoesWidge
         setState(() {});
       },
     );
-    final acaoPausarAtividade = CustomOutlinedButton(
+    final acaoPausarAtividade = NhidsSecondaryButton(
       title: translation.fields.pausarAtividade,
       onPressed: () async {
         atividadeNotifier.value =
@@ -55,7 +64,7 @@ class _DesktopAtividadeAcoesWidgetState extends State<DesktopAtividadeAcoesWidge
         setState(() {});
       },
     );
-    final acaoContinuarAtividade = CustomOutlinedButton(
+    final acaoContinuarAtividade = NhidsSecondaryButton(
       title: translation.fields.continuarAtividade,
       onPressed: () async {
         atividadeNotifier.value =
@@ -63,7 +72,7 @@ class _DesktopAtividadeAcoesWidgetState extends State<DesktopAtividadeAcoesWidge
         setState(() {});
       },
     );
-    final acaoFinalizarAtividade = CustomOutlinedButton(
+    final acaoFinalizarAtividade = NhidsSecondaryButton(
       title: translation.fields.finalizarAtividade,
       onPressed: () async {
         atividadeNotifier.value =
@@ -71,9 +80,19 @@ class _DesktopAtividadeAcoesWidgetState extends State<DesktopAtividadeAcoesWidge
         setState(() {});
       },
     );
-    final acaoApontarEvolucao = CustomOutlinedButton(
+    final acaoApontarEvolucao = NhidsSecondaryButton(
       title: translation.fields.apontarEvolucao,
-      onPressed: () {},
+      onPressed: () {
+        Asuka.showDialog(builder: (context) {
+          return Dialog.fullscreen(
+            child: DesktopApontarEvolucaoWidget(
+              atividade: atividade,
+              apontamentoStore: apontamentoStore,
+              atividadeByIdStore: atividadeByIdStore,
+            ),
+          );
+        });
+      },
     );
 
     const paddingSize = SizedBox(width: 12);
@@ -100,7 +119,7 @@ class _DesktopAtividadeAcoesWidgetState extends State<DesktopAtividadeAcoesWidge
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        CustomTextButton(
+        NhidsTertiaryButton(
           title: translation.fields.fechar,
           onPressed: () => Navigator.of(context).pop(),
         ),

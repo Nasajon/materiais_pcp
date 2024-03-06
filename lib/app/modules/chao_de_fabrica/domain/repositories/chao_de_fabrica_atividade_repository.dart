@@ -4,6 +4,8 @@ import 'package:pcp_flutter/app/modules/chao_de_fabrica/domain/dto/filters/chao_
 abstract interface class ChaoDeFabricaAtividadeRepository {
   Future<List<ChaoDeFabricaAtividadeAggregate>> getAtividades(ChaoDeFabricaAtividadeFilter filter);
 
+  Future<ChaoDeFabricaAtividadeAggregate> getAtividade(String atividadeId);
+
   Future<ChaoDeFabricaAtividadeAggregate> iniciarPreparacao(ChaoDeFabricaAtividadeAggregate atividade);
 
   Future<ChaoDeFabricaAtividadeAggregate> iniciarAtividade(ChaoDeFabricaAtividadeAggregate atividade);

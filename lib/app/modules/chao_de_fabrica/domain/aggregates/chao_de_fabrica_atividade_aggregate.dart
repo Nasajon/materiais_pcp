@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/foundation.dart';
 import 'package:pcp_flutter/app/core/modules/domain/enums/atividade_status_enum%20copy.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/date_vo.dart';
@@ -12,6 +11,7 @@ import 'package:pcp_flutter/app/modules/chao_de_fabrica/domain/entities/chao_de_
 
 class ChaoDeFabricaAtividadeAggregate {
   final String id;
+  final String codigo;
   final AtividadeStatusEnum status;
   final DateVO inicioPlanejado;
   final DateVO fimPlanejado;
@@ -19,6 +19,8 @@ class ChaoDeFabricaAtividadeAggregate {
   final DateVO fimPreparacaoPlanejado;
   final double progresso;
   final DoubleVO capacidade;
+  final DoubleVO quantidade;
+  final DoubleVO produzida;
   final ChaoDeFabricaUnidadeEntity unidade;
   final ChaoDeFabricaOrdemDeProducaoEntity ordemDeProducao;
   final ChaoDeFabricaOperacaoEntity operacao;
@@ -28,6 +30,7 @@ class ChaoDeFabricaAtividadeAggregate {
 
   const ChaoDeFabricaAtividadeAggregate({
     required this.id,
+    required this.codigo,
     required this.status,
     required this.inicioPlanejado,
     required this.fimPlanejado,
@@ -35,6 +38,8 @@ class ChaoDeFabricaAtividadeAggregate {
     required this.fimPreparacaoPlanejado,
     required this.progresso,
     required this.capacidade,
+    required this.quantidade,
+    required this.produzida,
     required this.unidade,
     required this.ordemDeProducao,
     required this.operacao,
@@ -43,8 +48,31 @@ class ChaoDeFabricaAtividadeAggregate {
     required this.materiais,
   });
 
+  factory ChaoDeFabricaAtividadeAggregate.empty() {
+    return ChaoDeFabricaAtividadeAggregate(
+      id: '',
+      codigo: '',
+      status: AtividadeStatusEnum.aberta,
+      inicioPlanejado: DateVO(''),
+      fimPlanejado: DateVO(''),
+      inicioPreparacaoPlanejado: DateVO(''),
+      fimPreparacaoPlanejado: DateVO(''),
+      progresso: 0,
+      capacidade: DoubleVO(null),
+      quantidade: DoubleVO(null),
+      produzida: DoubleVO(null),
+      unidade: ChaoDeFabricaUnidadeEntity.empty(),
+      ordemDeProducao: ChaoDeFabricaOrdemDeProducaoEntity.empty(),
+      operacao: ChaoDeFabricaOperacaoEntity.empty(),
+      recurso: ChaoDeFabricaRecursoEntity.empty(),
+      restricoes: [],
+      materiais: [],
+    );
+  }
+
   ChaoDeFabricaAtividadeAggregate copyWith({
     String? id,
+    String? codigo,
     AtividadeStatusEnum? status,
     DateVO? inicioPlanejado,
     DateVO? fimPlanejado,
@@ -52,6 +80,8 @@ class ChaoDeFabricaAtividadeAggregate {
     DateVO? fimPreparacaoPlanejado,
     double? progresso,
     DoubleVO? capacidade,
+    DoubleVO? quantidade,
+    DoubleVO? produzida,
     ChaoDeFabricaUnidadeEntity? unidade,
     ChaoDeFabricaOrdemDeProducaoEntity? ordemDeProducao,
     ChaoDeFabricaOperacaoEntity? operacao,
@@ -61,6 +91,7 @@ class ChaoDeFabricaAtividadeAggregate {
   }) {
     return ChaoDeFabricaAtividadeAggregate(
       id: id ?? this.id,
+      codigo: codigo ?? this.codigo,
       status: status ?? this.status,
       inicioPlanejado: inicioPlanejado ?? this.inicioPlanejado,
       fimPlanejado: fimPlanejado ?? this.fimPlanejado,
@@ -68,6 +99,8 @@ class ChaoDeFabricaAtividadeAggregate {
       fimPreparacaoPlanejado: fimPreparacaoPlanejado ?? this.fimPreparacaoPlanejado,
       progresso: progresso ?? this.progresso,
       capacidade: capacidade ?? this.capacidade,
+      quantidade: quantidade ?? this.quantidade,
+      produzida: produzida ?? this.produzida,
       unidade: unidade ?? this.unidade,
       ordemDeProducao: ordemDeProducao ?? this.ordemDeProducao,
       operacao: operacao ?? this.operacao,
@@ -82,6 +115,7 @@ class ChaoDeFabricaAtividadeAggregate {
     if (identical(this, other)) return true;
 
     return other.id == id &&
+        other.codigo == codigo &&
         other.status == status &&
         other.inicioPlanejado == inicioPlanejado &&
         other.fimPlanejado == fimPlanejado &&
@@ -89,6 +123,8 @@ class ChaoDeFabricaAtividadeAggregate {
         other.fimPreparacaoPlanejado == fimPreparacaoPlanejado &&
         other.progresso == progresso &&
         other.capacidade == capacidade &&
+        other.quantidade == quantidade &&
+        other.produzida == produzida &&
         other.unidade == unidade &&
         other.ordemDeProducao == ordemDeProducao &&
         other.operacao == operacao &&
@@ -100,6 +136,7 @@ class ChaoDeFabricaAtividadeAggregate {
   @override
   int get hashCode {
     return id.hashCode ^
+        codigo.hashCode ^
         status.hashCode ^
         inicioPlanejado.hashCode ^
         fimPlanejado.hashCode ^
@@ -107,6 +144,8 @@ class ChaoDeFabricaAtividadeAggregate {
         fimPreparacaoPlanejado.hashCode ^
         progresso.hashCode ^
         capacidade.hashCode ^
+        quantidade.hashCode ^
+        produzida.hashCode ^
         unidade.hashCode ^
         ordemDeProducao.hashCode ^
         operacao.hashCode ^

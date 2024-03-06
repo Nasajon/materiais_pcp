@@ -6,7 +6,7 @@ class RemoteChaoDeFabricaOperacaoMapper {
   static ChaoDeFabricaOperacaoEntity fromMapToOperacaoEntity(Map<String, dynamic> map) {
     return ChaoDeFabricaOperacaoEntity(
       id: map['operacao'],
-      OperacaoOrdemId: map['operacao_ordem'],
+      operacaoOrdemId: map['operacao_ordem'],
       codigo: map['codigo'],
       nome: map['nome'],
     );

@@ -10,7 +10,11 @@ class ChaoDeFabricaRecursoEntity {
   });
 
   factory ChaoDeFabricaRecursoEntity.empty() {
-    return const ChaoDeFabricaRecursoEntity(id: '', codigo: '', nome: '');
+    return const ChaoDeFabricaRecursoEntity(
+      id: '',
+      codigo: '',
+      nome: '',
+    );
   }
 
   ChaoDeFabricaRecursoEntity copyWith({

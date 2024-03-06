@@ -29,7 +29,7 @@ class _MobileCardHorarioWidgetState extends State<MobileCardHorarioWidget> {
     super.didChangeDependencies();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      if (widget.turnoTrabalhoFormController.horario != null && !widget.adaptiveModalNotifier.value && ScreenSizeUtil(context).isMobile) {
+      if (widget.turnoTrabalhoFormController.horario != null && !widget.adaptiveModalNotifier.value && NhidsScreenSize(context).isMobile) {
         showModalCriarEditarHorario();
       }
     });

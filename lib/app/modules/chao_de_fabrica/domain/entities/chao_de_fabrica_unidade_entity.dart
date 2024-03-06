@@ -11,6 +11,15 @@ class ChaoDeFabricaUnidadeEntity {
     required this.decimal,
   });
 
+  factory ChaoDeFabricaUnidadeEntity.empty() {
+    return const ChaoDeFabricaUnidadeEntity(
+      id: '',
+      codigo: '',
+      nome: '',
+      decimal: 0,
+    );
+  }
+
   ChaoDeFabricaUnidadeEntity copyWith({
     String? id,
     String? codigo,

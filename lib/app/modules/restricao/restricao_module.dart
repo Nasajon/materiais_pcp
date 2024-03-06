@@ -3,6 +3,11 @@ import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/core/constants/navigation_router.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
+import 'package:pcp_flutter/app/modules/pcp_module.dart';
+import 'package:pcp_flutter/app/modules/restricao/domain/repositories/get_centro_de_trabalho_repository.dart';
+import 'package:pcp_flutter/app/modules/restricao/domain/repositories/get_grupo_de_restricao_repository.dart';
+import 'package:pcp_flutter/app/modules/restricao/domain/repositories/get_turno_de_trabalho_repository.dart';
+import 'package:pcp_flutter/app/modules/restricao/domain/repositories/restricao_repository.dart';
 import 'package:pcp_flutter/app/modules/restricao/domain/usecases/delete_restricao_usecase.dart';
 import 'package:pcp_flutter/app/modules/restricao/domain/usecases/get_centro_de_trabalho_usecase.dart';
 import 'package:pcp_flutter/app/modules/restricao/domain/usecases/get_grupo_de_restricao_usecase.dart';
@@ -16,6 +21,10 @@ import 'package:pcp_flutter/app/modules/restricao/external/datasources/remote/re
 import 'package:pcp_flutter/app/modules/restricao/external/datasources/remote/remote_get_grupo_de_restricao_datasource.dart';
 import 'package:pcp_flutter/app/modules/restricao/external/datasources/remote/remote_get_turno_de_trabalho_datasource_impl.dart';
 import 'package:pcp_flutter/app/modules/restricao/external/datasources/remote/remote_restricao_datasource_impl.dart';
+import 'package:pcp_flutter/app/modules/restricao/infra/datasources/remote/remote_get_centro_de_trabalho_datasource.dart';
+import 'package:pcp_flutter/app/modules/restricao/infra/datasources/remote/remote_get_grupo_de_restricao_datasource.dart';
+import 'package:pcp_flutter/app/modules/restricao/infra/datasources/remote/remote_get_turno_de_trabalho_datasource.dart';
+import 'package:pcp_flutter/app/modules/restricao/infra/datasources/remote/remote_restricao_datasource.dart';
 import 'package:pcp_flutter/app/modules/restricao/infra/repositories/get_centro_de_trabalho_repository_impl.dart';
 import 'package:pcp_flutter/app/modules/restricao/infra/repositories/get_grupo_de_restricao_repository_impl.dart';
 import 'package:pcp_flutter/app/modules/restricao/infra/repositories/get_turno_de_trabalho_repository_impl.dart';
@@ -35,93 +44,94 @@ class RestricaoModule extends NasajonModule {
   @override
   void addCards(CardManager manager) {
     manager.add(
-      SimpleCardWidget(
+      MfeModule(
         title: translation.titles.restricoes,
         section: 'PCP',
-        code: 'materiais_pcp_restricao',
-        descriptions: [],
-        functions: [],
-        permissions: [],
-        showDemoMode: true,
-        applicationID: 1,
-        info: '',
+        controller: MfeController(),
         onPressed: () => Modular.to.pushNamed(NavigationRouter.restricoesModule.path),
+      ),
+      child: (context, mfe) => NhidsLaunchpadSimpleCard(
+        mfe: mfe,
       ),
     );
   }
 
   @override
-  List<Bind> get binds => [
-        //Datasource
-        Bind.lazySingleton((i) => RemoteRestricaoDatasourceImpl(i())),
-        Bind.lazySingleton((i) => RemoteGetGrupoDeRestricaoDatasourceImpl(i())),
-        Bind.lazySingleton((i) => RemoteGetCentroDeTrabalhoDatasourceImpl(i())),
-        Bind.lazySingleton((i) => RemoteGetTurnoDeTrabalhoDatasourceImpl(i())),
-
-        //Repositories
-        Bind.lazySingleton((i) => RestricaoRepositoryImpl(i())),
-        Bind.lazySingleton((i) => GetGrupoDeRestricaoRepositoryImpl(i())),
-        Bind.lazySingleton((i) => GetCentroDeTrabalhoRepositoryImpl(i())),
-        Bind.lazySingleton((i) => GetTurnoDeTrabalhoRepositoryImpl(i())),
-
-        //Usecase
-        Bind.lazySingleton((i) => InsertRestricaoUsecaseImpl(i())),
-        Bind.lazySingleton((i) => UpdateRestricaoUsecaseImpl(i())),
-        Bind.lazySingleton((i) => GetRestricaoRecenteUsecaseImpl(i())),
-        Bind.lazySingleton((i) => GetCentroDeTrabalhoUsecaseImpl(i())),
-        Bind.lazySingleton((i) => GetTurnoDeTrabalhoUsecaseImpl(i())),
-        Bind.lazySingleton((i) => GetListRestricaoUsecaseImpl(i())),
-        Bind.lazySingleton((i) => GetGrupoDeRestricaoUsecaseImpl(i())),
-        Bind.lazySingleton((i) => GetRestricaoPorIdUsecaseImpl(i())),
-        Bind.lazySingleton((i) => DeleteRestricaoUsecaseImpl(i())),
-
-        //Triple
-        TripleBind.lazySingleton((i) => RestricaoListStore(i(), i(), i())),
-        TripleBind.lazySingleton((i) => InserirEditarRestricaoStore(i(), i())),
-        TripleBind.lazySingleton((i) => GetGrupoDeRestricaoStore(i())),
-        TripleBind.lazySingleton((i) => GetRestricaoStore(i())),
-        TripleBind.lazySingleton((i) => GetCentroDeTrabalhoStore(i())),
-        TripleBind.lazySingleton((i) => GetTurnoDeTrabalhoStore(i())),
-
-        //Controllers
-        Bind.lazySingleton((i) => RestricaoFormController()),
-      ];
+  List<Module> get imports => [PcpModule()];
 
   @override
-  List<ModularRoute> get routes => [
-        ChildRoute(
-          NavigationRouter.startModule.module,
-          child: (context, args) => RestricaoListPage(
-            restricaoListStore: context.read(),
-            scaffoldController: context.read(),
-            connectionStore: context.read(),
-          ),
+  void binds(Injector i) {
+    i //Datasource
+      ..addLazySingleton<RemoteRestricaoDatasource>(RemoteRestricaoDatasourceImpl.new)
+      ..addLazySingleton<RemoteGetGrupoDeRestricaoDatasource>(RemoteGetGrupoDeRestricaoDatasourceImpl.new)
+      ..addLazySingleton<RemoteGetCentroDeTrabalhoDatasource>(RemoteGetCentroDeTrabalhoDatasourceImpl.new)
+      ..addLazySingleton<RemoteGetTurnoDeTrabalhoDatasource>(RemoteGetTurnoDeTrabalhoDatasourceImpl.new)
+
+      //Repositories
+      ..addLazySingleton<RestricaoRepository>(RestricaoRepositoryImpl.new)
+      ..addLazySingleton<GetGrupoDeRestricaoRepository>(GetGrupoDeRestricaoRepositoryImpl.new)
+      ..addLazySingleton<GetCentroDeTrabalhoRepository>(GetCentroDeTrabalhoRepositoryImpl.new)
+      ..addLazySingleton<GetTurnoDeTrabalhoRepository>(GetTurnoDeTrabalhoRepositoryImpl.new)
+
+      //Usecase
+      ..addLazySingleton<InsertRestricaoUsecase>(InsertRestricaoUsecaseImpl.new)
+      ..addLazySingleton<UpdateRestricaoUsecase>(UpdateRestricaoUsecaseImpl.new)
+      ..addLazySingleton<GetRestricaoRecenteUsecase>(GetRestricaoRecenteUsecaseImpl.new)
+      ..addLazySingleton<GetCentroDeTrabalhoUsecase>(GetCentroDeTrabalhoUsecaseImpl.new)
+      ..addLazySingleton<GetTurnoDeTrabalhoUsecase>(GetTurnoDeTrabalhoUsecaseImpl.new)
+      ..addLazySingleton<GetListRestricaoUsecase>(GetListRestricaoUsecaseImpl.new)
+      ..addLazySingleton<GetGrupoDeRestricaoUsecase>(GetGrupoDeRestricaoUsecaseImpl.new)
+      ..addLazySingleton<GetRestricaoPorIdUsecase>(GetRestricaoPorIdUsecaseImpl.new)
+      ..addLazySingleton<DeleteRestricaoUsecase>(DeleteRestricaoUsecaseImpl.new)
+
+      //Triple
+      ..addLazySingleton(RestricaoListStore.new)
+      ..addLazySingleton(InserirEditarRestricaoStore.new)
+      ..addLazySingleton(GetGrupoDeRestricaoStore.new)
+      ..addLazySingleton(GetRestricaoStore.new)
+      ..addLazySingleton(GetCentroDeTrabalhoStore.new)
+      ..addLazySingleton(GetTurnoDeTrabalhoStore.new)
+
+      //Controllers
+      ..addLazySingleton(RestricaoFormController.new);
+  }
+
+  @override
+  void routes(RouteManager r) {
+    r //
+      ..child(
+        NavigationRouter.startModule.module,
+        child: (context) => RestricaoListPage(
+          restricaoListStore: context.read(),
+          scaffoldController: context.read(),
+          connectionStore: context.read(),
         ),
-        ChildRoute(
-          NavigationRouter.createModule.module,
-          child: (context, args) => RestricaoFormPage(
-            inserirEditarRestricaoStore: context.read(),
-            getGrupoDeRestricaoStore: context.read(),
-            getCentroDeTrabalhoStore: context.read(),
-            getTurnoDeTrabalhoStore: context.read(),
-            restricaoFormController: context.read(),
-            connectionStore: context.read(),
-            scaffoldController: context.read(),
-          ),
+      )
+      ..child(
+        NavigationRouter.createModule.module,
+        child: (context) => RestricaoFormPage(
+          inserirEditarRestricaoStore: context.read(),
+          getGrupoDeRestricaoStore: context.read(),
+          getCentroDeTrabalhoStore: context.read(),
+          getTurnoDeTrabalhoStore: context.read(),
+          restricaoFormController: context.read(),
+          connectionStore: context.read(),
+          scaffoldController: context.read(),
         ),
-        ChildRoute(
-          NavigationRouter.updateModule.module,
-          child: (context, args) => RestricaoVisualizarPage(
-            id: args.params['id'],
-            inserirEditarRestricaoStore: context.read(),
-            getRestricaoStore: context.read(),
-            getGrupoDeRestricaoStore: context.read(),
-            getCentroDeTrabalhoStore: context.read(),
-            getTurnoDeTrabalhoStore: context.read(),
-            restricaoFormController: context.read(),
-            connectionStore: context.read(),
-            scaffoldController: context.read(),
-          ),
+      )
+      ..child(
+        NavigationRouter.updateModule.module,
+        child: (context) => RestricaoVisualizarPage(
+          id: r.args.params['id'],
+          inserirEditarRestricaoStore: context.read(),
+          getRestricaoStore: context.read(),
+          getGrupoDeRestricaoStore: context.read(),
+          getCentroDeTrabalhoStore: context.read(),
+          getTurnoDeTrabalhoStore: context.read(),
+          restricaoFormController: context.read(),
+          connectionStore: context.read(),
+          scaffoldController: context.read(),
         ),
-      ];
+      );
+  }
 }

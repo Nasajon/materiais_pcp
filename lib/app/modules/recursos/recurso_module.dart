@@ -3,6 +3,11 @@ import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/core/constants/navigation_router.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
+import 'package:pcp_flutter/app/modules/pcp_module.dart';
+import 'package:pcp_flutter/app/modules/recursos/domain/repositories/get_centro_de_trabalho_repository.dart';
+import 'package:pcp_flutter/app/modules/recursos/domain/repositories/get_grupo_de_recurso_repository.dart';
+import 'package:pcp_flutter/app/modules/recursos/domain/repositories/get_turno_de_trabalho_repository.dart';
+import 'package:pcp_flutter/app/modules/recursos/domain/repositories/recurso_repository.dart';
 import 'package:pcp_flutter/app/modules/recursos/domain/usecases/delete_recurso_usecase.dart';
 import 'package:pcp_flutter/app/modules/recursos/domain/usecases/get_centro_de_trabalho_usecase.dart';
 import 'package:pcp_flutter/app/modules/recursos/domain/usecases/get_grupo_de_recurso_usecase.dart';
@@ -11,6 +16,9 @@ import 'package:pcp_flutter/app/modules/recursos/domain/usecases/get_turno_de_tr
 import 'package:pcp_flutter/app/modules/recursos/external/datasources/remote/get_centro_de_trabalho_datasource_impl.dart';
 import 'package:pcp_flutter/app/modules/recursos/external/datasources/remote/get_grupo_de_recurso_datasource_impl.dart';
 import 'package:pcp_flutter/app/modules/recursos/external/datasources/remote/remote_get_turno_de_trabalho_datasource_impl.dart';
+import 'package:pcp_flutter/app/modules/recursos/infra/datasources/remote/get_grupo_de_recurso_datasource.dart';
+import 'package:pcp_flutter/app/modules/recursos/infra/datasources/remote/recurso_datasource.dart';
+import 'package:pcp_flutter/app/modules/recursos/infra/datasources/remote/remote_get_turno_de_trabalho_datasource.dart';
 import 'package:pcp_flutter/app/modules/recursos/infra/repositories/get_centro_de_trabalho_repository_impl.dart';
 import 'package:pcp_flutter/app/modules/recursos/infra/repositories/get_grupo_de_recurso_repository_impl.dart';
 import 'package:pcp_flutter/app/modules/recursos/infra/repositories/get_turno_de_trabalho_repository_impl.dart';
@@ -33,90 +41,91 @@ class RecursoModule extends NasajonModule {
   @override
   void addCards(CardManager manager) {
     manager.add(
-      SimpleCardWidget(
+      MfeModule(
         title: translation.titles.tituloRecursos,
         section: 'PCP',
-        code: 'materiais_pcp_recursos',
-        descriptions: [],
-        functions: [],
-        permissions: [],
-        showDemoMode: true,
-        applicationID: 1,
-        info: '',
+        controller: MfeController(),
         onPressed: () => Modular.to.pushNamed(NavigationRouter.recursosModule.path),
+      ),
+      child: (context, mfe) => NhidsLaunchpadSimpleCard(
+        mfe: mfe,
       ),
     );
   }
 
   @override
-  List<Bind> get binds => [
-        //DataSources
-        Bind.lazySingleton((i) => RecursoDatasourceImpl(i())),
-        Bind.lazySingleton((i) => GetGrupoDeRecursoDatasourceImpl(i())),
-        Bind.lazySingleton((i) => GetCentroDeTrabalhoDatasourceImpl(i())),
-        Bind.lazySingleton((i) => RemoteGetTurnoDeTrabalhoDatasourceImpl(i())),
-
-        //Repositories
-        Bind.lazySingleton((i) => RecursoRepositoryImpl(i())),
-        Bind.lazySingleton((i) => GetGrupoDeRecursoRepositoryImpl(i())),
-        Bind.lazySingleton((i) => GetCentroDeTrabalhoRepositoryImpl(i())),
-        Bind.lazySingleton((i) => GetTurnoDeTrabalhoRepositoryImpl(i())),
-
-        //UseCases
-        Bind.lazySingleton((i) => GetRecursoListUsecaseImpl(i())),
-        Bind.lazySingleton((i) => GetRecursoRecenteUsecaseImpl(i())),
-        Bind.lazySingleton((i) => GetRecursoByIdUsecaseImpl(i())),
-        Bind.lazySingleton((i) => SaveRecursoUsecaseImpl(i())),
-        Bind.lazySingleton((i) => GetGrupoDeRecursoUsecaseImpl(i())),
-        Bind.lazySingleton((i) => DeleteRecursoUsecaseImpl(i())),
-        Bind.lazySingleton((i) => GetCentroDeTrabalhoUsecaseImpl(i())),
-        Bind.lazySingleton((i) => GetTurnoDeTrabalhoUsecaseImpl(i())),
-
-        //Stores
-        Bind.lazySingleton((i) => RecursoListStore(i(), i(), i())),
-        Bind.factory((i) => RecursoFormStore(i(), i())),
-        TripleBind.lazySingleton((i) => GetGrupoDeRecursoStore(i())),
-        TripleBind.lazySingleton((i) => GetCentroDeTrabalhoStore(i())),
-        TripleBind.lazySingleton((i) => GetTurnoDeTrabalhoStore(i())),
-
-        //Controller
-        Bind.lazySingleton((i) => RecursoController()),
-      ];
+  List<Module> get imports => [PcpModule()];
 
   @override
-  List<ModularRoute> get routes => [
-        ChildRoute(
-          NavigationRouter.startModule.module,
-          child: (context, args) => RecursoListPage(
-            recursoListStore: context.read(),
-            connectionStore: context.read(),
-            scaffoldController: context.read(),
-          ),
+  void binds(Injector i) {
+    i //DataSources
+      ..addLazySingleton<RecursoDatasource>(RecursoDatasourceImpl.new)
+      ..addLazySingleton<GetGrupoDeRecursoDatasource>(GetGrupoDeRecursoDatasourceImpl.new)
+      ..addLazySingleton<GetCentroDeTrabalhoDatasourceImpl>(GetCentroDeTrabalhoDatasourceImpl.new)
+      ..addLazySingleton<RemoteGetTurnoDeTrabalhoDatasource>(RemoteGetTurnoDeTrabalhoDatasourceImpl.new)
+
+      //Repositories
+      ..addLazySingleton<RecursoRepository>(RecursoRepositoryImpl.new)
+      ..addLazySingleton<GetGrupoDeRecursoRepository>(GetGrupoDeRecursoRepositoryImpl.new)
+      ..addLazySingleton<GetCentroDeTrabalhoRepository>(GetCentroDeTrabalhoRepositoryImpl.new)
+      ..addLazySingleton<GetTurnoDeTrabalhoRepository>(GetTurnoDeTrabalhoRepositoryImpl.new)
+
+      //UseCases
+      ..addLazySingleton<GetRecursoListUsecase>(GetRecursoListUsecaseImpl.new)
+      ..addLazySingleton<GetRecursoRecenteUsecase>(GetRecursoRecenteUsecaseImpl.new)
+      ..addLazySingleton<GetRecursoByIdUsecase>(GetRecursoByIdUsecaseImpl.new)
+      ..addLazySingleton<SaveRecursoUsecase>(SaveRecursoUsecaseImpl.new)
+      ..addLazySingleton<GetGrupoDeRecursoUsecase>(GetGrupoDeRecursoUsecaseImpl.new)
+      ..addLazySingleton<DeleteRecursoUsecase>(DeleteRecursoUsecaseImpl.new)
+      ..addLazySingleton<GetCentroDeTrabalhoUsecase>(GetCentroDeTrabalhoUsecaseImpl.new)
+      ..addLazySingleton<GetTurnoDeTrabalhoUsecase>(GetTurnoDeTrabalhoUsecaseImpl.new)
+
+      //Stores
+      ..addLazySingleton(RecursoListStore.new)
+      ..add(RecursoFormStore.new)
+      ..addLazySingleton(GetGrupoDeRecursoStore.new)
+      ..addLazySingleton(GetCentroDeTrabalhoStore.new)
+      ..addLazySingleton(GetTurnoDeTrabalhoStore.new)
+
+      //Controller
+      ..addLazySingleton(RecursoController.new);
+  }
+
+  @override
+  void routes(RouteManager r) {
+    r //
+      ..child(
+        NavigationRouter.startModule.module,
+        child: (context) => RecursoListPage(
+          recursoListStore: context.read(),
+          connectionStore: context.read(),
+          scaffoldController: context.read(),
         ),
-        ChildRoute(
-          NavigationRouter.createModule.module,
-          child: (context, args) => RecursoFormPage(
-            recursoFormStore: context.read(),
-            getGrupoDeRecursoStore: context.read(),
-            getCentroDeTrabalhoStore: context.read(),
-            getTurnoDeTrabalhoStore: context.read(),
-            recursoController: context.read(),
-            connectionStore: context.read(),
-            scaffoldController: context.read(),
-          ),
+      )
+      ..child(
+        NavigationRouter.createModule.module,
+        child: (context) => RecursoFormPage(
+          recursoFormStore: context.read(),
+          getGrupoDeRecursoStore: context.read(),
+          getCentroDeTrabalhoStore: context.read(),
+          getTurnoDeTrabalhoStore: context.read(),
+          recursoController: context.read(),
+          connectionStore: context.read(),
+          scaffoldController: context.read(),
         ),
-        ChildRoute(
-          NavigationRouter.updateModule.module,
-          child: (context, args) => RecursoFormPage(
-            id: args.params['id'],
-            recursoFormStore: context.read(),
-            getGrupoDeRecursoStore: context.read(),
-            getCentroDeTrabalhoStore: context.read(),
-            getTurnoDeTrabalhoStore: context.read(),
-            recursoController: context.read(),
-            connectionStore: context.read(),
-            scaffoldController: context.read(),
-          ),
+      )
+      ..child(
+        NavigationRouter.updateModule.module,
+        child: (context) => RecursoFormPage(
+          id: r.args.params['id'],
+          recursoFormStore: context.read(),
+          getGrupoDeRecursoStore: context.read(),
+          getCentroDeTrabalhoStore: context.read(),
+          getTurnoDeTrabalhoStore: context.read(),
+          recursoController: context.read(),
+          connectionStore: context.read(),
+          scaffoldController: context.read(),
         ),
-      ];
+      );
+  }
 }

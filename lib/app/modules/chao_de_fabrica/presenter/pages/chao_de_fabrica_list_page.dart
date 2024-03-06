@@ -3,6 +3,8 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:pcp_flutter/app/modules/chao_de_fabrica/presenter/controllers/chao_de_fabrica_filter_controller.dart';
 import 'package:pcp_flutter/app/modules/chao_de_fabrica/presenter/pages/web/desktop_chao_de_fabrica_list_page.dart';
+import 'package:pcp_flutter/app/modules/chao_de_fabrica/presenter/stores/chao_de_fabrica_apontamento_store.dart';
+import 'package:pcp_flutter/app/modules/chao_de_fabrica/presenter/stores/chao_de_fabrica_atividade_by_id_store.dart';
 import 'package:pcp_flutter/app/modules/chao_de_fabrica/presenter/stores/chao_de_fabrica_centro_de_trabalho_store.dart';
 import 'package:pcp_flutter/app/modules/chao_de_fabrica/presenter/stores/chao_de_fabrica_list_store.dart';
 import 'package:pcp_flutter/app/modules/chao_de_fabrica/presenter/stores/chao_de_fabrica_recurso_store.dart';
@@ -11,6 +13,8 @@ class ChaoDeFabricaListPage extends StatefulWidget {
   final ChaoDeFabricaListStore chaoDeFabricaListStore;
   final ChaoDeFabricaCentroDeTrabalhoStore centroDeTrabalhoStore;
   final ChaoDeFabricaRecursoStore recursoStore;
+  final ChaoDeFabricaApontamentoStore apontamentoStore;
+  final ChaoDeFabricaAtividadeByIdStore atividadeByIdStore;
   final ChaoDeFabricaFilterController chaoDeFabricaFilterController;
 
   const ChaoDeFabricaListPage({
@@ -18,6 +22,8 @@ class ChaoDeFabricaListPage extends StatefulWidget {
     required this.chaoDeFabricaListStore,
     required this.centroDeTrabalhoStore,
     required this.recursoStore,
+    required this.apontamentoStore,
+    required this.atividadeByIdStore,
     required this.chaoDeFabricaFilterController,
   }) : super(key: key);
 
@@ -29,6 +35,8 @@ class _ChaoDeFabricaListPageState extends State<ChaoDeFabricaListPage> {
   ChaoDeFabricaListStore get chaoDeFabricaListStore => widget.chaoDeFabricaListStore;
   ChaoDeFabricaCentroDeTrabalhoStore get centroDeTrabalhoStore => widget.centroDeTrabalhoStore;
   ChaoDeFabricaRecursoStore get recursoStore => widget.recursoStore;
+  ChaoDeFabricaApontamentoStore get apontamentoStore => widget.apontamentoStore;
+  ChaoDeFabricaAtividadeByIdStore get atividadeByIdStore => widget.atividadeByIdStore;
   ChaoDeFabricaFilterController get chaoDeFabricaFilterController => widget.chaoDeFabricaFilterController;
 
   @override
@@ -44,6 +52,8 @@ class _ChaoDeFabricaListPageState extends State<ChaoDeFabricaListPage> {
       chaoDeFabricaListStore: chaoDeFabricaListStore,
       centroDeTrabalhoStore: centroDeTrabalhoStore,
       recursoStore: recursoStore,
+      apontamentoStore: apontamentoStore,
+      atividadeByIdStore: atividadeByIdStore,
       chaoDeFabricaFilterController: chaoDeFabricaFilterController,
     );
 

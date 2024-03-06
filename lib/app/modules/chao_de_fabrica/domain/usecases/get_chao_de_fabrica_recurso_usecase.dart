@@ -12,8 +12,8 @@ class GetChaoDeFabricaRecursoUsecaseImpl implements GetChaoDeFabricaRecursoUseca
   final GetChaoDeFabricaRecursoRepository _recursoRepository;
 
   const GetChaoDeFabricaRecursoUsecaseImpl({
-    required GetChaoDeFabricaRecursoRepository RecursoRepository,
-  }) : _recursoRepository = RecursoRepository;
+    required GetChaoDeFabricaRecursoRepository recursoRepository,
+  }) : _recursoRepository = recursoRepository;
 
   @override
   Future<List<ChaoDeFabricaRecursoEntity>> call({

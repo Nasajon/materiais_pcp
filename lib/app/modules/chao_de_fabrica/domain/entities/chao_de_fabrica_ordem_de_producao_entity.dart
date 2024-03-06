@@ -12,6 +12,14 @@ class ChaoDeFabricaOrdemDeProducaoEntity {
     required this.quantidade,
   });
 
+  factory ChaoDeFabricaOrdemDeProducaoEntity.empty() {
+    return ChaoDeFabricaOrdemDeProducaoEntity(
+      id: '',
+      codigo: '',
+      quantidade: DoubleVO(null),
+    );
+  }
+
   ChaoDeFabricaOrdemDeProducaoEntity copyWith({
     String? id,
     String? codigo,
