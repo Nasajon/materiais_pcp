@@ -222,6 +222,7 @@ class _DesktopVisualizarAtividadeWidgetState extends State<DesktopVisualizarAtiv
                   children: [
                     SizedBox(height: 12.responsive),
                     PCPTable(
+                      type: TypeTable.modelo3,
                       columns: [
                         DataColumn(
                           label: TextDataColumn(
