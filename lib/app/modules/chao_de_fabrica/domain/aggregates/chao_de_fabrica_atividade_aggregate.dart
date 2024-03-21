@@ -1,7 +1,9 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/foundation.dart';
 import 'package:pcp_flutter/app/core/modules/domain/enums/atividade_status_enum%20copy.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/date_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/double_vo.dart';
+import 'package:pcp_flutter/app/modules/chao_de_fabrica/domain/entities/chao_de_fabrica_centro_de_trabalho_entity.dart';
 import 'package:pcp_flutter/app/modules/chao_de_fabrica/domain/entities/chao_de_fabrica_material_entity.dart';
 import 'package:pcp_flutter/app/modules/chao_de_fabrica/domain/entities/chao_de_fabrica_operacao_entity.dart';
 import 'package:pcp_flutter/app/modules/chao_de_fabrica/domain/entities/chao_de_fabrica_ordem_de_producao_entity.dart';
@@ -17,6 +19,7 @@ class ChaoDeFabricaAtividadeAggregate {
   final DateVO fimPlanejado;
   final DateVO inicioPreparacaoPlanejado;
   final DateVO fimPreparacaoPlanejado;
+  final DateVO ultimaAtualizacao;
   final double progresso;
   final DoubleVO capacidade;
   final DoubleVO quantidade;
@@ -24,6 +27,7 @@ class ChaoDeFabricaAtividadeAggregate {
   final ChaoDeFabricaUnidadeEntity unidade;
   final ChaoDeFabricaOrdemDeProducaoEntity ordemDeProducao;
   final ChaoDeFabricaOperacaoEntity operacao;
+  final ChaoDeFabricaCentroDeTrabalhoEntity centroDeTrabalho;
   final ChaoDeFabricaRecursoEntity recurso;
   final List<ChaoDeFabricaRestricaoEntity> restricoes;
   final List<ChaoDeFabricaMaterialEntity> materiais;
@@ -36,6 +40,7 @@ class ChaoDeFabricaAtividadeAggregate {
     required this.fimPlanejado,
     required this.inicioPreparacaoPlanejado,
     required this.fimPreparacaoPlanejado,
+    required this.ultimaAtualizacao,
     required this.progresso,
     required this.capacidade,
     required this.quantidade,
@@ -43,6 +48,7 @@ class ChaoDeFabricaAtividadeAggregate {
     required this.unidade,
     required this.ordemDeProducao,
     required this.operacao,
+    required this.centroDeTrabalho,
     required this.recurso,
     required this.restricoes,
     required this.materiais,
@@ -57,6 +63,7 @@ class ChaoDeFabricaAtividadeAggregate {
       fimPlanejado: DateVO(''),
       inicioPreparacaoPlanejado: DateVO(''),
       fimPreparacaoPlanejado: DateVO(''),
+      ultimaAtualizacao: DateVO(''),
       progresso: 0,
       capacidade: DoubleVO(null),
       quantidade: DoubleVO(null),
@@ -64,6 +71,7 @@ class ChaoDeFabricaAtividadeAggregate {
       unidade: ChaoDeFabricaUnidadeEntity.empty(),
       ordemDeProducao: ChaoDeFabricaOrdemDeProducaoEntity.empty(),
       operacao: ChaoDeFabricaOperacaoEntity.empty(),
+      centroDeTrabalho: ChaoDeFabricaCentroDeTrabalhoEntity.empty(),
       recurso: ChaoDeFabricaRecursoEntity.empty(),
       restricoes: [],
       materiais: [],
@@ -78,6 +86,7 @@ class ChaoDeFabricaAtividadeAggregate {
     DateVO? fimPlanejado,
     DateVO? inicioPreparacaoPlanejado,
     DateVO? fimPreparacaoPlanejado,
+    DateVO? ultimaAtualizacao,
     double? progresso,
     DoubleVO? capacidade,
     DoubleVO? quantidade,
@@ -85,6 +94,7 @@ class ChaoDeFabricaAtividadeAggregate {
     ChaoDeFabricaUnidadeEntity? unidade,
     ChaoDeFabricaOrdemDeProducaoEntity? ordemDeProducao,
     ChaoDeFabricaOperacaoEntity? operacao,
+    ChaoDeFabricaCentroDeTrabalhoEntity? centroDeTrabalho,
     ChaoDeFabricaRecursoEntity? recurso,
     List<ChaoDeFabricaRestricaoEntity>? restricoes,
     List<ChaoDeFabricaMaterialEntity>? materiais,
@@ -97,6 +107,7 @@ class ChaoDeFabricaAtividadeAggregate {
       fimPlanejado: fimPlanejado ?? this.fimPlanejado,
       inicioPreparacaoPlanejado: inicioPreparacaoPlanejado ?? this.inicioPreparacaoPlanejado,
       fimPreparacaoPlanejado: fimPreparacaoPlanejado ?? this.fimPreparacaoPlanejado,
+      ultimaAtualizacao: ultimaAtualizacao ?? this.ultimaAtualizacao,
       progresso: progresso ?? this.progresso,
       capacidade: capacidade ?? this.capacidade,
       quantidade: quantidade ?? this.quantidade,
@@ -104,6 +115,7 @@ class ChaoDeFabricaAtividadeAggregate {
       unidade: unidade ?? this.unidade,
       ordemDeProducao: ordemDeProducao ?? this.ordemDeProducao,
       operacao: operacao ?? this.operacao,
+      centroDeTrabalho: centroDeTrabalho ?? this.centroDeTrabalho,
       recurso: recurso ?? this.recurso,
       restricoes: restricoes ?? this.restricoes,
       materiais: materiais ?? this.materiais,
@@ -121,6 +133,7 @@ class ChaoDeFabricaAtividadeAggregate {
         other.fimPlanejado == fimPlanejado &&
         other.inicioPreparacaoPlanejado == inicioPreparacaoPlanejado &&
         other.fimPreparacaoPlanejado == fimPreparacaoPlanejado &&
+        other.ultimaAtualizacao == ultimaAtualizacao &&
         other.progresso == progresso &&
         other.capacidade == capacidade &&
         other.quantidade == quantidade &&
@@ -128,6 +141,7 @@ class ChaoDeFabricaAtividadeAggregate {
         other.unidade == unidade &&
         other.ordemDeProducao == ordemDeProducao &&
         other.operacao == operacao &&
+        other.centroDeTrabalho == centroDeTrabalho &&
         other.recurso == recurso &&
         listEquals(other.restricoes, restricoes) &&
         listEquals(other.materiais, materiais);
@@ -142,6 +156,7 @@ class ChaoDeFabricaAtividadeAggregate {
         fimPlanejado.hashCode ^
         inicioPreparacaoPlanejado.hashCode ^
         fimPreparacaoPlanejado.hashCode ^
+        ultimaAtualizacao.hashCode ^
         progresso.hashCode ^
         capacidade.hashCode ^
         quantidade.hashCode ^
@@ -149,6 +164,7 @@ class ChaoDeFabricaAtividadeAggregate {
         unidade.hashCode ^
         ordemDeProducao.hashCode ^
         operacao.hashCode ^
+        centroDeTrabalho.hashCode ^
         recurso.hashCode ^
         restricoes.hashCode ^
         materiais.hashCode;

@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:pcp_flutter/app/core/modules/domain/value_object/date_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/double_vo.dart';
+import 'package:pcp_flutter/app/core/modules/domain/value_object/time_vo.dart';
 import 'package:pcp_flutter/app/modules/chao_de_fabrica/domain/entities/chao_de_fabrica_unidade_entity.dart';
 import 'package:pcp_flutter/app/modules/chao_de_fabrica/domain/enums/medicao_tempo_restricao_enum.dart';
 
@@ -12,6 +13,7 @@ class ChaoDeFabricaRestricaoEntity {
   final DateVO inicioPlanejado;
   final DateVO fimPlanejado;
   final DoubleVO usar;
+  final DoubleVO capacidade;
   final MedicaoTempoRestricao medicaoTempo;
   final ChaoDeFabricaUnidadeEntity unidade;
 
@@ -23,6 +25,7 @@ class ChaoDeFabricaRestricaoEntity {
     required this.inicioPlanejado,
     required this.fimPlanejado,
     required this.usar,
+    required this.capacidade,
     required this.medicaoTempo,
     required this.unidade,
   });
@@ -35,6 +38,7 @@ class ChaoDeFabricaRestricaoEntity {
     DateVO? inicioPlanejado,
     DateVO? fimPlanejado,
     DoubleVO? usar,
+    DoubleVO? capacidade,
     MedicaoTempoRestricao? medicaoTempo,
     ChaoDeFabricaUnidadeEntity? unidade,
   }) {
@@ -46,6 +50,7 @@ class ChaoDeFabricaRestricaoEntity {
       inicioPlanejado: inicioPlanejado ?? this.inicioPlanejado,
       fimPlanejado: fimPlanejado ?? this.fimPlanejado,
       usar: usar ?? this.usar,
+      capacidade: capacidade ?? this.capacidade,
       medicaoTempo: medicaoTempo ?? this.medicaoTempo,
       unidade: unidade ?? this.unidade,
     );
@@ -62,6 +67,7 @@ class ChaoDeFabricaRestricaoEntity {
         other.inicioPlanejado == inicioPlanejado &&
         other.fimPlanejado == fimPlanejado &&
         other.usar == usar &&
+        other.capacidade == capacidade &&
         other.medicaoTempo == medicaoTempo &&
         other.unidade == unidade;
   }
@@ -75,6 +81,7 @@ class ChaoDeFabricaRestricaoEntity {
         inicioPlanejado.hashCode ^
         fimPlanejado.hashCode ^
         usar.hashCode ^
+        capacidade.hashCode ^
         medicaoTempo.hashCode ^
         unidade.hashCode;
   }

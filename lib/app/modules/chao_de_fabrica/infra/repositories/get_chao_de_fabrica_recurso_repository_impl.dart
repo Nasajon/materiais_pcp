@@ -10,9 +10,14 @@ class GetChaoDeFabricaRecursoRepositoryImpl implements GetChaoDeFabricaRecursoRe
   }) : _remoteRecursoDatasource = remoteRecursoDatasource;
 
   @override
-  Future<List<ChaoDeFabricaRecursoEntity>> call({required String search, String? ultimoRecursoId}) {
+  Future<List<ChaoDeFabricaRecursoEntity>> call({
+    required String search,
+    required String grupoDeRecursoId,
+    String? ultimoRecursoId,
+  }) {
     return _remoteRecursoDatasource(
       search: search,
+      grupoDeRecursoId: grupoDeRecursoId,
       ultimoRecursoId: ultimoRecursoId,
     );
   }

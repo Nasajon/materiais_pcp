@@ -6,22 +6,28 @@ import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/modules/domain/enums/atividade_status_enum%20copy.dart';
 import 'package:pcp_flutter/app/modules/chao_de_fabrica/domain/aggregates/chao_de_fabrica_atividade_aggregate.dart';
 import 'package:pcp_flutter/app/modules/chao_de_fabrica/presenter/pages/web/widgets/desktop_apontar_evolucao_widget.dart';
+import 'package:pcp_flutter/app/modules/chao_de_fabrica/presenter/pages/web/widgets/desktop_finalizar_atividade_widget.dart';
 import 'package:pcp_flutter/app/modules/chao_de_fabrica/presenter/stores/chao_de_fabrica_apontamento_store.dart';
 import 'package:pcp_flutter/app/modules/chao_de_fabrica/presenter/stores/chao_de_fabrica_atividade_by_id_store.dart';
+import 'package:pcp_flutter/app/modules/chao_de_fabrica/presenter/stores/chao_de_fabrica_finalizar_store.dart';
 import 'package:pcp_flutter/app/modules/chao_de_fabrica/presenter/stores/chao_de_fabrica_list_store.dart';
 
 class DesktopAtividadeAcoesWidget extends StatefulWidget {
-  final RxNotifier<ChaoDeFabricaAtividadeAggregate> atividadeNotifier;
+  final ValueNotifier<ChaoDeFabricaAtividadeAggregate> atividadeNotifier;
   final ChaoDeFabricaListStore chaoDeFabricaListStore;
   final ChaoDeFabricaApontamentoStore apontamentoStore;
+  final ChaoDeFabricaFinalizarStore finalizarStore;
   final ChaoDeFabricaAtividadeByIdStore atividadeByIdStore;
+  final MainAxisAlignment mainAxisAlignment;
 
   const DesktopAtividadeAcoesWidget({
     Key? key,
     required this.atividadeNotifier,
     required this.chaoDeFabricaListStore,
     required this.apontamentoStore,
+    required this.finalizarStore,
     required this.atividadeByIdStore,
+    this.mainAxisAlignment = MainAxisAlignment.start,
   }) : super(key: key);
 
   @override
@@ -29,9 +35,10 @@ class DesktopAtividadeAcoesWidget extends StatefulWidget {
 }
 
 class _DesktopAtividadeAcoesWidgetState extends State<DesktopAtividadeAcoesWidget> {
-  RxNotifier<ChaoDeFabricaAtividadeAggregate> get atividadeNotifier => widget.atividadeNotifier;
+  ValueNotifier<ChaoDeFabricaAtividadeAggregate> get atividadeNotifier => widget.atividadeNotifier;
   ChaoDeFabricaListStore get chaoDeFabricaListStore => widget.chaoDeFabricaListStore;
   ChaoDeFabricaApontamentoStore get apontamentoStore => widget.apontamentoStore;
+  ChaoDeFabricaFinalizarStore get finalizarStore => widget.finalizarStore;
   ChaoDeFabricaAtividadeByIdStore get atividadeByIdStore => widget.atividadeByIdStore;
 
   @override
@@ -41,7 +48,7 @@ class _DesktopAtividadeAcoesWidgetState extends State<DesktopAtividadeAcoesWidge
     final atividade = atividadeNotifier.value;
 
     final acaoIniciarPreparacao = NhidsSecondaryButton(
-      title: translation.fields.iniciarPreparacao,
+      label: translation.fields.iniciarPreparacao,
       onPressed: () async {
         atividadeNotifier.value =
             await chaoDeFabricaListStore.alterarStatusAtividade(atividade: atividade, novoStatus: AtividadeStatusEnum.emPreparacao);
@@ -49,7 +56,7 @@ class _DesktopAtividadeAcoesWidgetState extends State<DesktopAtividadeAcoesWidge
       },
     );
     final acaoIniciarAtividade = NhidsSecondaryButton(
-      title: translation.fields.iniciarAtividade,
+      label: translation.fields.iniciarAtividade,
       onPressed: () async {
         atividadeNotifier.value =
             await chaoDeFabricaListStore.alterarStatusAtividade(atividade: atividade, novoStatus: AtividadeStatusEnum.iniciada);
@@ -57,7 +64,7 @@ class _DesktopAtividadeAcoesWidgetState extends State<DesktopAtividadeAcoesWidge
       },
     );
     final acaoPausarAtividade = NhidsSecondaryButton(
-      title: translation.fields.pausarAtividade,
+      label: translation.fields.pausar,
       onPressed: () async {
         atividadeNotifier.value =
             await chaoDeFabricaListStore.alterarStatusAtividade(atividade: atividade, novoStatus: AtividadeStatusEnum.pausada);
@@ -65,37 +72,47 @@ class _DesktopAtividadeAcoesWidgetState extends State<DesktopAtividadeAcoesWidge
       },
     );
     final acaoContinuarAtividade = NhidsSecondaryButton(
-      title: translation.fields.continuarAtividade,
+      label: translation.fields.continuar,
       onPressed: () async {
         atividadeNotifier.value =
             await chaoDeFabricaListStore.alterarStatusAtividade(atividade: atividade, novoStatus: AtividadeStatusEnum.iniciada);
         setState(() {});
       },
     );
-    final acaoFinalizarAtividade = NhidsSecondaryButton(
-      title: translation.fields.finalizarAtividade,
+    final acaoFinalizarAtividade = NhidsPrimaryButton(
+      label: translation.fields.finalizar,
       onPressed: () async {
-        atividadeNotifier.value =
-            await chaoDeFabricaListStore.alterarStatusAtividade(atividade: atividade, novoStatus: AtividadeStatusEnum.encerrada);
-        setState(() {});
+        await Asuka.showDialog(
+          builder: (context) {
+            return Dialog.fullscreen(
+              child: DesktopFinalizarAtividadeWidget(
+                atividade: atividade,
+                finalizarStore: finalizarStore,
+                atividadeByIdStore: atividadeByIdStore,
+              ),
+            );
+          },
+        );
       },
     );
     final acaoApontarEvolucao = NhidsSecondaryButton(
-      title: translation.fields.apontarEvolucao,
-      onPressed: () {
-        Asuka.showDialog(builder: (context) {
-          return Dialog.fullscreen(
-            child: DesktopApontarEvolucaoWidget(
-              atividade: atividade,
-              apontamentoStore: apontamentoStore,
-              atividadeByIdStore: atividadeByIdStore,
-            ),
-          );
-        });
+      label: translation.fields.apontar,
+      onPressed: () async {
+        await Asuka.showDialog(
+          builder: (context) {
+            return Dialog.fullscreen(
+              child: DesktopApontarEvolucaoWidget(
+                atividade: atividade,
+                apontamentoStore: apontamentoStore,
+                atividadeByIdStore: atividadeByIdStore,
+              ),
+            );
+          },
+        );
       },
     );
 
-    const paddingSize = SizedBox(width: 12);
+    final paddingSize = SizedBox(width: 8.responsive);
 
     switch (atividade.status) {
       case AtividadeStatusEnum.aberta:
@@ -109,7 +126,11 @@ class _DesktopAtividadeAcoesWidgetState extends State<DesktopAtividadeAcoesWidge
       case AtividadeStatusEnum.emPreparacao:
         listWidget.addAll([acaoIniciarAtividade]);
       case AtividadeStatusEnum.iniciada:
-        listWidget.addAll([acaoApontarEvolucao, paddingSize, acaoPausarAtividade, paddingSize, acaoFinalizarAtividade]);
+        if (widget.mainAxisAlignment == MainAxisAlignment.end) {
+          listWidget.addAll([acaoPausarAtividade, paddingSize, acaoApontarEvolucao, paddingSize, acaoFinalizarAtividade]);
+        } else {
+          listWidget.addAll([acaoFinalizarAtividade, paddingSize, acaoApontarEvolucao, paddingSize, acaoPausarAtividade]);
+        }
       case AtividadeStatusEnum.pausada:
         listWidget.addAll([acaoContinuarAtividade]);
       case AtividadeStatusEnum.cancelada:
@@ -117,15 +138,8 @@ class _DesktopAtividadeAcoesWidgetState extends State<DesktopAtividadeAcoesWidge
     }
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        NhidsTertiaryButton(
-          title: translation.fields.fechar,
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        paddingSize,
-        ...listWidget,
-      ],
+      mainAxisAlignment: widget.mainAxisAlignment,
+      children: listWidget,
     );
   }
 }

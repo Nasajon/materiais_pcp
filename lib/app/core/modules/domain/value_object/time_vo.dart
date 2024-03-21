@@ -11,6 +11,14 @@ class TimeVO extends TextVO {
     return TimeVO('${time.hour}:${time.minute}');
   }
 
+  factory TimeVO.timeOrNull(TimeOfDay? time) {
+    if (time == null) {
+      return TimeVO('');
+    }
+
+    return TimeVO('${time.hour}:${time.minute}');
+  }
+
   _validate() {}
 
   TimeOfDay? getTime() {

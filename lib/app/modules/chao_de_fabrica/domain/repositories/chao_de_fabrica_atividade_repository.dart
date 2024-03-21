@@ -13,6 +13,4 @@ abstract interface class ChaoDeFabricaAtividadeRepository {
   Future<ChaoDeFabricaAtividadeAggregate> pausarAtividade(ChaoDeFabricaAtividadeAggregate atividade);
 
   Future<ChaoDeFabricaAtividadeAggregate> continuarAtividade(ChaoDeFabricaAtividadeAggregate atividade);
-
-  Future<ChaoDeFabricaAtividadeAggregate> encerrarAtividade(ChaoDeFabricaAtividadeAggregate atividade);
 }

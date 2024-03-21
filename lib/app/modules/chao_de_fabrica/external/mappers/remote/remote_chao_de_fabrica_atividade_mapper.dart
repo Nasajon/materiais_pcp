@@ -2,6 +2,7 @@ import 'package:pcp_flutter/app/core/modules/domain/enums/atividade_status_enum%
 import 'package:pcp_flutter/app/core/modules/domain/value_object/date_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/double_vo.dart';
 import 'package:pcp_flutter/app/modules/chao_de_fabrica/domain/aggregates/chao_de_fabrica_atividade_aggregate.dart';
+import 'package:pcp_flutter/app/modules/chao_de_fabrica/external/mappers/remote/remote_chao_de_fabrica_centro_de_trabalho_mapper.dart';
 import 'package:pcp_flutter/app/modules/chao_de_fabrica/external/mappers/remote/remote_chao_de_fabrica_material_mapper.dart';
 import 'package:pcp_flutter/app/modules/chao_de_fabrica/external/mappers/remote/remote_chao_de_fabrica_operacao_mapper.dart';
 import 'package:pcp_flutter/app/modules/chao_de_fabrica/external/mappers/remote/remote_chao_de_fabrica_ordem_de_producao_mapper.dart';
@@ -21,6 +22,7 @@ class RemoteChaoDeFabricaAtividadeMapper {
       fimPlanejado: DateVO.parse(map['fim_planejado']),
       inicioPreparacaoPlanejado: DateVO.parse(map['inicio_preparacao_planejada']),
       fimPreparacaoPlanejado: DateVO.parse(map['fim_preparacao_planejada']),
+      ultimaAtualizacao: DateVO.parse(map['atualizado_em']),
       progresso: map['progresso'],
       capacidade: DoubleVO(map['capacidade']),
       quantidade: DoubleVO(map['capacidade_utilizada']),
@@ -28,6 +30,7 @@ class RemoteChaoDeFabricaAtividadeMapper {
       unidade: RemoteChaoDeFabricaUnidadeMapper.fromMapToUnidadeEntity(map['unidade']),
       ordemDeProducao: RemoteChaoDeFabricaOrdemDeProducaoMapper.fromMapToOrdemDeProducaoEntity(map['operacao_ordem']['ordem_de_producao']),
       operacao: RemoteChaoDeFabricaOperacaoMapper.fromMapToOperacaoEntity(map['operacao_ordem']),
+      centroDeTrabalho: RemoteChaoDeFabricaCentroDeTrabalhoMapper.fromMapToCentroDeTrabalho(map['centro_de_trabalho']),
       recurso: RemoteChaoDeFabricaRecursoMapper.fromMapToRecurso(map['recurso']),
       restricoes: List.from(map['restricoes']).map((restricaoMap) {
         return RemoteChaoDeFabricaRestricaoMapper.fromMapToRestricaoEntity(restricaoMap);

@@ -31,14 +31,20 @@ class _DesktopSelecionarRecursoWidgetState extends State<DesktopSelecionarRecurs
   @override
   void initState() {
     super.initState();
-    recursoStore.getCentrosDeTrabalhos('', delay: Duration.zero);
-
-    recursoNotifier.value = chaoDeFabricaFilterController.atividadeFilter.recursos;
 
     recursoDispose = recursoStore.observer(
       onLoading: (value) => isLoadingNotifier.value = value,
       onState: (_) => isLoadingNotifier.value = false,
     );
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      recursoStore.getRecursos(
+        '',
+        grupoDeRecursoId: widget.chaoDeFabricaFilterController.atividadeFilter.grupoDeRecurso?.id ?? '',
+      );
+
+      recursoNotifier.value = chaoDeFabricaFilterController.atividadeFilter.recursos;
+    });
   }
 
   bool verificarRecurso(ChaoDeFabricaRecursoEntity recurso) {
@@ -74,15 +80,15 @@ class _DesktopSelecionarRecursoWidgetState extends State<DesktopSelecionarRecurs
     final themeData = Theme.of(context);
 
     return ConstrainedBox(
-      constraints: const BoxConstraints(maxHeight: 500, maxWidth: 550),
+      constraints: BoxConstraints(maxHeight: 500.responsive, maxWidth: 450.responsive),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          const SizedBox(height: 14),
+          SizedBox(height: 14.responsive),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 14),
+            padding: EdgeInsets.symmetric(horizontal: 14.responsive),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,13 +100,15 @@ class _DesktopSelecionarRecursoWidgetState extends State<DesktopSelecionarRecurs
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                const SizedBox(height: 14),
-                TextFormFieldWidget(
-                  label: '',
+                SizedBox(height: 14.responsive),
+                NhidsSearchFormField(
                   hintText: translation.messages.pesquiseUmaEntidade(translation.fields.recurso),
-                  onChanged: (value) => recursoStore.getCentrosDeTrabalhos(value),
+                  onChanged: (value) => recursoStore.getRecursos(
+                    value,
+                    grupoDeRecursoId: widget.chaoDeFabricaFilterController.atividadeFilter.grupoDeRecurso?.id ?? '',
+                  ),
                 ),
-                const SizedBox(height: 14),
+                SizedBox(height: 14.responsive),
               ],
             ),
           ),
@@ -164,13 +172,13 @@ class _DesktopSelecionarRecursoWidgetState extends State<DesktopSelecionarRecurs
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                CustomTextButton(
-                  title: translation.fields.cancelar,
+                NhidsTertiaryButton(
+                  label: translation.fields.cancelar,
                   onPressed: () => Navigator.of(context).pop(),
                 ),
                 const SizedBox(width: 10),
-                CustomPrimaryButton(
-                  title: translation.fields.confirmarSelecao,
+                NhidsPrimaryButton(
+                  label: translation.fields.confirmarSelecao,
                   onPressed: () {
                     widget.chaoDeFabricaFilterController.atividadeFilter = chaoDeFabricaFilterController.atividadeFilter.copyWith(
                       recursos: recursoNotifier.value,

@@ -9,60 +9,60 @@ import 'package:pcp_flutter/app/core/modules/domain/value_object/double_vo.dart'
 import 'package:pcp_flutter/app/core/modules/domain/value_object/time_vo.dart';
 import 'package:pcp_flutter/app/core/widgets/table/pcp_table.dart';
 import 'package:pcp_flutter/app/modules/chao_de_fabrica/domain/aggregates/chao_de_fabrica_atividade_aggregate.dart';
-import 'package:pcp_flutter/app/modules/chao_de_fabrica/domain/entities/chao_de_fabrica_apontamento_entity.dart';
-import 'package:pcp_flutter/app/modules/chao_de_fabrica/presenter/stores/chao_de_fabrica_apontamento_store.dart';
+import 'package:pcp_flutter/app/modules/chao_de_fabrica/domain/entities/chao_de_fabrica_finalizar_entity.dart';
+import 'package:pcp_flutter/app/modules/chao_de_fabrica/presenter/stores/chao_de_fabrica_finalizar_store.dart';
 import 'package:pcp_flutter/app/modules/chao_de_fabrica/presenter/stores/chao_de_fabrica_atividade_by_id_store.dart';
 
-class DesktopApontarEvolucaoWidget extends StatefulWidget {
+class DesktopFinalizarAtividadeWidget extends StatefulWidget {
   final ChaoDeFabricaAtividadeAggregate atividade;
-  final ChaoDeFabricaApontamentoStore apontamentoStore;
+  final ChaoDeFabricaFinalizarStore finalizarStore;
   final ChaoDeFabricaAtividadeByIdStore atividadeByIdStore;
 
-  const DesktopApontarEvolucaoWidget({
+  const DesktopFinalizarAtividadeWidget({
     Key? key,
     required this.atividade,
-    required this.apontamentoStore,
+    required this.finalizarStore,
     required this.atividadeByIdStore,
   }) : super(key: key);
 
   @override
-  State<DesktopApontarEvolucaoWidget> createState() => _DesktopApontarEvolucaoWidgetState();
+  State<DesktopFinalizarAtividadeWidget> createState() => _DesktopFinalizarAtividadeWidgetState();
 }
 
-class _DesktopApontarEvolucaoWidgetState extends State<DesktopApontarEvolucaoWidget> {
+class _DesktopFinalizarAtividadeWidgetState extends State<DesktopFinalizarAtividadeWidget> {
   ChaoDeFabricaAtividadeAggregate get atividade => widget.atividade;
-  ChaoDeFabricaApontamentoStore get apontamentoStore => widget.apontamentoStore;
+  ChaoDeFabricaFinalizarStore get finalizarStore => widget.finalizarStore;
   ChaoDeFabricaAtividadeByIdStore get atividadeByIdStore => widget.atividadeByIdStore;
 
-  late ChaoDeFabricaApontamentoEntity apontamento;
+  late ChaoDeFabricaFinalizarEntity finalizar;
 
-  late final Disposer apontamentoStoreDisposer;
+  late final Disposer finalizarStoreDisposer;
 
   @override
   void initState() {
     super.initState();
 
-    apontamento = ChaoDeFabricaApontamentoEntity(
+    finalizar = ChaoDeFabricaFinalizarEntity(
       id: atividade.id,
-      quantidade: DoubleVO(0),
-      progresso: DoubleVO(0),
+      quantidade: atividade.quantidade,
       unidade: atividade.unidade,
       data: DateVO.date(DateTime.now()),
       horario: TimeVO.time(TimeOfDay.now()),
       materiais: atividade.materiais
           .map(
             (material) => material.copyWith(
-              quantidadeUtilizada: DoubleVO(null),
+              quantidadeUtilizada:
+                  DoubleVO(material.quantidade.value - (material.quantidadeUtilizada.value + material.quantidadePerda.value)),
               quantidadePerda: DoubleVO(null),
             ),
           )
           .toList(),
     );
 
-    apontamentoStore.setLoading(false, force: true);
-    apontamentoStore.update(false, force: true);
+    finalizarStore.setLoading(false, force: true);
+    finalizarStore.update(false, force: true);
 
-    apontamentoStoreDisposer = apontamentoStore.observer(
+    finalizarStoreDisposer = finalizarStore.observer(
       onLoading: (value) => setState(() {}),
       onError: (error) => setState(() {}),
       onState: (state) async {
@@ -76,7 +76,7 @@ class _DesktopApontarEvolucaoWidgetState extends State<DesktopApontarEvolucaoWid
 
   @override
   void dispose() {
-    apontamentoStoreDisposer();
+    finalizarStoreDisposer();
     super.dispose();
   }
 
@@ -92,9 +92,12 @@ class _DesktopApontarEvolucaoWidgetState extends State<DesktopApontarEvolucaoWid
     String formattedTime = DateFormat('HH:mm').format(dateNow);
     String timeZone = dateNow.timeZoneOffset.toString().split('.').first.split(':').first;
 
-    return NhidsScaffold.subtitle(
-      title: translation.fields.apontarEvolucao,
-      subtitle: '${translation.fields.atividade} #${atividade.codigo}',
+    var horario = atividade.inicioPreparacaoPlanejado.dateFormat(format: 'HH:mm')?.replaceAll(':', 'h') ?? '';
+    horario += ' - ';
+    horario += atividade.fimPreparacaoPlanejado.dateFormat(format: 'HH:mm')?.replaceAll(':', 'h') ?? '';
+
+    return NhidsScaffold.title(
+      title: translation.fields.finalizarAtividade,
       onClosePressed: () => Navigator.of(context).pop(),
       bottom: PreferredSize(
         preferredSize: Size(size.width, 80),
@@ -127,6 +130,12 @@ class _DesktopApontarEvolucaoWidgetState extends State<DesktopApontarEvolucaoWid
                   type: NhidsTagChipType.outlined,
                 ),
               ),
+              SizedBox(width: 24.responsive),
+              NhidsTwoLineText(
+                title: translation.fields.centroDeTrabalho,
+                subtitle: atividade.centroDeTrabalho.nome,
+                type: NhidsTextType.type2,
+              ),
               if (atividade.operacao.produtoResultante != null) ...[
                 SizedBox(width: 24.responsive),
                 NhidsTwoLineText(
@@ -144,27 +153,9 @@ class _DesktopApontarEvolucaoWidgetState extends State<DesktopApontarEvolucaoWid
               ),
               SizedBox(width: 24.responsive),
               NhidsTwoLineText(
-                title: translation.fields.produzido,
-                subtitle:
-                    '${atividade.produzida.formatDoubleToString(decimalDigits: atividade.unidade.decimal)} ${atividade.unidade.nome.toLowerCase()}',
+                title: translation.fields.horarioPrevisto,
+                subtitle: horario,
                 type: NhidsTextType.type2,
-              ),
-              SizedBox(width: 24.responsive),
-              NhidsTwoLineText(
-                title: translation.fields.falta,
-                subtitle: '${DoubleVO(atividade.quantidade.value - atividade.produzida.value) //
-                    .formatDoubleToString(decimalDigits: atividade.unidade.decimal)} ${atividade.unidade.nome.toLowerCase()}',
-                type: NhidsTextType.type2,
-              ),
-              SizedBox(width: 24.responsive),
-              SizedBox(
-                width: 130.responsive,
-                child: NhidsTwoLine(
-                  title: translation.fields.progresso,
-                  child: NhidsLinearProgressIndicator(
-                    value: atividade.progresso,
-                  ),
-                ),
               ),
             ],
           ),
@@ -173,13 +164,13 @@ class _DesktopApontarEvolucaoWidgetState extends State<DesktopApontarEvolucaoWid
       body: SingleChildScrollView(
         child: Center(
           child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 1000.responsive),
+            constraints: BoxConstraints(maxWidth: 1225.responsive),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(height: 20.responsive),
-                Text(translation.messages.mensagemApontamentoChaoDeFabrica),
+                Text(translation.messages.mensagemFinalizarChaoDeFabrica),
                 SizedBox(height: 20.responsive),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -188,23 +179,12 @@ class _DesktopApontarEvolucaoWidgetState extends State<DesktopApontarEvolucaoWid
                   children: [
                     Flexible(
                       child: NhidsDecimalFormField(
-                        label: translation.fields.quantidade,
-                        initialValue: apontamento.quantidade.value,
-                        decimalDigits: apontamento.unidade.decimal,
+                        label: translation.fields.quantidadeTotalProduzida,
+                        initialValue: finalizar.quantidade.value,
+                        decimalDigits: finalizar.unidade.decimal,
                         suffixSymbol: atividade.unidade.nome.toLowerCase(),
                         onChanged: (value) {
-                          setState(() => apontamento = apontamento.copyWith(quantidade: DoubleVO(value)));
-                        },
-                      ),
-                    ),
-                    SizedBox(width: 16.responsive),
-                    Flexible(
-                      child: NhidsIntegerFormField(
-                        label: translation.fields.progresso,
-                        initialValue: (apontamento.progresso.value * 100).toInt(),
-                        suffixSymbol: '%',
-                        onChanged: (value) {
-                          setState(() => apontamento = apontamento.copyWith(progresso: DoubleVO(value / 100)));
+                          setState(() => finalizar = finalizar.copyWith(quantidade: DoubleVO(value)));
                         },
                       ),
                     ),
@@ -212,9 +192,9 @@ class _DesktopApontarEvolucaoWidgetState extends State<DesktopApontarEvolucaoWid
                     Flexible(
                       child: NhidsDateFormField(
                         label: translation.fields.data,
-                        initialValue: apontamento.data.getDate(),
+                        initialValue: finalizar.data.getDate(),
                         onChanged: (value) {
-                          setState(() => apontamento = apontamento.copyWith(data: DateVO.dateOrNull(value)));
+                          setState(() => finalizar = finalizar.copyWith(data: DateVO.dateOrNull(value)));
                         },
                       ),
                     ),
@@ -222,9 +202,9 @@ class _DesktopApontarEvolucaoWidgetState extends State<DesktopApontarEvolucaoWid
                     Flexible(
                       child: TimeTextFormFieldWidget(
                         label: translation.fields.horario,
-                        initTime: apontamento.horario.getTime(),
+                        initTime: finalizar.horario.getTime(),
                         onChanged: (value) {
-                          setState(() => apontamento = apontamento.copyWith(horario: TimeVO.timeOrNull(value)));
+                          setState(() => finalizar = finalizar.copyWith(horario: TimeVO.timeOrNull(value)));
                         },
                       ),
                     ),
@@ -251,16 +231,19 @@ class _DesktopApontarEvolucaoWidgetState extends State<DesktopApontarEvolucaoWid
                           label: TextDataColumn(text: translation.fields.utilizadoAcumulado),
                         ),
                         DataColumn(
-                          label: TextDataColumn(text: translation.fields.utilizadoParcial),
+                          label: TextDataColumn(text: translation.fields.utilizadoTotal),
                         ),
                         DataColumn(
                           label: TextDataColumn(text: translation.fields.perdaAcumulado),
                         ),
                         DataColumn(
-                          label: TextDataColumn(text: translation.fields.perdaParcial),
+                          label: TextDataColumn(text: translation.fields.perdaTotal),
+                        ),
+                        DataColumn(
+                          label: TextDataColumn(text: translation.fields.sobra),
                         ),
                       ],
-                      rows: apontamento.materiais.map(
+                      rows: finalizar.materiais.map(
                         (material) {
                           final materialAtividade = atividade.materiais.firstWhere((element) => element.id == material.id);
 
@@ -277,7 +260,7 @@ class _DesktopApontarEvolucaoWidgetState extends State<DesktopApontarEvolucaoWid
                                   width: (constraints.maxWidth / 6) - 48.responsive,
                                   child: Text('${materialAtividade.quantidade.formatDoubleToString(
                                     decimalDigits: material.unidade.decimal,
-                                  )} ${apontamento.unidade.nome}'),
+                                  )} ${finalizar.unidade.nome}'),
                                 ),
                               ),
                               DataCell(
@@ -286,7 +269,7 @@ class _DesktopApontarEvolucaoWidgetState extends State<DesktopApontarEvolucaoWid
                                   child: Text(
                                     '${materialAtividade.quantidadeUtilizada.formatDoubleToString(
                                       decimalDigits: material.unidade.decimal,
-                                    )} ${apontamento.unidade.nome}',
+                                    )} ${finalizar.unidade.nome}',
                                   ),
                                 ),
                               ),
@@ -303,11 +286,22 @@ class _DesktopApontarEvolucaoWidgetState extends State<DesktopApontarEvolucaoWid
                                             initialValue: material.quantidadeUtilizada.valueOrNull,
                                             decimalDigits: material.unidade.decimal,
                                             onChanged: (value) {
-                                              final index = apontamento.materiais.indexWhere((element) => element.id == material.id);
+                                              final index = finalizar.materiais.indexWhere((element) => element.id == material.id);
 
-                                              apontamento.materiais.setAll(
+                                              finalizar.materiais.setAll(
                                                 index,
-                                                [material.copyWith(quantidadeUtilizada: DoubleVO(value))],
+                                                [
+                                                  material.copyWith(
+                                                    quantidadeUtilizada: DoubleVO(value),
+                                                    quantidadeSobra: DoubleVO(
+                                                      materialAtividade.quantidade.value -
+                                                          (value +
+                                                              material.quantidadePerda.value +
+                                                              materialAtividade.quantidadeUtilizada.value +
+                                                              materialAtividade.quantidadePerda.value),
+                                                    ),
+                                                  ),
+                                                ],
                                               );
 
                                               setState(() {});
@@ -327,7 +321,7 @@ class _DesktopApontarEvolucaoWidgetState extends State<DesktopApontarEvolucaoWid
                                   child: Text(
                                     '${materialAtividade.quantidadePerda.formatDoubleToString(
                                       decimalDigits: material.unidade.decimal,
-                                    )} ${apontamento.unidade.nome}',
+                                    )} ${finalizar.unidade.nome}',
                                   ),
                                 ),
                               ),
@@ -344,11 +338,22 @@ class _DesktopApontarEvolucaoWidgetState extends State<DesktopApontarEvolucaoWid
                                             initialValue: material.quantidadePerda.valueOrNull,
                                             decimalDigits: material.unidade.decimal,
                                             onChanged: (value) {
-                                              final index = apontamento.materiais.indexWhere((element) => element.id == material.id);
+                                              final index = finalizar.materiais.indexWhere((element) => element.id == material.id);
 
-                                              apontamento.materiais.setAll(
+                                              finalizar.materiais.setAll(
                                                 index,
-                                                [material.copyWith(quantidadePerda: DoubleVO(value))],
+                                                [
+                                                  material.copyWith(
+                                                    quantidadePerda: DoubleVO(value),
+                                                    quantidadeSobra: DoubleVO(
+                                                      materialAtividade.quantidade.value -
+                                                          (value +
+                                                              material.quantidadeUtilizada.value +
+                                                              materialAtividade.quantidadeUtilizada.value +
+                                                              materialAtividade.quantidadePerda.value),
+                                                    ),
+                                                  ),
+                                                ],
                                               );
 
                                               setState(() {});
@@ -359,6 +364,16 @@ class _DesktopApontarEvolucaoWidgetState extends State<DesktopApontarEvolucaoWid
                                         Text(material.unidade.nome.toLowerCase()),
                                       ],
                                     ),
+                                  ),
+                                ),
+                              ),
+                              DataCell(
+                                SizedBox(
+                                  width: (constraints.maxWidth / 6) - 100.responsive,
+                                  child: Text(
+                                    '${material.quantidadeSobra.formatDoubleToString(
+                                      decimalDigits: material.unidade.decimal,
+                                    )} ${finalizar.unidade.nome}',
                                   ),
                                 ),
                               ),
@@ -380,21 +395,17 @@ class _DesktopApontarEvolucaoWidgetState extends State<DesktopApontarEvolucaoWid
           children: [
             NhidsTertiaryButton(
               label: translation.fields.cancelar,
-              isEnabled: !apontamentoStore.isLoading,
+              isEnabled: !finalizarStore.isLoading,
               onPressed: () => Navigator.pop(context),
             ),
             SizedBox(width: 10.responsive),
             NhidsPrimaryButton(
-              label: translation.fields.fazerApontamento,
-              // isLoading: apontamentoStore.isLoading, // TODO: verificar
+              label: translation.fields.finalizarAtividade,
+              // isLoading: finalizarStore.isLoading, // TODO: verificar
               onPressed: () {
-                final materiais = apontamento.materiais
-                    .where(
-                      (material) => material.quantidadeUtilizada.value > 0 || material.quantidadePerda.value > 0,
-                    )
-                    .toList();
+                final materiais = finalizar.materiais;
 
-                apontamentoStore.apontar(apontamento.copyWith(materiais: materiais));
+                finalizarStore.apontar(finalizar.copyWith(materiais: materiais));
               },
             ),
           ],

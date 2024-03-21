@@ -6,6 +6,8 @@ import 'package:pcp_flutter/app/modules/chao_de_fabrica/presenter/pages/web/desk
 import 'package:pcp_flutter/app/modules/chao_de_fabrica/presenter/stores/chao_de_fabrica_apontamento_store.dart';
 import 'package:pcp_flutter/app/modules/chao_de_fabrica/presenter/stores/chao_de_fabrica_atividade_by_id_store.dart';
 import 'package:pcp_flutter/app/modules/chao_de_fabrica/presenter/stores/chao_de_fabrica_centro_de_trabalho_store.dart';
+import 'package:pcp_flutter/app/modules/chao_de_fabrica/presenter/stores/chao_de_fabrica_finalizar_store.dart';
+import 'package:pcp_flutter/app/modules/chao_de_fabrica/presenter/stores/chao_de_fabrica_grupo_de_recurso_store.dart';
 import 'package:pcp_flutter/app/modules/chao_de_fabrica/presenter/stores/chao_de_fabrica_list_store.dart';
 import 'package:pcp_flutter/app/modules/chao_de_fabrica/presenter/stores/chao_de_fabrica_recurso_store.dart';
 
@@ -14,6 +16,8 @@ class ChaoDeFabricaListPage extends StatefulWidget {
   final ChaoDeFabricaCentroDeTrabalhoStore centroDeTrabalhoStore;
   final ChaoDeFabricaRecursoStore recursoStore;
   final ChaoDeFabricaApontamentoStore apontamentoStore;
+  final ChaoDeFabricaFinalizarStore finalizarStore;
+  final ChaoDeFabricaGrupoDeRecursoStore grupoDeRecursoStore;
   final ChaoDeFabricaAtividadeByIdStore atividadeByIdStore;
   final ChaoDeFabricaFilterController chaoDeFabricaFilterController;
 
@@ -23,6 +27,8 @@ class ChaoDeFabricaListPage extends StatefulWidget {
     required this.centroDeTrabalhoStore,
     required this.recursoStore,
     required this.apontamentoStore,
+    required this.finalizarStore,
+    required this.grupoDeRecursoStore,
     required this.atividadeByIdStore,
     required this.chaoDeFabricaFilterController,
   }) : super(key: key);
@@ -36,6 +42,8 @@ class _ChaoDeFabricaListPageState extends State<ChaoDeFabricaListPage> {
   ChaoDeFabricaCentroDeTrabalhoStore get centroDeTrabalhoStore => widget.centroDeTrabalhoStore;
   ChaoDeFabricaRecursoStore get recursoStore => widget.recursoStore;
   ChaoDeFabricaApontamentoStore get apontamentoStore => widget.apontamentoStore;
+  ChaoDeFabricaFinalizarStore get finalizarStore => widget.finalizarStore;
+  ChaoDeFabricaGrupoDeRecursoStore get grupoDeRecursoStore => widget.grupoDeRecursoStore;
   ChaoDeFabricaAtividadeByIdStore get atividadeByIdStore => widget.atividadeByIdStore;
   ChaoDeFabricaFilterController get chaoDeFabricaFilterController => widget.chaoDeFabricaFilterController;
 
@@ -43,6 +51,7 @@ class _ChaoDeFabricaListPageState extends State<ChaoDeFabricaListPage> {
   void initState() {
     super.initState();
 
+    grupoDeRecursoStore.getGrupoDeRecurso(delay: Duration.zero);
     chaoDeFabricaListStore.getAtividades(chaoDeFabricaFilterController.atividadeFilter, delay: Duration.zero);
   }
 
@@ -53,13 +62,15 @@ class _ChaoDeFabricaListPageState extends State<ChaoDeFabricaListPage> {
       centroDeTrabalhoStore: centroDeTrabalhoStore,
       recursoStore: recursoStore,
       apontamentoStore: apontamentoStore,
+      finalizarStore: finalizarStore,
+      grupoDeRecursoStore: grupoDeRecursoStore,
       atividadeByIdStore: atividadeByIdStore,
       chaoDeFabricaFilterController: chaoDeFabricaFilterController,
     );
 
-    return AdaptiveRedirectorPage(
+    return NhidsAdaptive(
       mobilePage: Container(),
-      tabletPage: desktopChaoDeFabricaListPage,
+      tabletPage: Container(),
       desktopPage: desktopChaoDeFabricaListPage,
     );
   }

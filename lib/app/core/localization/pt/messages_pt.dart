@@ -31,7 +31,13 @@ class MessagesPt extends Messages {
   String get erroIdNaoInformado => 'ID não encontrado. Verifique se o ID fornecido é válido.';
 
   @override
+  String get erroNaoHaRoteiroParaProdutoSelecionado => 'Não há roteiros para o produto selecionado.';
+
+  @override
   String get errorCampoObrigatorio => 'Este campo precisa estar preenchido';
+
+  @override
+  String get erroSelecioneUmProdutoAntes => 'Você precisa selecionar um produto antes.';
 
   @override
   String get mensagemAdicioneAsAperacoes => 'Adicione as operações e defina os materiais e recursos utilizados em cada uma delas.';
@@ -46,6 +52,10 @@ class MessagesPt extends Messages {
   String get mensagemAdicioneUmRecurso => 'Adicione, no mínimo, um recurso.';
 
   @override
+  String get mensagemApontamentoChaoDeFabrica =>
+      'Você está apontando uma evolução nesta atividade. Utilize os campos abaixo para indicar a quantidade e/ou progresso realizado. Você também poderá visualizar e indicar os materiais utilizados e perdas ocorridas neste apontamento.';
+
+  @override
   String get mensagemComoCriarRoteiro =>
       'Nos próximos passos você criará um novo roteiro.\nPrimeiramente, insira alguns dados básicos sobre este novo roteiro.';
 
@@ -54,7 +64,17 @@ class MessagesPt extends Messages {
       'Todos os dados necessários foram preenchidos. Verifique abaixo se todas as informações estão corretas e, caso estejam, confirme em Criar roteiro.';
 
   @override
+  String get mensagemFinalizarChaoDeFabrica =>
+      'Você está finalizando uma atividade. Utilize os campos abaixo para indicar a quantidade total de itens que foram produzidos. Você também poderá visualizar e indicar os materiais utilizados e perdas ocorridas nesta atividade.';
+
+  @override
   String get mensagemNaoEncontrouMaterial => 'Não encontrou o material que gostaria? Adicione outro de fora da ficha técnica.';
+
+  @override
+  String get mensagemNaoHaMateriaisParaEstaAtividade => 'Não há materiais para esta atividade.';
+
+  @override
+  String get mensagemNaoHaRestricoesParaEstaAtividade => 'Não há restrições para esta atividade.';
 
   @override
   String get mensagemSelecionePeriodoVigencia =>
@@ -185,6 +205,11 @@ class MessagesPt extends Messages {
   String nenhumEntidadeEncontrado(String entidade) => 'Nenhum ${entidade.toLowerCase()} encontrado.';
 
   @override
+  String pesquiseUmaEntidade(String entidade, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino}) {
+    return artigo == ArtigoEnum.artigoMasculino ? 'Pesquise um ${entidade.toLowerCase()}' : 'Pesquise uma ${entidade.toLowerCase()}';
+  }
+
+  @override
   String selecioneO(String campo, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino}) {
     return artigo == ArtigoEnum.artigoMasculino ? 'Selecione o ${campo.toLowerCase()}' : 'Selecione a ${campo.toLowerCase()}';
   }
@@ -193,19 +218,4 @@ class MessagesPt extends Messages {
   String selecioneUm(String campo, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino}) {
     return artigo == ArtigoEnum.artigoMasculino ? 'Selecione um ${campo.toLowerCase()}' : 'Selecione uma ${campo.toLowerCase()}';
   }
-
-  @override
-  String get erroNaoHaRoteiroParaProdutoSelecionado => 'Não há roteiros para o produto selecionado.';
-
-  @override
-  String get erroSelecioneUmProdutoAntes => 'Você precisa selecionar um produto antes.';
-
-  @override
-  String pesquiseUmaEntidade(String entidade, {ArtigoEnum artigo = ArtigoEnum.artigoMasculino}) {
-    return artigo == ArtigoEnum.artigoMasculino ? 'Pesquise um ${entidade.toLowerCase()}' : 'Pesquise uma ${entidade.toLowerCase()}';
-  }
-
-  @override
-  String get mensagemApontamentoChaoDeFabrica =>
-      'Você está apontando uma evolução nesta atividade. Utilize os campos abaixo para indicar a quantidade e/ou progresso realizado. Você também poderá visualizar e indicar os materiais utilizados e perdas ocorridas neste apontamento.';
 }

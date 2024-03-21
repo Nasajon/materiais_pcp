@@ -13,10 +13,11 @@ class RemoteChaoDeFabricaRestricaoMapper {
       atividadeRestricaoId: map['atividade_restricao'],
       codigo: map['restricao']['codigo'],
       nome: map['restricao']['nome'],
+      capacidade: DoubleVO(map['capacidade_total']),
+      usar: DoubleVO(map['capacidade_utilizada']),
       inicioPlanejado: DateVO.parse(map['inicio_planejado']),
       fimPlanejado: DateVO.parse(map['fim_planejado']),
       medicaoTempo: MedicaoTempoRestricao.selectByValue(map['tipo_momento_execucao']),
-      usar: DoubleVO(0), //DoubleVO(map['quantidade_necessaria']),
       unidade: RemoteChaoDeFabricaUnidadeMapper.fromMapToUnidadeEntity(map['unidade']),
     );
   }

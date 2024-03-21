@@ -9,6 +9,7 @@ abstract class Fields {
   String get adicionarMaterial;
   String get adicionarOperacao;
   String get adicionarOrdemDeProducao;
+  String get apontar;
   String get apontarEvolucao;
   String get aprovarOrdemDeProducao;
   String get as;
@@ -56,6 +57,7 @@ abstract class Fields {
   String get fichaTecnica;
   String get fim;
   String get fimPlanejado;
+  String get finalizar;
   String get finalizarAtividade;
   String get grupoDeRecurso;
   String get grupoDeRecursos;
@@ -94,6 +96,7 @@ abstract class Fields {
   String get operacao;
   String get operacoes;
   String get ordemDeProducao;
+  String get pausar;
   String get pausarAtividade;
   String get percentualAtual;
   String get percentualEvoluido;
@@ -110,10 +113,13 @@ abstract class Fields {
   String get produto;
   String get produtoResultante;
   String get produzido;
+  String get produzidoAteOMomento;
   String get progresso;
+  String get quando;
   String get quantidade;
   String get quantidadeApontada;
   String get quantidadeDeProducao;
+  String get quantidadeTotalProduzida;
   String get razaoDeConversao;
   String get recurso;
   String get recursoApto;
@@ -137,10 +143,12 @@ abstract class Fields {
   String get tipoDeRecurso;
   String get tipoDeUnidade;
   String get turnosDeTrabalho;
+  String get ultimaAtualizacao;
   String get unidadeDeMedida;
   String get usar;
   String get utilizadoAcumulado;
   String get utilizadoParcial;
+  String get utilizado;
   String get utilizados;
   String get utilizadoTotal;
   String get utilizar;

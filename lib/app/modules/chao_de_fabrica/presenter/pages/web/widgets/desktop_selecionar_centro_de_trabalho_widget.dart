@@ -26,41 +26,19 @@ class _DesktopSelecionarCentroDeTrabalhoWidgetState extends State<DesktopSelecio
 
   late final Disposer centroDeTrabalhoDispose;
   final isLoadingNotifier = ValueNotifier(false);
-  final centroDeTrabalhoNotifier = ValueNotifier<List<ChaoDeFabricaCentroDeTrabalhoEntity>>([]);
+  final centroDeTrabalhoNotifier = ValueNotifier<ChaoDeFabricaCentroDeTrabalhoEntity?>(null);
 
   @override
   void initState() {
     super.initState();
     centroDeTrabalhoStore.getCentrosDeTrabalhos('', delay: Duration.zero);
 
-    centroDeTrabalhoNotifier.value = chaoDeFabricaFilterController.atividadeFilter.centrosDeTrabalhos;
+    centroDeTrabalhoNotifier.value = chaoDeFabricaFilterController.atividadeFilter.centroDeTrabalho;
 
     centroDeTrabalhoDispose = centroDeTrabalhoStore.observer(
       onLoading: (value) => isLoadingNotifier.value = value,
       onState: (_) => isLoadingNotifier.value = false,
     );
-  }
-
-  bool verificarCentroDeTrabalho(ChaoDeFabricaCentroDeTrabalhoEntity centroDeTrabalho) {
-    for (var centroDeTrabalhoNotifier in centroDeTrabalhoNotifier.value) {
-      if (centroDeTrabalho == centroDeTrabalhoNotifier) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  void adicionarRemoverCentroDeTrabalho(ChaoDeFabricaCentroDeTrabalhoEntity centroDeTrabalho) {
-    final listCentroDeTrabalho = [...centroDeTrabalhoNotifier.value];
-
-    if (verificarCentroDeTrabalho(centroDeTrabalho)) {
-      listCentroDeTrabalho.remove(centroDeTrabalho);
-    } else {
-      listCentroDeTrabalho.add(centroDeTrabalho);
-    }
-
-    centroDeTrabalhoNotifier.value = listCentroDeTrabalho;
   }
 
   @override
@@ -74,13 +52,13 @@ class _DesktopSelecionarCentroDeTrabalhoWidgetState extends State<DesktopSelecio
     final themeData = Theme.of(context);
 
     return ConstrainedBox(
-      constraints: const BoxConstraints(maxHeight: 500, maxWidth: 550),
+      constraints: BoxConstraints(maxHeight: 500.responsive, maxWidth: 450.responsive),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          const SizedBox(height: 14),
+          SizedBox(height: 14.responsive),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 14),
             child: Column(
@@ -94,13 +72,12 @@ class _DesktopSelecionarCentroDeTrabalhoWidgetState extends State<DesktopSelecio
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                const SizedBox(height: 14),
-                TextFormFieldWidget(
-                  label: '',
+                SizedBox(height: 14.responsive),
+                NhidsSearchFormField(
                   hintText: translation.messages.pesquiseUmaEntidade(translation.fields.centroDeTrabalho),
                   onChanged: (value) => centroDeTrabalhoStore.getCentrosDeTrabalhos(value),
                 ),
-                const SizedBox(height: 14),
+                SizedBox(height: 14.responsive),
               ],
             ),
           ),
@@ -109,14 +86,15 @@ class _DesktopSelecionarCentroDeTrabalhoWidgetState extends State<DesktopSelecio
               valueListenable: isLoadingNotifier,
               builder: (_, isLoading, __) {
                 final listCentroDeTrabalho = centroDeTrabalhoStore.state;
+
                 return ValueListenableBuilder(
                   valueListenable: centroDeTrabalhoNotifier,
-                  builder: (_, centroDeTrabalho, __) {
+                  builder: (_, centroDeTrabalhoSelecionado, __) {
                     return ListView.builder(
                       itemCount: listCentroDeTrabalho.length,
-                      padding: const EdgeInsets.all(14),
+                      padding: EdgeInsets.all(14.responsive),
                       itemBuilder: (_, index) {
-                        final centroDeTrabalhoIndex = listCentroDeTrabalho[index];
+                        final centroDeTrabalho = listCentroDeTrabalho[index];
 
                         return ListTile(
                           contentPadding: const EdgeInsets.all(0),
@@ -129,15 +107,16 @@ class _DesktopSelecionarCentroDeTrabalhoWidgetState extends State<DesktopSelecio
                                 padding: const EdgeInsets.all(14),
                                 child: Row(
                                   children: [
-                                    Checkbox(
-                                      value: verificarCentroDeTrabalho(centroDeTrabalhoIndex),
+                                    Radio<ChaoDeFabricaCentroDeTrabalhoEntity>(
+                                      value: centroDeTrabalho,
+                                      groupValue: centroDeTrabalhoSelecionado,
                                       onChanged: (value) {
-                                        adicionarRemoverCentroDeTrabalho(centroDeTrabalhoIndex);
+                                        centroDeTrabalhoNotifier.value = centroDeTrabalho;
                                       },
                                     ),
-                                    const SizedBox(width: 10),
+                                    SizedBox(width: 10.responsive),
                                     Text(
-                                      centroDeTrabalhoIndex.nome,
+                                      centroDeTrabalho.nome,
                                       style: themeData.textTheme.titleMedium?.copyWith(
                                         fontWeight: FontWeight.w400,
                                       ),
@@ -149,7 +128,7 @@ class _DesktopSelecionarCentroDeTrabalhoWidgetState extends State<DesktopSelecio
                             ],
                           ),
                           onTap: () {
-                            adicionarRemoverCentroDeTrabalho(centroDeTrabalhoIndex);
+                            centroDeTrabalhoNotifier.value = centroDeTrabalho;
                           },
                         );
                       },
@@ -160,20 +139,20 @@ class _DesktopSelecionarCentroDeTrabalhoWidgetState extends State<DesktopSelecio
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(14),
+            padding: EdgeInsets.all(14.responsive),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                CustomTextButton(
-                  title: translation.fields.cancelar,
+                NhidsTertiaryButton(
+                  label: translation.fields.cancelar,
                   onPressed: () => Navigator.of(context).pop(),
                 ),
-                const SizedBox(width: 10),
-                CustomPrimaryButton(
-                  title: translation.fields.confirmarSelecao,
+                SizedBox(width: 10.responsive),
+                NhidsPrimaryButton(
+                  label: translation.fields.confirmarSelecao,
                   onPressed: () {
                     widget.chaoDeFabricaFilterController.atividadeFilter = chaoDeFabricaFilterController.atividadeFilter.copyWith(
-                      centrosDeTrabalhos: centroDeTrabalhoNotifier.value,
+                      centroDeTrabalho: centroDeTrabalhoNotifier.value,
                     );
                     Navigator.of(context).pop();
                   },

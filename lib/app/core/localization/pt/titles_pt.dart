@@ -3,6 +3,9 @@ import 'package:pcp_flutter/app/core/localization/titles.dart';
 
 class TitlesPt extends Titles {
   @override
+  String get acompanhamentoDaAtividade => 'Acompanhamento da atividade';
+
+  @override
   String get adicionarDisponibilidade => 'Adicionar disponibilidade';
 
   @override
@@ -22,9 +25,9 @@ class TitlesPt extends Titles {
 
   @override
   String get adicionarMaterial => 'Adicionar material';
-
   @override
   String get adicionarOperacao => 'Adicionar operação';
+
   @override
   String get adicioneUmaDisponibilidade => 'Adicione uma disponibilidade';
 

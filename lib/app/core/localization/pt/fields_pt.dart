@@ -30,6 +30,9 @@ class FieldsPt extends Fields {
   String get adicionarOrdemDeProducao => 'Adicionar ordem de producao';
 
   @override
+  String get apontar => 'Apontar';
+
+  @override
   String get apontarEvolucao => 'Apontar evolução';
 
   @override
@@ -171,6 +174,9 @@ class FieldsPt extends Fields {
   String get fimPlanejado => 'Fim planejado';
 
   @override
+  String get finalizar => 'Finalizar';
+
+  @override
   String get finalizarAtividade => 'Finalizar atividade';
 
   @override
@@ -283,6 +289,9 @@ class FieldsPt extends Fields {
   String get ordemDeProducao => 'Ordem de produção';
 
   @override
+  String get pausar => 'Pausar';
+
+  @override
   String get pausarAtividade => 'Pausar atividade';
 
   @override
@@ -331,7 +340,13 @@ class FieldsPt extends Fields {
   String get produzido => 'Produzido';
 
   @override
+  String get produzidoAteOMomento => 'Produzido até o momento';
+
+  @override
   String get progresso => 'Progresso';
+
+  @override
+  String get quando => 'Quando';
 
   @override
   String get quantidade => 'Quantidade';
@@ -341,6 +356,9 @@ class FieldsPt extends Fields {
 
   @override
   String get quantidadeDeProducao => 'Quantidade de produção';
+
+  @override
+  String get quantidadeTotalProduzida => 'Quantidade total produzida ';
 
   @override
   String get razaoDeConversao => 'Razão de conversão';
@@ -413,6 +431,9 @@ class FieldsPt extends Fields {
   String get turnosDeTrabalho => 'Turnos de trabalho';
 
   @override
+  String get ultimaAtualizacao => 'Última atualização';
+
+  @override
   String get unidadeDeMedida => 'Unidade de medida';
 
   @override
@@ -426,6 +447,9 @@ class FieldsPt extends Fields {
 
   @override
   String get utilizados => 'Perda';
+
+  @override
+  String get utilizado => 'Utilizado';
 
   @override
   String get utilizadoTotal => 'Utilizado total';

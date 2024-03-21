@@ -21,7 +21,7 @@ class RemoteChaoDeFabricaAtividadeDatasourceImpl implements RemoteChaoDeFabricaA
     try {
       Map<String, dynamic> queryParams = {
         'fields':
-            'capacidade_utilizada, quantidade_produzida, produtos, produtos.produto, produtos.unidade, recurso, restricoes, restricoes.unidade, restricoes.restricao, unidade, operacao_ordem, operacao_ordem.ordem_de_producao, operacao_ordem.ordem_de_producao.unidade',
+            'atualizado_em, capacidade_utilizada, quantidade_produzida, centro_de_trabalho, produtos, produtos.produto, produtos.unidade, recurso, restricoes, restricoes.unidade, restricoes.restricao, unidade, operacao_ordem, operacao_ordem.ordem_de_producao, operacao_ordem.ordem_de_producao.unidade, operacao_ordem.produto_resultante',
         'limit': 10,
       };
 
@@ -29,8 +29,13 @@ class RemoteChaoDeFabricaAtividadeDatasourceImpl implements RemoteChaoDeFabricaA
         queryParams['search'] = filter.search;
       }
 
-      if (filter.centrosDeTrabalhos.isNotEmpty) {
-        queryParams['centro_de_trabalho'] = filter.centrosDeTrabalhos.map((centroDeTrabalho) => centroDeTrabalho.id).toList().join(',');
+      if (filter.centroDeTrabalho != null && filter.centroDeTrabalho!.id.isNotEmpty) {
+        queryParams['centro_de_trabalho'] = filter.centroDeTrabalho!.id;
+      }
+
+      final grupoDeRecurso = filter.grupoDeRecurso;
+      if (grupoDeRecurso != null && grupoDeRecurso.id.isNotEmpty) {
+        queryParams['grupo_de_recurso'] = grupoDeRecurso.id;
       }
 
       if (filter.recursos.isNotEmpty) {
@@ -82,7 +87,7 @@ class RemoteChaoDeFabricaAtividadeDatasourceImpl implements RemoteChaoDeFabricaA
     try {
       Map<String, dynamic> queryParams = {
         'fields':
-            'capacidade_utilizada, quantidade_produzida, produtos, produtos.produto, produtos.unidade, recurso, restricoes, restricoes.unidade, restricoes.restricao, unidade, operacao_ordem, operacao_ordem.ordem_de_producao, operacao_ordem.ordem_de_producao.unidade',
+            'atualizado_em, capacidade_utilizada, quantidade_produzida, centro_de_trabalho, produtos, produtos.produto, produtos.unidade, recurso, restricoes, restricoes.unidade, restricoes.restricao, unidade, operacao_ordem, operacao_ordem.ordem_de_producao, operacao_ordem.ordem_de_producao.unidade, operacao_ordem.produto_resultante',
       };
 
       final response = await _clientService.request(
@@ -185,28 +190,6 @@ class RemoteChaoDeFabricaAtividadeDatasourceImpl implements RemoteChaoDeFabricaA
       );
 
       return atividade.copyWith(status: AtividadeStatusEnum.iniciada);
-    } on ClientError catch (e) {
-      throw DatasourceChaoDeFabricaFailure(
-        errorMessage: e.message,
-        stackTrace: e.stackTrace,
-      );
-    }
-  }
-
-  @override
-  Future<ChaoDeFabricaAtividadeAggregate> encerrarAtividade(ChaoDeFabricaAtividadeAggregate atividade) async {
-    try {
-      await _clientService.request(
-        ClientRequestParams(
-          selectedApi: APIEnum.pcp,
-          endPoint: '/atividadesrecursos/${atividade.id}/encerrar',
-          method: ClientRequestMethods.GET,
-          interceptors: interceptors,
-          body: <String, dynamic>{},
-        ),
-      );
-
-      return atividade.copyWith(status: AtividadeStatusEnum.encerrada);
     } on ClientError catch (e) {
       throw DatasourceChaoDeFabricaFailure(
         errorMessage: e.message,

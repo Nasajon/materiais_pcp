@@ -35,11 +35,6 @@ class ChaoDeFabricaAtividadeRepositoryImpl implements ChaoDeFabricaAtividadeRepo
   }
 
   @override
-  Future<ChaoDeFabricaAtividadeAggregate> encerrarAtividade(ChaoDeFabricaAtividadeAggregate atividade) {
-    return _atividadeDatasource.encerrarAtividade(atividade);
-  }
-
-  @override
   Future<ChaoDeFabricaAtividadeAggregate> pausarAtividade(ChaoDeFabricaAtividadeAggregate atividade) {
     return _atividadeDatasource.pausarAtividade(atividade);
   }

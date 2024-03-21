@@ -26,7 +26,7 @@ class _PCPTableState extends State<PCPTable> {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    final colorTheme = themeData.extension<AnaColorTheme>();
+    final colorTheme = themeData.extension<NhidsColorTheme>();
 
     var color = Colors.transparent;
 
@@ -107,6 +107,7 @@ class _PCPTableState extends State<PCPTable> {
 
 class TextDataColumn extends StatelessWidget {
   final String text;
+  final TextStyle? style;
   final double? width;
   final double? height;
   final AlignmentGeometry alignment;
@@ -115,6 +116,7 @@ class TextDataColumn extends StatelessWidget {
   const TextDataColumn({
     Key? key,
     required this.text,
+    this.style,
     this.width,
     this.height,
     this.alignment = Alignment.centerLeft,
@@ -133,9 +135,10 @@ class TextDataColumn extends StatelessWidget {
           alignment: alignment,
           child: Text(
             text,
-            style: themeData.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.w700,
-            ),
+            style: style ??
+                themeData.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
           ),
         ),
       ),

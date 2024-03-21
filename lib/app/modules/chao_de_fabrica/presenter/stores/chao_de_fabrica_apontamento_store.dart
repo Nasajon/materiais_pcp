@@ -18,7 +18,7 @@ class ChaoDeFabricaApontamentoStore extends NasajonStreamStore<bool> {
       await _apontamentoUsecase(apontamento);
       update(true);
     } on ChaoDeFabricaFailure catch (e) {
-      NhidsMessageDialog.error(message: e.errorMessage ?? '');
+      NhidsOverlay.error(message: e.errorMessage ?? '');
 
       setLoading(false);
       setError(e);

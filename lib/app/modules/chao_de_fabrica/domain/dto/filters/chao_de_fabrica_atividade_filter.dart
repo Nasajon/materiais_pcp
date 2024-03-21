@@ -3,11 +3,13 @@ import 'package:flutter/foundation.dart';
 import 'package:pcp_flutter/app/core/modules/domain/enums/atividade_status_enum%20copy.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/date_vo.dart';
 import 'package:pcp_flutter/app/modules/chao_de_fabrica/domain/entities/chao_de_fabrica_centro_de_trabalho_entity.dart';
+import 'package:pcp_flutter/app/modules/chao_de_fabrica/domain/entities/chao_de_fabrica_grupo_de_recurso_entity.dart';
 import 'package:pcp_flutter/app/modules/chao_de_fabrica/domain/entities/chao_de_fabrica_recurso_entity.dart';
 
 class ChaoDeFabricaAtividadeFilter {
   final String search;
-  final List<ChaoDeFabricaCentroDeTrabalhoEntity> centrosDeTrabalhos;
+  final ChaoDeFabricaCentroDeTrabalhoEntity? centroDeTrabalho;
+  final ChaoDeFabricaGrupoDeRecursoEntity? grupoDeRecurso;
   final List<ChaoDeFabricaRecursoEntity> recursos;
   final List<AtividadeStatusEnum> atividadeStatus;
   final DateVO dataInicial;
@@ -15,21 +17,29 @@ class ChaoDeFabricaAtividadeFilter {
   final String ultimaAtividadeId;
 
   ChaoDeFabricaAtividadeFilter({
-    ChaoDeFabricaCentroDeTrabalhoEntity? centroDeTrabalho,
     ChaoDeFabricaRecursoEntity? recurso,
     this.search = '',
-    this.centrosDeTrabalhos = const [],
+    this.centroDeTrabalho,
     this.recursos = const [],
     this.atividadeStatus = const [],
+    this.grupoDeRecurso,
     DateVO? dataInicial,
     DateVO? dataFinal,
     this.ultimaAtividadeId = '',
   })  : this.dataInicial = dataInicial ?? DateVO.empty(),
         this.dataFinal = dataFinal ?? DateVO.empty();
 
+  factory ChaoDeFabricaAtividadeFilter.empty() {
+    return ChaoDeFabricaAtividadeFilter(
+      dataInicial: DateVO(''),
+      dataFinal: DateVO(''),
+    );
+  }
+
   ChaoDeFabricaAtividadeFilter copyWith({
     String? search,
-    List<ChaoDeFabricaCentroDeTrabalhoEntity>? centrosDeTrabalhos,
+    ChaoDeFabricaCentroDeTrabalhoEntity? centroDeTrabalho,
+    ChaoDeFabricaGrupoDeRecursoEntity? grupoDeRecurso,
     List<ChaoDeFabricaRecursoEntity>? recursos,
     List<AtividadeStatusEnum>? atividadeStatus,
     DateVO? dataInicial,
@@ -38,7 +48,8 @@ class ChaoDeFabricaAtividadeFilter {
   }) {
     return ChaoDeFabricaAtividadeFilter(
       search: search ?? this.search,
-      centrosDeTrabalhos: centrosDeTrabalhos ?? this.centrosDeTrabalhos,
+      centroDeTrabalho: centroDeTrabalho ?? this.centroDeTrabalho,
+      grupoDeRecurso: grupoDeRecurso ?? this.grupoDeRecurso,
       recursos: recursos ?? this.recursos,
       atividadeStatus: atividadeStatus ?? this.atividadeStatus,
       dataInicial: dataInicial ?? this.dataInicial,
@@ -52,7 +63,8 @@ class ChaoDeFabricaAtividadeFilter {
     if (identical(this, other)) return true;
 
     return other.search == search &&
-        listEquals(other.centrosDeTrabalhos, centrosDeTrabalhos) &&
+        other.centroDeTrabalho == centroDeTrabalho &&
+        other.grupoDeRecurso == grupoDeRecurso &&
         listEquals(other.recursos, recursos) &&
         listEquals(other.atividadeStatus, atividadeStatus) &&
         other.dataInicial == dataInicial &&
@@ -63,7 +75,8 @@ class ChaoDeFabricaAtividadeFilter {
   @override
   int get hashCode {
     return search.hashCode ^
-        centrosDeTrabalhos.hashCode ^
+        centroDeTrabalho.hashCode ^
+        grupoDeRecurso.hashCode ^
         recursos.hashCode ^
         atividadeStatus.hashCode ^
         dataInicial.hashCode ^

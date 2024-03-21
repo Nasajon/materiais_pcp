@@ -10,6 +10,14 @@ class DateVO extends TextVO {
     return DateVO(DateFormat('dd/MM/yyyy HH:mm:ss').format(date));
   }
 
+  factory DateVO.dateOrNull(DateTime? date) {
+    if (date == null) {
+      return DateVO('');
+    }
+
+    return DateVO(DateFormat('dd/MM/yyyy HH:mm:ss').format(date));
+  }
+
   factory DateVO.parse(String date) {
     return DateVO.date(DateTime.parse((date)));
   }

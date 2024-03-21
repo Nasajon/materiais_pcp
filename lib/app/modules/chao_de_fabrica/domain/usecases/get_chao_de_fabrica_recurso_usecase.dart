@@ -4,6 +4,7 @@ import 'package:pcp_flutter/app/modules/chao_de_fabrica/domain/repositories/get_
 abstract class GetChaoDeFabricaRecursoUsecase {
   Future<List<ChaoDeFabricaRecursoEntity>> call({
     required String search,
+    required String grupoDeRecursoId,
     String? ultimoRecursoId,
   });
 }
@@ -18,8 +19,13 @@ class GetChaoDeFabricaRecursoUsecaseImpl implements GetChaoDeFabricaRecursoUseca
   @override
   Future<List<ChaoDeFabricaRecursoEntity>> call({
     required String search,
+    required String grupoDeRecursoId,
     String? ultimoRecursoId,
   }) {
-    return _recursoRepository(search: search, ultimoRecursoId: ultimoRecursoId);
+    return _recursoRepository(
+      search: search,
+      grupoDeRecursoId: grupoDeRecursoId,
+      ultimoRecursoId: ultimoRecursoId,
+    );
   }
 }

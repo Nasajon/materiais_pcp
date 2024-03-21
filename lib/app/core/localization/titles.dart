@@ -1,6 +1,7 @@
 import 'package:pcp_flutter/app/core/localization/enums/artigo_enum.dart';
 
 abstract class Titles {
+  String get acompanhamentoDaAtividade;
   String get adicionarDisponibilidade;
   String get adicionarGrupoDeRecurso;
   String get adicionarGrupoDeRestricoes;

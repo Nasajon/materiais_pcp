@@ -19,7 +19,7 @@ class ChaoDeFabricaAtividadeByIdStore extends NasajonStreamStore<ChaoDeFabricaAt
 
       update(response, force: true);
     } on ChaoDeFabricaFailure catch (e) {
-      NhidsMessageDialog.error(message: e.errorMessage ?? '');
+      NhidsOverlay.error(message: e.errorMessage ?? '');
       setError(e);
     }
 

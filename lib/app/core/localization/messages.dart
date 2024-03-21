@@ -20,7 +20,10 @@ abstract class Messages {
   String get mensagemApontamentoChaoDeFabrica;
   String get mensagemComoCriarRoteiro;
   String get mensagemConfirmacaoDoRoteiro;
+  String get mensagemFinalizarChaoDeFabrica;
   String get mensagemNaoEncontrouMaterial;
+  String get mensagemNaoHaMateriaisParaEstaAtividade;
+  String get mensagemNaoHaRestricoesParaEstaAtividade;
   String get mensagemSelecionePeriodoVigencia;
   String get mensagemSelecioneUmaUnidadeDeMedida;
   String get naoHaResultadosParaPesquisa;
