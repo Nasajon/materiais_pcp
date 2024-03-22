@@ -18,6 +18,7 @@ import 'package:pcp_flutter/app/modules/recursos/external/datasources/remote/get
 import 'package:pcp_flutter/app/modules/recursos/external/datasources/remote/remote_get_turno_de_trabalho_datasource_impl.dart';
 import 'package:pcp_flutter/app/modules/recursos/infra/datasources/remote/get_grupo_de_recurso_datasource.dart';
 import 'package:pcp_flutter/app/modules/recursos/infra/datasources/remote/recurso_datasource.dart';
+import 'package:pcp_flutter/app/modules/recursos/infra/datasources/remote/remote_get_centro_de_trabalho_datasource.dart';
 import 'package:pcp_flutter/app/modules/recursos/infra/datasources/remote/remote_get_turno_de_trabalho_datasource.dart';
 import 'package:pcp_flutter/app/modules/recursos/infra/repositories/get_centro_de_trabalho_repository_impl.dart';
 import 'package:pcp_flutter/app/modules/recursos/infra/repositories/get_grupo_de_recurso_repository_impl.dart';
@@ -61,7 +62,7 @@ class RecursoModule extends NasajonModule {
     i //DataSources
       ..addLazySingleton<RecursoDatasource>(RecursoDatasourceImpl.new)
       ..addLazySingleton<GetGrupoDeRecursoDatasource>(GetGrupoDeRecursoDatasourceImpl.new)
-      ..addLazySingleton<GetCentroDeTrabalhoDatasourceImpl>(GetCentroDeTrabalhoDatasourceImpl.new)
+      ..addLazySingleton<RemoteGetCentroDeTrabalhoDatasource>(GetCentroDeTrabalhoDatasourceImpl.new)
       ..addLazySingleton<RemoteGetTurnoDeTrabalhoDatasource>(RemoteGetTurnoDeTrabalhoDatasourceImpl.new)
 
       //Repositories

@@ -3,6 +3,7 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/core/constants/navigation_router.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/modules/domain/enums/atividade_status_enum%20copy.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/double_vo.dart';
@@ -116,6 +117,7 @@ class _DesktopChaoDeFabricaAtividadeGestorPageState extends State<DesktopChaoDeF
                 ),
               ],
             ),
+            onClosePressed: () => checkPreviousRouteWeb(NavigationRouter.chaoDeFabricaModule.path),
             bottom: PreferredSize(
               preferredSize: Size(size.width, 80),
               child: Padding(
