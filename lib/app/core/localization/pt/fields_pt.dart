@@ -301,7 +301,7 @@ class FieldsPt extends Fields {
   String get percentualEvoluido => 'Percentual evoluído';
 
   @override
-  String get perda => 'Utilizados';
+  String get perda => 'Perda';
 
   @override
   String get perdaAcumulado => 'Perda acumulada';
@@ -446,7 +446,7 @@ class FieldsPt extends Fields {
   String get utilizadoParcial => 'Utilizado parcial';
 
   @override
-  String get utilizados => 'Perda';
+  String get utilizados => 'Utilizados';
 
   @override
   String get utilizado => 'Utilizado';
