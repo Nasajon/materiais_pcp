@@ -1,4 +1,6 @@
+import 'package:design_system/design_system.dart';
 import 'package:flutter_core/ana_core.dart';
+import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/modules/grupo_de_restricao/domain/entities/grupo_de_restricao_entity.dart';
 import 'package:pcp_flutter/app/modules/grupo_de_restricao/domain/usecases/get_grupo_de_restricao_by_id_usecase.dart';
 import 'package:pcp_flutter/app/modules/grupo_de_restricao/domain/usecases/save_grupo_de_restricao_usecase.dart';
@@ -21,6 +23,12 @@ class GrupoDeRestricaoFormStore extends NasajonStreamStore<GrupoDeRestricaoEntit
       setLoading(true);
 
       final response = await _saveGrupoDeRestricaoUsecase(grupoDeRestricao);
+
+      NhidsOverlay.showSnackBar(
+        message: grupoDeRestricao.id == null
+            ? translation.messages.criouAEntidadeComSucesso(translation.fields.grupoDeRestricao)
+            : translation.messages.editouAEntidadeComSucesso(translation.fields.grupoDeRestricao),
+      );
 
       update(response);
     } on Failure catch (error) {

@@ -154,21 +154,7 @@ class _GrupoDeRestricaoFormDesktopPageState extends State<GrupoDeRestricaoFormDe
               }
 
               final grupoRestricao = triple.state;
-              if (grupoRestricao != null && !triple.isLoading) {
-                Asuka.showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      widget.id == null
-                          ? translation.messages.criouAEntidadeComSucesso(translation.fields.grupoDeRestricao)
-                          : translation.messages.editouAEntidadeComSucesso(translation.fields.grupoDeRestricao),
-                      style: AnaTextStyles.grey14Px.copyWith(fontSize: 15, color: Colors.white, letterSpacing: 0.25),
-                    ),
-                    backgroundColor: const Color.fromRGBO(0, 0, 0, 0.87),
-                    behavior: SnackBarBehavior.floating,
-                    width: 635,
-                  ),
-                );
-
+              if (grupoRestricao != null && !triple.isLoading && grupoRestricao != GrupoDeRestricaoEntity.empty()) {
                 oldGrupoRestricao = grupoDeRestricaoController.grupoDeRestricao.copyWith();
 
                 if (widget.id == null) {
