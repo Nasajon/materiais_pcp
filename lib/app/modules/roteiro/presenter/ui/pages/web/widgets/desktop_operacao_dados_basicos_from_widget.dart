@@ -111,9 +111,11 @@ class DesktopOperacaoDadosBasicosFormWidget extends StatelessWidget {
                   ),
                   const SizedBox(width: 16),
                   Flexible(
-                    child: DoubleTextFormFieldWidget(
+                    child: NhidsDecimalFormField(
+                      key: UniqueKey(),
                       label: translation.fields.razaoDeConversao,
                       initialValue: operacao.razaoConversao.valueOrNull,
+                      decimalDigits: operacao.unidade.decimal,
                       validator: (_) => operacao.razaoConversao.errorMessage,
                       onValueOrNull: (value) {
                         operacaoController.operacao = operacao.copyWith(razaoConversao: DoubleVO(value));

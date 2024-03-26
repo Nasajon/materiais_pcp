@@ -1,6 +1,7 @@
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/modules/roteiro/domain/aggregates/grupo_de_recurso_aggregate.dart';
 import 'package:pcp_flutter/app/modules/roteiro/domain/aggregates/operacao_aggregate.dart';
+import 'package:pcp_flutter/app/modules/roteiro/domain/dtos/recurso_capacidade_dto.dart';
 import 'package:pcp_flutter/app/modules/roteiro/domain/entities/material_entity.dart';
 import 'package:pcp_flutter/app/modules/roteiro/domain/usecases/get_recurso_por_grupo_usecase.dart';
 import 'package:pcp_flutter/app/modules/roteiro/domain/usecases/get_restricao_por_grupo_usecase.dart';
@@ -38,7 +39,12 @@ class OperacaoController {
 
   // Grupo de Recursos
   GrupoDeRecursoController get novoGrupoDeRecursoController => GrupoDeRecursoController(
-        grupoDeRecurso: GrupoDeRecursoAggregate.empty(),
+        grupoDeRecurso: GrupoDeRecursoAggregate.empty().copyWith(
+          capacidade: RecursoCapacidadeDTO.empty().copyWith(
+            preparacao: operacao.preparacao,
+            execucao: operacao.execucao,
+          ),
+        ),
         getRecursoPorGrupoUsecase: _getRecursoPorGrupoUsecase,
         getRestricaoPorGrupoUsecase: _getRestricaoPorGrupoUsecase,
       );
