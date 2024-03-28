@@ -31,7 +31,7 @@ class DesktopTurnoTrabalhoDadosGeraisFormWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Flexible(
-                    child: IntegerTextFormFieldWidget(
+                    child: NhidsTextFormField(
                       label: translation.fields.codigo,
                       initialValue: turnoTrabalhoFormController.turnoTrabalho.codigo.value,
                       isRequiredField: true,

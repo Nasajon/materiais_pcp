@@ -42,6 +42,8 @@ class RecursoDatasourceImpl implements RecursoDatasource {
   @override
   Future<List<Recurso>> getRecursoRecente() async {
     try {
+      queryParams.remove('search');
+
       final response = await clientService.request(ClientRequestParams(
         selectedApi: APIEnum.pcp,
         endPoint: '/recursos',

@@ -53,7 +53,7 @@ class DesktopDadosBasicosFormWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Flexible(
-                  child: IntegerTextFormFieldWidget(
+                  child: NhidsTextFormField(
                     label: translation.fields.codigo,
                     initialValue: roteiro.codigo.value,
                     validator: (_) => roteiro.codigo.errorMessage,

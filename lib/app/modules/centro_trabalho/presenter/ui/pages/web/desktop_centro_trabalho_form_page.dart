@@ -110,7 +110,7 @@ class _CentroTrabalhoFormDesktopPageState extends State<CentroTrabalhoFormDeskto
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Flexible(
-                        child: IntegerTextFormFieldWidget(
+                        child: NhidsTextFormField(
                           label: translation.fields.codigo,
                           initialValue: centroDeTrabalho.codigo.value,
                           isRequiredField: true,

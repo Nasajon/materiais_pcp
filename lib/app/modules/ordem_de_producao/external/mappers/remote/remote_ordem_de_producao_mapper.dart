@@ -16,7 +16,7 @@ class RemoteOrdemDeProducaoMapper {
   static OrdemDeProducaoAggregate fromMapToOrdemDeProducaoAggregate(Map<String, dynamic> map) {
     return OrdemDeProducaoAggregate(
       id: map['ordem_de_producao'],
-      codigo: CodigoVO.text(map['codigo']),
+      codigo: CodigoVO(map['codigo']),
       status: StatusOrdemDeProducaoEnum.select(map['status']),
       produto: RemoteProdutoMapper.fromMapToProdutoEntity(map['produto']),
       cliente: map['cliente'] != null ? RemoteClienteMapper.fromMapToCliente(map['cliente']) : null,

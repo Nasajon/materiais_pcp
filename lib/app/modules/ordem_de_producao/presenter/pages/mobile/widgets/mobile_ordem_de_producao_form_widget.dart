@@ -54,7 +54,7 @@ class MobileOrdemDeProducaoFormWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              IntegerTextFormFieldWidget(
+              NhidsTextFormField(
                 label: translation.fields.codigo,
                 initialValue: ordemDeProducao.codigo.value,
                 validator: (_) => ordemDeProducao.codigo.errorMessage,

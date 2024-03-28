@@ -48,7 +48,7 @@ void main() {
 
 final centroTrabalho = CentroTrabalhoAggregate(
   id: '123',
-  codigo: CodigoVO(1),
+  codigo: CodigoVO('1'),
   nome: TextVO('Teste'),
-  turnos: [TurnoTrabalhoEntity(id: '123', codigo: CodigoVO(1), nome: 'Teste')],
+  turnos: [TurnoTrabalhoEntity(id: '123', codigo: CodigoVO('1'), nome: 'Teste')],
 );

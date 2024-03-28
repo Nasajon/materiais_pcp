@@ -69,7 +69,7 @@ class _GrupoDeRecursoFormDesktopPageState extends State<GrupoDeRecursoFormDeskto
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Flexible(
-                        child: IntegerTextFormFieldWidget(
+                        child: NhidsTextFormField(
                           label: translation.fields.codigo,
                           initialValue: grupoDeRecurso.codigo.value,
                           isEnabled: true,

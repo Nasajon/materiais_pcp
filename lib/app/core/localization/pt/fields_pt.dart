@@ -105,6 +105,9 @@ class FieldsPt extends Fields {
   String get criarOrdem => 'Criar ordem';
 
   @override
+  String get criarRecurso => 'Criar recurso';
+
+  @override
   String get criarRestricao => 'Criar restrição';
 
   @override
@@ -181,9 +184,9 @@ class FieldsPt extends Fields {
 
   @override
   String get grupoDeRecurso => 'Grupo de recurso';
-
   @override
   String get grupoDeRecursos => 'Grupo de recursos';
+
   @override
   String get grupoDeRestricao => 'Grupo de restrição';
 
@@ -440,6 +443,9 @@ class FieldsPt extends Fields {
   String get usar => 'Usar';
 
   @override
+  String get utilizado => 'Utilizado';
+
+  @override
   String get utilizadoAcumulado => 'Utilizado acumulado';
 
   @override
@@ -447,9 +453,6 @@ class FieldsPt extends Fields {
 
   @override
   String get utilizados => 'Utilizados';
-
-  @override
-  String get utilizado => 'Utilizado';
 
   @override
   String get utilizadoTotal => 'Utilizado total';

@@ -12,7 +12,7 @@ class RemoteRestricaoMapper {
   static RestricaoAggregate fromMapToRestricaoAggregate(Map<String, dynamic> map) {
     return RestricaoAggregate(
       id: map['restricao'],
-      codigo: CodigoVO.text(map['codigo']),
+      codigo: CodigoVO(map['codigo']),
       descricao: TextVO(map['nome']),
       grupoDeRestricao: RestricaoGrupoDeRestricaoMapper.fromMapToGrupoDeRestricaoEntity(map['grupo_de_restricao']),
       centroDeTrabalho: RemoteRestricaoCentroDeTrabalhoMapper.fromMapToRestricaoCentroDeTrabalho(map['centro_de_trabalho']),

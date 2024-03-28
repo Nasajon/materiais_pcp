@@ -52,7 +52,7 @@ void main() {
 
 final ordemDeProducao = OrdemDeProducaoAggregate(
   id: '1',
-  codigo: CodigoVO(1),
+  codigo: CodigoVO('1'),
   status: StatusOrdemDeProducaoEnum.aberta,
   produto: const ProdutoEntity(
     id: '1',

@@ -5,8 +5,6 @@ import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/core/constants/navigation_router.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
-import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
-import 'package:pcp_flutter/app/core/widgets/pesquisa_form_field_widget.dart';
 import 'package:pcp_flutter/app/modules/recursos/presenter/stores/states/recurso_state.dart';
 import 'package:pcp_flutter/app/modules/recursos/presenter/ui/widgets/recurso_item_widget.dart';
 
@@ -33,76 +31,72 @@ class _RecursoListMobilePageState extends State<RecursoListMobilePage> with Dial
   Widget build(BuildContext context) {
     const horizontalPadding = 16.0;
 
-    return CustomScaffold.titleString(
-      translation.titles.tituloRecursos,
-      controller: widget.scaffoldController,
-      alignment: Alignment.centerLeft,
+    return NhidsScaffold.title(
+      title: translation.titles.tituloRecursos,
       onClosePressed: () => checkPreviousRouteWeb(NavigationRouter.appModule.path),
-      actions: [
-        InternetButtonIconWidget(connectionStore: widget.connectionStore),
-      ],
-      body: ScopedBuilder<RecursoListStore, List<RecursoState>>(
-        onLoading: (_) => const Center(child: CircularProgressIndicator(color: AnaColors.darkBlue)),
-        onError: (context, error) => Container(),
-        onState: (context, state) => ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 635),
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.only(bottom: 16),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 40),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
-                  child: PesquisaFormFieldWidget(
-                    label: translation.messages.pesquisarNomeOuPalavraChave,
-                    initialValue: widget.recursoListStore.search,
-                    onChanged: (value) {
-                      widget.recursoListStore.search = value;
-                      widget.recursoListStore.getList(search: widget.recursoListStore.search);
-                    },
-                  ),
-                ),
-                const SizedBox(height: 40),
-                if (state.isEmpty) ...{
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 20, left: 16, right: 16),
-                    child: Text(
-                      widget.recursoListStore.search.isEmpty
-                          ? translation.messages.nenhumEntidadeEncontrado(translation.fields.recurso)
-                          : translation.messages.naoHaResultadosParaPesquisa,
-                      style: AnaTextStyles.grey20Px,
-                    ),
-                  ),
-                } else if (widget.recursoListStore.search.isEmpty) ...{
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
-                    child: Text(
-                      translation.titles.ultimosRecursosAcessados,
-                      style: AnaTextStyles.boldDarkGrey16Px.copyWith(fontSize: 18),
-                    ),
-                  ),
-                  const SizedBox(height: 32),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(height: 40.responsive),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
+              child: NhidsSearchFormField(
+                initialValue: widget.recursoListStore.search,
+                onChanged: (value) {
+                  widget.recursoListStore.search = value;
+                  widget.recursoListStore.getList(search: widget.recursoListStore.search);
                 },
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
-                  child: Column(
-                    children: state.map(
-                      (value) {
-                        return RecursoItemWidget(
-                          key: ValueKey('${value.recurso.codigo} - ${value.recurso.descricao}'),
-                          recurso: value.recurso,
-                          deletarRecursoStore: value.deletarStore,
-                          recursoListStore: widget.recursoListStore,
-                        );
-                      },
-                    ).toList(),
-                  ),
-                )
-              ],
+              ),
             ),
-          ),
+            SizedBox(height: 40.responsive),
+            ScopedBuilder<RecursoListStore, List<RecursoState>>(
+              onLoading: (_) => const Center(child: CircularProgressIndicator(color: AnaColors.darkBlue)),
+              onError: (context, error) => Container(),
+              onState: (context, state) => SingleChildScrollView(
+                padding: EdgeInsets.only(bottom: 16.responsive),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (state.isEmpty) ...{
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 20.responsive, left: 16.responsive, right: 16.responsive),
+                        child: Text(
+                          widget.recursoListStore.search.isEmpty
+                              ? translation.messages.nenhumEntidadeEncontrado(translation.fields.recurso)
+                              : translation.messages.naoHaResultadosParaPesquisa,
+                          style: AnaTextStyles.grey20Px,
+                        ),
+                      ),
+                    } else if (widget.recursoListStore.search.isEmpty) ...{
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
+                        child: NhidsTextTitle(
+                          text: translation.titles.ultimosRecursosAcessados,
+                        ),
+                      ),
+                      const SizedBox(height: 32),
+                    },
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
+                      child: Column(
+                        children: state.map(
+                          (value) {
+                            return RecursoItemWidget(
+                              key: UniqueKey(),
+                              recurso: value.recurso,
+                              deletarRecursoStore: value.deletarStore,
+                              recursoListStore: widget.recursoListStore,
+                            );
+                          },
+                        ).toList(),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
       bottomNavigationBar: ContainerNavigationBarWidget(

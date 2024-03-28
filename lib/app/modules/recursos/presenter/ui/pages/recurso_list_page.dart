@@ -24,7 +24,7 @@ class RecursoListPage extends StatelessWidget {
       connectionStore: connectionStore,
       scaffoldController: scaffoldController,
     );
-    return AdaptiveRedirectorPage(
+    return NhidsAdaptive(
       mobilePage: RecursoListMobilePage(
         recursoListStore: recursoListStore,
         connectionStore: connectionStore,

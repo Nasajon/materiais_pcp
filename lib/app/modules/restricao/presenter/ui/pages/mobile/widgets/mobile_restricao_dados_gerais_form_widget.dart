@@ -52,7 +52,7 @@ class MobileRestricaoDadosGeraisFormWidget extends StatelessWidget {
               validator: (_) => restricaoFormController.restricao.codigo.errorMessage,
               onChanged: (value) {
                 restricaoFormController.restricao = restricaoFormController.restricao.copyWith(
-                  codigo: value.isNotEmpty ? CodigoVO.text(value) : CodigoVO(0),
+                  codigo: value.isNotEmpty ? CodigoVO(value) : CodigoVO(''),
                 );
               },
             ),

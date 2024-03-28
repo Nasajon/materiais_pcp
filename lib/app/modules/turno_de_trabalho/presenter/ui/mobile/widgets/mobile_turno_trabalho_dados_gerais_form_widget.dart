@@ -37,7 +37,7 @@ class MobileTurnoTrabalhoDadosGeraisFormWidget extends StatelessWidget {
               validator: (_) => turnoTrabalhoFormController.turnoTrabalho.codigo.errorMessage,
               onChanged: (value) {
                 turnoTrabalhoFormController.turnoTrabalho = turnoTrabalhoFormController.turnoTrabalho.copyWith(
-                  codigo: value.isNotEmpty ? CodigoVO.text(value) : CodigoVO(0),
+                  codigo: value.isNotEmpty ? CodigoVO(value) : CodigoVO(''),
                 );
               },
             ),

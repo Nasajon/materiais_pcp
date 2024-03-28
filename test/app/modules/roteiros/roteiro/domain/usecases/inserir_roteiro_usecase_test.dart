@@ -61,7 +61,7 @@ void main() {
 
 final roteiro = RoteiroAggregate(
   id: '1',
-  codigo: CodigoVO(1),
+  codigo: CodigoVO('1'),
   descricao: TextVO('Teste'),
   inicio: DateVO.date(DateTime.now()),
   fim: DateVO.date(DateTime.now()),

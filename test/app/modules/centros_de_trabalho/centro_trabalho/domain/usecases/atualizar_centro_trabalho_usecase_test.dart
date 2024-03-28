@@ -53,12 +53,12 @@ void main() {
 
 final centroTrabalho = CentroTrabalhoAggregate(
   id: '123',
-  codigo: CodigoVO(1),
+  codigo: CodigoVO('1'),
   nome: TextVO('Teste'),
   turnos: [
     TurnoTrabalhoEntity(
       id: '',
-      codigo: CodigoVO(1),
+      codigo: CodigoVO('1'),
       nome: '',
     ),
   ],

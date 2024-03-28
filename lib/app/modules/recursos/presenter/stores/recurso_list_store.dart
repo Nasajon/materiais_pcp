@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:design_system/design_system.dart';
 import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
+import 'package:pcp_flutter/app/modules/recursos/domain/errors/recurso_failures.dart';
 
 import 'package:pcp_flutter/app/modules/recursos/domain/usecases/delete_recurso_usecase.dart';
 import 'package:pcp_flutter/app/modules/recursos/domain/usecases/get_recurso_recente_usecase.dart';
@@ -24,62 +26,61 @@ class RecursoListStore extends NasajonNotifierStore<List<RecursoState>> {
   String get search => _searchNotifier.value;
   set search(String value) => _searchNotifier.value = value;
 
-  final List<RecursoState> _listRecurso = [];
-
   @override
   void initStore() {
     super.initStore();
 
-    getList(delay: Duration.zero);
+    getList();
   }
 
-  void getList({String? search, Duration delay = const Duration(milliseconds: 500)}) {
-    execute(() async {
+  void getList({String? search}) async {
+    setLoading(true);
+
+    try {
       if (search == null || search.isEmpty) {
         final response = await _getRecursoRecenteUsecase();
 
-        _listRecurso
-          ..clear()
-          ..addAll(
-            response
-                .map(
-                  (grupo) => RecursoState(
-                    recurso: grupo,
-                    deletarStore: DeletarRecursoStore(
-                      _deleteRecursoUsecase,
-                    ),
-                  ),
-                )
-                .toList(),
-          );
-
-        return _listRecurso;
-      }
-
-      final response = await _getRecursoListUsecase(search);
-
-      _listRecurso
-        ..clear()
-        ..addAll(
-          response
-              .map(
-                (grupo) => RecursoState(
-                  recurso: grupo,
-                  deletarStore: DeletarRecursoStore(
-                    _deleteRecursoUsecase,
-                  ),
+        final listRecurso = response
+            .map(
+              (grupo) => RecursoState(
+                recurso: grupo,
+                deletarStore: DeletarRecursoStore(
+                  _deleteRecursoUsecase,
                 ),
-              )
-              .toList(),
-        );
+              ),
+            )
+            .toList();
 
-      return _listRecurso;
-    }, delay: delay);
+        update(listRecurso, force: true);
+      } else {
+        final response = await _getRecursoListUsecase(search);
+
+        final listRecurso = response
+            .map(
+              (grupo) => RecursoState(
+                recurso: grupo,
+                deletarStore: DeletarRecursoStore(
+                  _deleteRecursoUsecase,
+                ),
+              ),
+            )
+            .toList();
+
+        update(listRecurso, force: true);
+      }
+    } on RecursoFailure catch (error) {
+      NhidsOverlay.error(message: error.errorMessage ?? '');
+      setError(error);
+    } finally {
+      setLoading(false, force: true);
+    }
   }
 
   Future<void> deleteRecurso(String id) async {
-    _listRecurso.removeWhere((element) => element.recurso.id == id);
+    final listRecurso = state;
 
-    update(_listRecurso, force: true);
+    listRecurso.removeWhere((element) => element.recurso.id == id);
+
+    update(listRecurso, force: true);
   }
 }

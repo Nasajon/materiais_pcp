@@ -104,7 +104,7 @@ class _MobileCentroTrabalhoFormPageState extends State<MobileCentroTrabalhoFormP
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                IntegerTextFormFieldWidget(
+                NhidsTextFormField(
                   label: translation.fields.codigo,
                   initialValue: centroDeTrabalho.codigo.value,
                   isRequiredField: true,

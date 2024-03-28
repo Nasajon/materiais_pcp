@@ -7,7 +7,7 @@ class RemoteTurnoTrabalhoMapper {
   static TurnoTrabalhoEntity fromMapToTurnoTrabalhoEntity(Map<String, dynamic> map) {
     return TurnoTrabalhoEntity(
       id: map['turno'],
-      codigo: map.containsKey('codigo') ? CodigoVO.text(map['codigo']) : CodigoVO(null),
+      codigo: map.containsKey('codigo') ? CodigoVO(map['codigo']) : CodigoVO(null),
       nome: map.containsKey('nome') ? map['nome'] : '',
     );
   }

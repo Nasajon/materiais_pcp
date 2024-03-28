@@ -104,7 +104,7 @@ class _DesktopChaoDeFabricaListPageState extends State<DesktopChaoDeFabricaListP
       bottom: PreferredSize(
         preferredSize: Size(size.width, 80),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 52, vertical: 19).copyWith(top: 0),
+          padding: EdgeInsets.symmetric(horizontal: 52, vertical: 19.responsive).copyWith(top: 0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

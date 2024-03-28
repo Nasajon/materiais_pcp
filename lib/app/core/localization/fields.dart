@@ -33,6 +33,7 @@ abstract class Fields {
   String get criarCentro;
   String get criarFichaTecnica;
   String get criarGrupo;
+  String get criarRecurso;
   String get criarOrdem;
   String get criarRestricao;
   String get criarRoteiro;

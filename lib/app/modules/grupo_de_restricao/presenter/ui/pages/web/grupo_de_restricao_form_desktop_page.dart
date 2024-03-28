@@ -94,7 +94,7 @@ class _GrupoDeRestricaoFormDesktopPageState extends State<GrupoDeRestricaoFormDe
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Flexible(
-                        child: IntegerTextFormFieldWidget(
+                        child: NhidsTextFormField(
                           label: translation.fields.codigo,
                           initialValue: grupoDeRestricao.codigo?.value,
                           isEnabled: true,

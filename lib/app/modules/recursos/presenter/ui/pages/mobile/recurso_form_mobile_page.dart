@@ -8,7 +8,6 @@ import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
-import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
 import 'package:pcp_flutter/app/modules/recursos/domain/entities/recurso.dart';
 import 'package:pcp_flutter/app/modules/recursos/domain/entities/recurso_centro_de_trabalho.dart';
 import 'package:pcp_flutter/app/modules/recursos/domain/entities/recurso_grupo_de_recurso.dart';
@@ -61,12 +60,6 @@ class _RecursoFormMobilePageState extends State<RecursoFormMobilePage> {
     recursoFormDisposer = widget.recursoFormStore.observer(
       onLoading: (value) => isLoadingNotifier.value = value,
       onError: (error) async {
-        await Asuka.showDialog(
-          barrierColor: Colors.black38,
-          builder: (context) {
-            return ErrorModal(errorMessage: (error as Failure).errorMessage ?? '');
-          },
-        );
         isLoadingNotifier.value = false;
       },
       onState: (state) {
@@ -109,22 +102,22 @@ class _RecursoFormMobilePageState extends State<RecursoFormMobilePage> {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    final colorTheme = themeData.extension<AnaColorTheme>();
+    final colorTheme = themeData.extension<NhidsColorTheme>();
 
     context.select(() => [widget.recursoController.recurso]);
 
     final recurso = widget.recursoController.recurso;
 
-    return CustomScaffold.titleString(
-      recurso.id == null ? translation.titles.criarRecurso : widget.oldRecurso.value?.descricao.value ?? '',
-      alignment: Alignment.centerLeft,
-      controller: widget.scaffoldController,
+    return NhidsScaffold.title(
+      title: recurso.id == null ? translation.titles.criarRecurso : widget.oldRecurso.value?.descricao.value ?? '',
       onClosePressed: () => checkPreviousRouteWeb(NavigationRouter.recursosModule.path),
-      actions: [
-        InternetButtonIconWidget(connectionStore: widget.connectionStore),
-      ],
       body: Padding(
-        padding: const EdgeInsets.only(top: 32, left: 16, right: 16, bottom: 24),
+        padding: EdgeInsets.only(
+          top: 32.responsive,
+          left: 16.responsive,
+          right: 16.responsive,
+          bottom: 24.responsive,
+        ),
         child: Form(
           key: widget.formKey,
           child: Column(
@@ -134,7 +127,7 @@ class _RecursoFormMobilePageState extends State<RecursoFormMobilePage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      IntegerTextFormFieldWidget(
+                      NhidsTextFormField(
                         label: translation.fields.codigo,
                         initialValue: widget.recursoController.recurso.codigo.value,
                         isRequiredField: true,
@@ -143,8 +136,8 @@ class _RecursoFormMobilePageState extends State<RecursoFormMobilePage> {
                           codigo: CodigoVO(value),
                         ),
                       ),
-                      const SizedBox(height: 16),
-                      TextFormFieldWidget(
+                      SizedBox(height: 16.responsive),
+                      NhidsTextFormField(
                         label: translation.fields.nome,
                         initialValue: widget.recursoController.recurso.descricao.value,
                         isRequiredField: true,
@@ -153,7 +146,7 @@ class _RecursoFormMobilePageState extends State<RecursoFormMobilePage> {
                           descricao: TextVO(value),
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 16.responsive),
                       AutocompleteTextFormField<RecursoGrupoDeRecurso>(
                         initialSelectedValue: widget.recursoController.recurso.grupoDeRecurso,
                         itemTextValue: (value) => value.nome,
@@ -189,7 +182,7 @@ class _RecursoFormMobilePageState extends State<RecursoFormMobilePage> {
                           );
                         },
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 16.responsive),
                       AutocompleteTextFormField<RecursoCentroDeTrabalho>(
                         initialSelectedValue: widget.recursoController.recurso.centroDeTrabalho,
                         itemTextValue: (value) => value.nome,
@@ -225,7 +218,7 @@ class _RecursoFormMobilePageState extends State<RecursoFormMobilePage> {
                           );
                         },
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 16.responsive),
                       ChipsTextField<TurnoDeTrabalhoEntity>(
                         label: translation.fields.turnosDeTrabalho,
                         initialValue: widget.recursoController.recurso.turnos,
@@ -303,8 +296,8 @@ class _RecursoFormMobilePageState extends State<RecursoFormMobilePage> {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      CustomTextButton(
-                        title: id == null ? translation.fields.cancelar : translation.fields.descartar,
+                      NhidsTertiaryButton(
+                        label: id == null ? translation.fields.cancelar : translation.fields.descartar,
                         isEnabled: !isLoading,
                         onPressed: () {
                           if (oldRecurso != widget.recursoController.recurso) {

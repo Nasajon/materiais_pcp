@@ -23,7 +23,7 @@ class RemoteRoteiroMapper {
   static RoteiroAggregate fromMapToRoteiroAggregate(Map<String, dynamic> map) {
     return RoteiroAggregate(
       id: map['roteiro'],
-      codigo: CodigoVO.text(map['codigo']),
+      codigo: CodigoVO(map['codigo']),
       descricao: TextVO(map['descricao']),
       inicio: DateVO.date(DateTime.parse(map['inicio'])),
       fim: DateVO.date(DateTime.parse(map['fim'])),

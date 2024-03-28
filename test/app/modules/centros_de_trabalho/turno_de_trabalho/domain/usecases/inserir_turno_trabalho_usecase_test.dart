@@ -49,7 +49,7 @@ void main() {
 
 final turnoTrabalho = TurnoTrabalhoAggregate(
   id: '1',
-  codigo: CodigoVO(1),
+  codigo: CodigoVO('1'),
   nome: TextVO('Teste'),
   horarios: [
     HorarioEntity(

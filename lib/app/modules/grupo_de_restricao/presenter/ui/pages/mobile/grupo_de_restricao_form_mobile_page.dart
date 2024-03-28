@@ -87,7 +87,7 @@ class _GrupoDeRestricaoFormMobilePageState extends State<GrupoDeRestricaoFormMob
           key: _formKey,
           child: Column(
             children: [
-              IntegerTextFormFieldWidget(
+              NhidsTextFormField(
                 label: translation.fields.codigo,
                 initialValue: grupoDeRestricao.codigo?.value,
                 isEnabled: grupoDeRestricaoController.isEnabled,

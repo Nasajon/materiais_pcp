@@ -1,13 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/core/constants/navigation_router.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/codigo_vo.dart';
 import 'package:pcp_flutter/app/core/modules/domain/value_object/text_vo.dart';
 import 'package:pcp_flutter/app/core/widgets/container_navigation_bar_widget.dart';
-import 'package:pcp_flutter/app/core/widgets/internet_button_icon_widget.dart';
 import 'package:pcp_flutter/app/modules/recursos/domain/entities/recurso.dart';
 import 'package:pcp_flutter/app/modules/recursos/domain/entities/recurso_centro_de_trabalho.dart';
 import 'package:pcp_flutter/app/modules/recursos/domain/entities/recurso_grupo_de_recurso.dart';
@@ -16,8 +16,6 @@ import 'package:pcp_flutter/app/modules/recursos/presenter/controllers/recurso_c
 import 'package:pcp_flutter/app/modules/recursos/presenter/stores/get_centro_de_trabalho_store.dart';
 import 'package:pcp_flutter/app/modules/recursos/presenter/stores/get_grupo_de_recurso_store.dart';
 import 'package:pcp_flutter/app/modules/recursos/presenter/stores/get_turno_de_trabalho_store.dart';
-
-import 'package:flutter_core/ana_core.dart';
 
 import '../../../stores/recurso_form_store.dart';
 
@@ -61,15 +59,6 @@ class _RecursoFormDesktopPageState extends State<RecursoFormDesktopPage> {
 
     recursoFormDisposer = widget.recursoFormStore.observer(
       onLoading: (value) => isLoadingNotifier.value = value,
-      onError: (error) async {
-        await Asuka.showDialog(
-          barrierColor: Colors.black38,
-          builder: (context) {
-            return ErrorModal(errorMessage: (error as Failure).errorMessage ?? '');
-          },
-        );
-        isLoadingNotifier.value = false;
-      },
       onState: (state) {
         if (state != null && state != widget.oldRecurso.value) {
           Asuka.showSnackBar(
@@ -110,25 +99,20 @@ class _RecursoFormDesktopPageState extends State<RecursoFormDesktopPage> {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    final colorTheme = themeData.extension<AnaColorTheme>();
+    final colorTheme = themeData.extension<NhidsColorTheme>();
 
     context.select(() => [widget.recursoController.recurso]);
 
     final recurso = widget.recursoController.recurso;
 
-    return CustomScaffold.titleString(
-      recurso.id == null ? translation.titles.criarRecurso : widget.oldRecurso.value?.descricao.value ?? '',
-      alignment: Alignment.centerLeft,
-      controller: widget.scaffoldController,
+    return NhidsScaffold.title(
+      title: recurso.id == null ? translation.titles.criarRecurso : widget.oldRecurso.value?.descricao.value ?? '',
       onClosePressed: () => checkPreviousRouteWeb(NavigationRouter.recursosModule.path),
-      actions: [
-        InternetButtonIconWidget(connectionStore: widget.connectionStore),
-      ],
       body: Padding(
-        padding: const EdgeInsets.only(top: 32, bottom: 24),
+        padding: EdgeInsets.only(top: 32.responsive, bottom: 24.responsive),
         child: Center(
             child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 635),
+          constraints: BoxConstraints(maxWidth: 635.responsive),
           child: Form(
             key: widget.formKey,
             child: Column(
@@ -139,7 +123,7 @@ class _RecursoFormDesktopPageState extends State<RecursoFormDesktopPage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Flexible(
-                      child: IntegerTextFormFieldWidget(
+                      child: NhidsTextFormField(
                         label: translation.fields.codigo,
                         initialValue: widget.recursoController.recurso.codigo.value,
                         isRequiredField: true,
@@ -149,10 +133,10 @@ class _RecursoFormDesktopPageState extends State<RecursoFormDesktopPage> {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 16),
+                    SizedBox(width: 16.responsive),
                     Flexible(
                       flex: 3,
-                      child: TextFormFieldWidget(
+                      child: NhidsTextFormField(
                         label: translation.fields.nome,
                         initialValue: widget.recursoController.recurso.descricao.value,
                         isRequiredField: true,
@@ -164,7 +148,7 @@ class _RecursoFormDesktopPageState extends State<RecursoFormDesktopPage> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.responsive),
                 Row(
                   children: [
                     Flexible(
@@ -204,7 +188,7 @@ class _RecursoFormDesktopPageState extends State<RecursoFormDesktopPage> {
                         },
                       ),
                     ),
-                    const SizedBox(width: 16),
+                    SizedBox(width: 16.responsive),
                     Flexible(
                       child: AutocompleteTextFormField<RecursoCentroDeTrabalho>(
                         initialSelectedValue: widget.recursoController.recurso.centroDeTrabalho,
@@ -244,12 +228,12 @@ class _RecursoFormDesktopPageState extends State<RecursoFormDesktopPage> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.responsive),
                 ChipsTextField<TurnoDeTrabalhoEntity>(
+                  key: UniqueKey(),
                   label: translation.fields.turnosDeTrabalho,
                   initialValue: widget.recursoController.recurso.turnos,
                   chip: (value) => Chip(
-                    key: ValueKey(value.id),
                     label: Text(
                       value.nome,
                       style: themeData.textTheme.bodySmall?.copyWith(

@@ -9,7 +9,7 @@ class GrupoDeRecursoMapper {
     try {
       return GrupoDeRecurso(
         id: map['grupo_de_recurso'],
-        codigo: CodigoVO.text(map['codigo']),
+        codigo: CodigoVO(map['codigo']),
         descricao: TextVO(map['nome']),
         tipo: map['tipo'] != null ? TipoDeRecursoEnum.selecTipoDeRecurso(map['tipo']) : null,
       );

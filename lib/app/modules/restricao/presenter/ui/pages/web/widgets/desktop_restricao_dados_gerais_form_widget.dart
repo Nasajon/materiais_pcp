@@ -50,7 +50,7 @@ class DesktopRestricaoDadosGeraisFormWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Flexible(
-                        child: IntegerTextFormFieldWidget(
+                        child: NhidsTextFormField(
                           label: translation.fields.codigo,
                           initialValue: restricaoFormController.restricao.codigo.value,
                           isRequiredField: true,

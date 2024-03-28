@@ -65,7 +65,7 @@ class DesktopOrdemDeProducaoFormWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Flexible(
-                          child: IntegerTextFormFieldWidget(
+                          child: NhidsTextFormField(
                             label: translation.fields.codigo,
                             initialValue: ordemDeProducao.codigo.value,
                             validator: (_) => ordemDeProducao.codigo.errorMessage,

@@ -13,7 +13,7 @@ class RecursoMapper {
     try {
       return Recurso(
         id: map['recurso'] as String?,
-        codigo: CodigoVO.text(map['codigo']),
+        codigo: CodigoVO(map['codigo']),
         descricao: TextVO(map['nome']),
         grupoDeRecurso: GrupoDeRecursoMapper.fromMapToGrupoDeRecurso(map['grupo_de_recurso']),
         centroDeTrabalho: map['centro_de_trabalho'] != null

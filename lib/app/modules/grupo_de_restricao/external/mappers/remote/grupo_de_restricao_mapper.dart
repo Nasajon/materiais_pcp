@@ -9,7 +9,7 @@ class GrupoDeRestricaoMapper {
   static GrupoDeRestricaoEntity fromMapToGrupoDeRestricaoEntity(Map<String, dynamic> map) {
     return GrupoDeRestricaoEntity(
       id: map['grupo_de_restricao'],
-      codigo: CodigoVO.text(map['codigo']),
+      codigo: CodigoVO(map['codigo']),
       descricao: TextVO(map['nome']),
       tipo: TipoDeRestricaoEnum.selectTipoRestricao(map['tipo']),
     );

@@ -49,7 +49,7 @@ class MobileDadosBasicosFormWidget extends StatelessWidget {
               style: themeData.textTheme.bodyMedium,
             ),
             const SizedBox(height: 20),
-            IntegerTextFormFieldWidget(
+            NhidsTextFormField(
               label: translation.fields.codigo,
               initialValue: roteiro.codigo.value,
               validator: (_) => roteiro.codigo.errorMessage,

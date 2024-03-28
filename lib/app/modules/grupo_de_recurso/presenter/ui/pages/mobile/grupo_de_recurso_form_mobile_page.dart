@@ -69,7 +69,7 @@ class _GrupoDeRecursoFormMobilePageState extends State<GrupoDeRecursoFormMobileP
             key: _formKey,
             child: Column(
               children: [
-                IntegerTextFormFieldWidget(
+                NhidsTextFormField(
                   label: translation.fields.codigo,
                   initialValue: grupoDeRecurso.codigo.value,
                   isEnabled: grupoDeRecursoController.isEnabled,

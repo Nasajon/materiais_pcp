@@ -29,6 +29,7 @@ class RecursoFormStore extends NasajonStreamStore<Recurso?> {
 
       update(response);
     } on Failure catch (error) {
+      NhidsOverlay.error(message: error.errorMessage ?? '');
       setError(error);
     } finally {
       setLoading(false);

@@ -9,7 +9,7 @@ class RemoteCentroTrabalhoMapper {
   static CentroTrabalhoAggregate fromMapToCentroTrabalho(Map<String, dynamic> map) {
     return CentroTrabalhoAggregate(
       id: map['centro_de_trabalho'],
-      codigo: CodigoVO.text(map['codigo']),
+      codigo: CodigoVO(map['codigo']),
       nome: TextVO(map['nome']),
       turnos: map.containsKey('turnos')
           ? List.from(map['turnos']).map((map) => RemoteTurnoTrabalhoMapper.fromMapToTurnoTrabalhoEntity(map['turno'])).toList()

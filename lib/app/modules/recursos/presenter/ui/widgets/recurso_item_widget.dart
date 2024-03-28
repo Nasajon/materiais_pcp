@@ -1,6 +1,5 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_core/ana_core.dart';
 import 'package:flutter_global_dependencies/flutter_global_dependencies.dart';
 import 'package:pcp_flutter/app/core/constants/navigation_router.dart';
 import 'package:pcp_flutter/app/core/localization/localizations.dart';
@@ -35,16 +34,6 @@ class RecursoItemWidget extends StatelessWidget {
             NotificationSnackBar.showSnackBar(
               translation.messages.excluiuAEntidadeComSucesso(translation.fields.recurso),
               themeData: themeData,
-            );
-          }
-
-          final error = triple.error;
-          if (error is Failure && !triple.isLoading) {
-            Asuka.showDialog(
-              barrierColor: Colors.black38,
-              builder: (context) {
-                return ErrorModal(errorMessage: (triple.error as Failure).errorMessage ?? '');
-              },
             );
           }
           return ListTileWidget(
